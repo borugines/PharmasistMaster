@@ -7178,7 +7178,13 @@ const wizardState = {
   currentQuestionIndex: 0,
   history: [],
   selectedOptionIds: new Set(),
-  customDrugs: []
+  customDrugs: [],
+  patientProfile: {
+    dept: null,
+    age: null,
+    gender: null,
+    labs: new Set()
+  }
 };
 
 // 始点となる薬剤の選択処理
@@ -7524,6 +7530,208 @@ function wizardStepSkip() {
 }
 
 // 確信度メーターのリアルタイム更新
+
+// 患者プロファイルのON/OFF切り替え
+function toggleProfileItem(category, value) {
+  if (!wizardState.patientProfile) {
+    wizardState.patientProfile = { dept: null, age: null, gender: null, labs: new Set() };
+  }
+
+  const btnId = `prof_${category}_${value}`;
+  const btn = document.getElementById(btnId);
+
+  if (category === 'dept') {
+    if (wizardState.patientProfile.dept === value) {
+      wizardState.patientProfile.dept = null;
+      if (btn) btn.classList.remove('active');
+    } else {
+      // 以前の選択ボタンスタイルをクリア
+      document.querySelectorAll('.profile-pill.dept').forEach(b => b.classList.remove('active'));
+      wizardState.patientProfile.dept = value;
+      if (btn) btn.classList.add('active');
+    }
+  } else if (category === 'age') {
+    if (wizardState.patientProfile.age === value) {
+      wizardState.patientProfile.age = null;
+      if (btn) btn.classList.remove('active');
+    } else {
+      ['young', 'middle', 'senior', 'elderly'].forEach(a => {
+        const el = document.getElementById(`prof_age_${a}`);
+        if (el) el.classList.remove('active');
+      });
+      wizardState.patientProfile.age = value;
+      if (btn) btn.classList.add('active');
+    }
+  } else if (category === 'gender') {
+    if (wizardState.patientProfile.gender === value) {
+      wizardState.patientProfile.gender = null;
+      if (btn) btn.classList.remove('active');
+    } else {
+      ['male', 'female'].forEach(g => {
+        const el = document.getElementById(`prof_gender_${g}`);
+        if (el) el.classList.remove('active');
+      });
+      wizardState.patientProfile.gender = value;
+      if (btn) btn.classList.add('active');
+    }
+  } else if (category === 'lab') {
+    if (wizardState.patientProfile.labs.has(value)) {
+      wizardState.patientProfile.labs.delete(value);
+      if (btn) btn.classList.remove('active');
+    } else {
+      wizardState.patientProfile.labs.add(value);
+      if (btn) btn.classList.add('active');
+    }
+  }
+
+  // リアルタイムに確信度メーターと結果を再計算
+  updateAkinatorGauge();
+  const step3 = document.getElementById('wizardStep3');
+  if (step3 && step3.style.display !== 'none') {
+    calculateWizardDiagnosis(false);
+  }
+}
+
+// 患者プロファイルのリセット
+function resetPatientProfile() {
+  if (wizardState.patientProfile) {
+    wizardState.patientProfile.dept = null;
+    wizardState.patientProfile.age = null;
+    wizardState.patientProfile.gender = null;
+    wizardState.patientProfile.labs.clear();
+  }
+  document.querySelectorAll('.profile-pill').forEach(b => b.classList.remove('active'));
+  updateAkinatorGauge();
+  const step3 = document.getElementById('wizardStep3');
+  if (step3 && step3.style.display !== 'none') {
+    calculateWizardDiagnosis(false);
+  }
+}
+
+// プロファイルスコア加算ヘルパー
+function applyProfileWeights(scores) {
+  const prof = wizardState.patientProfile;
+  if (!prof) return;
+
+  // 1. 受診科目による強烈な絞り込み
+  if (prof.dept === 'cardio') {
+    if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 65;
+    if (scores['hf_pef'] !== undefined) scores['hf_pef'] += 65;
+    if (scores['af_rate'] !== undefined) scores['af_rate'] += 65;
+    if (scores['ihd_angina'] !== undefined) scores['ihd_angina'] += 65;
+    if (scores['vasospastic_angina'] !== undefined) scores['vasospastic_angina'] += 65;
+    if (scores['hf_refractory'] !== undefined) scores['hf_refractory'] += 60;
+  } else if (prof.dept === 'ortho') {
+    if (scores['clbp_oa'] !== undefined) scores['clbp_oa'] += 80;
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 65;
+    if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] += 65;
+    if (scores['mdd_depression'] !== undefined) scores['mdd_depression'] -= 60;
+  } else if (prof.dept === 'dm') {
+    if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] += 75;
+    if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] += 75;
+    if (scores['dm1_adjunct'] !== undefined) scores['dm1_adjunct'] += 75;
+    if (scores['dpnp_pain'] !== undefined) scores['dpnp_pain'] += 85;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 70;
+    if (scores['mdd_depression'] !== undefined) scores['mdd_depression'] -= 50;
+  } else if (prof.dept === 'gi') {
+    if (scores['cirrhosis_ascites'] !== undefined) scores['cirrhosis_ascites'] += 80;
+    if (scores['cirrhosis_ascites_v2'] !== undefined) scores['cirrhosis_ascites_v2'] += 80;
+    if (scores['gerd_severe'] !== undefined) scores['gerd_severe'] += 70;
+    if (scores['pud_acute'] !== undefined) scores['pud_acute'] += 70;
+    if (scores['lda_ulcer_prev'] !== undefined) scores['lda_ulcer_prev'] += 65;
+    if (scores['nsaids_ulcer_prev'] !== undefined) scores['nsaids_ulcer_prev'] += 65;
+    if (scores['hp_eradic'] !== undefined) scores['hp_eradic'] += 80;
+  } else if (prof.dept === 'rheuma') {
+    if (scores['ra_active'] !== undefined) scores['ra_active'] += 85;
+    if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 85;
+    if (scores['fmf_serositis'] !== undefined) scores['fmf_serositis'] += 80;
+    if (scores['behcet_syndrome'] !== undefined) scores['behcet_syndrome'] += 80;
+    if (scores['egpa_vasculitis'] !== undefined) scores['egpa_vasculitis'] += 80;
+    if (scores['pcp_prophylaxis'] !== undefined) scores['pcp_prophylaxis'] += 75;
+  } else if (prof.dept === 'psych') {
+    if (scores['mdd_depression'] !== undefined) scores['mdd_depression'] += 90;
+    if (scores['fibromyalgia'] !== undefined) scores['fibromyalgia'] += 65;
+    if (scores['clbp_oa'] !== undefined) scores['clbp_oa'] -= 50;
+  } else if (prof.dept === 'renal') {
+    if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 85;
+    if (scores['adpkd_cyst'] !== undefined) scores['adpkd_cyst'] += 90;
+    if (scores['nephrotic_mcns'] !== undefined) scores['nephrotic_mcns'] += 85;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 80;
+  } else if (prof.dept === 'uro_derm') {
+    if (scores['uti_complex'] !== undefined) scores['uti_complex'] += 90;
+    if (scores['behcet_syndrome'] !== undefined) scores['behcet_syndrome'] += 70;
+  }
+
+  // 2. 年代による重み
+  if (prof.age === 'young') {
+    if (scores['hyper_htn'] !== undefined) scores['hyper_htn'] += 45;
+    if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 45;
+    if (scores['pa_adenoma'] !== undefined) scores['pa_adenoma'] += 35;
+    if (scores['htn_elderly'] !== undefined) scores['htn_elderly'] -= 60;
+  } else if (prof.age === 'senior' || prof.age === 'elderly') {
+    if (scores['htn_elderly'] !== undefined) scores['htn_elderly'] += 55;
+    if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] += 50;
+    if (scores['hf_pef'] !== undefined) scores['hf_pef'] += 45;
+    if (scores['clbp_oa'] !== undefined) scores['clbp_oa'] += 40;
+  }
+
+  // 3. 性別による重み
+  if (prof.gender === 'male') {
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 50;
+    if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] += 50;
+    if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] -= 45;
+  } else if (prof.gender === 'female') {
+    if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 55;
+    if (scores['ra_active'] !== undefined) scores['ra_active'] += 40;
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] -= 55;
+    if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] -= 55;
+  }
+
+  // 4. 検査値による決定的加算
+  if (prof.labs.has('hba1c_norm')) {
+    // 非糖尿病：フォシーガ等の心不全/CKDが急上昇、糖尿病系は除外
+    if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] -= 90;
+    if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] -= 90;
+    if (scores['hf_hfs_all'] !== undefined) scores['hf_hfs_all'] += 90;
+    if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 90;
+  }
+  if (prof.labs.has('hba1c_high')) {
+    if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] += 80;
+    if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] += 80;
+    if (scores['dpnp_pain'] !== undefined) scores['dpnp_pain'] += 80;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 75;
+  }
+  if (prof.labs.has('k_low')) {
+    // 低K血症：原発性アルドステロン症ほぼ確定
+    if (scores['pa_adenoma'] !== undefined) scores['pa_adenoma'] += 95;
+    if (scores['cirrhosis_ascites'] !== undefined) scores['cirrhosis_ascites'] += 50;
+  }
+  if (prof.labs.has('k_high')) {
+    if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 45;
+    if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 55;
+  }
+  if (prof.labs.has('egfr_low')) {
+    if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 85;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 85;
+    if (scores['hf_refractory'] !== undefined) scores['hf_refractory'] += 55;
+  }
+  if (prof.labs.has('proteinuria')) {
+    if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 85;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 85;
+    if (scores['nephrotic_mcns'] !== undefined) scores['nephrotic_mcns'] += 80;
+  }
+  if (prof.labs.has('bnp_high')) {
+    if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 90;
+    if (scores['hf_pef'] !== undefined) scores['hf_pef'] += 85;
+    if (scores['hf_refractory'] !== undefined) scores['hf_refractory'] += 85;
+    if (scores['hf_hfs_all'] !== undefined) scores['hf_hfs_all'] += 85;
+  }
+  if (prof.labs.has('ua_high')) {
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 85;
+    if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] += 85;
+  }
+}
+
 function updateAkinatorGauge() {
   const data = wizardState.activeData;
   if (!data) return;
@@ -7561,6 +7769,9 @@ function updateAkinatorGauge() {
       }
     });
   });
+
+  // 患者プロファイルによるベイズ重み付け加算
+  applyProfileWeights(scores);
 
   // 負のスコア補正
   data.diseases.forEach(d => {
@@ -7915,6 +8126,9 @@ function calculateWizardDiagnosis(isForced = false) {
       }
     });
   });
+
+  // 患者プロファイルによるベイズ重み付け加算
+  applyProfileWeights(scores);
 
   // 負のスコア補正
   data.diseases.forEach(d => {
@@ -8296,6 +8510,7 @@ function jumpToDiseaseCheckFromWizard(cardNum) {
 
 // ウィザードのリセット
 function resetWizard() {
+  resetPatientProfile();
   wizardState.activeKey = null;
   wizardState.activeData = null;
   wizardState.currentQuestionIndex = 0;

@@ -4592,6 +4592,114 @@ tbody tr:hover { background-color: #f0fdf4; }
 }
 
 /* ========================================================
+   患者プロファイル入力パネル（受診科・年代・性別・検査値）
+   ======================================================== */
+.wizard-profile-panel {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+.wizard-profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #cbd5e1;
+}
+.wizard-profile-title {
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: #065f46;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.wizard-profile-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.wizard-profile-row:last-child {
+  margin-bottom: 0;
+}
+.profile-row-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #475569;
+  min-width: 78px;
+  padding-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.profile-pills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+}
+.profile-pill {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.profile-pill:hover {
+  border-color: #10b981;
+  background: #f0fdf4;
+  color: #065f46;
+  transform: translateY(-1px);
+}
+.profile-pill.active {
+  background: #ecfdf5;
+  border-color: #059669;
+  color: #065f46;
+  font-weight: 800;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+}
+.profile-pill.dept.active {
+  background: #f5f3ff;
+  border-color: #7c3aed;
+  color: #5b21b6;
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.25);
+}
+.profile-pill.lab.active {
+  background: #fff7ed;
+  border-color: #ea580c;
+  color: #9a3412;
+  box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.25);
+}
+.profile-reset-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 6px;
+  text-decoration: underline;
+}
+.profile-reset-btn:hover {
+  color: #ef4444;
+}
+
+/* ========================================================
    ウィザード＆病態特定のスマートフォン最適化 (Mobile Responsive)
    ======================================================== */
 @media (max-width: 768px) {
@@ -34329,6 +34437,66 @@ Ca拮抗薬による毛細血管内圧上昇に起因する浮腫が疑われま
             </div>
           </div>
 
+          <!-- 🎯 任意追加で精度MAX：患者プロファイル設定（受診科・年代・性別・検査値） -->
+          <div class="wizard-profile-panel">
+            <div class="wizard-profile-header">
+              <div class="wizard-profile-title">
+                <span>🎯 任意入力で精度MAX！患者プロファイル設定（タップで即推論反映）：</span>
+              </div>
+              <button class="profile-reset-btn" onclick="resetPatientProfile()">属性をクリア</button>
+            </div>
+
+            <!-- 1. 受診科目 -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">🏥 受診科目:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill dept" id="prof_dept_cardio" onclick="toggleProfileItem('dept', 'cardio')">循環器内科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_ortho" onclick="toggleProfileItem('dept', 'ortho')">整形外科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_dm" onclick="toggleProfileItem('dept', 'dm')">糖尿病・代謝内科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_gi" onclick="toggleProfileItem('dept', 'gi')">消化器内科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_rheuma" onclick="toggleProfileItem('dept', 'rheuma')">リウマチ膠原病科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_psych" onclick="toggleProfileItem('dept', 'psych')">心療内科・精神科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_renal" onclick="toggleProfileItem('dept', 'renal')">腎臓内科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_uro_derm" onclick="toggleProfileItem('dept', 'uro_derm')">泌尿器・皮膚科</button>
+              </div>
+            </div>
+
+            <!-- 2. 年代 -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">🎂 年 代:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill" id="prof_age_young" onclick="toggleProfileItem('age', 'young')">若年（〜30代）</button>
+                <button type="button" class="profile-pill" id="prof_age_middle" onclick="toggleProfileItem('age', 'middle')">中年（40〜64歳）</button>
+                <button type="button" class="profile-pill" id="prof_age_senior" onclick="toggleProfileItem('age', 'senior')">高齢（65〜74歳）</button>
+                <button type="button" class="profile-pill" id="prof_age_elderly" onclick="toggleProfileItem('age', 'elderly')">超高齢（75歳〜）</button>
+              </div>
+            </div>
+
+            <!-- 3. 性別 -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">🚻 性 別:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill" id="prof_gender_male" onclick="toggleProfileItem('gender', 'male')">男性 👨</button>
+                <button type="button" class="profile-pill" id="prof_gender_female" onclick="toggleProfileItem('gender', 'female')">女性 👩</button>
+              </div>
+            </div>
+
+            <!-- 4. キー検査値・バイオマーカー -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">🔬 検査値:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill lab" id="prof_lab_hba1c_high" onclick="toggleProfileItem('lab', 'hba1c_high')">HbA1c高値（≥7.0%）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_hba1c_norm" onclick="toggleProfileItem('lab', 'hba1c_norm')">HbA1c正常（<6.0% 非糖尿病）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_k_low" onclick="toggleProfileItem('lab', 'k_low')">血清K低値（<3.5 低K血症）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_k_high" onclick="toggleProfileItem('lab', 'k_high')">血清K高値（>5.0 高K血症）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_egfr_low" onclick="toggleProfileItem('lab', 'egfr_low')">eGFR低下（<60 CKD）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_proteinuria" onclick="toggleProfileItem('lab', 'proteinuria')">尿蛋白/アルブミン陽性</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_bnp_high" onclick="toggleProfileItem('lab', 'bnp_high')">BNP高値（心機能低下）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_ua_high" onclick="toggleProfileItem('lab', 'ua_high')">高尿酸血症（UA>7.0）</button>
+              </div>
+            </div>
+          </div>
+
           <!-- アキネーター質問ステージ（JSで1問ずつ動的描画） -->
           <div id="wizardQuestionStage" class="wizard-question-stage">
             <!-- JS動的生成 -->
@@ -42688,7 +42856,13 @@ const wizardState = {
   currentQuestionIndex: 0,
   history: [],
   selectedOptionIds: new Set(),
-  customDrugs: []
+  customDrugs: [],
+  patientProfile: {
+    dept: null,
+    age: null,
+    gender: null,
+    labs: new Set()
+  }
 };
 
 // 始点となる薬剤の選択処理
@@ -43034,6 +43208,208 @@ function wizardStepSkip() {
 }
 
 // 確信度メーターのリアルタイム更新
+
+// 患者プロファイルのON/OFF切り替え
+function toggleProfileItem(category, value) {
+  if (!wizardState.patientProfile) {
+    wizardState.patientProfile = { dept: null, age: null, gender: null, labs: new Set() };
+  }
+
+  const btnId = `prof_${category}_${value}`;
+  const btn = document.getElementById(btnId);
+
+  if (category === 'dept') {
+    if (wizardState.patientProfile.dept === value) {
+      wizardState.patientProfile.dept = null;
+      if (btn) btn.classList.remove('active');
+    } else {
+      // 以前の選択ボタンスタイルをクリア
+      document.querySelectorAll('.profile-pill.dept').forEach(b => b.classList.remove('active'));
+      wizardState.patientProfile.dept = value;
+      if (btn) btn.classList.add('active');
+    }
+  } else if (category === 'age') {
+    if (wizardState.patientProfile.age === value) {
+      wizardState.patientProfile.age = null;
+      if (btn) btn.classList.remove('active');
+    } else {
+      ['young', 'middle', 'senior', 'elderly'].forEach(a => {
+        const el = document.getElementById(`prof_age_${a}`);
+        if (el) el.classList.remove('active');
+      });
+      wizardState.patientProfile.age = value;
+      if (btn) btn.classList.add('active');
+    }
+  } else if (category === 'gender') {
+    if (wizardState.patientProfile.gender === value) {
+      wizardState.patientProfile.gender = null;
+      if (btn) btn.classList.remove('active');
+    } else {
+      ['male', 'female'].forEach(g => {
+        const el = document.getElementById(`prof_gender_${g}`);
+        if (el) el.classList.remove('active');
+      });
+      wizardState.patientProfile.gender = value;
+      if (btn) btn.classList.add('active');
+    }
+  } else if (category === 'lab') {
+    if (wizardState.patientProfile.labs.has(value)) {
+      wizardState.patientProfile.labs.delete(value);
+      if (btn) btn.classList.remove('active');
+    } else {
+      wizardState.patientProfile.labs.add(value);
+      if (btn) btn.classList.add('active');
+    }
+  }
+
+  // リアルタイムに確信度メーターと結果を再計算
+  updateAkinatorGauge();
+  const step3 = document.getElementById('wizardStep3');
+  if (step3 && step3.style.display !== 'none') {
+    calculateWizardDiagnosis(false);
+  }
+}
+
+// 患者プロファイルのリセット
+function resetPatientProfile() {
+  if (wizardState.patientProfile) {
+    wizardState.patientProfile.dept = null;
+    wizardState.patientProfile.age = null;
+    wizardState.patientProfile.gender = null;
+    wizardState.patientProfile.labs.clear();
+  }
+  document.querySelectorAll('.profile-pill').forEach(b => b.classList.remove('active'));
+  updateAkinatorGauge();
+  const step3 = document.getElementById('wizardStep3');
+  if (step3 && step3.style.display !== 'none') {
+    calculateWizardDiagnosis(false);
+  }
+}
+
+// プロファイルスコア加算ヘルパー
+function applyProfileWeights(scores) {
+  const prof = wizardState.patientProfile;
+  if (!prof) return;
+
+  // 1. 受診科目による強烈な絞り込み
+  if (prof.dept === 'cardio') {
+    if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 65;
+    if (scores['hf_pef'] !== undefined) scores['hf_pef'] += 65;
+    if (scores['af_rate'] !== undefined) scores['af_rate'] += 65;
+    if (scores['ihd_angina'] !== undefined) scores['ihd_angina'] += 65;
+    if (scores['vasospastic_angina'] !== undefined) scores['vasospastic_angina'] += 65;
+    if (scores['hf_refractory'] !== undefined) scores['hf_refractory'] += 60;
+  } else if (prof.dept === 'ortho') {
+    if (scores['clbp_oa'] !== undefined) scores['clbp_oa'] += 80;
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 65;
+    if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] += 65;
+    if (scores['mdd_depression'] !== undefined) scores['mdd_depression'] -= 60;
+  } else if (prof.dept === 'dm') {
+    if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] += 75;
+    if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] += 75;
+    if (scores['dm1_adjunct'] !== undefined) scores['dm1_adjunct'] += 75;
+    if (scores['dpnp_pain'] !== undefined) scores['dpnp_pain'] += 85;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 70;
+    if (scores['mdd_depression'] !== undefined) scores['mdd_depression'] -= 50;
+  } else if (prof.dept === 'gi') {
+    if (scores['cirrhosis_ascites'] !== undefined) scores['cirrhosis_ascites'] += 80;
+    if (scores['cirrhosis_ascites_v2'] !== undefined) scores['cirrhosis_ascites_v2'] += 80;
+    if (scores['gerd_severe'] !== undefined) scores['gerd_severe'] += 70;
+    if (scores['pud_acute'] !== undefined) scores['pud_acute'] += 70;
+    if (scores['lda_ulcer_prev'] !== undefined) scores['lda_ulcer_prev'] += 65;
+    if (scores['nsaids_ulcer_prev'] !== undefined) scores['nsaids_ulcer_prev'] += 65;
+    if (scores['hp_eradic'] !== undefined) scores['hp_eradic'] += 80;
+  } else if (prof.dept === 'rheuma') {
+    if (scores['ra_active'] !== undefined) scores['ra_active'] += 85;
+    if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 85;
+    if (scores['fmf_serositis'] !== undefined) scores['fmf_serositis'] += 80;
+    if (scores['behcet_syndrome'] !== undefined) scores['behcet_syndrome'] += 80;
+    if (scores['egpa_vasculitis'] !== undefined) scores['egpa_vasculitis'] += 80;
+    if (scores['pcp_prophylaxis'] !== undefined) scores['pcp_prophylaxis'] += 75;
+  } else if (prof.dept === 'psych') {
+    if (scores['mdd_depression'] !== undefined) scores['mdd_depression'] += 90;
+    if (scores['fibromyalgia'] !== undefined) scores['fibromyalgia'] += 65;
+    if (scores['clbp_oa'] !== undefined) scores['clbp_oa'] -= 50;
+  } else if (prof.dept === 'renal') {
+    if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 85;
+    if (scores['adpkd_cyst'] !== undefined) scores['adpkd_cyst'] += 90;
+    if (scores['nephrotic_mcns'] !== undefined) scores['nephrotic_mcns'] += 85;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 80;
+  } else if (prof.dept === 'uro_derm') {
+    if (scores['uti_complex'] !== undefined) scores['uti_complex'] += 90;
+    if (scores['behcet_syndrome'] !== undefined) scores['behcet_syndrome'] += 70;
+  }
+
+  // 2. 年代による重み
+  if (prof.age === 'young') {
+    if (scores['hyper_htn'] !== undefined) scores['hyper_htn'] += 45;
+    if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 45;
+    if (scores['pa_adenoma'] !== undefined) scores['pa_adenoma'] += 35;
+    if (scores['htn_elderly'] !== undefined) scores['htn_elderly'] -= 60;
+  } else if (prof.age === 'senior' || prof.age === 'elderly') {
+    if (scores['htn_elderly'] !== undefined) scores['htn_elderly'] += 55;
+    if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] += 50;
+    if (scores['hf_pef'] !== undefined) scores['hf_pef'] += 45;
+    if (scores['clbp_oa'] !== undefined) scores['clbp_oa'] += 40;
+  }
+
+  // 3. 性別による重み
+  if (prof.gender === 'male') {
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 50;
+    if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] += 50;
+    if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] -= 45;
+  } else if (prof.gender === 'female') {
+    if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 55;
+    if (scores['ra_active'] !== undefined) scores['ra_active'] += 40;
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] -= 55;
+    if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] -= 55;
+  }
+
+  // 4. 検査値による決定的加算
+  if (prof.labs.has('hba1c_norm')) {
+    // 非糖尿病：フォシーガ等の心不全/CKDが急上昇、糖尿病系は除外
+    if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] -= 90;
+    if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] -= 90;
+    if (scores['hf_hfs_all'] !== undefined) scores['hf_hfs_all'] += 90;
+    if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 90;
+  }
+  if (prof.labs.has('hba1c_high')) {
+    if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] += 80;
+    if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] += 80;
+    if (scores['dpnp_pain'] !== undefined) scores['dpnp_pain'] += 80;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 75;
+  }
+  if (prof.labs.has('k_low')) {
+    // 低K血症：原発性アルドステロン症ほぼ確定
+    if (scores['pa_adenoma'] !== undefined) scores['pa_adenoma'] += 95;
+    if (scores['cirrhosis_ascites'] !== undefined) scores['cirrhosis_ascites'] += 50;
+  }
+  if (prof.labs.has('k_high')) {
+    if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 45;
+    if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 55;
+  }
+  if (prof.labs.has('egfr_low')) {
+    if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 85;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 85;
+    if (scores['hf_refractory'] !== undefined) scores['hf_refractory'] += 55;
+  }
+  if (prof.labs.has('proteinuria')) {
+    if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 85;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 85;
+    if (scores['nephrotic_mcns'] !== undefined) scores['nephrotic_mcns'] += 80;
+  }
+  if (prof.labs.has('bnp_high')) {
+    if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 90;
+    if (scores['hf_pef'] !== undefined) scores['hf_pef'] += 85;
+    if (scores['hf_refractory'] !== undefined) scores['hf_refractory'] += 85;
+    if (scores['hf_hfs_all'] !== undefined) scores['hf_hfs_all'] += 85;
+  }
+  if (prof.labs.has('ua_high')) {
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 85;
+    if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] += 85;
+  }
+}
+
 function updateAkinatorGauge() {
   const data = wizardState.activeData;
   if (!data) return;
@@ -43071,6 +43447,9 @@ function updateAkinatorGauge() {
       }
     });
   });
+
+  // 患者プロファイルによるベイズ重み付け加算
+  applyProfileWeights(scores);
 
   // 負のスコア補正
   data.diseases.forEach(d => {
@@ -43425,6 +43804,9 @@ function calculateWizardDiagnosis(isForced = false) {
       }
     });
   });
+
+  // 患者プロファイルによるベイズ重み付け加算
+  applyProfileWeights(scores);
 
   // 負のスコア補正
   data.diseases.forEach(d => {
@@ -43806,6 +44188,7 @@ function jumpToDiseaseCheckFromWizard(cardNum) {
 
 // ウィザードのリセット
 function resetWizard() {
+  resetPatientProfile();
   wizardState.activeKey = null;
   wizardState.activeData = null;
   wizardState.currentQuestionIndex = 0;

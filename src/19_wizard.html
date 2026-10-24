@@ -121,6 +121,66 @@
             </div>
           </div>
 
+          <!-- 🎯 任意追加で精度MAX：患者プロファイル設定（受診科・年代・性別・検査値） -->
+          <div class="wizard-profile-panel">
+            <div class="wizard-profile-header">
+              <div class="wizard-profile-title">
+                <span>🎯 任意入力で精度MAX！患者プロファイル設定（タップで即推論反映）：</span>
+              </div>
+              <button class="profile-reset-btn" onclick="resetPatientProfile()">属性をクリア</button>
+            </div>
+
+            <!-- 1. 受診科目 -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">🏥 受診科目:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill dept" id="prof_dept_cardio" onclick="toggleProfileItem('dept', 'cardio')">循環器内科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_ortho" onclick="toggleProfileItem('dept', 'ortho')">整形外科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_dm" onclick="toggleProfileItem('dept', 'dm')">糖尿病・代謝内科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_gi" onclick="toggleProfileItem('dept', 'gi')">消化器内科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_rheuma" onclick="toggleProfileItem('dept', 'rheuma')">リウマチ膠原病科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_psych" onclick="toggleProfileItem('dept', 'psych')">心療内科・精神科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_renal" onclick="toggleProfileItem('dept', 'renal')">腎臓内科</button>
+                <button type="button" class="profile-pill dept" id="prof_dept_uro_derm" onclick="toggleProfileItem('dept', 'uro_derm')">泌尿器・皮膚科</button>
+              </div>
+            </div>
+
+            <!-- 2. 年代 -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">🎂 年 代:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill" id="prof_age_young" onclick="toggleProfileItem('age', 'young')">若年（〜30代）</button>
+                <button type="button" class="profile-pill" id="prof_age_middle" onclick="toggleProfileItem('age', 'middle')">中年（40〜64歳）</button>
+                <button type="button" class="profile-pill" id="prof_age_senior" onclick="toggleProfileItem('age', 'senior')">高齢（65〜74歳）</button>
+                <button type="button" class="profile-pill" id="prof_age_elderly" onclick="toggleProfileItem('age', 'elderly')">超高齢（75歳〜）</button>
+              </div>
+            </div>
+
+            <!-- 3. 性別 -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">🚻 性 別:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill" id="prof_gender_male" onclick="toggleProfileItem('gender', 'male')">男性 👨</button>
+                <button type="button" class="profile-pill" id="prof_gender_female" onclick="toggleProfileItem('gender', 'female')">女性 👩</button>
+              </div>
+            </div>
+
+            <!-- 4. キー検査値・バイオマーカー -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">🔬 検査値:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill lab" id="prof_lab_hba1c_high" onclick="toggleProfileItem('lab', 'hba1c_high')">HbA1c高値（≥7.0%）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_hba1c_norm" onclick="toggleProfileItem('lab', 'hba1c_norm')">HbA1c正常（<6.0% 非糖尿病）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_k_low" onclick="toggleProfileItem('lab', 'k_low')">血清K低値（<3.5 低K血症）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_k_high" onclick="toggleProfileItem('lab', 'k_high')">血清K高値（>5.0 高K血症）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_egfr_low" onclick="toggleProfileItem('lab', 'egfr_low')">eGFR低下（<60 CKD）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_proteinuria" onclick="toggleProfileItem('lab', 'proteinuria')">尿蛋白/アルブミン陽性</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_bnp_high" onclick="toggleProfileItem('lab', 'bnp_high')">BNP高値（心機能低下）</button>
+                <button type="button" class="profile-pill lab" id="prof_lab_ua_high" onclick="toggleProfileItem('lab', 'ua_high')">高尿酸血症（UA>7.0）</button>
+              </div>
+            </div>
+          </div>
+
           <!-- アキネーター質問ステージ（JSで1問ずつ動的描画） -->
           <div id="wizardQuestionStage" class="wizard-question-stage">
             <!-- JS動的生成 -->

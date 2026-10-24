@@ -4578,6 +4578,114 @@ tbody tr:hover { background-color: #f0fdf4; }
 }
 
 /* ========================================================
+   患者プロファイル入力パネル（受診科・年代・性別・検査値）
+   ======================================================== */
+.wizard-profile-panel {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+.wizard-profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #cbd5e1;
+}
+.wizard-profile-title {
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: #065f46;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.wizard-profile-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.wizard-profile-row:last-child {
+  margin-bottom: 0;
+}
+.profile-row-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #475569;
+  min-width: 78px;
+  padding-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.profile-pills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+}
+.profile-pill {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.profile-pill:hover {
+  border-color: #10b981;
+  background: #f0fdf4;
+  color: #065f46;
+  transform: translateY(-1px);
+}
+.profile-pill.active {
+  background: #ecfdf5;
+  border-color: #059669;
+  color: #065f46;
+  font-weight: 800;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+}
+.profile-pill.dept.active {
+  background: #f5f3ff;
+  border-color: #7c3aed;
+  color: #5b21b6;
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.25);
+}
+.profile-pill.lab.active {
+  background: #fff7ed;
+  border-color: #ea580c;
+  color: #9a3412;
+  box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.25);
+}
+.profile-reset-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 6px;
+  text-decoration: underline;
+}
+.profile-reset-btn:hover {
+  color: #ef4444;
+}
+
+/* ========================================================
    ウィザード＆病態特定のスマートフォン最適化 (Mobile Responsive)
    ======================================================== */
 @media (max-width: 768px) {
