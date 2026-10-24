@@ -1,0 +1,4094 @@
+:root {
+  --primary: #0f172a;
+  --primary-light: #1e293b;
+  --secondary: #1e3a8a;
+  --accent: #2563eb;
+  --accent-light: #38bdf8;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --border: #cbd5e1;
+  --catch-bg: #eff6ff;
+  --offlabel-bg: #fdf2f8;
+  --offlabel-border: #db2777;
+  --offlabel-text: #9d174d;
+  --pearl-bg: #fefce8;
+  --pearl-border: #ca8a04;
+  --pearl-text: #854d0e;
+  --success-bg: #ecfdf5;
+  --success-border: #10b981;
+  --success-text: #065f46;
+  --danger-bg: #fff1f2;
+  --danger-border: #f43f5e;
+  --danger-text: #9f1239;
+
+  /* 鑑別チャート用カラー */
+  --step1: #dcfce7; --step1-text: #166534;
+  --step2: #fef9c3; --step2-text: #854d0e;
+  --step3: #fee2e2; --step3-text: #991b1b;
+  --chameleon: #f3e8ff; --chameleon-border: #9333ea; --chameleon-text: #6b21a8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* グローバルナビゲーション（コンパクト・スクロールレス2段構成） */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.98);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #334155;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-top-bar {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 16px;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 1.02rem;
+  color: #38bdf8;
+  cursor: pointer;
+  text-decoration: none;
+}
+.brand span.sub {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-weight: 400;
+  margin-left: 6px;
+  background: #1e293b;
+  padding: 1px 7px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+}
+
+.action-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.header-print-btn {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.2s;
+}
+.header-print-btn:hover { background: #059669; }
+
+.nav-tab-bar {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 4px 16px 5px;
+}
+
+.tab-nav {
+  display: flex;
+  flex-wrap: wrap; /* 横スクロール完全廃止！全タブ常時表示 */
+  gap: 4px 6px;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: visible;
+}
+
+.tab-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  color: #cbd5e1;
+  padding: 4px 9px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.25;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: #94a3b8;
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: #60a5fa;
+  font-weight: 700;
+  box-shadow: 0 1px 6px rgba(37, 99, 235, 0.4);
+}
+
+/* ヒーローセクション & サジェスト検索（ウルトラスリム化） */
+.hero-section {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: white;
+  padding: 8px 16px 10px;
+  text-align: center;
+  border-bottom: 1px solid #1e293b;
+}
+
+.hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.hero-tag {
+  display: inline-block;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid #38bdf8;
+  color: #38bdf8;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 8px;
+  border-radius: 10px;
+}
+
+.hero-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-desc {
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* サジェスト検索バー（コンパクト化） */
+.search-container {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  font-size: 1.05rem;
+  color: #64748b;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 9px 40px 9px 44px;
+  font-size: 0.95rem;
+  border: 2px solid #38bdf8;
+  border-radius: 10px;
+  outline: none;
+  background: white;
+  color: #0f172a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+
+.search-input:focus {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25), 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 12px;
+  background: #e2e8f0;
+  border: none;
+  color: #64748b;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+
+.search-clear-btn:hover {
+  background: #cbd5e1;
+  color: #0f172a;
+}
+
+/* サジェストドロップダウン（背景同化の完全解消・純白高コントラスト） */
+.suggest-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: #ffffff !important; /* 絶対に透けない純白背景 */
+  border: 2px solid #0284c7;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 2500; /* ヘッダー要素・注目タグより確実に最前面へ */
+  max-height: 420px;
+  overflow-y: auto;
+  display: none;
+  text-align: left;
+}
+
+.suggest-item {
+  padding: 10px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: #ffffff;
+}
+
+.suggest-item:last-child {
+  border-bottom: none;
+}
+
+.suggest-item:hover,
+.suggest-item.active {
+  background: #f0f9ff !important;
+  border-left: 4px solid #0284c7;
+  padding-left: 10px;
+}
+
+/* クイックタグ（コンパクト化） */
+.quick-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.quick-tag-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #e2e8f0;
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.quick-tag-btn:hover {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: #38bdf8;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* メインコンテンツエリア */
+.main-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 25px 20px 80px;
+}
+
+.tab-pane {
+  display: none;
+}
+.tab-pane.active {
+  display: block;
+}
+
+/* 疾患ガイド：サイドバー＋コンテンツレイアウト */
+.guide-layout {
+  display: flex;
+  gap: 25px;
+}
+
+.guide-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  position: sticky;
+  top: 75px;
+  height: calc(100vh - 100px);
+  overflow-y: auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+.sidebar-heading {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.guide-nav-list {
+  list-style: none;
+}
+
+.guide-nav-item {
+  margin-bottom: 4px;
+}
+
+.guide-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: #334155;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+}
+
+.guide-nav-link:hover {
+  background: #f1f5f9;
+  color: var(--accent);
+}
+
+.guide-nav-link.active {
+  background: #eff6ff;
+  color: var(--accent);
+  border-color: #bfdbfe;
+  font-weight: 700;
+}
+
+.guide-nav-badge {
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.guide-content-area {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+/* 疾患カードスタイル */
+.card::before, .disease-card::before {
+  display: none;
+}
+.card, .disease-card {
+  background: var(--card);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  padding: 28px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.card-header, .disease-card-header {
+  border-bottom: 3px solid var(--primary);
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.disease-title-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.disease-number-badge {
+  background: var(--accent);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.card-title, .disease-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.disease-guideline-badge {
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid #bae6fd;
+}
+
+/* 一言キャッチコピー */
+.catchphrase {
+  background: var(--catch-bg);
+  border-left: 5px solid var(--accent);
+  padding: 12px 16px;
+  font-weight: 700;
+  color: #1e3a8a;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 20px;
+  font-size: 1.02rem;
+}
+
+/* 2カラムグリッド */
+.grid-2, .grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+@media (max-width: 900px) {
+  .grid-2, .grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.box, .section-box {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 15px;
+  background: #ffffff;
+}
+
+.box h3, .section-box h3 {
+  font-size: 1rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 6px;
+}
+
+.offlabel, .offlabel-box {
+  background: var(--offlabel-bg);
+  border: 1px solid #fbcfe8;
+  border-left: 5px solid var(--offlabel-border);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 18px;
+}
+.offlabel h3, .offlabel-box h3 {
+  color: var(--offlabel-text);
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.pearl, .pearl-box {
+  background: var(--pearl-bg);
+  border: 1px solid #fde047;
+  border-left: 5px solid var(--pearl-border);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 18px;
+}
+.pearl h3, .pearl-box h3 {
+  color: var(--pearl-text);
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.box ul, .section-box ul, .offlabel ul, .offlabel-box ul, .pearl ul, .pearl-box ul, ul.bullet-list {
+  padding-left: 20px;
+}
+.box ul li, .section-box ul li, .offlabel ul li, .offlabel-box ul li, .pearl ul li, .pearl-box ul li, ul.bullet-list li {
+  margin-bottom: 7px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.question-box {
+  background: #f8fafc;
+  border: 2px dashed #94a3b8;
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-size: 0.92rem;
+  margin-top: 15px;
+}
+.question-box strong { color: var(--accent); }
+
+/* ========================================================
+   ★★★ 処方・病態鑑別チャート 専用スタイル (完全追加) ★★★
+   ======================================================== */
+.profiling-control-bar {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+
+.profiling-sub-nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sub-filter-btn {
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  color: #334155;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sub-filter-btn:hover {
+  background: #e2e8f0;
+}
+.sub-filter-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: #3b82f6;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+
+.pro-search-input {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  min-width: 250px;
+  outline: none;
+}
+.pro-search-input:focus {
+  border-color: var(--accent);
+}
+
+.section-block {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 26px;
+  margin-bottom: 30px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
+}
+
+.section-header {
+  border-bottom: 3px solid var(--primary);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.section-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+.section-sub {
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+/* 鑑別チャート用バッジ */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.b-step1 { background: var(--step1); color: var(--step1-text); border: 1px solid #bbf7d0; }
+.b-step2 { background: var(--step2); color: var(--step2-text); border: 1px solid #fef08a; }
+.b-step3 { background: var(--step3); color: var(--step3-text); border: 1px solid #fecdd3; }
+.b-cham  { background: var(--chameleon); color: var(--chameleon-text); border: 1px solid #d8b4fe; font-weight: 800; }
+
+/* 3ステップ横並びフローカード */
+.flow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 14px;
+}
+@media (max-width: 900px) {
+  .flow-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.flow-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  background: #fafafa;
+  position: relative;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.flow-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+.flow-card h4 {
+  font-size: 0.98rem;
+  margin-bottom: 8px;
+  color: var(--secondary);
+  border-bottom: 1px dashed #cbd5e1;
+  padding-bottom: 6px;
+  font-weight: 800;
+}
+
+.rx-box {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-left: 4px solid var(--secondary);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.88rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.insight {
+  font-size: 0.88rem;
+  margin-bottom: 8px;
+  line-height: 1.55;
+}
+
+.talk {
+  background: #eff6ff;
+  border-left: 3px solid #3b82f6;
+  padding: 8px 12px;
+  border-radius: 0 4px 4px 0;
+  font-size: 0.84rem;
+  color: #1e3a8a;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* 疾患11〜15用プロファイルカード */
+.disease-section {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed var(--border);
+}
+.disease-section:last-child {
+  border-bottom: none;
+}
+
+.profile-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.profile-header h4 {
+  font-size: 1.05rem;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.rx-content {
+  background: #f8fafc;
+  border-left: 4px solid var(--accent);
+  padding: 8px 12px;
+  font-family: Consolas, monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  border-radius: 0 6px 6px 0;
+}
+
+.profile-body p {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  line-height: 1.55;
+}
+
+/* テーブル共通 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+th, td {
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+th {
+  background: #0f172a;
+  color: white;
+  font-weight: 700;
+}
+
+tbody tr:nth-child(even) { background-color: #f8fafc; }
+tbody tr:hover { background-color: #f0fdf4; }
+
+/* Answer Bookのスタイル */
+.qa-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.q-box {
+  background: #eff6ff;
+  border-left: 5px solid var(--accent);
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 14px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+.q-title {
+  color: var(--accent);
+  font-size: 1.05rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.ans-section {
+  background: #f0fdf4;
+  border-left: 5px solid #10b981;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 14px;
+  font-size: 0.93rem;
+}
+
+.metaphor {
+  background: #fefce8;
+  border-left: 5px solid #f59e0b;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 14px;
+  font-size: 0.92rem;
+}
+.metaphor h4 {
+  color: #b45309;
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+}
+
+.doya {
+  background: #fdf2f8;
+  border-left: 5px solid #db2777;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.92rem;
+}
+.doya h4 {
+  color: #9d174d;
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+}
+
+/* ★★★ 印刷用CSS (Print Engine: A4複数枚・高品位美整形) ★★★ */
+@media print {
+  /* ページ基本設定：A4縦、標準余白 */
+  @page {
+    size: A4 portrait;
+    margin: 12mm 10mm 14mm 10mm;
+  }
+
+  body {
+    background: white !important;
+    color: #0f172a !important;
+    font-size: 9.8pt !important;
+    line-height: 1.5 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 非表示にするUI要素（ヘッダー、サイドバー、操作ボタン、検索バー、サジェストなど） */
+  .navbar,
+  .hero-section,
+  .guide-sidebar,
+  .header-print-btn,
+  .action-btns,
+  .quick-tags,
+  .search-container,
+  .profiling-control-bar,
+  .sub-filter-btn,
+  .filter-bar,
+  .dict-filter-header,
+  .dict-filter-bar,
+  .dict-kana-bar,
+  .dict-quick-jump,
+  .dict-actions,
+  .suggest-dropdown,
+  button,
+  input,
+  select {
+    display: none !important;
+  }
+
+  /* メインラッパーの最大幅制限解除 */
+  .main-wrapper {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  /* 重要：非アクティブなタブは印刷せず、現在アクティブなタブのみ出力 */
+  .tab-pane {
+    display: none !important;
+  }
+  .tab-pane.active {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .guide-layout {
+    display: block !important;
+    width: 100% !important;
+  }
+  .guide-content-area {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 折りたたみアコーディオンの印刷時全自動展開 */
+  #framework-details {
+    display: block !important;
+  }
+
+  /* 疾患ガイド：疾患カード（A4複数枚対応・ゆったり美整形） */
+  /* 印刷ヘッダー（資料識別ライン） */
+  .card::before, .disease-card::before {
+    content: "臨床薬剤師マスター 現場脳内翻訳ハンドアウト" !important;
+    display: block !important;
+    font-size: 8pt !important;
+    color: #64748b !important;
+    text-align: right !important;
+    border-bottom: 1px dashed #cbd5e1 !important;
+    padding-bottom: 4px !important;
+    margin-bottom: 10px !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .card, .disease-card {
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    padding: 16px 20px !important;
+    margin-bottom: 24px !important;
+    background: white !important;
+    /* 1枚に無理やり押し込めず、自然に複数ページにまたがる */
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+
+  /* 全疾患一括印刷時：各疾患の直前で綺麗に改ページ（新しい疾患は必ず新しいページの先頭から） */
+  .card + .card,
+  .disease-card + .disease-card {
+    page-break-before: always !important;
+    break-before: page !important;
+    margin-top: 20px !important;
+  }
+
+  /* ヘッダー・見出し */
+  .card-header, .disease-card-header {
+    border-bottom: 2px solid #0f172a !important;
+    padding-bottom: 8px !important;
+    margin-bottom: 12px !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .card-title, .disease-title {
+    font-size: 15pt !important;
+    color: #0f172a !important;
+    font-weight: 800 !important;
+  }
+
+  .tag {
+    display: inline-block !important;
+    border: 1px solid #64748b !important;
+    color: #334155 !important;
+    font-size: 8pt !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+    background: #f1f5f9 !important;
+  }
+
+  .catchphrase {
+    background: #f8fafc !important;
+    border-left: 4px solid #2563eb !important;
+    padding: 8px 12px !important;
+    font-size: 10pt !important;
+    color: #1e3a8a !important;
+    margin-bottom: 14px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* 2カラムグリッド（A4用紙で綺麗に並列配置） */
+  .grid-2, .grid-2col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+    margin-bottom: 14px !important;
+  }
+
+  /* 各種情報ブロック：途中で文字が縦半分に真っ二つに切れないよう avoid */
+  .box, .section-box,
+  .offlabel, .offlabel-box,
+  .pearl, .pearl-box,
+  .question-box,
+  .memo-area,
+  .algo-flow-container,
+  .framework-box,
+  .flow-step-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    box-shadow: none !important;
+  }
+
+  .box, .section-box {
+    border: 1px solid #cbd5e1 !important;
+    padding: 10px 12px !important;
+    background: #ffffff !important;
+    border-radius: 6px !important;
+  }
+
+  .box h3, .section-box h3 {
+    font-size: 10pt !important;
+    color: #0f172a !important;
+    margin-bottom: 6px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding-bottom: 4px !important;
+  }
+
+  .offlabel, .offlabel-box {
+    background: #fff !important;
+    border: 1px solid #f472b6 !important;
+    border-left: 4px solid #db2777 !important;
+    padding: 10px 12px !important;
+    border-radius: 6px !important;
+    margin-bottom: 12px !important;
+  }
+  .offlabel h3, .offlabel-box h3 {
+    color: #9d174d !important;
+    font-size: 10pt !important;
+    margin-bottom: 6px !important;
+  }
+
+  .pearl, .pearl-box {
+    background: #fff !important;
+    border: 1px solid #facc15 !important;
+    border-left: 4px solid #ca8a04 !important;
+    padding: 10px 12px !important;
+    border-radius: 6px !important;
+    margin-bottom: 12px !important;
+  }
+  .pearl h3, .pearl-box h3 {
+    color: #854d0e !important;
+    font-size: 10pt !important;
+    margin-bottom: 6px !important;
+  }
+
+  .question-box {
+    background: #f8fafc !important;
+    border: 1px dashed #64748b !important;
+    padding: 10px 12px !important;
+    border-radius: 6px !important;
+    margin-bottom: 14px !important;
+    font-size: 9.5pt !important;
+  }
+
+  .memo-area {
+    background: #ffffff !important;
+    border: 2px dashed #94a3b8 !important;
+    border-radius: 6px !important;
+    padding: 12px 14px !important;
+    margin-top: 14px !important;
+    min-height: 90px !important;
+  }
+
+  /* リスト整形 */
+  .box ul, .section-box ul, .offlabel ul, .offlabel-box ul, .pearl ul, .pearl-box ul, ul.bullet-list {
+    padding-left: 18px !important;
+  }
+  .box ul li, .section-box ul li, .offlabel ul li, .offlabel-box ul li, .pearl ul li, .pearl-box ul li, ul.bullet-list li {
+    font-size: 9pt !important;
+    margin-bottom: 4px !important;
+    line-height: 1.45 !important;
+  }
+
+  /* 第一選択アルゴリズム・フローチャート図（印刷美整形） */
+  .algo-flow-container {
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 10px 12px !important;
+    margin-bottom: 14px !important;
+    background: #ffffff !important;
+  }
+  .algo-title {
+    font-size: 10.5pt !important;
+    color: #0f172a !important;
+    font-weight: 800 !important;
+  }
+  .algo-goal-badge {
+    border: 1px solid #94a3b8 !important;
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    font-size: 8pt !important;
+    padding: 2px 8px !important;
+    border-radius: 12px !important;
+  }
+  .flow-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+    margin-top: 8px !important;
+  }
+  .flow-step-card {
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 8px 10px !important;
+    background: #fafafa !important;
+  }
+  .flow-step-card.first-line { border-top: 3px solid #10b981 !important; }
+  .flow-step-card.branch-line { border-top: 3px solid #0284c7 !important; }
+  .flow-step-card.combo-line { border-top: 3px solid #6366f1 !important; }
+  .flow-step-card.warn-line { border-top: 3px solid #f59e0b !important; }
+  .flow-drug-name {
+    font-size: 9pt !important;
+    font-weight: 700 !important;
+    margin: 4px 0 !important;
+  }
+  .flow-desc {
+    font-size: 8pt !important;
+    line-height: 1.35 !important;
+    color: #334155 !important;
+  }
+
+  
+  
+  /* 抗菌薬マスターナビゲーター印刷美整形 */
+  .abx-nav-bar {
+    display: none !important;
+  }
+  .abx-view-pane {
+    display: block !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-bottom: 18px !important;
+  }
+  .abx-master-container {
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+    padding: 12px 14px !important;
+  }
+
+  /* 決定樹・アルゴリズム印刷美整形 */
+  .decision-tree-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+  .decision-branch {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    border: 1px solid #cbd5e1 !important;
+    padding: 10px 12px !important;
+    background: #ffffff !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+  }
+  .branch-flow-steps {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+  }
+  .step-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    padding: 8px 10px !important;
+  }
+  .step-card.first-choice {
+    border: 1px solid #86efac !important;
+    border-left: 4px solid #16a34a !important;
+    background: #fafdfa !important;
+  }
+  .step-card.second-choice {
+    border: 1px solid #93c5fd !important;
+    border-left: 4px solid #2563eb !important;
+    background: #f8fbff !important;
+  }
+  .step-card.third-choice {
+    border: 1px solid #d8b4fe !important;
+    border-left: 4px solid #9333ea !important;
+    background: #faf8ff !important;
+  }
+  .step-arrow {
+    font-size: 1.1rem !important;
+    color: #64748b !important;
+  }
+  .algo-footer-pitfall {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* 処方鑑別チャート・プロファイリングタブ */
+  .section-block, .profile-card, .disease-section {
+    box-shadow: none !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 14px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    background: white !important;
+  }
+
+  /* テーブル全般の複数枚改ページ整形（比較表・新薬・ルーブリック等） */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 8.5pt !important;
+    margin-top: 8px !important;
+  }
+  thead {
+    display: table-header-group !important; /* 複数ページでも各ページ先頭にヘッダー表示 */
+  }
+  tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  th, td {
+    padding: 6px 8px !important;
+    border: 1px solid #cbd5e1 !important;
+    line-height: 1.4 !important;
+  }
+  th {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    font-weight: 700 !important;
+  }
+
+  /* Answer Bookタブ */
+  .qa-card {
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+    margin-bottom: 16px !important;
+    padding: 14px 16px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    background: white !important;
+  }
+
+  /* 新薬トレンド・特別講義・OTC・フォローアップタブ */
+  .trend-section, .trend-card,
+  .topic-card,
+  .otc-section, .otc-card,
+  .follow-card, .tr-template-box {
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 14px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    background: white !important;
+  }
+
+  /* 臨床総合インデックス辞書タブ */
+  #dictCardsContainer {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .dict-card {
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+    padding: 10px 14px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    background: white !important;
+  }
+}
+
+/* 手書きメモ欄 (印刷用・学生書き込み用) */
+.memo-area {
+  border: 2px dashed #94a3b8;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 15px;
+  background: #f8fafc;
+  min-height: 80px;
+}
+
+/* 解答表示/非表示トグル用のスタイル */
+.hide-answers .ans-section,
+.hide-answers .metaphor,
+.hide-answers .doya {
+  display: none !important;
+}
+
+.hide-answers .student-answer-blank {
+  display: block !important;
+}
+
+.student-answer-blank {
+  display: none;
+  border: 1px dashed #94a3b8;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  min-height: 100px;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* 指導ルーブリック表スタイル */
+.framework-box {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+.rubric-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.88rem;
+}
+.rubric-table th {
+  background: #1e3a8a;
+  color: white;
+  padding: 8px 12px;
+  font-weight: 700;
+}
+.rubric-table td {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  line-height: 1.5;
+}
+
+/* 学習進捗チェックボックス */
+.complete-check-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #475569;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid #cbd5e1;
+}
+.complete-check-wrapper input[type="checkbox"] {
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+}
+.complete-check-wrapper.checked {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #86efac;
+}
+
+
+/* ==========================================================================
+   追加4大機能（新薬・スペシャルトピック・OTC・フォローアップ）固有スタイル
+   ========================================================================== */
+
+/* 新薬トレンド図鑑 */
+.trend-section {
+  background: white;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06);
+  border: 1px solid #cbd5e1;
+}
+.trend-header {
+  border-bottom: 3px solid #312e81;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.trend-title { font-size: 1.25rem; color: #1e1b4b; font-weight: 800; }
+.trend-sub { font-size: 0.85rem; color: #64748b; font-weight: bold; }
+.tag-cat {
+  display: inline-block;
+  background: #e0e7ff;
+  color: #3730a3;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+.tag-new {
+  display: inline-block;
+  background: #fef08a;
+  color: #854d0e;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.pitfall-box {
+  background: #fff1f2;
+  border-left: 4px solid #f43f5e;
+  padding: 8px 10px;
+  border-radius: 0 4px 4px 0;
+  margin-top: 6px;
+  font-size: 0.84rem;
+  color: #881337;
+}
+.f-btn {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: 0.2s;
+}
+.f-btn.active, .f-btn:hover { background: #38bdf8; color: #0f172a; font-weight: bold; }
+
+/* 実戦スペシャルトピック */
+.topic-sec {
+  background: white;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06);
+  border: 1px solid #cbd5e1;
+}
+.t-btn {
+  background: #334155;
+  color: #f8fafc;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: 0.2s;
+}
+.t-btn.active, .t-btn:hover { background: #38bdf8; color: #0f172a; font-weight: bold; }
+.badge-k {
+  display: inline-block;
+  background: #dcfce7;
+  color: #15803d;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+.banner-k {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  background: #f0fdf4;
+  color: #166534;
+  border-left: 4px solid #16a34a;
+}
+.sub-bar {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin: 14px 0 8px 0;
+  background: #f1f5f9;
+  color: #334155;
+  border-left: 4px solid #64748b;
+}
+.grid-2col-s {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+.info-card {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 14px;
+  background: #fafafa;
+}
+.info-card h4 { font-size: 0.95rem; margin-bottom: 8px; color: var(--primary); border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; }
+
+/* シンプルOTC推奨＆基礎疾患別マトリクス */
+.otc-section {
+  background: white;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06);
+  border: 1px solid #cbd5e1;
+}
+.b-blue { background: #eff6ff; color: #1e40af; border-left: 4px solid #2563eb; }
+.b-green { background: #f0fdf4; color: #166534; border-left: 4px solid #16a34a; }
+.b-red { background: #fef2f2; color: #991b1b; border-left: 4px solid #dc2626; }
+.b-purple { background: #f5f3ff; color: #5b21b6; border-left: 4px solid #7c3aed; }
+.banner { padding: 8px 12px; border-radius: 6px; font-size: 0.88rem; font-weight: bold; margin-bottom: 12px; }
+.product {
+  display: inline-block;
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+.safe-tag {
+  display: inline-block;
+  background: #dcfce7;
+  color: #15803d;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+.danger-tag {
+  display: inline-block;
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+.warn-tag {
+  display: inline-block;
+  background: #fef3c7;
+  color: #92400e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* 服薬フォローアップ＆TR実践 */
+.fu-section {
+  background: white;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06);
+  border: 1px solid #cbd5e1;
+}
+.fu-card {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 14px;
+  background: #fafafa;
+  margin-bottom: 14px;
+}
+.template-box {
+  background: #f8fafc;
+  border: 1px dashed #94a3b8;
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-family: monospace;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin-top: 8px;
+}
+
+
+/* =========================================================================
+   Visual Treatment Algorithm & Flowchart Styles
+   ========================================================================= */
+.algo-flow-container {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #cbd5e1;
+  border-left: 5px solid #2563eb;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 14px 0 20px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+.algo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.algo-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.algo-goal-badge {
+  background: #dbeafe;
+  color: #1e40af;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid #bfdbfe;
+}
+
+.flow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+  position: relative;
+}
+
+.flow-step-card {
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top: 3px solid #3b82f6;
+}
+
+.flow-step-card.first-line {
+  border-top-color: #ef4444;
+  background: #fffdfd;
+}
+
+.flow-step-card.branch-line {
+  border-top-color: #0284c7;
+  background: #fdfefe;
+}
+
+.flow-step-card.combo-line {
+  border-top-color: #8b5cf6;
+  background: #fbfbfe;
+}
+
+.flow-step-card.warn-line {
+  border-top-color: #f59e0b;
+  background: #fffdf9;
+}
+
+.flow-step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.step-badge {
+  font-size: 0.73rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.step-first { background: #fee2e2; color: #991b1b; }
+.step-branch { background: #e0f2fe; color: #075985; }
+.step-combo { background: #ede9fe; color: #5b21b6; }
+.step-alert { background: #fef3c7; color: #92400e; }
+
+.flow-drug-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.flow-desc {
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.flow-arrow-down {
+  text-align: center;
+  color: #3b82f6;
+  font-weight: 900;
+  font-size: 1.2rem;
+  margin: 4px 0;
+}
+
+/* ターゲットハイライトアニメーション */
+.target-pulse {
+  animation: pulseHighlight 2.5s ease-out;
+}
+
+@keyframes pulseHighlight {
+  0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); outline: 3px solid #2563eb; }
+  50% { box-shadow: 0 0 0 16px rgba(37, 99, 235, 0); outline: 3px solid #60a5fa; }
+  100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); outline: 1px solid var(--border); }
+}
+
+/* 視覚的チップ＆バッジ */
+.flow-chip {
+  display: inline-block;
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+.flow-chip.active-drug {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #93c5fd;
+}
+.flow-chip.warn-drug {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fca5a5;
+}
+
+
+/* =========================================================================
+   Clinical Dictionary & Cross-Reference Index Styles
+   ========================================================================= */
+.dict-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dict-controls {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+
+.dict-filter-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.dict-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dict-btn:hover {
+  background: #e2e8f0;
+}
+
+.dict-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.dict-kana-bar {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.kana-btn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.kana-btn:hover {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #93c5fd;
+}
+
+.dict-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+}
+
+.dict-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.dict-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+}
+
+.dict-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+  gap: 6px;
+}
+
+.dict-card-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0;
+}
+
+.dict-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.dict-badge-dis { background: #dbeafe; color: #1e40af; }
+.dict-badge-drug { background: #dcfce7; color: #166534; }
+.dict-badge-key { background: #fef3c7; color: #92400e; }
+.dict-badge-new { background: #e0e7ff; color: #4338ca; }
+.dict-badge-kampo { background: #fef08a; color: #854d0e; }
+
+.dict-card-sub {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.dict-card-desc {
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+
+.dict-card-footer {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.dict-jump-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s;
+}
+
+.dict-jump-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+
+
+/* =========================================================================
+   臨床ガイドライン 条件分岐・第一選択・第二選択 アルゴリズムフローチャート
+   ========================================================================= */
+.algo-flow-container {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-left: 5px solid #1e3a8a;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin: 16px 0 24px 0;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.algo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+
+.algo-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.algo-tag {
+  background: #1e3a8a;
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.algo-title {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.algo-goal-badge {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* 決定樹・条件分岐リスト */
+.decision-tree-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.decision-branch {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+}
+.decision-branch:hover {
+  border-color: #cbd5e1;
+  background: #ffffff;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+}
+
+.branch-condition-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #cbd5e1;
+}
+.branch-icon {
+  font-size: 1.05rem;
+}
+.branch-cond-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #475569;
+  background: #e2e8f0;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.branch-target {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+.branch-target-sub {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-left: 4px;
+}
+
+/* フローステップ（第一選択 ➔ 第二選択）の横並び */
+.branch-flow-steps {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.step-card {
+  flex: 1;
+  min-width: 220px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 第一選択カード */
+.step-card.first-choice {
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-left: 5px solid #16a34a;
+}
+/* 第二選択・併用カード */
+.step-card.second-choice {
+  background: #eff6ff;
+  border: 1.5px solid #93c5fd;
+  border-left: 5px solid #2563eb;
+}
+/* 切り札・第三選択カード */
+.step-card.third-choice {
+  background: #faf5ff;
+  border: 1.5px solid #d8b4fe;
+  border-left: 5px solid #9333ea;
+}
+
+.step-pill {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  align-self: flex-start;
+}
+.step-pill.first { background: #dcfce7; color: #166534; }
+.step-pill.second { background: #dbeafe; color: #1e40af; }
+.step-pill.third { background: #f3e8ff; color: #6b21a8; }
+
+.step-drug {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+.step-rationale {
+  font-size: 0.8rem;
+  color: #475569;
+  line-height: 1.45;
+  margin-bottom: 6px;
+}
+.step-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 4px;
+}
+.flow-chip {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.flow-chip:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.step-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: #94a3b8;
+  font-weight: 900;
+  user-select: none;
+  padding: 0 4px;
+}
+@media (max-width: 650px) {
+  .step-arrow {
+    width: 100%;
+    transform: rotate(90deg);
+    padding: 4px 0;
+  }
+}
+
+/* 監査・禁忌ピットフォールバー */
+.algo-footer-pitfall {
+  margin-top: 14px;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-left: 4px solid #e11d48;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.83rem;
+  line-height: 1.5;
+  color: #881337;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.algo-footer-pitfall strong {
+  color: #9f1239;
+  white-space: nowrap;
+}
+
+
+
+/* =========================================================================
+   抗菌薬選択マスターナビゲーター 専用スタイル
+   ========================================================================= */
+.abx-master-container {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 18px 0 24px 0;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.abx-nav-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.abx-tab-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.abx-tab-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+.abx-tab-btn.active {
+  background: #1e3a8a;
+  color: white;
+  border-color: #1e3a8a;
+  box-shadow: 0 2px 4px rgba(30, 58, 138, 0.2);
+}
+
+.abx-view-pane {
+  display: none;
+}
+.abx-view-pane.active {
+  display: block;
+}
+
+/* スペクトラム表のスタイル */
+.abx-table-wrapper {
+  overflow-x: auto;
+  margin-top: 10px;
+}
+.abx-spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  min-width: 650px;
+}
+.abx-spec-table th, .abx-spec-table td {
+  border: 1px solid #cbd5e1;
+  padding: 7px 9px;
+  text-align: center;
+}
+.abx-spec-table th {
+  background: #0f172a;
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.abx-spec-table th.sub-th {
+  background: #1e293b;
+  font-size: 0.78rem;
+}
+.abx-spec-table td.drug-name-cell {
+  text-align: left;
+  font-weight: 700;
+  background: #f8fafc;
+  font-size: 0.85rem;
+}
+.spec-score-best {
+  background: #dcfce7;
+  color: #166534;
+  font-weight: 800;
+}
+.spec-score-good {
+  background: #eff6ff;
+  color: #1e40af;
+  font-weight: 700;
+}
+.spec-score-mod {
+  background: #fef9c3;
+  color: #854d0e;
+}
+.spec-score-none {
+  background: #fee2e2;
+  color: #991b1b;
+  font-weight: bold;
+}
+
+/* PK/PDカード */
+.pkpd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+.pkpd-card {
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 16px;
+  background: #f8fafc;
+}
+.pkpd-card.time-dep { border-top: 4px solid #2563eb; }
+.pkpd-card.conc-dep { border-top: 4px solid #dc2626; }
+.pkpd-card.auc-dep { border-top: 4px solid #16a34a; }
+
+.pkpd-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.pkpd-badge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.pkpd-badge.time { background: #dbeafe; color: #1e40af; }
+.pkpd-badge.conc { background: #fee2e2; color: #991b1b; }
+.pkpd-badge.auc { background: #dcfce7; color: #166534; }
+
+.pkpd-rule {
+  background: #fff;
+  border: 1px dashed #cbd5e1;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #0f172a;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+/* 経口スイッチ表 */
+.switch-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+.switch-table th {
+  background: #1e3a8a;
+  color: white;
+  padding: 8px 10px;
+  font-weight: 700;
+}
+.switch-table td {
+  border: 1px solid #cbd5e1;
+  padding: 8px 10px;
+  line-height: 1.45;
+}
+.ba-high {
+  color: #166534;
+  font-weight: 800;
+  background: #dcfce7;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.ba-low {
+  color: #991b1b;
+  font-weight: 800;
+  background: #fee2e2;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* ==========================================================================
+   🏆 薬局頻出TOP150 疾患ランキング 横長フルワイドカードスタイル
+   ========================================================================== */
+.top100-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.top100-wide-card {
+  margin: 0;
+  padding: 10px 16px;
+  border-left: 5px solid #16a34a;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  border-left-width: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  transition: all 0.15s ease;
+}
+
+.top100-wide-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
+  border-left-color: #15803d;
+  background: #fcfdfe;
+  transform: translateY(-1px);
+}
+
+.top100-col-meta {
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.top100-rank-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.top100-disease-name {
+  margin: 0;
+  font-size: 1.02rem;
+  color: #0f172a;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.top100-meta-bottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.top100-category-badge {
+  font-size: 0.74rem;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+}
+
+.top100-status-pill {
+  font-size: 0.68rem;
+  font-weight: bold;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  display: inline-block;
+}
+
+.top100-col-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0; /* flex childのテキストオーバーフロー防止 */
+}
+
+.top100-drugs-box {
+  font-size: 0.81rem;
+  color: #1e293b;
+  background: #f8fafc;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #f1f5f9;
+  line-height: 1.4;
+}
+
+.top100-pearl-box {
+  font-size: 0.81rem;
+  color: #334155;
+  line-height: 1.45;
+  padding: 0 4px;
+}
+
+.top100-col-actions {
+  width: 175px;
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .top100-wide-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .top100-col-meta {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .top100-col-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+
+/* ==========================================================================
+   トップページ（ポータルダッシュボード）＆ スマホ・レスポンシブ最適化スタイル
+   ========================================================================== */
+
+/* ポータルウェルカムカード */
+.portal-welcome-card {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: white;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  border: 1px solid #334155;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.portal-welcome-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.portal-welcome-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #f8fafc;
+}
+
+.portal-stat-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.portal-stat-pill {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 6大メインハブカードグリッド */
+.portal-main-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.portal-main-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.22s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.portal-main-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+}
+
+.portal-main-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: var(--card-accent, #3b82f6);
+}
+
+.portal-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.portal-card-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  background: #f8fafc;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.portal-card-body h4 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0 0 4px 0;
+}
+
+.portal-card-body p {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.48;
+  margin: 0;
+}
+
+.portal-card-footer {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.portal-card-tag {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.portal-card-jump {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--card-accent, #3b82f6);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 超頻出クイックショートカットセクション */
+.portal-shortcut-section {
+  background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.05);
+}
+
+.portal-section-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.portal-section-desc {
+  font-size: 0.84rem;
+  color: #64748b;
+  margin: 0 0 16px 0;
+}
+
+.portal-shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.portal-shortcut-pill {
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  text-align: left;
+}
+
+.portal-shortcut-pill:hover {
+  background: #f0fdf4;
+  border-color: #10b981;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.15);
+}
+
+.portal-shortcut-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.portal-shortcut-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.portal-shortcut-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.portal-shortcut-sub {
+  font-size: 0.74rem;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+/* サポートツール用グリッド */
+.portal-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.portal-tool-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.portal-tool-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.portal-tool-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.portal-tool-card-icon {
+  font-size: 1.3rem;
+}
+
+.portal-tool-card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.portal-tool-card-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ==========================================================================
+   スマートフォン (max-width: 768px) 包括的レスポンシブ最適化
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* 上段バー */
+  .nav-top-bar {
+    padding: 6px 10px;
+  }
+  .brand {
+    font-size: 0.92rem;
+  }
+  .brand .sub {
+    display: none; /* スマホでは長文サブタイトルを非表示にして1行化 */
+  }
+  .header-print-btn {
+    padding: 4px 8px;
+    font-size: 0.74rem;
+  }
+
+  /* 下段ナビバー（水平スワイプピル化） */
+  .nav-tab-bar {
+    padding: 4px 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  .nav-tab-bar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+  .tab-nav {
+    flex-wrap: nowrap !important; /* 横1行で滑らかにスワイプ可能 */
+    overflow-x: auto;
+    gap: 4px;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-btn {
+    flex-shrink: 0;
+    min-height: 35px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 20px; /* 親指でタップしやすい丸みピル */
+  }
+
+  /* ヒーローセクションスリム化 */
+  .hero-section {
+    padding: 8px 10px 10px;
+  }
+  .hero-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 2px;
+  }
+  .hero-title {
+    font-size: 1.15rem;
+  }
+  .hero-desc {
+    font-size: 0.76rem;
+    line-height: 1.35;
+    margin-bottom: 4px;
+  }
+  .search-container {
+    max-width: 100%;
+  }
+  .search-input {
+    font-size: 16px !important; /* iOSズーム防止 */
+    padding: 10px 38px 10px 36px;
+    height: 42px;
+  }
+  .quick-tags {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .quick-tags::-webkit-scrollbar {
+    display: none;
+  }
+  .quick-tag-btn {
+    flex-shrink: 0;
+    font-size: 0.74rem;
+    padding: 4px 9px;
+    min-height: 28px;
+  }
+
+  /* メインコンテンツパディングスリム化 */
+  .main-content {
+    padding: 10px 8px;
+  }
+
+  /* グリッドレイアウトを縦1列化（突き破り防止） */
+  .grid-2col,
+  .grid-3col,
+  .portal-main-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .portal-shortcut-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .portal-tools-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  /* すべてのテーブルの横スクロール保証（画面全体の横揺れ完全防止） */
+  .table-responsive,
+  .comp-section table,
+  .guide-card table,
+  .dict-table,
+  .lab-table,
+  .card table,
+  .tab-pane table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-collapse: collapse;
+  }
+
+  /* ポータルウェルカムカード */
+  .portal-welcome-card {
+    padding: 16px 14px;
+    margin-bottom: 16px;
+  }
+  .portal-welcome-title {
+    font-size: 1.15rem;
+  }
+
+  /* モーダル表示の全画面最適化 */
+  .drug-modal-content {
+    width: 95% !important;
+    max-width: 95% !important;
+    max-height: 90vh !important;
+    padding: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .portal-shortcut-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .portal-tools-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
+/* ==========================================================================
+   グローバルフッター ＆ 法的免責事項（Disclaimer）スタイル
+   ========================================================================== */
+.app-footer {
+  background: #0f172a;
+  color: #94a3b8;
+  border-top: 1px solid #1e293b;
+  margin-top: 40px;
+  width: 100%;
+}
+
+.footer-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 30px 16px 24px;
+}
+
+.footer-disclaimer-box {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-left: 4px solid #f59e0b;
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+
+.disclaimer-badge {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid #f59e0b;
+  color: #fbbf24;
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.disclaimer-title {
+  color: #f8fafc;
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+}
+
+.disclaimer-text {
+  color: #cbd5e1;
+  font-size: 0.84rem;
+  line-height: 1.65;
+  margin: 0 0 10px 0;
+}
+
+.disclaimer-text:last-child {
+  margin-bottom: 0;
+}
+
+.disclaimer-text strong {
+  color: #fef08a;
+}
+
+.footer-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.78rem;
+  color: #64748b;
+  padding-top: 14px;
+  border-top: 1px solid #1e293b;
+}
+
+/* ⬆️ トップへ戻るフローティングボタン */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #1e293b;
+  color: #ffffff;
+  border: 1px solid #475569;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease-in-out;
+}
+
+.back-to-top-btn:hover {
+  background: var(--accent);
+  border-color: #60a5fa;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+}
+
+@media (max-width: 768px) {
+  .app-footer {
+    margin-top: 25px;
+  }
+  .footer-container {
+    padding: 20px 12px 20px;
+  }
+  .footer-disclaimer-box {
+    padding: 14px 16px;
+  }
+  .disclaimer-title {
+    font-size: 0.98rem;
+  }
+  .disclaimer-text {
+    font-size: 0.8rem;
+    line-height: 1.55;
+  }
+  .back-to-top-btn {
+    bottom: 18px;
+    right: 18px;
+    width: 42px;
+    height: 42px;
+    font-size: 1rem;
+  }
+}
+
+/* ==========================================================================
+   粉砕・簡易懸濁・一包化 適合性バッジ スタイル
+   ========================================================================== */
+.compounding-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 8px 0 4px 0;
+  font-size: 0.74rem;
+}
+
+.c-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+  user-select: none;
+}
+
+.c-badge:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.c-badge.ok {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+
+.c-badge.ng {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.c-badge.caution {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde047;
+}
+
+.c-badge.unknown {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  font-weight: normal;
+}
+
+/* ==========================================================================
+   今週の薬局最前線インテリジェンス ＆ 週刊アーカイブ スタイル
+   ========================================================================== */
+.weekly-topics-section {
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+}
+
+.weekly-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 12px;
+}
+
+.weekly-title-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.weekly-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.weekly-main-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weekly-main-sub {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.weekly-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.weekly-current-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.weekly-current-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #2563eb;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.weekly-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.weekly-col {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.weekly-col-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 0.92rem;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.weekly-col-item {
+  margin-bottom: 10px;
+}
+
+.weekly-item-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.weekly-item-desc {
+  font-size: 0.8rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.weekly-jump-btn {
+  background: #f1f5f9;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 8px;
+  transition: all 0.15s ease;
+}
+
+.weekly-jump-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.weekly-archives-btn {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.weekly-archives-btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.weekly-archives-panel {
+  display: none;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 2px dashed #e2e8f0;
+}
+
+.archive-week-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+.archive-week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.archive-week-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.archive-week-content {
+  display: none;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* 自動アーカイブ・セクション見出し＆スタイル */
+.archive-subhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0 10px 0;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.archive-subhead-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.archive-subhead-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.archive-older-card {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  transition: background 0.15s;
+}
+
+.archive-older-card:hover {
+  background: #e2e8f0;
+}
+
+.archive-older-badge {
+  background: #64748b;
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .weekly-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   ⭐ お気に入り（ブックマーク）＆ お気に入り管理ハブ スタイル
+   ========================================================================== */
+.fav-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 6px;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.fav-btn:hover {
+  color: #f59e0b;
+  transform: scale(1.2);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.fav-btn.active {
+  color: #f59e0b;
+  text-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+  transform: scale(1.1);
+}
+
+.fav-btn.active:hover {
+  transform: scale(1.3);
+  background: rgba(245, 158, 11, 0.15);
+}
+
+/* ジャンプ時の発光ハイライトアニメーション */
+@keyframes favPulseHighlight {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+    background-color: rgba(254, 240, 138, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(245, 158, 11, 0.3);
+    background-color: rgba(254, 240, 138, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+    background-color: transparent;
+  }
+}
+
+.fav-highlight {
+  animation: favPulseHighlight 1.8s ease-in-out 2;
+  border: 2px solid #f59e0b !important;
+  border-radius: 8px;
+}
+
+/* お気に入り管理ハブのUI */
+.favorites-container {
+  padding: 10px 0;
+}
+
+.favorites-header-card {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  color: white;
+  border-left: 4px solid #f59e0b;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.fav-filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.fav-filter-btn {
+  background: white;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fav-filter-btn:hover {
+  border-color: #f59e0b;
+  color: #b45309;
+}
+
+.fav-filter-btn.active {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #f59e0b;
+  box-shadow: 0 2px 5px rgba(245, 158, 11, 0.2);
+}
+
+.fav-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 16px;
+}
+
+.fav-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top: 3px solid #f59e0b;
+}
+
+.fav-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
+}
+
+.fav-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fav-card-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+  line-height: 1.35;
+}
+
+.fav-card-desc {
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fav-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #f1f5f9;
+  margin-top: auto;
+}
+
+.fav-card-jump-btn {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.15s;
+}
+
+.fav-card-jump-btn:hover {
+  background: #4338ca;
+}
+
+.fav-card-remove-btn {
+  background: transparent;
+  color: #94a3b8;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.fav-card-remove-btn:hover {
+  color: #ef4444;
+  background: #fef2f2;
+}
+
+.fav-empty-box {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: 14px;
+  padding: 45px 20px;
+  text-align: center;
+  color: #64748b;
+  margin: 20px 0;
+}
+
+
+
+
+
+/* Disease Check Styles */
+.disease-filter-btn {
+  background: white;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.disease-filter-btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+.disease-filter-btn.active {
+  background: #047857;
+  color: white;
+  border-color: #047857;
+  box-shadow: 0 1px 3px rgba(4, 120, 87, 0.3);
+}
+.disease-check-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.disease-check-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.diff-tag-btn {
+  background: #ffffff;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.diff-tag-btn:hover {
+  background: #ecfdf5;
+  border-color: #059669;
+  color: #047857;
+  transform: translateY(-1px);
+}
+.diff-suggest-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0fdf4;
+  border: 1.5px solid #10b981;
+  color: #064e3b;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(16, 185, 129, 0.15);
+}
+.diff-suggest-pill:hover {
+  background: #10b981;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+.diff-suggest-pill .diff-sub {
+  font-size: 0.72rem;
+  color: #047857;
+  font-weight: normal;
+}
+.diff-suggest-pill:hover .diff-sub {
+  color: #ecfdf5;
+}
+.diff-card-highlight {
+  animation: pulseCard 1.5s ease;
+  border: 2px solid #10b981 !important;
+}
+@keyframes pulseCard {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  50% { transform: scale(1.01); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* 超精密・病態区分特定サジェストカード */
+.diff-subtype-card {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.diff-subtype-card:hover {
+  border-color: #10b981;
+  background: #f0fdf4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.15);
+}
+.diff-badge-subtype {
+  display: inline-block;
+  background: #065f46;
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  width: fit-content;
+}
+.diff-criteria-text {
+  font-size: 0.78rem;
+  color: #0369a1;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 4px;
+  padding: 3px 8px;
+  line-height: 1.4;
+}
+.diff-keypoint-text {
+  font-size: 0.76rem;
+  color: #b45309;
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-radius: 4px;
+  padding: 3px 8px;
+  line-height: 1.4;
+}
+
+/* ========================================================
+   対話型・病態特定プログラム（Wizard）スタイル
+   ======================================================== */
+.wizard-header-hero {
+  background: linear-gradient(135deg, #065f46 0%, #047857 45%, #0f766e 100%);
+  color: #ffffff;
+  padding: 24px 28px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(6, 95, 70, 0.2);
+}
+.wizard-reset-btn {
+  background: rgba(255, 255, 255, 0.95);
+  color: #065f46;
+  border: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.wizard-reset-btn:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.wizard-main-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+.wizard-step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+.wizard-step-badge .step-num {
+  background: #10b981;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.wizard-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.wizard-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 42px 12px 40px;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.96rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.wizard-search-input:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+.wizard-input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 1rem;
+  pointer-events: none;
+}
+.wizard-input-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #e2e8f0;
+  color: #475569;
+  border: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wizard-suggest-dropdown {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  margin-top: 4px;
+  max-height: 240px;
+  overflow-y: auto;
+  position: absolute;
+  z-index: 50;
+  width: 100%;
+}
+.wizard-suggest-item {
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wizard-suggest-item:hover {
+  background: #f0fdf4;
+  color: #065f46;
+}
+.wizard-quick-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.wizard-quick-btn {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.wizard-quick-btn:hover {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #065f46;
+  transform: translateY(-1px);
+}
+.wizard-selected-drug-badge {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1.5px solid #10b981;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.wizard-question-card {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+}
+.wizard-question-title {
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.wizard-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 10px;
+}
+.wizard-option-item {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+}
+.wizard-option-item:hover {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+.wizard-option-item.selected {
+  border-color: #059669;
+  background: #ecfdf5;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+}
+.wizard-option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+.wizard-option-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.35;
+}
+.wizard-option-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #e2e8f0;
+  color: #475569;
+  white-space: nowrap;
+}
+.wizard-option-item.selected .wizard-option-badge {
+  background: #059669;
+  color: #ffffff;
+}
+.wizard-option-desc {
+  font-size: 0.78rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+.wizard-custom-drug-box {
+  background: #f1f5f9;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 14px;
+}
+.wizard-custom-tag {
+  background: #3b82f6;
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.wizard-action-btn-primary {
+  background: #059669;
+  color: #ffffff;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+}
+.wizard-action-btn-primary:hover {
+  background: #047857;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(5, 150, 105, 0.4);
+}
+.wizard-action-btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.wizard-action-btn-secondary:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+.wizard-action-btn-small {
+  background: #10b981;
+  color: #ffffff;
+  border: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.wizard-result-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease;
+}
+.wizard-result-card.top-rank {
+  border: 2px solid #10b981;
+  background: #f0fdf4;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15);
+}
+.wizard-prob-bar-wrapper {
+  background: #e2e8f0;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 6px 0 10px 0;
+}
+.wizard-prob-bar-fill {
+  background: linear-gradient(90deg, #10b981, #059669);
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.wizard-symptom-quick-tag {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.wizard-symptom-quick-tag:hover {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #065f46;
+  transform: translateY(-1px);
+}
+.wizard-custom-tag.symptom {
+  background: #0d9488;
+}
+
+/* ========================================================
+   ウィザード＆病態特定のスマートフォン最適化 (Mobile Responsive)
+   ======================================================== */
+@media (max-width: 768px) {
+  .wizard-header-hero {
+    padding: 16px 14px;
+    margin-bottom: 14px;
+    border-radius: 10px;
+  }
+  .wizard-header-hero h1 {
+    font-size: 1.25rem !important;
+  }
+  .wizard-main-card {
+    padding: 14px 10px;
+    border-radius: 10px;
+  }
+  .wizard-search-input {
+    font-size: 16px !important; /* iOS自動ズーム防止 */
+    padding: 10px 36px 10px 36px;
+  }
+  .wizard-options-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .wizard-option-item {
+    padding: 10px 12px;
+  }
+  .wizard-question-card {
+    padding: 12px 10px;
+    margin-bottom: 12px;
+  }
+  .wizard-result-card {
+    padding: 14px 12px;
+  }
+  .wizard-action-btn-primary {
+    width: 100%;
+    text-align: center;
+    padding: 12px 16px;
+    font-size: 0.92rem;
+  }
+  .wizard-action-btn-secondary {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+}
+

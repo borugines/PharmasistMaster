@@ -1,0 +1,669 @@
+<!-- ==========================================================================
+     【新薬追加マニュアル（開発者・運用者向け）】
+     新薬を追加する際は、発売日または添付文書改訂日（YYYY-MM）が「新しいものが一番上」になるよう、
+     該当する年のセクション最上部（または最新ブロック）に以下のテンプレートで追記してください。
+     
+     <tr class="trend-row" data-date="YYYY-MM" data-cat="t-meta / t-neuro / t-derm / t-other">
+       <td>
+         <span class="badge" style="background:#0284c7; color:white; font-size:0.75rem; font-weight:800;">📅 YYYY年M月発売</span><br>
+         <span class="drug-name">新薬名</span>
+         <span class="gen-name">（一般名）</span>
+         <span class="tag-mech">薬理機序</span>
+       </td>
+       <td>何が革命的なのか？...</td>
+       <td>薬局カウンターでの必須指導＆ピットフォール...</td>
+     </tr>
+     ========================================================================== -->
+
+<!-- 新薬トレンド図鑑 タブペイン -->
+<div id="tab-newdrugs" class="tab-pane">
+  <div class="card" style="margin-bottom:20px; background:linear-gradient(135deg, #0f172a 0%, #312e81 100%); color:white; border-left:4px solid #38bdf8;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge" style="background:#0284c7; color:white;">Latest Drug Timeline</span>
+          <span style="font-size:0.8rem; background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:4px;">📅 発売日・改訂日が新しい順に整理</span>
+        </div>
+        <h2 style="font-size:1.35rem; color:#38bdf8; font-weight:800; margin-top:4px; margin-bottom:4px;">
+          🚀 薬局で押さえるべき「新薬トレンド＆現場の勘所」タイムライン図鑑
+        </h2>
+        <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+          発売日・添付文書改訂日の新しい順に整理。「これまでの薬と何が違う？」「患者にどう説明する？」ガイドラインを書き換えた最新新薬の勘所を完全網羅。
+        </p>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <input type="text" id="newDrugSearchInput" placeholder="🔍 薬名・発売年・機序 (例: 2024, マンジャロ, 不眠)" onkeyup="filterNewDrugsSearch()" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; width:250px;">
+        <button class="header-print-btn" onclick="window.print()" style="padding:7px 14px; font-size:0.85rem; background:#10b981;">🖨️ A4横で印刷</button>
+      </div>
+    </div>
+
+    <!-- 年代別・領域別フィルターボタン -->
+    <div class="filter-group" style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
+      <button class="f-btn active" onclick="filterTrend('all', this)">📅 すべて（最新発売日順）</button>
+      <button class="f-btn" onclick="filterTrend('yr-2024', this)" style="background:#fee2e2; color:#991b1b; font-weight:700; border:1px solid #f87171;">🔥 2024〜2025年 超最新薬</button>
+      <button class="f-btn" onclick="filterTrend('yr-2023', this)">✨ 2023年 注目薬</button>
+      <button class="f-btn" onclick="filterTrend('yr-2022', this)">🌟 2022年 発売薬</button>
+      <button class="f-btn" onclick="filterTrend('yr-classic', this)">💡 2020〜2021年 変革薬</button>
+      <span style="border-left:1px solid rgba(255,255,255,0.3); margin:0 4px;"></span>
+      <button class="f-btn" onclick="filterTrend('t-meta', this)">🍬 糖尿病・肥満・心腎</button>
+      <button class="f-btn" onclick="filterTrend('t-neuro', this)">🧠 不眠・片頭痛・神経</button>
+      <button class="f-btn" onclick="filterTrend('t-derm', this)">🫁 皮膚・呼吸器・多汗</button>
+      <button class="f-btn" onclick="filterTrend('t-other', this)">🦠 感染症・婦人科・他</button>
+    </div>
+  </div>
+
+  <div class="newdrugs-container">
+
+    <!-- ==========================================
+         BLOCK 1: 2024〜2025年 超最新薬（最も新しいものが最上部）
+         ========================================== -->
+    <div class="trend-section yr-2024 page-break" style="margin-bottom:30px;">
+      <div class="trend-header" style="border-bottom:2px solid #ef4444; padding-bottom:8px; margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h2 class="trend-title" style="color:#b91c1c; font-size:1.25rem; font-weight:800; margin:0;">
+            🔥 【2024〜2025年 超最新薬】医療の最前線を塗り替えた最新トレンド
+          </h2>
+          <span class="badge" style="background:#b91c1c; color:white; font-size:0.75rem;">NEWEST ARRIVALS</span>
+        </div>
+        <span class="trend-sub" style="color:#dc2626;">オレキシン第4世代、針なし経鼻アドレナリン、約30年ぶりの抗肥満薬、新規CGRPゲパント系</span>
+      </div>
+
+      <table class="newdrug-table">
+        <thead>
+          <tr style="background:#fef2f2;">
+            <th style="width:22%;">新薬名・一般名・発売年月</th>
+            <th style="width:38%;">何が革命的なのか？（従来の薬との違い・脳内翻訳）</th>
+            <th style="width:40%;">薬局カウンターでの必須指導＆ピットフォール</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ナルティーク (2025-12) -->
+          <tr class="trend-row t-neuro yr-2024" data-date="2025-12">
+            <td>
+              <span class="badge" style="background:#ef4444; color:white; font-size:0.75rem; font-weight:800;">📅 2025年12月発売</span><br>
+              <span class="drug-name">ナルティークOD錠75mg</span>
+              <span class="gen-name">（リメゲパント硫酸塩水和物）</span>
+              <span class="tag-mech">経口CGRP受容体拮抗薬（ゲパント系 / 急性期＆発症抑制のデュアル適応）</span>
+            </td>
+            <td>
+              <span class="tag-new">日本初「発作急性期治療」と「予防（発症抑制）」の両方に使える経口ゲパント！</span><br>
+              これまで注射薬（抗体薬）しかなかったCGRP標的の予防治療が、<strong>水なしで飲めるOD錠</strong>で可能に。血管収縮作用がないため、<strong>心筋梗塞や脳梗塞の既往でトリプタンが禁忌の患者でも使用可能</strong>。
+            </td>
+            <td>
+              ・<strong>用法が2通りあるため処方意図の確認が必須：</strong><br>
+              　①【急性期発作治療】：頭痛発作時に頓服（1日1回1錠まで）。<br>
+              　②【発症抑制（予防）】：<strong>1日おき（隔日投与）</strong>に1日1回1錠。<br>
+              <div class="pitfall-box">⚠️ <strong>現場の勘所：</strong><br>
+              ・<strong>「予防で服用した日は、当日に頭痛発作が起きても追加服用禁止」</strong>（1日上限75mg厳守）。<br>
+              ・シートを裏から押し出すと割れるため、<strong>「裏面シートを剥がして取り出す」</strong>よう指導。吸湿性があるため<strong>一包化不可</strong>（直前に開封）。強力なCYP3A4阻害薬・誘導薬との相互作用に注意。</div>
+            </td>
+          </tr>
+
+          <!-- ネクセトール (2025-11) -->
+          <tr class="trend-row t-meta yr-2024" data-date="2025-11">
+            <td>
+              <span class="badge" style="background:#ef4444; color:white; font-size:0.75rem; font-weight:800;">📅 2025年11月発売</span><br>
+              <span class="drug-name">ネクセトール錠180mg</span>
+              <span class="gen-name">（ベムペド酸）</span>
+              <span class="tag-mech">ATPクエン酸リアーゼ（ACL）阻害薬（スタチン上流阻害・肝臓特異的）</span>
+            </td>
+            <td>
+              <span class="tag-new">筋肉痛でスタチンが飲めない「スタチン不耐（筋障害）」患者の待望の新薬</span><br>
+              スタチンの作用点（HMG-CoA還元酵素）の上流を阻害。活性化酵素が骨格筋にほとんど存在せず肝臓特異的に働くため、<strong>スタチン特有の筋肉痛・横紋筋融解症（SAMS）が極めて生じにくい</strong>。
+            </td>
+            <td>
+              ・<strong>用法：</strong>1日1回180mg経口投与（原則スタチン併用）。<br>
+              <div class="pitfall-box">⚠️ <strong>現場の勘所：</strong><br>
+              ・<strong>高尿酸血症・痛風発作に注意：</strong>尿酸排泄阻害により尿酸値が上昇しやすい。痛風歴の確認や関節痛の初期症状を指導。<br>
+              ・<strong>妊婦又は妊娠している可能性のある女性は【禁忌】</strong>（胎児奇形リスク）。<br>
+              ・シンバスタチンやプラバスタチンの血中濃度を上昇させるため併用用量やCK値上昇に注意。</div>
+            </td>
+          </tr>
+
+          <!-- ボルズィ -->
+          <tr class="trend-row t-neuro yr-2024" data-date="2024-11">
+            <td>
+              <span class="badge" style="background:#ef4444; color:white; font-size:0.75rem; font-weight:800;">📅 2024年11月発売</span><br>
+              <span class="drug-name">ボルズィ錠</span>
+              <span class="gen-name">（ボルノレキサント水和物）</span>
+              <span class="tag-mech">オレキシン受容体拮抗薬（DORA第4世代・超短時間型）</span>
+            </td>
+            <td>
+              <span class="tag-new">ベルソムラ・デエビゴの弱点「翌朝の眠気持ち越し」を徹底克服</span><br>
+              オレキシン受容体への結合が素早く、かつ<strong>解離が極めて速い超短時間設計</strong>。夜間の睡眠を維持しながら、朝には速やかに受容体から離れるため、<strong>「翌朝のふらつき・持ち越し眠気・頭重感」が既存のオレキシン拮抗薬の中で極小</strong>。
+            </td>
+            <td>
+              ・<strong>用法：</strong>就寝直前に内服（5mgまたは10mg）。<br>
+              <div class="pitfall-box">⚠️ <strong>現場の勘所：</strong>「デエビゴだと翌朝まで眠気が残って車に乗れない」「ベルソムラだと悪夢を見る」と訴える患者の有力な切り替え候補。CYP3A4代謝のためイトラコナゾールやクラリスとの併用注意。</div>
+            </td>
+          </tr>
+
+          <!-- クービビック -->
+          <tr class="trend-row t-neuro yr-2024" data-date="2024-11">
+            <td>
+              <span class="badge" style="background:#ef4444; color:white; font-size:0.75rem; font-weight:800;">📅 2024年11月発売</span><br>
+              <span class="drug-name">クービビック錠</span>
+              <span class="gen-name">（ダリドレキサント）</span>
+              <span class="tag-mech">オレキシン受容体拮抗薬（DORA第3世代）</span>
+            </td>
+            <td>
+              <span class="tag-new">「日中の覚醒・パフォーマンス改善」を公式証明した不眠症薬</span><br>
+              夜の睡眠スコアだけでなく、<strong>「日中の機能障害・倦怠感（昼間のQOL）」を有意に改善</strong>した世界的大型睡眠薬。半減期が約8時間と適度で、夜間の中途覚醒を減らしつつ朝にすっきり起きられる。
+            </td>
+            <td>
+              ・<strong>用法：</strong>成人には1回50mgを就寝直前に経口投与（25mg適宜減量）。<br>
+              <div class="pitfall-box">⚠️ <strong>併用禁忌に注意！：</strong>CYP3A4阻害薬との相互作用において、<strong>イトラコナゾールやクラリス等の強力阻害薬とは併用禁忌</strong>（デエビゴは減量可だが、クービビックは禁忌指定のため処方鑑査で要注意！）。</div>
+            </td>
+          </tr>
+
+          <!-- neffy -->
+          <tr class="trend-row t-derm yr-2024" data-date="2024-08">
+            <td>
+              <span class="badge" style="background:#0284c7; color:white; font-size:0.75rem; font-weight:800;">📅 2024年8月承認（FDA先行・日本最新トレンド）</span><br>
+              <span class="drug-name">neffy（ネフィ）</span>
+              <span class="gen-name">（エピネフリン / アドレナリン経鼻粉霧液）</span>
+              <span class="tag-mech">世界初の針なし経鼻アナフィラキシー治療薬</span>
+            </td>
+            <td>
+              <span class="tag-new">エピペン（注射針）の恐怖をゼロにする経鼻スプレー</span><br>
+              アナフィラキシー発作時に、太い針を太ももに突き刺すエピペンは「怖くて打てない」「針事故が不安」という保護者・患者の心理的障壁が巨大だった。neffyは<strong>「鼻の中にシュッと噴霧するだけ」</strong>でエピペンと同等の血中濃度と昇圧・気管支拡張効果を発揮！
+            </td>
+            <td>
+              ・<strong>現場の指導ポイント：</strong>鼻閉（鼻づまり）があっても粘膜から速やかに吸収される設計。<br>
+              <div class="pitfall-box">⚠️ <strong>所持指導：</strong>エピペンと同様に「効果が不十分な場合は5〜15分後に追加噴霧できるよう2本携帯」が基本。冷所保存不要（室温携帯可能）な点もエピペンと同様に利便性が高い。</div>
+            </td>
+          </tr>
+
+          <!-- ブイタマー -->
+          <tr class="trend-row t-derm yr-2024" data-date="2024-06">
+            <td>
+              <span class="badge" style="background:#059669; color:white; font-size:0.75rem; font-weight:800;">📅 2024年6月発売</span><br>
+              <span class="drug-name">ブイタマークリーム 1%</span>
+              <span class="gen-name">（タピナロフ）</span>
+              <span class="tag-mech">非ステロイド性芳香族炭化水素受容体（AhR）作動薬</span>
+            </td>
+            <td>
+              <span class="tag-new">アトピー ＆ 尋常性乾癬の「両方」に効く世界初AhR外用薬</span><br>
+              ステロイドでもJAK阻害薬でもない全く新しい作用機序。皮膚のAhRを刺激してTh2/Th17炎症を同時に抑え、さらに<strong>皮膚バリア機能（フィラグリン発現）を劇的に増強</strong>する。
+            </td>
+            <td>
+              ・<strong>用法：</strong>1日1回 患部に塗布（1日1回で済むためアドヒアランス抜群）。<br>
+              <div class="pitfall-box">⚠️ <strong>毛包炎・接触皮膚炎：</strong>副作用として<strong>「毛包炎（ニキビのようなブツブツ）」</strong>や刺激感が報告されている。塗布部位の清潔と赤みのモニタリングを指導。</div>
+            </td>
+          </tr>
+
+          <!-- イブグリース -->
+          <tr class="trend-row t-derm yr-2024" data-date="2024-05">
+            <td>
+              <span class="badge" style="background:#059669; color:white; font-size:0.75rem; font-weight:800;">📅 2024年5月発売</span><br>
+              <span class="drug-name">イブグリース皮下注</span>
+              <span class="gen-name">（レブリキズマブ）</span>
+              <span class="tag-mech">ヒト化抗IL-13モノクローナル抗体</span>
+            </td>
+            <td>
+              <span class="tag-new">アトピーの痒みと皮膚バリア破壊の親玉「IL-13」を選択的狙い撃ち</span><br>
+              デュピクセント（IL-4/13受容体阻害）やアドトラーザに続く新規抗体薬。IL-13への結合親和性が極めて高く、<strong>維持期には「4週に1回投与」へ投与間隔を延長できる</strong>ため通院負担・自己注射負担が大幅軽減。
+            </td>
+            <td>
+              ・<strong>投与スケジュール：</strong>初回および2週後に500mg（2本）、以降4週ごとに250mg（1本）。維持期（16週以降）は4週または8週ごと。<br>
+              <div class="pitfall-box">⚠️ <strong>結膜炎のモニタリング：</strong>IL-13阻害抗体薬共通の注意点として、<strong>結膜炎・ドライアイ（目のかゆみ・充血）</strong>が出現しやすいため点眼併用や眼科受診を案内。</div>
+            </td>
+          </tr>
+
+          <!-- ゾコーバ / パキロビッド -->
+          <tr class="trend-row t-other yr-2024" data-date="2024-03">
+            <td>
+              <span class="badge" style="background:#7c3aed; color:white; font-size:0.75rem; font-weight:800;">📅 2024年3月通常承認（2022年緊急承認）</span><br>
+              <span class="drug-name">ゾコーバ錠 / パキロビッドパック</span>
+              <span class="gen-name">（エンシトレルビル / ニルマトレルビル・リトナビル）</span>
+              <span class="tag-mech">COVID-19 3CLプロテアーゼ阻害薬</span>
+            </td>
+            <td>
+              <span class="tag-new">緊急承認からエビデンス集積を経て「通常承認」へステップアップ</span><br>
+              新型コロナの増殖に必須な3CLプロテアーゼを阻害。ゾコーバは軽症〜中等症の罹患期間短縮・後遺症（Long COVID）リスク低下のエビデンスが確立。
+            </td>
+            <td>
+              ・<strong>ゾコーバ：</strong>初日375mg（3錠）、2〜5日目125mg（1錠）を1日1回空腹時/食後。<br>
+              <div class="pitfall-box">⚠️ <strong>超厳格な禁忌チェック：</strong><strong style="color:#b91c1c;">ゾコーバは妊婦絶対禁忌（催奇形性）</strong>！パキロビッドは併用禁忌が40品目以上（DOAC、トリアゾラム、シンバスタチン等）あるためお薬手帳の完全照合が必須。</div>
+            </td>
+          </tr>
+
+          <!-- ウゴービ -->
+          <tr class="trend-row t-meta yr-2024" data-date="2024-02">
+            <td>
+              <span class="badge" style="background:#0284c7; color:white; font-size:0.75rem; font-weight:800;">📅 2024年2月発売</span><br>
+              <span class="drug-name">ウゴービ皮下注</span>
+              <span class="gen-name">（セマグルチド：肥満症適応）</span>
+              <span class="tag-mech">GLP-1受容体作動薬（抗肥満症薬）</span>
+            </td>
+            <td>
+              <span class="tag-new">日本で約30年ぶりとなる保険適用の「本格的抗肥満症薬」</span><br>
+              オゼンピック/リベルサスと同成分だが、<strong>最大用量が「2.4mg」と糖尿病用の約2.4倍高用量</strong>に設計。脳の視床下部に働いて食欲中枢を強力に抑え、食事療法併用で平均10〜15%もの劇的な体重減少を達成。
+            </td>
+            <td>
+              ・<strong>保険適用の厳格基準：</strong>BMI 35以上、またはBMI 27以上で高血圧・脂質異常・2型糖尿病のうち2つ以上合併＋教育入院等の厳格要件あり。<br>
+              <div class="pitfall-box">⚠️ <strong>自由診療の不適切流通の警戒：</strong>美容ダイエット目的の処方は保険不可。胃腸障害（嘔気・下痢）が強いため0.25mgから4週間ごとの段階的漸増を厳守！</div>
+            </td>
+          </tr>
+
+          <!-- フォゼベル -->
+          <tr class="trend-row t-other yr-2024" data-date="2024-02">
+            <td>
+              <span class="badge" style="background:#0284c7; color:white; font-size:0.75rem; font-weight:800;">📅 2024年2月発売</span><br>
+              <span class="drug-name">フォゼベル錠</span>
+              <span class="gen-name">（テナパノル）</span>
+              <span class="tag-mech">NHE3阻害薬（高リン血症治療薬）</span>
+            </td>
+            <td>
+              <span class="tag-new">「リンを吸着する」のではなく「腸からのリン吸収を止める」新発想</span><br>
+              従来のリン吸着薬（炭酸ランタン、ホスレノール等）は1回何錠も大きな錠剤を噛み砕く必要があり負担が激甚だった。フォゼベルは<strong>小腸のNa+/H+交換輸送体（NHE3）を阻害し、細胞間隙を閉じてリンの受動輸送をブロックする極小錠剤</strong>！
+            </td>
+            <td>
+              ・<strong>用法：</strong>1回5mg〜最大30mgを1日2回、朝・夕食直前。<br>
+              <div class="pitfall-box">⚠️ <strong>主副作用は「下痢」：</strong>腸管内にNaと水分が残るため、<strong>軟便・下痢が高頻度で発現</strong>する。下痢がひどい場合は減量・休薬するが、便秘がちな透析患者にはむしろ好都合な場合も多い。</div>
+            </td>
+          </tr>
+
+          <!-- ゲパント系（クーデック/ナルティーク） -->
+          <tr class="trend-row t-neuro yr-2024" data-date="2024-01">
+            <td>
+              <span class="badge" style="background:#0284c7; color:white; font-size:0.75rem; font-weight:800;">📅 2024〜2025年承認最新トレンド</span><br>
+              <span class="drug-name">クーデック / ナルティーク</span>
+              <span class="gen-name">（アトゲパント / リメゲパント）</span>
+              <span class="tag-mech">経口低分子CGRP受容体拮抗薬（ゲパント系）</span>
+            </td>
+            <td>
+              <span class="tag-new">注射（抗体薬）だったCGRP遮断が「1日1回飲むだけの錠剤」へ進化</span><br>
+              これまで月1回の皮下注射（エムガルティ等）しか選択肢がなかったCGRP標的治療が経口薬に。<strong>注射が嫌な患者や針恐怖症の片頭痛患者にとって救世主</strong>。急性期頓用と予防投与の両方に使える製剤も登場。
+            </td>
+            <td>
+              ・<strong>血管収縮作用がない：</strong>トリプタン系と異なり頭蓋内外血管を収縮させないため、<strong>虚血性心疾患・脳血管障害合併の患者にも安全に使用可能</strong>！
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ==========================================
+         BLOCK 2: 2023年 注目新薬
+         ========================================== -->
+    <div class="trend-section yr-2023 page-break" style="margin-bottom:30px;">
+      <div class="trend-header" style="border-bottom:2px solid #0284c7; padding-bottom:8px; margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h2 class="trend-title" style="color:#0369a1; font-size:1.25rem; font-weight:800; margin:0;">
+            ✨ 【2023年 発売・適応追加薬】糖尿病・手掌多汗症・骨粗鬆症の転換点
+          </h2>
+          <span class="badge" style="background:#0284c7; color:white; font-size:0.75rem;">YEAR 2023</span>
+        </div>
+        <span class="trend-sub" style="color:#0284c7;">マンジャロ登場、日本初の手汗外用薬アポハイド、骨粗鬆症オスタバロ、アトピー抗体</span>
+      </div>
+
+      <table class="newdrug-table">
+        <thead>
+          <tr style="background:#f0f9ff;">
+            <th style="width:22%;">新薬名・一般名・発売年月</th>
+            <th style="width:38%;">何が革命的なのか？（従来の薬との違い・脳内翻訳）</th>
+            <th style="width:40%;">薬局カウンターでの必須指導＆ピットフォール</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- アドトラーザ -->
+          <tr class="trend-row t-derm yr-2023" data-date="2023-12">
+            <td>
+              <span class="badge" style="background:#0284c7; color:white; font-size:0.75rem; font-weight:800;">📅 2023年12月発売</span><br>
+              <span class="drug-name">アドトラーザ皮下注</span>
+              <span class="gen-name">（トラロキヌマブ）</span>
+              <span class="tag-mech">完全ヒト型抗IL-13モノクローナル抗体</span>
+            </td>
+            <td>
+              <span class="tag-new">アトピーのTh2炎症サイトカインIL-13を完全選択的に中和</span><br>
+              デュピクセントに続くアトピー抗体薬の第2の選択肢。IL-13のみを標的とするため、維持期には状態良好なら4週に1回投与へステップダウン可能。
+            </td>
+            <td>
+              ・<strong>初期用量：</strong>初回600mg（4本）、以降2週ごとに300mg（2本）。維持期（16週後）は4週ごと検討可。<br>
+              <div class="pitfall-box">⚠️ <strong>自己注射指導：</strong>プレフィルドシリンジ製剤。冷蔵庫から出して30分室温に戻してから注射（冷たいまま打つと痛い）。</div>
+            </td>
+          </tr>
+
+          <!-- レケンビ -->
+          <tr class="trend-row t-neuro yr-2023" data-date="2023-12">
+            <td>
+              <span class="badge" style="background:#0284c7; color:white; font-size:0.75rem; font-weight:800;">📅 2023年12月発売</span><br>
+              <span class="drug-name">レケンビ点滴静注</span>
+              <span class="gen-name">（レカネマブ）</span>
+              <span class="tag-mech">ヒト化抗アミロイドβプロトフィブリル抗体</span>
+            </td>
+            <td>
+              <span class="tag-new">アルツハイマー病の「根本原因物質（Aβ）」を脳内から直接除去</span><br>
+              これまでのドネペジル等は症状を一時的にごまかす対症療法だったが、レケンビは脳内の毒性アミロイドβ凝集体を貪食除去し、<strong>病気の進行そのものを27%有意に遅らせる世界初疾患修飾薬</strong>！
+            </td>
+            <td>
+              ・<strong>対象：</strong>軽度認知障害（MCI）および軽度認知症（早期診断必須）。<br>
+              <div class="pitfall-box">⚠️ <strong>重大副作用ARIA：</strong>アミロイド関連画像異常（ARIA：脳浮腫ARIA-E、脳微小出血ARIA-H）の定期MRIモニタリングが必須。頭痛・めまい・視覚異常の聞き取り。</div>
+            </td>
+          </tr>
+
+          <!-- アポハイド -->
+          <tr class="trend-row t-derm yr-2023" data-date="2023-06">
+            <td>
+              <span class="badge" style="background:#0284c7; color:white; font-size:0.75rem; font-weight:800;">📅 2023年6月発売</span><br>
+              <span class="drug-name">アポハイドローション 20%</span>
+              <span class="gen-name">（オキシブチニン塩酸塩）</span>
+              <span class="tag-mech">日本初の原発性手掌多汗症治療外用薬</span>
+            </td>
+            <td>
+              <span class="tag-new">「手汗で紙が破れる・人と握手できない」若者の悩みを解消</span><br>
+              手のひらのエクリン汗腺にあるムスカリンM3受容体を直接遮断。これまで塩化アルミニウム（院内製剤）しかなかった手汗治療に、初めて保険適用の外用液が登場！
+            </td>
+            <td>
+              ・<strong>用法：</strong>1日1回 <strong>就寝前</strong>に手のひら全体へ塗布（両手で5プッシュ）。翌朝流水で洗い流す。<br>
+              <div class="pitfall-box">⚠️ <strong>目に入ると散瞳・羞明！：</strong>塗布後、薬液がついた手で目を絶対に触らない！起床後すぐ石鹸で手洗いを徹底させる。口渇・便秘の全身抗コリン症状にも注意。</div>
+            </td>
+          </tr>
+
+          <!-- オスタバロ -->
+          <tr class="trend-row t-neuro yr-2023" data-date="2023-05">
+            <td>
+              <span class="badge" style="background:#0284c7; color:white; font-size:0.75rem; font-weight:800;">📅 2023年5月発売</span><br>
+              <span class="drug-name">オスタバロ皮下注</span>
+              <span class="gen-name">（アバロパラチド酢酸塩）</span>
+              <span class="tag-mech">ヒト副甲状腺ホルモン関連タンパク質（PTHrP）誘導体</span>
+            </td>
+            <td>
+              <span class="tag-new">フォルテオの進化版！「骨を造る力」がさらに強力＆高血カルシウム低減</span><br>
+              テリパラチド（フォルテオ）と同じ骨形成促進薬だが、PTH1受容体への結合持続性が短く設計されているため、<strong>「骨吸収を刺激せず、骨形成だけを選択的に最大化」</strong>！大腿骨近位部の骨密度増加がより顕著。
+            </td>
+            <td>
+              ・<strong>投与期間：</strong>生涯で<strong>最長18ヶ月間</strong>まで（テリパラチドは24ヶ月）。<br>
+              <div class="pitfall-box">⚠️ <strong>起立性低血圧と自己注射：</strong>投与初期（特に初回〜数回）に一過性の血圧低下・めまい・ふらつきが起きやすいため、初回は院内投与推奨。投与後は座るか横になる。</div>
+            </td>
+          </tr>
+
+          <!-- マンジャロ -->
+          <tr class="trend-row t-meta yr-2023" data-date="2023-04">
+            <td>
+              <span class="badge" style="background:#0284c7; color:white; font-size:0.75rem; font-weight:800;">📅 2023年4月発売</span><br>
+              <span class="drug-name">マンジャロ皮下注</span>
+              <span class="gen-name">（チルゼパチド）</span>
+              <span class="tag-mech">世界初 GIP/GLP-1受容体デュアル作動薬</span>
+            </td>
+            <td>
+              <span class="tag-new">血糖降下・体重減少ともに既存薬を完全に凌駕した絶対王者</span><br>
+              従来のGLP-1単独にGIP作用を融合。食欲抑制、インスリン分泌促進、脂肪分解促進の三重奏。HbA1cが2%以上下がり、体重が10kg以上減る事例が多発し糖尿病ガイドラインを一変させた。
+            </td>
+            <td>
+              ・<strong>段階的増量ルール：</strong>週1回 <strong>2.5mg（導入用量）を必ず4週間継続</strong>してから5mgへ増量（急な増量は重症嘔吐必発！）。<br>
+              <div class="pitfall-box">⚠️ <strong>サルコペニア・胆石症注意：</strong>高齢者での過度な体重減少（筋肉量減少・フレイル）に警戒。急激な痩せに伴う<strong>胆石発作（右季肋部激痛）</strong>の有無をモニタリング。使い切りアテオス針内蔵。</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ==========================================
+         BLOCK 3: 2022年 発売・注目新薬
+         ========================================== -->
+    <div class="trend-section yr-2022 page-break" style="margin-bottom:30px;">
+      <div class="trend-header" style="border-bottom:2px solid #10b981; padding-bottom:8px; margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h2 class="trend-title" style="color:#047857; font-size:1.25rem; font-weight:800; margin:0;">
+            🌟 【2022年 発売薬】片頭痛レイボー・DKDケレンディア・アトピーモイゼルト
+          </h2>
+          <span class="badge" style="background:#10b981; color:white; font-size:0.75rem;">YEAR 2022</span>
+        </div>
+        <span class="trend-sub" style="color:#047857;">血管収縮しない片頭痛レイボー、慢性咳リフヌア、多汗症ラピフォート</span>
+      </div>
+
+      <table class="newdrug-table">
+        <thead>
+          <tr style="background:#f0fdf4;">
+            <th style="width:22%;">新薬名・一般名・発売年月</th>
+            <th style="width:38%;">何が革命的なのか？（従来の薬との違い・脳内翻訳）</th>
+            <th style="width:40%;">薬局カウンターでの必須指導＆ピットフォール</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ケレンディア -->
+          <tr class="trend-row t-meta yr-2022" data-date="2022-06">
+            <td>
+              <span class="badge" style="background:#10b981; color:white; font-size:0.75rem; font-weight:800;">📅 2022年6月発売（2024年心不全追加）</span><br>
+              <span class="drug-name">ケレンディア錠</span>
+              <span class="gen-name">（フィネレノン）</span>
+              <span class="tag-mech">非ステロイド型選択的MRA</span>
+            </td>
+            <td>
+              <span class="tag-new">糖尿病性腎臓病（DKD）の炎症・線維化を止める心腎保護薬</span><br>
+              従来のスピロノラクトンと違い、血圧降下作用は極めてマイルドで、<strong>腎臓と心臓のミネラルコルチコイド受容体過剰活性化を選択的にブロック</strong>して尿蛋白・腎死・心血管死を激減させる。
+            </td>
+            <td>
+              ・<strong>開始用量：</strong>eGFR ≥ 60なら20mg、<strong>eGFR 25〜60未満なら10mg</strong>から開始。<br>
+              <div class="pitfall-box">⚠️ <strong>高K血症とグレープフルーツ：</strong>MRAのため<strong>血清カリウム値（K値）上昇</strong>が最大の監視項目。CYP3A4代謝のためグレープフルーツジュース（GFJ）は避けるよう指導。</div>
+            </td>
+          </tr>
+
+          <!-- レイボー -->
+          <tr class="trend-row t-neuro yr-2022" data-date="2022-06">
+            <td>
+              <span class="badge" style="background:#10b981; color:white; font-size:0.75rem; font-weight:800;">📅 2022年6月発売</span><br>
+              <span class="drug-name">レイボー錠</span>
+              <span class="gen-name">（ラスミジタン）</span>
+              <span class="tag-mech">5-HT1F受容体作動薬（ジタン系）</span>
+            </td>
+            <td>
+              <span class="tag-new">トリプタンを使えなかった「心臓病・脳卒中・高齢者」でも使える片頭痛薬</span><br>
+              トリプタンは5-HT1B受容体を刺激して血管を収縮させるため虚血性心疾患・脳梗塞既往には禁忌だった。レイボーは<strong>5-HT1F選択的刺激のため血管を収縮させず神経原性炎症のみ遮断</strong>する！
+            </td>
+            <td>
+              ・<strong>用法：</strong>頭痛発作時に50mgまたは100mgを内服。<br>
+              <div class="pitfall-box">⚠️ <strong>激しいめまい・眠気（運転禁止！）：</strong>中枢移行性が高いため<strong>服用後の「めまい・ふらつき・強い眠気」が必発</strong>（約30〜40%）。服用後の自動車運転・高所作業は絶対禁止。発作時に横になれる環境で飲むよう指導。</div>
+            </td>
+          </tr>
+
+          <!-- モイゼルト -->
+          <tr class="trend-row t-derm yr-2022" data-date="2022-06">
+            <td>
+              <span class="badge" style="background:#10b981; color:white; font-size:0.75rem; font-weight:800;">📅 2022年6月発売</span><br>
+              <span class="drug-name">モイゼルト軟膏 0.3% / 1%</span>
+              <span class="gen-name">（ジファミラスト）</span>
+              <span class="tag-mech">外用ホスホジエステラーゼ4（PDE4）阻害薬</span>
+            </td>
+            <td>
+              <span class="tag-new">小児（生後3ヶ月〜）から全身・顔にも安全に使える非ステロイド外用薬</span><br>
+              細胞内のcAMPを増やして炎症性サイトカイン産生を抑制。ステロイド特有の「皮膚萎縮」「毛細血管拡張」が一切なく、プロトピックのような「激しい灼熱感・ヒリヒリ感」も極めて少ない。
+            </td>
+            <td>
+              ・<strong>用法：</strong>1日2回 患部に塗布（小児0.3%、成人1%）。顔や首のデリケートゾーンにも長期連用可能。
+            </td>
+          </tr>
+
+          <!-- ラピフォート -->
+          <tr class="trend-row t-derm yr-2022" data-date="2022-05">
+            <td>
+              <span class="badge" style="background:#10b981; color:white; font-size:0.75rem; font-weight:800;">📅 2022年5月発売</span><br>
+              <span class="drug-name">ラピフォートワイプ 2.5%</span>
+              <span class="gen-name">（グリコピロニウムトシル酸塩）</span>
+              <span class="tag-mech">原発性腋窩多汗症用 不織布ワイプ剤</span>
+            </td>
+            <td>
+              <span class="tag-new">「シートでサッと拭くだけ」でワキ汗を1日止める使い切りワイプ</span><br>
+              エクロックゲルに続く第2の外用抗コリン薬。1包に1枚の使い捨て不織布が入っており、両脇をサッと一拭きして捨てるだけなので持ち運びや外出先での使い勝手が抜群。
+            </td>
+            <td>
+              ・<strong>使用方法：</strong>1日1回、1包を開封して両方の脇の下を1回ずつ拭き取る。<br>
+              <div class="pitfall-box">⚠️ <strong>使用後の手指洗浄：</strong>薬剤がついた手で目をこすると<strong>「散瞳・目の調節障害・まぶしさ」</strong>が起きるため、拭き取った後は直ちに手を洗うことを徹底指導。</div>
+            </td>
+          </tr>
+
+          <!-- リフヌア -->
+          <tr class="trend-row t-derm yr-2022" data-date="2022-04">
+            <td>
+              <span class="badge" style="background:#10b981; color:white; font-size:0.75rem; font-weight:800;">📅 2022年4月発売</span><br>
+              <span class="drug-name">リフヌア錠 45mg</span>
+              <span class="gen-name">（ゲーファピキサント）</span>
+              <span class="tag-mech">世界初 P2X3受容体拮抗薬</span>
+            </td>
+            <td>
+              <span class="tag-new">あらゆる咳止め（メジコン、リンコデ等）が無効だった「難治性慢性咳」の特効薬</span><br>
+              迷走神経末端のP2X3受容体を直接ブロックし、気道知覚神経の過敏化を遮断。風邪が治った後も何ヶ月も止まらない頑固な咳を止める。
+            </td>
+            <td>
+              ・<strong>用法：</strong>1回45mgを1日2回。<br>
+              <div class="pitfall-box">⚠️ <strong>味覚障害が高頻度（約60%）：</strong>味を感じにくい、苦味を感じるなどの<strong>「味覚障害」</strong>が半数以上に出る。事前に「薬が効いている証拠で中止すれば元に戻る」と予告しておくことが継続の鍵。</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ==========================================
+         BLOCK 4: 2020〜2021年 パラダイムシフト新薬
+         ========================================== -->
+    <div class="trend-section yr-classic page-break" style="margin-bottom:30px;">
+      <div class="trend-header" style="border-bottom:2px solid #6366f1; padding-bottom:8px; margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h2 class="trend-title" style="color:#4338ca; font-size:1.25rem; font-weight:800; margin:0;">
+            💡 【2020〜2021年 変革薬】ガイドラインを塗り替えた定番新薬たち
+          </h2>
+          <span class="badge" style="background:#6366f1; color:white; font-size:0.75rem;">YEAR 2020-2021</span>
+        </div>
+        <span class="trend-sub" style="color:#4338ca;">ツイミーグ、ベリキューボ、エンレスト、CGRP抗体、エクロック、コレクチム</span>
+      </div>
+
+      <table class="newdrug-table">
+        <thead>
+          <tr style="background:#f8fafc;">
+            <th style="width:22%;">新薬名・一般名・発売年月</th>
+            <th style="width:38%;">何が革命的なのか？（従来の薬との違い・脳内翻訳）</th>
+            <th style="width:40%;">薬局カウンターでの必須指導＆ピットフォール</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ツイミーグ -->
+          <tr class="trend-row t-meta yr-classic" data-date="2021-09">
+            <td>
+              <span class="badge" style="background:#6366f1; color:white; font-size:0.75rem; font-weight:800;">📅 2021年9月発売</span><br>
+              <span class="drug-name">ツイミーグ錠 500mg</span>
+              <span class="gen-name">（イメグリミン）</span>
+              <span class="tag-mech">ミトコンドリア機能改善薬（グリミン系）</span>
+            </td>
+            <td>
+              <span class="tag-new">日本人が得意な「分泌促進＋抵抗性改善」の二刀流</span><br>
+              メトホルミンと構造が似ているが全く新しいクラス。膵β細胞のミトコンドリアに働いて<strong>「高血糖時のみインスリン分泌を助け」</strong>つつ、肝臓・骨格筋でのインスリン感受性も改善。
+            </td>
+            <td>
+              ・<strong>用法：</strong>1回1000mg（2錠）を1日2回 朝・夕。<br>
+              <div class="pitfall-box">⚠️ <strong>メトホルミン併用と腎機能：</strong>メトホルミンと併用すると消化器症状（悪心・下痢）が倍増。腎排泄のため<strong>eGFR 45未満は投与非推奨</strong>（実質使用不可）である点がメトホルミン（eGFR 30まで可）より厳しいので監査注意！</div>
+            </td>
+          </tr>
+
+          <!-- ベリキューボ -->
+          <tr class="trend-row t-meta yr-classic" data-date="2021-09">
+            <td>
+              <span class="badge" style="background:#6366f1; color:white; font-size:0.75rem; font-weight:800;">📅 2021年9月発売</span><br>
+              <span class="drug-name">ベリキューボ錠</span>
+              <span class="gen-name">（ベルイシグアト）</span>
+              <span class="tag-mech">可溶性グアニル酸シクラーゼ（sGC）刺激薬</span>
+            </td>
+            <td>
+              <span class="tag-new">ファンタスティック4でも再入院してしまう難治性心不全の第5の矢</span><br>
+              心不全悪化による入院歴がある患者に対し、血管や心筋細胞内のcGMP産生を直接増やして心筋リモデリングと線維化を抑える。
+            </td>
+            <td>
+              ・<strong>食後服用厳守：</strong>空腹時だとバイオアベイラビリティが大幅低下。<br>
+              <div class="pitfall-box">⚠️ <strong>PDE5阻害薬併用禁忌：</strong>シアリス、ザルティア（タダラフィル）等とは血圧急低下のため絶対禁忌！前立腺肥大症の併用薬チェックが必須。</div>
+            </td>
+          </tr>
+
+          <!-- エムガルティ等 -->
+          <tr class="trend-row t-neuro yr-classic" data-date="2021-04">
+            <td>
+              <span class="badge" style="background:#6366f1; color:white; font-size:0.75rem; font-weight:800;">📅 2021年4月〜8月発売</span><br>
+              <span class="drug-name">エムガルティ / アジョビ / アイモビーグ</span>
+              <span class="gen-name">（ガルカネズマブ / フレマネズマブ / エレヌマブ）</span>
+              <span class="tag-mech">CGRP関連モノクローナル抗体（皮下注）</span>
+            </td>
+            <td>
+              <span class="tag-new">片頭痛の発生物質CGRPを先制中和し「頭痛日数をゼロに近づける」</span><br>
+              従来の予防薬（バルプロ酸、ミグシス等）と比べ圧倒的な予防効果。月1回皮下注射（アジョビは3ヶ月に1回も可）で、鎮痛薬乱用頭痛（MOH）から患者を救い出す。
+            </td>
+            <td>
+              ・<strong>初期用量：</strong>エムガルティは初回2本（240mg）、以降1ヶ月に1本（120mg）皮下注射。<br>
+              <div class="pitfall-box">⚠️ <strong>注射部位反応：</strong>穿刺部の発赤・腫れが主副作用。オートインジェクター（ペン型）は室温に戻してから注射。高額療養費制度の案内が喜ばれる。</div>
+            </td>
+          </tr>
+
+          <!-- エクロック -->
+          <tr class="trend-row t-derm yr-classic" data-date="2020-11">
+            <td>
+              <span class="badge" style="background:#6366f1; color:white; font-size:0.75rem; font-weight:800;">📅 2020年11月発売</span><br>
+              <span class="drug-name">エクロックゲル 5%</span>
+              <span class="gen-name">（ソフピロニウム臭化物）</span>
+              <span class="tag-mech">日本初の原発性腋窩多汗症外用薬</span>
+            </td>
+            <td>
+              <span class="tag-new">ワキ汗に悩む患者へ日本で初めて保険適用された記念碑的ゲル</span><br>
+              エクリン汗腺のM3受容体をブロック。ツイストボトルからアプリケーターにゲルを出し、手を使わずに直接ワキに塗れる工夫された容器。
+            </td>
+            <td>
+              ・<strong>用法：</strong>1日1回 両脇に塗布。塗布後はしっかり乾かしてから衣服を着る。
+            </td>
+          </tr>
+
+          <!-- エンレスト -->
+          <tr class="trend-row t-meta yr-classic" data-date="2020-08">
+            <td>
+              <span class="badge" style="background:#6366f1; color:white; font-size:0.75rem; font-weight:800;">📅 2020年8月発売（2021年高血圧追加）</span><br>
+              <span class="drug-name">エンレスト錠</span>
+              <span class="gen-name">（サクビトリルバルサルタン）</span>
+              <span class="tag-mech">ARNI（アンジオテンシン受容体ネプリライシン阻害薬）</span>
+            </td>
+            <td>
+              <span class="tag-new">心不全F4の中核から「難治性高血圧」の切り札へ大躍進</span><br>
+              ネプリライシン阻害で心房性ナトリウム利尿ペプチド（ANP/BNP）を保護しつつARBで降圧。心不全死亡率低下に加え、クリニックの高血圧治療で爆発的普及。
+            </td>
+            <td>
+              ・<strong>用量：</strong>高血圧は1日1回200mg（最大400mg）。心不全は1回50mg×2回から漸増。<br>
+              <div class="pitfall-box">⚠️ <strong>ACE阻害薬から36時間休薬必須：</strong>ブラジキニン二重阻害による致死性血管浮腫を避けるため、切り替え時は36時間以上の間隔厳守！初期のふらつき低血圧に注意。</div>
+            </td>
+          </tr>
+
+          <!-- コレクチム -->
+          <tr class="trend-row t-derm yr-classic" data-date="2020-06">
+            <td>
+              <span class="badge" style="background:#6366f1; color:white; font-size:0.75rem; font-weight:800;">📅 2020年6月発売</span><br>
+              <span class="drug-name">コレクチム軟膏 0.5% / 0.25%</span>
+              <span class="gen-name">（デルゴシチニブ）</span>
+              <span class="tag-mech">世界初 外用ヤヌスキナーゼ（JAK）阻害薬</span>
+            </td>
+            <td>
+              <span class="tag-new">アトピー治療にステロイド・プロトピック以来の「第3の柱」を確立</span><br>
+              JAK1/2/3/Tyk2のすべてを阻害し、かゆみと炎症の細胞内シグナルを根元から遮断。顔・首・まぶたの薄い皮膚にもステロイドの皮膚菲薄化なしに長期塗布可能。
+            </td>
+            <td>
+              ・<strong>用法：</strong>1日2回 患部に塗布（1回あたり5gまで）。小児用0.25%あり。
+            </td>
+          </tr>
+
+          <!-- ロケルマ -->
+          <tr class="trend-row t-other yr-classic" data-date="2020-05">
+            <td>
+              <span class="badge" style="background:#6366f1; color:white; font-size:0.75rem; font-weight:800;">📅 2020年5月発売</span><br>
+              <span class="drug-name">ロケルマ懸濁用散</span>
+              <span class="gen-name">（ジルコニウムシクロケイ酸ナトリウム）</span>
+              <span class="tag-mech">非ポリマー性無機陽イオン交換化合物（高カリウム血症薬）</span>
+            </td>
+            <td>
+              <span class="tag-new">まずい・便秘するケイキサレートからの解放！わずか1時間でKを下げる</span><br>
+              従来の樹脂性K吸着薬と違い、結晶構造の孔サイズがK+イオンと完全一致する「分子ふるい」設計。胃腸で膨張せず、無味無臭で水にサッと溶け、服用1時間後から急速に血清Kを下げる。
+            </td>
+            <td>
+              ・<strong>用法：</strong>開始時は1回10g×1日3回を食後（最大48時間）、維持期は1日1回5g。<br>
+              <div class="pitfall-box">⚠️ <strong>Na含有による浮腫：</strong>本剤はKと引き換えにNaを放出するため、心不全や重度腎不全患者での<strong>「むくみ・体液貯留・血圧上昇」</strong>に注意。他剤との内服間隔2時間空け推奨。</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

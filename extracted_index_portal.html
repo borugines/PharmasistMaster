@@ -1,0 +1,651 @@
+﻿```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>薬学実務実習 マスターポータル（サジェスト検索＆統合ランチャー）</title>
+<style>
+  :root {
+    --primary: #0f172a;
+    --secondary: #1e3a8a;
+    --accent: #0284c7;
+    --highlight: #f59e0b;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --text: #1e293b;
+    --border: #cbd5e1;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ヒーローヘッダー＆サジェスト検索エリア */
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: white;
+    padding: 35px 20px 45px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(56, 189, 248, 0.2);
+    border: 1px solid #38bdf8;
+    color: #38bdf8;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .hero h1 { font-size: 1.8rem; margin-bottom: 8px; letter-spacing: 0.5px; }
+  .hero p { font-size: 0.95rem; color: #cbd5e1; margin-bottom: 25px; }
+
+  /* 検索ボックス＆オートコンプリート（サジェスト） */
+  .search-wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+    text-align: left;
+  }
+  .search-box-container {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 50px;
+    padding: 6px 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    border: 3px solid transparent;
+    transition: 0.2s;
+  }
+  .search-box-container:focus-within { border-color: #38bdf8; }
+  .search-icon { font-size: 1.3rem; margin-right: 12px; color: #64748b; }
+  .search-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 1.05rem;
+    padding: 10px 0;
+    color: var(--primary);
+  }
+  .clear-btn {
+    background: #e2e8f0;
+    border: none;
+    color: #475569;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    font-weight: bold;
+    display: none;
+  }
+
+  /* サジェストドロップダウンリスト */
+  .suggest-list {
+    position: absolute;
+    top: 62px;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    max-height: 380px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    border: 1px solid var(--border);
+  }
+  .suggest-item {
+    padding: 12px 18px;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.15s;
+    color: var(--text);
+  }
+  .suggest-item:hover, .suggest-item.active { background: #eff6ff; }
+  .suggest-name { font-weight: bold; font-size: 1rem; color: var(--secondary); }
+  .suggest-gen { font-size: 0.85rem; color: #64748b; margin-left: 8px; }
+  .suggest-cat {
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  /* 薬のクイックタグ */
+  .quick-tags {
+    max-width: 720px;
+    margin: 12px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+  }
+  .quick-tags span { font-size: 0.8rem; color: #94a3b8; }
+  .q-tag {
+    background: rgba(255,255,255,0.12);
+    color: #f8fafc;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .q-tag:hover { background: #38bdf8; color: var(--primary); font-weight: bold; }
+
+  .container { max-width: 1200px; margin: 25px auto; padding: 0 20px; }
+
+  /* 選択された薬の詳細ポップアップカード */
+  #drugDetailCard {
+    display: none;
+    background: #fffbeb;
+    border: 2px solid #f59e0b;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 15px rgba(245, 158, 11, 0.15);
+    animation: fadeIn 0.25s ease-in-out;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px dashed #fcd34d;
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+  }
+  .detail-title { font-size: 1.4rem; font-weight: 800; color: #92400e; }
+  .detail-char {
+    display: inline-block;
+    background: #f59e0b;
+    color: white;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+  .detail-body { font-size: 0.95rem; margin-bottom: 15px; color: #1e293b; }
+  .detail-links { display: flex; gap: 10px; flex-wrap: wrap; }
+  .jump-btn {
+    background: var(--secondary);
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .jump-btn:hover { background: var(--accent); }
+
+  /* 4大ツールランチャーグリッド */
+  .launcher-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+  }
+  .launcher-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 5px solid var(--accent);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.2s;
+  }
+  .launcher-card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.08); }
+  .launcher-card.c1 { border-top-color: #2563eb; }
+  .launcher-card.c2 { border-top-color: #0d9488; }
+  .launcher-card.c3 { border-top-color: #9333ea; }
+  .launcher-card.c4 { border-top-color: #e11d48; }
+
+  .l-badge { font-size: 0.75rem; font-weight: bold; color: #64748b; margin-bottom: 5px; display: block; }
+  .launcher-card h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 10px; }
+  .launcher-card p { font-size: 0.85rem; color: #475569; margin-bottom: 15px; }
+  .btn-group { display: flex; gap: 8px; }
+  .btn-preview {
+    flex: 1;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .btn-preview:hover { background: #334155; }
+  .btn-newtab {
+    background: #e2e8f0;
+    color: var(--primary);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: bold;
+    text-align: center;
+  }
+  .btn-newtab:hover { background: #cbd5e1; }
+
+  /* 画面内統合ビューア（iframeエリア） */
+  .viewer-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  .viewer-bar {
+    background: #1e293b;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .viewer-title { font-weight: bold; font-size: 0.95rem; color: #38bdf8; }
+  .viewer-frame {
+    width: 100%;
+    height: 750px;
+    border: none;
+    display: block;
+  }
+
+  /* 全薬剤一覧モーダル（辞書一覧） */
+  .dict-toggle {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .dict-btn {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--secondary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  }
+  .dict-btn:hover { background: #eff6ff; }
+  #allDrugsGrid {
+    display: none;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .mini-drug {
+    border: 1px solid #e2e8f0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.15s;
+  }
+  .mini-drug:hover { background: #eff6ff; border-color: #93c5fd; }
+
+  @media (max-width: 900px) {
+    .launcher-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .launcher-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ヒーロー＆サジェスト検索セクション -->
+<div class="hero">
+  <span class="hero-badge">🎓 薬学実務実習 コンプリート・ナレッジベース</span>
+  <h1>💊 10疾患 臨床思考＆処方解析マスターポータル</h1>
+  <p>ガイドラインの「型」から、適応外の「ウラ読み」、同効薬の「キャラ立ち」までを一瞬で引き出す秘密基地</p>
+
+  <div class="search-wrapper">
+    <div class="search-box-container">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="drugSearch" class="search-input" placeholder="薬の名前（先発・一般名）やキーワードを入力…（例：フォシーガ、ハルナール、むくみ、寝る前）" autocomplete="off">
+      <button id="clearBtn" class="clear-btn" onclick="clearSearch()">×</button>
+    </div>
+    <!-- サジェスト候補リスト -->
+    <div id="suggestList" class="suggest-list"></div>
+  </div>
+
+  <div class="quick-tags">
+    <span>🔥 よく検索されるカメレオン薬：</span>
+    <button class="q-tag" onclick="selectDrugByName('フォシーガ')">フォシーガ</button>
+    <button class="q-tag" onclick="selectDrugByName('ハルナール')">ハルナール（女性）</button>
+    <button class="q-tag" onclick="selectDrugByName('ジプレキサ')">ジプレキサ（少量）</button>
+    <button class="q-tag" onclick="selectDrugByName('アルダクトンA')">アルダクトンA</button>
+    <button class="q-tag" onclick="selectDrugByName('バルトレックス')">バルトレックス</button>
+    <button class="q-tag" onclick="selectDrugByName('エリキュース')">エリキュース</button>
+    <button class="q-tag" onclick="selectDrugByName('アテレック')">アテレック</button>
+    <button class="q-tag" onclick="selectDrugByName('デエビゴ')">デエビゴ</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- サジェストから選んだ薬の「即答プロファイリングカード」 -->
+  <div id="drugDetailCard">
+    <div class="detail-header">
+      <div>
+        <div class="detail-title" id="dTitle">薬剤名</div>
+        <span class="detail-char" id="dChar">キャラ設定</span>
+      </div>
+      <button onclick="document.getElementById('drugDetailCard').style.display='none'" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#92400e;">✕</button>
+    </div>
+    <div class="detail-body" id="dBody">解説テキスト</div>
+    <div class="detail-links">
+      <button class="jump-btn" id="btnJumpGuide">📘 ① 10疾患ガイドで開く</button>
+      <button class="jump-btn" id="btnJumpProf" style="background:#7e22ce;">🕵️‍♂️ ③ 処方プロファイリングで開く</button>
+      <button class="jump-btn" id="btnJumpComp" style="background:#be123c;">⚔️ ④ 同効薬比較マトリクスで開く</button>
+    </div>
+  </div>
+
+  <!-- 収録薬剤インデックス展開ボタン -->
+  <div class="dict-toggle">
+    <button class="dict-btn" onclick="toggleAllDrugs()">📖 収録されている全薬剤リスト（約80種）を一覧から選ぶ ▼</button>
+  </div>
+  <div id="allDrugsGrid"></div>
+
+  <!-- 4大シート ランチャー -->
+  <div class="launcher-grid">
+    <div class="launcher-card c1">
+      <div>
+        <span class="l-badge">Sheet 01 / 基礎〜応用</span>
+        <h3>📘 10疾患「脳内翻訳」ガイド</h3>
+        <p>ガイドラインの標準治療から、適応外処方のウラ読み、先輩の勘所までをウィットに富んだ比喩でまとめたメインテキスト。</p>
+      </div>
+      <div class="btn-group">
+        <button class="btn-preview" onclick="loadSheet('witty_pharma_guide.html', '📘 10疾患「現場の脳内翻訳」ガイド')">画面下に表示</button>
+        <a href="witty_pharma_guide.html" target="_blank" class="btn-newtab">別タブ ↗</a>
+      </div>
+    </div>
+
+    <div class="launcher-card c2">
+      <div>
+        <span class="l-badge">Sheet 02 / 指導者用カンペ</span>
+        <h3>📖 10の問いかけ Answer Book</h3>
+        <p>各疾患の最後にある「実習生への問いかけ」の模範解答と、患者説明にそのまま使える比喩・指導薬剤師のドヤ顔ポイント集。</p>
+      </div>
+      <div class="btn-group">
+        <button class="btn-preview" onclick="loadSheet('answer_book.html', '📖 【指導薬剤師用】10の問いかけ Answer Book')">画面下に表示</button>
+        <a href="answer_book.html" target="_blank" class="btn-newtab">別タブ ↗</a>
+      </div>
+    </div>
+
+    <div class="launcher-card c3">
+      <div>
+        <span class="l-badge">Sheet 03 / 処方から病態を逆算</span>
+        <h3>🕵️‍♂️ 処方箋プロファイリング</h3>
+        <p>複数の顔を持つ「カメレオン薬剤」の鑑別表と、処方レシピから患者の病態・重症度・第一声を導き出す逆引きチャート。</p>
+      </div>
+      <div class="btn-group">
+        <button class="btn-preview" onclick="loadSheet('prescription_profiler.html', '🕵️‍♂️ 処方箋プロファイリング＆病態逆引きチャート')">画面下に表示</button>
+        <a href="prescription_profiler.html" target="_blank" class="btn-newtab">別タブ ↗</a>
+      </div>
+    </div>
+
+    <div class="launcher-card c4">
+      <div>
+        <span class="l-badge">Sheet 04 / 使い分けの極意</span>
+        <h3>⚔️ 分類間＆同効薬ガチンコ比較</h3>
+        <p>「なぜ他のARBではなくミカルディスなのか？」「DOAC 4兄弟の減量基準と違いは？」を完全整理した比較マトリクス。</p>
+      </div>
+      <div class="btn-group">
+        <button class="btn-preview" onclick="loadSheet('drug_comparison_matrix.html', '⚔️ 分類間＆同効薬ガチンコ比較マトリクス')">画面下に表示</button>
+        <a href="drug_comparison_matrix.html" target="_blank" class="btn-newtab">別タブ ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- シート統合プレビュー領域 -->
+  <div class="viewer-section">
+    <div class="viewer-bar">
+      <span class="viewer-title" id="viewerTitle">📘 現在表示中：10疾患「現場の脳内翻訳」ガイド</span>
+      <button onclick="document.getElementById('sheetFrame').contentWindow.print()" style="background:#10b981;color:white;border:none;padding:6px 14px;border-radius:5px;font-weight:bold;cursor:pointer;">🖨️ 表示中のこのシートを印刷</button>
+    </div>
+    <iframe id="sheetFrame" class="viewer-frame" src="witty_pharma_guide.html"></iframe>
+  </div>
+
+</div>
+
+<script>
+  // =========================================================================
+  // 収録全薬剤のマスターデータベース（先発名・一般名・分類・キャラ・解説・リンク先）
+  // =========================================================================
+  const DRUG_DB = [
+    // 1. 悪性腫瘍・緩和
+    { name: "ティーエスワン (S-1)", gen: "テガフール・ギメラシル・オテラシル", cat: "1. 悪性腫瘍", char: "戦国武将の3人組（主役・ボディガード・胃腸の盾）", desc: "休薬期間厳守の経口抗がん薬。ボディガードの「ギメラシル（DPD阻害）」が腎排泄のため、腎機能低下時は5-FUが蓄積して猛烈な骨髄抑制・下痢を起こす！", gId: "c1", cSec: "sec-onc" },
+    { name: "ゼローダ", gen: "カペシタビン", cat: "1. 悪性腫瘍", char: "腫瘍内で5-FUに変わるプロドラッグ", desc: "大腸がん（XELOX等）・乳がんの主力。手足症候群（手のひらや足の裏の赤み・ひび割れ）の予防に保湿剤がセットで出る。", gId: "c1", cSec: "sec-onc" },
+    { name: "タグリッソ", gen: "オシメルチニブ", cat: "1. 悪性腫瘍", char: "EGFR変異陽性肺がんのエース", desc: "ざ瘡様皮疹・爪囲炎を防ぐため、初日からステロイド外用薬＋保湿剤＋ミノサイクリン内服（先制治療）がセットになりやすい。間質性肺炎に注意。", gId: "c1", cSec: "sec-onc" },
+    { name: "ジプレキサ", gen: "オランザピン", cat: "1. がん / 6. 精神", char: "最強の制吐薬 兼 抗精神病薬（糖尿病禁忌！）", desc: "【カメレオン薬】10〜20mgなら統合失調症・双極性障害。2.5〜5mg（寝る前）で抗がん薬と一緒なら「最強の遅発性悪心・嘔吐止め」！ただし糖尿病患者には絶対禁忌！", gId: "c1", cSec: "sec-onc" },
+    { name: "オキシコンチン / オキノーム", gen: "オキシコドン", cat: "1. 悪性腫瘍（緩和）", char: "内服強オピオイドの絶対的スタンダード", desc: "定時薬（オキシコンチン）でベースの痛みを抑え、突発痛にレスキュー（オキノーム：1日量の1/6〜1/10）を使う。便秘対策（スインプロイクや酸化Mg）が必須。", gId: "c1", cSec: "sec-onc" },
+    { name: "フェントス / デュロテップ", gen: "フェンタニル", cat: "1. 悪性腫瘍（緩和）", char: "腎不全でも安心＆便秘が少ない貼付型麻薬", desc: "肝代謝で活性代謝物がないため腎機能低下時のオピオイドスイッチング先として最適。貼付部位をカイロ等で温めると過量吸収されて呼吸抑制を起こす点に注意！", gId: "c1", cSec: "sec-onc" },
+    { name: "タペンタ", gen: "タペンタドール", cat: "1. 悪性腫瘍（緩和）", char: "オピオイド＋ノルアドレナリン再取り込み阻害の二刀流", desc: "がんによる「ビリビリする神経障害性疼痛」を伴う痛みに抜群。CYPを介さないため薬物相互作用も少ない。", gId: "c1", cSec: "sec-onc" },
+    { name: "モルヒネ (MSコンチン/オプソ)", gen: "モルヒネ", cat: "1. 悪性腫瘍（緩和）", char: "がんの「息苦しさ（呼吸困難感）」を和らげるスペシャリスト", desc: "活性代謝物（M6G）が腎排泄のため、腎機能低下患者では傾眠・呼吸抑制を起こしやすく原則回避。", gId: "c1", cSec: "sec-onc" },
+    { name: "スインプロイク", gen: "ナルデメジン", cat: "1. 悪性腫瘍（緩和）", char: "腸のオピオイド受容体だけを守る便秘の特効薬", desc: "脳の鎮痛効果は一切邪魔せず、腸管のμ受容体だけをブロックして麻薬による頑固な便秘（OIC）を解消する。", gId: "c1", cSec: "sec-onc" },
+
+    // 2. 高血圧
+    { name: "アジルバ", gen: "アジルサルタン", cat: "2. 高血圧症", char: "ARB 7兄弟の中で降圧パワー最強の横綱", desc: "とにかくしっかり血圧を下げたい時のエース。ザクラス（アムロジピンとの配合剤）も頻出。夏場の過度な降圧・立ちくらみに注意。", gId: "c2", cSec: "sec-ht" },
+    { name: "ミカルディス", gen: "テルミサルタン", cat: "2. 高血圧症", char: "胆汁排泄100%＆PPAR-γを刺激する腎・メタボの味方", desc: "腎不全でも使いやすく、半減期が24時間と長い。インスリン抵抗性を改善する付加価値を持つARB。", gId: "c2", cSec: "sec-ht" },
+    { name: "ニューロタン", gen: "ロサルタン", cat: "2. 高血圧症", char: "URAT1を阻害して尿酸値も下げる唯一のARB", desc: "痛風・高尿酸血症を合併した高血圧患者や、サイアザイド利尿薬による尿酸上昇を打ち消すために選ばれる（プレミネント配合錠など）。", gId: "c2", cSec: "sec-ht" },
+    { name: "ノルバスク / アムロジン", gen: "アムロジピン", cat: "2. 高血圧症", char: "半減期36時間！飲み忘れても血圧が跳ねない絶対王者", desc: "Ca拮抗薬の王道。細動脈だけ広げるため、高用量（10mg）では「足首のむくみ」や「歯肉肥厚」が出やすい（むくみに利尿薬は無効！）。", gId: "c2", cSec: "sec-ht" },
+    { name: "アテレック", gen: "シルニジピン", cat: "2. 高血圧症", char: "N型Caチャネルも抑えて「むくまない・腎を守る」技巧派", desc: "アムロジピンで足がむくんだ患者の切り替え先No.1！輸出細動脈も広げて蛋白尿を減らすため、CKD合併高血圧に好まれる。", gId: "c2", cSec: "sec-ht" },
+    { name: "アダラートCR", gen: "ニフェジピン徐放錠", cat: "2. 高血圧症", char: "1日2回・最大80mgまで使える重砲（粉砕絶対NG！）", desc: "難治性高血圧や妊娠20週以降の高血圧にも活躍。精密な徐放錠のため、経管栄養等で粉砕すると急激な血圧低下ショックを起こす！", gId: "c2", cSec: "sec-ht" },
+    { name: "ミネブロ", gen: "エサキセレノン", cat: "2. 高血圧症", char: "3剤でも下がらない治療抵抗性高血圧の切り札（MRA）", desc: "非ステロイド型MRAのため女性化乳房が出にくい。ARB等と併用する時は「高カリウム血症（K≧5.5）」の検査値チェックが必須！eGFR30未満は禁忌。", gId: "c2", cSec: "sec-ht" },
+    { name: "インデラル", gen: "プロプラノロール", cat: "2. 高血圧 / 6. 神経", char: "高血圧以外（片頭痛・手の震え・静脈瘤・あがり症）で大活躍！", desc: "【カメレオン薬】非選択的β遮断薬（喘息禁忌）。若い女性なら「片頭痛予防」、高齢者なら「本態性振戦」、肝硬変なら「門脈圧亢進・食道静脈瘤出血予防」！", gId: "c2", cSec: "sec-ht" },
+    { name: "カルデナリン", gen: "ドキサゾシン", cat: "2. 高血圧症", char: "「寝る前1錠」で早朝高血圧（モーニングサージ）を叩くα1遮断薬", desc: "起立性低血圧を防ぐ意味でも就寝前投与が合理的。前立腺肥大症の排尿改善も兼ねる。", gId: "c2", cSec: "sec-ht" },
+    { name: "タナトリル / エースコール", gen: "イミダプリル / テムカプリル", cat: "2. 高血圧 / 5. 脳血管", char: "空咳の副作用を逆手に取った「誤嚥性肺炎予防」の守護神", desc: "ACE阻害薬。ブラジキニンとサブスタンスPを増やすため、脳梗塞後の高齢者では「むせ（咳反射・嚥下反射）を改善して誤嚥性肺炎を防ぐ」目的で処方される！", gId: "c5", cSec: "sec-ht" },
+
+    // 3. 糖尿病
+    { name: "メトグルコ", gen: "メトホルミン", cat: "3. 糖尿病", char: "インスリン抵抗性改善の主役（造影剤前後48時間は休薬！）", desc: "肥満2型糖尿病の第一選択（産婦人科では多嚢胞性卵巣症候群PCOSにも使用）。ヨード造影剤検査の前後48時間休薬、eGFR30未満禁忌、シックデイ休薬（乳酸アシドーシス予防）が鉄則！", gId: "c3", cSec: "sec-dm" },
+    { name: "フォシーガ / ジャディアンス", gen: "ダパグリフロジン / エンパグリフロジン", cat: "3. 糖尿病 / 4. 心 / 9. 腎", char: "糖尿病・慢性心不全・CKDのすべてを救う三冠王（SGLT2阻害薬）", desc: "【カメレオン薬】血糖値が正常でも、心不全やCKDの予後改善薬として10mg固定で処方される！絶食・手術前・極端な糖質制限時は「正常血糖ケトアシドーシス」に厳戒態勢！", gId: "c3", cSec: "sec-dm" },
+    { name: "トラゼンタ / テネリア", gen: "リナグリプチン / テネリグリプチン", cat: "3. 糖尿病", char: "腎機能がどれだけ悪くても減量不要なDPP-4阻害薬コンビ", desc: "胆汁排泄（または肝腎両排泄）のため、透析患者まで同じ量で使える。高齢・CKD合併患者の強い味方。", gId: "c3", cSec: "sec-dm" },
+    { name: "ジャヌビア / グラクティブ", gen: "シタグリプチン", cat: "3. 糖尿病", char: "最も処方される王道DPP-4阻害薬（腎機能で減量監査！）", desc: "腎排泄型のため、中等度腎機能低下では25mg、重度では12.5mgへの減量監査が必要。", gId: "c3", cSec: "sec-dm" },
+    { name: "リベルサス", gen: "経口セマグルチド", cat: "3. 糖尿病", char: "唯一の飲むGLP-1製剤（起床時・水120mL・30分絶飲食！）", desc: "強力な血糖降下と体重減少効果を持つが、飲み方のルールを1つでも破ると吸収率がゼロになる。湿気にも弱いため一包化NG！", gId: "c3", cSec: "sec-dm" },
+    { name: "マンジャロ / オゼンピック / トルリシティ", gen: "チルゼパチド / セマグルチド / デュラグルチド", cat: "3. 糖尿病", char: "週1回皮下注で強力に血糖と体重を落とすインクレチン注射", desc: "トルリシティは針が見えず高齢者に優しい。マンジャロはGIP/GLP-1のデュアル作用で最強クラスの減量・血糖改善効果を持つ。", gId: "c3", cSec: "sec-dm" },
+    { name: "ボグリボース / セイブル", gen: "ボグリボース / ミグリトール", cat: "3. 糖尿病", char: "必ず「食直前」に飲む糖吸収ストッパー（低血糖時はブドウ糖必須！）", desc: "α-グルコシダーゼ阻害薬。SU薬やインスリンと併用中に低血糖が起きたら、普通の砂糖（二糖類）は分解できず効かないため、必ず「ブドウ糖」を摂らせる！", gId: "c3", cSec: "sec-dm" },
+
+    // 4. 心疾患 & 5. 脳血管障害
+    { name: "エンレスト", gen: "サクビトリルバルサルタン", cat: "4. 心疾患 / 2. 高血圧", char: "心不全の寿命を延ばすファンタスティック・フォーの筆頭（ARNI）", desc: "ARBにネプリライシン阻害薬を合体させ、心臓を守るナトリウム利尿ペプチドを増やす。ACE阻害薬から切り替える時は血管浮腫防止のため「36時間休薬」が絶対ルール！", gId: "c4", cSec: "sec-ht" },
+    { name: "メインテート / アーチスト", gen: "ビソプロロール / カルベジロール", cat: "4. 心疾患", char: "過労死寸前の心臓を休ませるβ遮断薬の2大巨頭", desc: "心不全（HFrEF）では超少量から開始して少しずつ増量する。メインテートはβ1選択性が高く頻脈抑制に優れ、アーチストはα1遮断も併せ持ち血管も広げる（喘息禁忌）。", gId: "c4", cSec: "sec-ht" },
+    { name: "アルダクトンA / セララ", gen: "スピロノラクトン / エプレレノン", cat: "4. 心疾患", char: "おしっこを出すためではなく「心臓の線維化を防ぐ」守護薬", desc: "【カメレオン薬】心不全で25mg等の少量出ている時は「心筋リモデリング抑制（生命予後改善）」が目的！「利尿薬です」と説明して自己中断させないよう注意。", gId: "c4", cSec: "sec-ht" },
+    { name: "エリキュース", gen: "アピキサバン", cat: "4. 心疾患 / 5. 脳血管", char: "DOACの中で腎排泄率が最小（27%）＆消化管出血が最も少ない優等生", desc: "1日2回服用。「80歳以上」「体重60kg以下」「血清Cr 1.5以上」のうち【2つ以上】該当で半量（2.5mg×2）へ減量！", gId: "c4", cSec: "sec-cv" },
+    { name: "リクシアナ", gen: "エドキサバン", cat: "4. 心疾患 / 5. 脳血管", char: "1日1回・食事影響なし！「60kg以下」で即30mgになる分かりやすいDOAC", desc: "「体重60kg以下」「CCr 15〜50」「P糖蛋白阻害薬」の【1つでも】該当で30mgへ減量。超高齢・ハイリスクには15mg設定もある。", gId: "c4", cSec: "sec-cv" },
+    { name: "イグザレルト", gen: "リバーロキサバン", cat: "4. 心疾患 / 5. 脳血管", char: "1日1回（食後）・OD錠で簡易懸濁もできるDOAC", desc: "減量基準は「CCr 15〜49（15mg→10mg）」の一本勝負！（※eGFRではなくCockcroft-Gault式のCCrで計算すること）。", gId: "c4", cSec: "sec-cv" },
+    { name: "プラザキサ", gen: "ダビガトラン", cat: "4. 心疾患 / 5. 脳血管", char: "唯一のトロンビン阻害DOAC（腎排泄80%のためCCr 30未満禁忌！）", desc: "特異的中和薬（プリズバインド）がある。湿気に極めて弱いため一包化NG、胃部不快感に注意。", gId: "c4", cSec: "sec-cv" },
+    { name: "プラビックス", gen: "クロピドグレル", cat: "5. 脳血管 / 4. 心疾患", char: "非心原性脳梗塞の再発予防エース（CYP2C19遺伝子多型あり）", desc: "プロドラッグのため日本人の約2割（CYP2C19 PM）では効きにくい弱点がある。急性期DAPT終了後の漫然2剤併用に目を光らせよ！", gId: "c5", cSec: "sec-cv" },
+    { name: "エフィエント", gen: "プラスグレル", cat: "4. 心疾患 / 5. 脳血管", char: "遺伝子多型の影響を受けず誰にでも速く確実に効くPCI後の主役", desc: "心臓カテーテル（ステント）後のDAPTで圧倒的シェア。近年は脳梗塞にも適応拡大。", gId: "c4", cSec: "sec-cv" },
+    { name: "プレタール", gen: "シロスタゾール", cat: "5. 脳血管", char: "出血しにくく誤嚥性肺炎も防ぐが「頭痛・動悸」が出やすい抗血小板薬", desc: "PDE3阻害により血管も広げるため、ラクナ梗塞や末梢動脈疾患に強い。頻脈を起こすためうっ血性心不全には禁忌！", gId: "c5", cSec: "sec-cv" },
+    { name: "シンメトレル", gen: "アマンタジン", cat: "5. 脳血管 / 6. 神経", char: "パーキンソン病薬だが、脳梗塞後なら「誤嚥性肺炎予防・意欲向上」目的！", desc: "ドパミンとサブスタンスPを増やし、嚥下反射を高める。腎排泄型のため高齢者の幻覚・せん妄に注意。", gId: "c5", cSec: "sec-cv" },
+
+    // 6. 精神神経
+    { name: "レクサプロ / ジェイゾロフト", gen: "エスシタロプラム / セルトラリン", cat: "6. 精神神経", char: "最初の1週間は吐き気、効果は2週間後から来るツンデレ抗うつ薬（SSRI）", desc: "飲み始めに腸のセロトニンを刺激して胃部不快感が出るため、モサプリド等の胃薬が併用されやすい。これを最初に伝えて自己中断を防ぐ！", gId: "c6", cSec: "sec-psy" },
+    { name: "サインバルタ", gen: "デュロキセチン", cat: "6. 精神 / 1. がん / 整形", char: "うつ病・慢性腰痛・糖尿病のしびれ・抗がん薬のしびれ全部に効く万能SNRI", desc: "【カメレオン薬】セロトニンとノルアドレナリンを増やし「痛みのブレーキ」を強化する。前立腺肥大の高齢男性では尿閉に注意！", gId: "c6", cSec: "sec-psy" },
+    { name: "リフレックス / レメロン", gen: "ミルタザピン", cat: "6. 精神神経", char: "吐き気が全く出ず、初日から眠れて食欲が出るNaSSA", desc: "不眠と食欲不振が強い高齢うつ病の救世主。ただし猛烈な眠気が出るため必ず就寝前に服用し、自動車運転は全面禁止！", gId: "c6", cSec: "sec-psy" },
+    { name: "デジレル / レスリン", gen: "トラゾドン", cat: "6. 精神神経", char: "抗うつ薬なのに、25〜50mg寝る前なら「深睡眠を増やす優しい睡眠薬」！", desc: "【カメレオン薬】高齢者やせん妄リスクのある患者の不眠に頻用される適応外・現場の定番処方。", gId: "c6", cSec: "sec-psy" },
+    { name: "セロクエル", gen: "クエチアピン", cat: "6. 精神神経", char: "12.5〜25mg寝る前なら「高齢者の夜間せん妄・不眠」の切り札（糖尿病禁忌！）", desc: "【カメレオン薬】統合失調症なら数百mg使う薬。ごく少量で寝る前に出ていたら不眠・BPSD対策。絶対に糖尿病がないか確認せよ！", gId: "c6", cSec: "sec-psy" },
+    { name: "ランドセン / リボトリール", gen: "クロナゼパム", cat: "6. 精神神経", char: "てんかん薬だが「むずむず脚症候群」「レム睡眠行動障害（寝言・暴れ）」の特効薬", desc: "寝る前に1錠だけ出ていたら、足のムズムズか夜間の大声・体動を抑える目的が濃厚。", gId: "c6", cSec: "sec-psy" },
+    { name: "デエビゴ / ベルソムラ / クービビック", gen: "レンボレキサント / スボレキサント / ダリドレキサント", cat: "6. 精神神経", char: "筋肉の力を抜かずに覚醒スイッチだけを切る「転ばない現代の主役睡眠薬」", desc: "オレキシン受容体拮抗薬。ベンゾジアゼピン系と違い、夜中にトイレに起きても足がふらつかず骨折リスクが低い。", gId: "c6", cSec: "sec-psy" },
+    { name: "マイスリー / デパス / ハルシオン", gen: "ゾルピデム / エチゾラム / トリアゾラム", cat: "6. 精神神経", char: "キレ味は鋭いが、高齢者では「夜間の転倒・大腿骨骨折・せん妄」の元凶", desc: "GABA-A受容体作用により催眠と同時に「筋弛緩作用（足の力が抜ける）」が出る。長年の服用者を一気に中止すると離脱症状が出るため漸減が必要。", gId: "c6", cSec: "sec-psy" },
+    { name: "アリセプト / メマリー / イクセロン", gen: "ドネペジル / メマンチン / リバスチグミン", cat: "6. 精神神経（認知症）", char: "元気を出すアリセプト、怒りを鎮めるメマリー、貼って管理するイクセロン", desc: "認知症の段階とBPSD（周辺症状）のタイプで使い分ける。メマリーは腎排泄のため高度腎障害では半量（10mg）が上限！", gId: "c6", cSec: "sec-psy" },
+
+    // 7. 免疫・アレルギー
+    { name: "レルベア / テリルジー", gen: "FF/VI / FF/UMEC/VI（エリプタ）", cat: "7. 免疫・アレルギー", char: "1日1回「蓋を開けて吸うだけ」！ステップアップしても器具が変わらない喘息・COPDの主役", desc: "テリルジーは抗コリン（LAMA）を含むトリプル製剤のため、「閉塞隅角緑内障」と「前立腺肥大症の排尿障害」が禁忌！吸入後はブクブク＆ガラガラうがい必須。", gId: "c7", cSec: "sec-imm" },
+    { name: "シムビコート / ブデホル", gen: "ブデソニド・ホルモテロール", cat: "7. 免疫・アレルギー", char: "気管支拡張の効きが速く「毎日定期＋発作時頓用（SMART療法）」が1本でできる！", desc: "タービュヘイラーは自分の吸う力で吸い上げるDPI。吸기流速が弱い高齢者では吸えていないことがあるので確認！", gId: "c7", cSec: "sec-imm" },
+    { name: "リウマトレックス (MTX)", gen: "メトトレキサート", cat: "7. 免疫・アレルギー", char: "関節リウマチの絶対王者だが「週に1〜2日だけ飲む」劇薬（毎日飲むと死亡事故！）", desc: "服用の24〜48時間後に、口内炎や肝障害を防ぐ解毒剤として「フォリアミン（葉酸）1錠」を飲むセット処方を必ず監査せよ！", gId: "c7", cSec: "sec-imm" },
+    { name: "ビラノア / デザレックス / アレグラ", gen: "ビラスチン / デスロラタジン / フェキソフェナジン", cat: "7. 免疫・アレルギー", char: "脳に移行せず「自動車運転の制限記載が一切ない」非鎮静性抗ヒスタミン薬", desc: "ビラノアは効果最強クラスだが、食事と一緒だと吸収が6割落ちるため「空腹時（食前1hまたは食後2h）」が絶対条件！", gId: "c7", cSec: "sec-imm" },
+    { name: "ザイザル / アレロック", gen: "レボセチリジン / オロパタジン", cat: "7. 免疫・アレルギー", char: "かゆみを止めるパワーは最強だが「運転禁止記載あり＆腎機能で減量必須」！", desc: "高齢者に通常量を漫然と出すと強い傾眠・ふらつきを起こす。", gId: "c7", cSec: "sec-imm" },
+
+    // 8. 感染症
+    { name: "サワシリン / オーグメンチン", gen: "アモキシシリン / クラブラン酸", cat: "8. 感染症", char: "時間依存性のマラソンランナー（1日3〜4回に分けて飲むのが正解！）", desc: "オーグメンチン＋サワシリンの「オグサワ処方」は、クラブラン酸による下痢を防ぎつつアモキシシリン量を十分に確保する感染症専門医の黄金レシピ！", gId: "c8", cSec: "sec-inf" },
+    { name: "クラビット", gen: "レボフロキサシン", cat: "8. 感染症", char: "濃度依存性のスナイパー（1日1回500mg一括投与！Mg・鉄剤とキレート形成！）", desc: "ほぼ100%腎排泄のため尿路感染にも最強だが、腎機能低下時は必ず減量・間隔延長が必要。酸化Mgや鉄剤と同時服用すると吸収ゼロになるため2時間空ける！", gId: "c8", cSec: "sec-inf" },
+    { name: "クラリス", gen: "クラリスロマイシン", cat: "8. 感染症", char: "400mgなら抗菌薬、200mg長期なら「副鼻腔炎の鼻水・炎症止め（免疫修飾）」！", desc: "【カメレオン薬】強力なCYP3A4阻害作用を持つため、ベルソムラ（併用禁忌）やスタチン、Ca拮抗薬、DOACとの相互作用に目を光らせよ！", gId: "c8", cSec: "sec-inf" },
+    { name: "バクタ / ダイフェン", gen: "ST合剤", cat: "8. 感染症 / 7. 免疫", char: "1日4錠なら膀胱炎治療、1日1錠または週3回なら「ニューモシスチス肺炎（PCP）予防」！", desc: "【カメレオン薬】プレドニン高用量や免疫抑制薬・生物学的製剤を使っている患者の命を守る予防薬。", gId: "c8", cSec: "sec-inf" },
+    { name: "バルトレックス / アメナリーフ", gen: "バラシクロビル / アメナメビル", cat: "8. 感染症（帯状疱疹）", char: "高齢者にバルトレックス通常量（6錠/日）は「アシクロビル脳症」の危険大！", desc: "腎機能が落ちた高齢者の帯状疱疹には、バルトレックスを減量するか、胆汁排泄で腎機能に関係なく1日1回1錠で済む「アメナリーフ」への変更提案が超有効！", gId: "c8", cSec: "sec-inf" },
+    { name: "ミヤBM / ビオフェルミンR", gen: "酪酸菌（宮入菌） / 耐性乳酸菌", cat: "8. 感染症", char: "ミヤBMは「芽胞」という核シェルターに入るため、Rがつかなくても抗菌薬に負けない！", desc: "さらにニューキノロン系とビオフェルミンRの併用はレセプト査定対象になりやすいため、キノロン系のお供にはミヤBMが選ばれる。", gId: "c8", cSec: "sec-inf" },
+
+    // 9. 腎・泌尿器 & 10. 骨・代謝
+    { name: "ハルナール / ユリーフ", gen: "タムスロシン / シロドシン", cat: "9. 腎・泌尿器", char: "男性なら前立腺肥大症、女性に出ていたら「排尿困難」か「尿管結石を落とす薬」！", desc: "【カメレオン薬】女性患者に「前立腺の薬です」と言うのは薬局最大のタブー！ユリーフは切れ味最強だが射精障害が多い。", gId: "c9", cSec: "sec-ckd" },
+    { name: "ベオーバ / ベタニス", gen: "ビベグロン / ミラベグロン", cat: "9. 腎・泌尿器", char: "口が渇かず認知症も悪化させない「過活動膀胱（頻尿）」の現在の第一選択（β3作動薬）", desc: "抗コリン薬と違い尿閉や便秘を起こしにくい。ベオーバは薬物相互作用も少なく高齢者に極めて使いやすい。", gId: "c9", cSec: "sec-ckd" },
+    { name: "ダーブロック / エベレンゾ", gen: "ダプロデュスタット / ロキサデュスタット", cat: "9. 腎・泌尿器（CKD）", char: "注射ではなく飲み薬で腎性貧血を治すHIF-PH阻害薬（血栓とキレートに注意！）", desc: "鉄剤やリン吸着薬と同時服用で吸収が落ちるものがある。ロキサデュスタットは中枢性甲状腺機能低下症の副作用にも注意。", gId: "c9", cSec: "sec-ckd" },
+    { name: "ロキソニン（NSAIDs）", gen: "ロキソプロフェン", cat: "9. 腎・泌尿器（注意薬）", char: "「ARB＋利尿薬」を飲んでいる高齢者に足すと急性腎障害を起こす（Triple Whammy）！", desc: "輸入細動脈を縮めて糸球体血流を落とすため、CKD患者や心不全患者の痛み止めにはNSAIDsではなくアセトアミノフェン（カロナール）を提案せよ！", gId: "c9", cSec: "sec-ckd" },
+    { name: "ボナロン / フォサマック", gen: "アレンドロン酸（ビスホスホネート）", cat: "10. 骨粗鬆症", char: "起床時・コップ1杯の水・30分横にならない！抜歯時も「原則休薬しない」にルール変更！", desc: "最新の顎骨壊死ポジションペーパー2023では、骨折リスクを防ぐため抜歯時も原則休薬せず、事前の徹底した口腔クリーニングで感染を防ぐ方針に転換。", gId: "c10", cSec: "sec-ckd" },
+    { name: "プラリア ＋ デノタス", gen: "デノスマブ ＋ Ca/VitD配合チュアブル", cat: "10. 骨粗鬆症", char: "半年に1回の強力注射！低Ca予防にデノタス必須＆自己中断すると多発骨折（リバウンド）！", desc: "予約をキャンセルして中断すると破骨細胞が暴走して背骨が次々折れるため、継続指導と中止時のBP製剤引き継ぎが超重要。", gId: "c10", cSec: "sec-ckd" },
+    { name: "エディロール", gen: "エルデカルシトール", cat: "10. 骨粗鬆症", char: "高齢者の夏場の脱水時に「高カルシウム血症 ➔ 急性腎障害・意識障害」を起こす要注意薬！", desc: "漫然と処方されやすいため、定期的な血清Ca値と腎機能（eGFR）の確認が必須。", gId: "c10", cSec: "sec-ckd" },
+    { name: "クレストール / リピトール / リバロ", gen: "ロスバスタチン / アトルバスタチン / ピタバスタチン", cat: "10. 脂質異常症", char: "悪玉（LDL-C）を半分近く叩き落とすストロングスタチン3銃士", desc: "心筋梗塞後の二次予防（目標70未満）の主役。リバロとクレストールはCYP3A4をほぼ使わないため相互作用が少ない。", gId: "c10", cSec: "sec-ckd" },
+    { name: "タケキャブ", gen: "ボノプラザン", cat: "消化器 / 4. 抗血栓併用", char: "初回から胃酸を完全ブロックする最強のP-CAB（ピロリ除菌＆DAPTの胃出血予防の王者）", desc: "従来のPPIと違いCYP2C19の遺伝子多型に左右されない。", gId: "c4", cSec: "sec-ckd" }
+  ];
+
+  const searchInput = document.getElementById('drugSearch');
+  const suggestList = document.getElementById('suggestList');
+  const clearBtn = document.getElementById('clearBtn');
+
+  // 入力時のサジェスト処理
+  searchInput.addEventListener('input', function() {
+    const val = this.value.trim().toLowerCase();
+    suggestList.innerHTML = '';
+
+    if (!val) {
+      suggestList.style.display = 'none';
+      clearBtn.style.display = 'none';
+      return;
+    }
+    clearBtn.style.display = 'block';
+
+    // 名前・一般名・カテゴリ・キャラ・解説文のすべてから部分一致検索
+    const matches = DRUG_DB.filter(d =>
+      d.name.toLowerCase().includes(val) ||
+      d.gen.toLowerCase().includes(val) ||
+      d.cat.toLowerCase().includes(val) ||
+      d.char.toLowerCase().includes(val) ||
+      d.desc.toLowerCase().includes(val)
+    );
+
+    if (matches.length === 0) {
+      suggestList.innerHTML = '<div style="padding:15px;color:#64748b;">該当する薬剤・キーワードが見つかりません。別の言葉でお試しください。</div>';
+      suggestList.style.display = 'block';
+      return;
+    }
+
+    matches.forEach(drug => {
+      const div = document.createElement('div');
+      div.className = 'suggest-item';
+      div.innerHTML = `
+        <div>
+          <span class="suggest-name">${drug.name}</span>
+          <span class="suggest-gen">（${drug.gen}）</span>
+          <div style="font-size:0.8rem;color:#475569;margin-top:2px;">💡 ${drug.char}</div>
+        </div>
+        <span class="suggest-cat">${drug.cat}</span>
+      `;
+      div.onclick = () => showDrugDetail(drug);
+      suggestList.appendChild(div);
+    });
+
+    suggestList.style.display = 'block';
+  });
+
+  // 検索欄の外側をクリックしたらサジェストを閉じる
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-wrapper')) {
+      suggestList.style.display = 'none';
+    }
+  });
+
+  function clearSearch() {
+    searchInput.value = '';
+    suggestList.style.display = 'none';
+    clearBtn.style.display = 'none';
+    searchInput.focus();
+  }
+
+  function selectDrugByName(keyword) {
+    const found = DRUG_DB.find(d => d.name.includes(keyword));
+    if (found) {
+      searchInput.value = found.name;
+      clearBtn.style.display = 'block';
+      showDrugDetail(found);
+    }
+  }
+
+  // サジェスト選択時の詳細カード表示＆ジャンプボタン設定
+  function showDrugDetail(drug) {
+    suggestList.style.display = 'none';
+    const card = document.getElementById('drugDetailCard');
+    document.getElementById('dTitle').innerText = `${drug.name} 【一般名：${drug.gen}】`;
+    document.getElementById('dChar').innerText = `🎯 ${drug.char}`;
+    document.getElementById('dBody').innerHTML = `<strong>【現場のプロファイリング解説】</strong><br>${drug.desc}`;
+
+    // 各シートへの連動ボタン
+    document.getElementById('btnJumpGuide').onclick = () => {
+      loadSheet(`witty_pharma_guide.html#${drug.gId}`, `📘 10疾患ガイド（${drug.cat}）`);
+    };
+    document.getElementById('btnJumpProf').onclick = () => {
+      loadSheet(`prescription_profiler.html`, `🕵️‍♂️ 処方箋プロファイリング`);
+    };
+    document.getElementById('btnJumpComp').onclick = () => {
+      loadSheet(`drug_comparison_matrix.html`, `⚔️ 同効薬比較マトリクス`);
+    };
+
+    card.style.display = 'block';
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // 下部のiframeにシートを読み込む
+  function loadSheet(url, titleText) {
+    const frame = document.getElementById('sheetFrame');
+    frame.src = url;
+    document.getElementById('viewerTitle').innerText = `現在表示中：${titleText}`;
+    document.querySelector('.viewer-section').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // 全薬剤リストの初期生成と開閉
+  function initAllDrugsGrid() {
+    const grid = document.getElementById('allDrugsGrid');
+    DRUG_DB.forEach(drug => {
+      const item = document.createElement('div');
+      item.className = 'mini-drug';
+      item.innerHTML = `<strong style="color:#1e3a8a;">${drug.name}</strong><br><span style="font-size:0.75rem;color:#64748b;">${drug.cat}</span>`;
+      item.onclick = () => showDrugDetail(drug);
+      grid.appendChild(item);
+    });
+  }
+
+  function toggleAllDrugs() {
+    const grid = document.getElementById('allDrugsGrid');
+    grid.style.display = (grid.style.display === 'grid') ? 'none' : 'grid';
+  }
+
+  initAllDrugsGrid();
+</script>
+</body>
+</html>

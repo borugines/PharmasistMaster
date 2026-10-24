@@ -1,0 +1,366 @@
+﻿```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>薬剤師が勧めやすい「シンプルOTC」＆基礎疾患別・安全マトリクス</title>
+<style>
+  :root {
+    --primary: #0f172a;
+    --otc-main: #0284c7;
+    --otc-safe: #16a34a;
+    --otc-danger: #dc2626;
+    --otc-warn: #d97706;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --border: #cbd5e1;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    padding-bottom: 50px;
+  }
+
+  /* 上部ナビゲーション */
+  .top-nav {
+    background: linear-gradient(135deg, #0f172a 0%, #0369a1 100%);
+    color: white;
+    padding: 15px 25px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .top-nav h1 { font-size: 1.2rem; color: #7dd3fc; }
+  .tab-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .tab-btn {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: 0.2s;
+  }
+  .tab-btn.active, .tab-btn:hover { background: #38bdf8; color: #0f172a; font-weight: bold; }
+  .print-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+
+  .container { max-width: 1220px; margin: 20px auto; padding: 0 15px; }
+
+  .otc-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .sec-header {
+    border-bottom: 3px solid var(--otc-main);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .sec-title { font-size: 1.35rem; font-weight: 800; color: var(--primary); }
+  .sec-sub { font-size: 0.85rem; color: #64748b; font-weight: bold; }
+
+  .banner {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.92rem;
+    margin: 14px 0 10px 0;
+  }
+  .b-blue { background: #e0f2fe; color: #0c4a6e; border-left: 5px solid var(--otc-main); }
+  .b-green { background: #dcfce7; color: #14532d; border-left: 5px solid var(--otc-safe); }
+  .b-red { background: #fee2e2; color: #7f1d1d; border-left: 5px solid var(--otc-danger); }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 0.86rem; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #f8fafc; font-weight: bold; color: var(--primary); }
+
+  .badge-safe { background: #dcfce7; color: #166534; padding: 2px 7px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; display: inline-block; margin-bottom: 3px; }
+  .badge-ng { background: #fee2e2; color: #991b1b; padding: 2px 7px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; display: inline-block; margin-bottom: 3px; }
+  .badge-simple { background: #dbeafe; color: #1e40af; padding: 2px 7px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; display: inline-block; margin-bottom: 3px; }
+  .product { font-weight: 800; color: #0369a1; font-size: 0.95rem; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .box-card { border: 1px solid var(--border); border-radius: 8px; padding: 14px; background: #fafafa; }
+  .box-card h4 { font-size: 0.95rem; margin-bottom: 8px; color: var(--primary); border-bottom: 2px solid #cbd5e1; padding-bottom: 4px; }
+  ul { padding-left: 18px; font-size: 0.86rem; }
+  li { margin-bottom: 5px; }
+
+  @media print {
+    body { background: white; font-size: 7.8pt; padding: 0; }
+    .top-nav { display: none !important; }
+    .container { max-width: 100%; margin: 0; padding: 0; }
+    .otc-section {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+      margin-bottom: 0;
+      page-break-after: always;
+    }
+    th, td { padding: 5px 6px; font-size: 7.5pt; }
+    @page { size: A4 landscape; margin: 8mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <h1>🛒 薬剤師が勧めやすい「シンプルOTC」＆ 基礎疾患持ちへの安全販売マトリクス</h1>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showOtc('all', this)">すべて表示（一括印刷）</button>
+    <button class="tab-btn" onclick="showOtc('o-simple', this)">🎯 ① 症状別「シンプル単一成分OTC」</button>
+    <button class="tab-btn" onclick="showOtc('o-disease', this)">🛡️ ② 基礎疾患持ちの「⭕安全 vs ❌地雷」</button>
+    <button class="tab-btn" onclick="showOtc('o-cold', this)">🤧 ③ 総合感冒薬の「分解パズル」と漢方</button>
+    <button class="print-btn" onclick="window.print()">🖨️ A4横で印刷</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ==========================================
+       PART 1: 症状別「シンプル成分（単一・少数成分）」の鉄板OTCリスト
+       ========================================== -->
+  <div class="otc-section o-simple">
+    <div class="sec-header">
+      <h2 class="sec-title">🎯 ① 薬剤師が指名買いで勧めるべき「シンプル成分（単剤・少数処方）OTC」図鑑</h2>
+      <span class="sec-sub">「余計なカフェイン・鎮静成分・抗コリン成分」が入っていない、医療用とほぼ同じ感覚で出せる名品たち</span>
+    </div>
+
+    <div class="banner b-blue">💡 なぜ「シンプル処方」が最強なのか？ ➔ 併用薬との重複がなく、副作用の原因が特定でき、基礎疾患の禁忌に引っかからないから！</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:15%;">症状・領域</th>
+          <th style="width:22%;">狙うべきシンプル成分</th>
+          <th style="width:28%;">薬剤師が自信を持って出しやすい代表商品</th>
+          <th style="width:35%;">なぜこれが勧めやすいのか？（医療用との対応＆現場の勘所）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>頭痛・発熱・生理痛<br>（解熱鎮痛薬）</strong></td>
+          <td><span class="badge-simple">単一成分・カフェインなし</span><br>① <strong>アセトアミノフェン単剤</strong><br>② <strong>ロキソプロフェン単剤</strong><br>③ <strong>イブプロフェン単剤</strong></td>
+          <td>① <span class="product">タイレノールA</span>（300mg単剤）<br>　 <span class="product">バファリンルナJ</span>（小児〜大人・チュアブル）<br>② <span class="product">ロキソニンS</span>（60mg単剤）<br>③ <span class="product">リングルアイビーα200</span>（200mg単剤）</td>
+          <td>・<strong>タイレノールA：</strong><strong>カフェインも催眠鎮静成分（アリルイソプロピルアセチル尿素）も一切入っていない純粋なアセトアミノフェン300mg！</strong>高血圧・腎障害・心不全・喘息・胃潰瘍既往・授乳婦・寝る前の服用まで、あらゆる疾患持ちに第一選択で出せる絶対の切り札！<br>・<strong>注意：</strong>「イブA錠」や「バファリンプレミアム」等には<strong>鎮静成分（眠気・依存）と無水カフェイン</strong>が入っているため、純粋な単剤（ロキソニンSやタイレノールA）の方が圧倒的に安全！</td>
+        </tr>
+        <tr>
+          <td><strong>鼻水・花粉症・じんましん<br>（抗ヒスタミン薬）</strong></td>
+          <td><span class="badge-simple">第2世代・単一成分</span><br>① <strong>フェキソフェナジン</strong><br>② <strong>ロラタジン</strong><br>③ <strong>エピナスチン</strong></td>
+          <td>① <span class="product">アレグラFX</span>（または各種PBジェネリック）<br>② <span class="product">クラリチンEX</span>（1日1回）<br>③ <span class="product">アレジオン20</span>（1日1回就寝前）</td>
+          <td>・<strong>アレグラFX ＆ クラリチンEX：</strong><strong>「眠気（運転制限記載なし）」かつ「抗コリン作用がほぼゼロ」！</strong>そのため、<strong>前立腺肥大症の高齢男性や閉塞隅角緑内障の患者さんでも安全に使える</strong>奇跡の鼻炎薬！（※総合鼻炎薬の「パブロン鼻炎カプセル」や「コンタック鼻炎」には第1世代抗ヒスタミン＋ベラドンナ＋プソイドエフェドリンが全部入っており高齢者には地雷の塊！）。</td>
+        </tr>
+        <tr>
+          <td><strong>咳・痰<br>（鎮咳去痰薬）</strong></td>
+          <td><span class="badge-simple">非麻薬・単一〜少数成分</span><br>① <strong>デキストロメトルファン単剤</strong><br>② <strong>カルボシステイン＋ブロムヘキシン</strong><br>③ <strong>麦門冬湯</strong></td>
+          <td>① <span class="product">メジコンせき止め錠Pro</span>（単剤！）<br>② <span class="product">ストナ去たんカプセル</span> / <span class="product">クールワン去たんソフトカプセル</span><br>③ <span class="product">ツムラ漢方 麦門冬湯エキス顆粒</span></td>
+          <td>・<strong>メジコンせき止め錠Pro：</strong>医療用のメジコン（デキストロメトルファン）と全く同じ<strong>単一成分</strong>！コデイン（麻薬性：便秘・眠気・12歳未満禁忌）やエフェドリン（動悸・血圧上昇・尿閉）が一切入っていないため、<strong>高血圧や前立腺肥大の患者の乾いた咳に迷わず出せる！</strong><br>・<strong>クールワン去たん：</strong>医療用のムコダイン＋ビソルボンのみの2成分！気道を広げず痰だけをサラサラにするため心疾患・高血圧でも完全に安全！</td>
+        </tr>
+        <tr>
+          <td><strong>のどの痛み・口内炎</strong></td>
+          <td><span class="badge-simple">トラネキサム酸 / アズレン</span><br>① <strong>トラネキサム酸主体</strong><br>② <strong>アズレン＋CPC（トローチ・スプレー）</strong></td>
+          <td>① <span class="product">ペラックT錠</span><br>② <span class="product">アズレンうがい薬</span> / <span class="product">パープルショット</span></td>
+          <td>・<strong>ペラックT錠：</strong>トラネキサム酸＋ビタミンB2・B6・C＋カンゾウ乾燥エキス。<strong>解熱鎮痛薬（NSAIDs）や抗ヒスタミン薬が入っていないため、眠くならず胃も荒れない！</strong>（※ただしカンゾウが含まれるため他漢方との重複、また血栓症既往・トロンビン投与中はトラネキサム酸注意）。</td>
+        </tr>
+        <tr>
+          <td><strong>胃痛・胃もたれ・胸やけ</strong></td>
+          <td><span class="badge-simple">単一成分（スイッチOTC）</span><br>① <strong>ファモチジン単剤（H2B）</strong><br>② <strong>ランソプラゾール等（PPI）</strong><br>③ <strong>テプレノン / ソファルコン</strong></td>
+          <td>① <span class="product">ガスター10</span>（10mg単剤）<br>② <span class="product">タケプロンS</span> / <span class="product">オメプラールS</span> / <span class="product">パリエットS</span>（要指導・新登場！）<br>③ <span class="product">セルベール</span>（テプレノン＋生薬）</td>
+          <td>・<strong>ガスター10（またはPPIスイッチOTC）：</strong>余計な制酸剤（MgやAl、Na）やロートエキス（抗コリン）が一切入っていない単剤！<br>・<strong>総合胃腸薬（キャベジンや太田胃散など）の罠：</strong>これらには<strong>「ロートエキス（緑内障・前立腺肥大に禁忌！）」「炭酸水素Na（塩分過多で高血圧・心不全に悪影響）」「アルミニウム（透析禁忌）」</strong>が入っていることが多い！疾患持ちには単剤が圧倒的に安全。</td>
+        </tr>
+        <tr>
+          <td><strong>便秘・下痢<br>（整腸・下剤）</strong></td>
+          <td><span class="badge-simple">非刺激性・生菌単剤</span><br>① <strong>酸化マグネシウム単剤</strong><br>② <strong>酪酸菌 / 乳酸菌単剤</strong></td>
+          <td>① <span class="product">酸化マグネシウムE便秘薬</span><br>② <span class="product">強ミヤリサン錠</span>（酪酸菌単剤！）<br>　 <span class="product">新ビオフェルミンS</span>（3種乳酸菌）</td>
+          <td>・<strong>強ミヤリサン錠：</strong>医療用の「ミヤBM」とほぼ同じ<strong>宮入菌（酪酸菌）単剤</strong>！抗菌薬服用中の下痢予防から普段の整腸まで、誰にでも出せる最強のシンプルOTC。<br>・<strong>下痢止めの注意：</strong>感染性腸炎（食中毒やウイルス性胃腸炎）に「ストッパ（ロートエキス＋タンニン酸）」や「トメダイン（ロペラミド）」を出すと菌が腸に閉じ込められて重症化する！下痢にはまず<strong>「強ミヤリサン＋経口補水液（OS-1）＋五苓散」</strong>を勧めるのがプロの技！</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       PART 2: 基礎疾患持ち患者の「⭕ 安全OTC vs ❌ 絶対NG地雷成分」マトリクス
+       ========================================== -->
+  <div class="otc-section o-disease">
+    <div class="sec-header">
+      <h2 class="sec-title">🛡️ ② 基礎疾患（持病）がある患者への「⭕ 迷わず出せる vs ❌ 地雷成分」完全マトリクス</h2>
+      <span class="sec-sub">お薬手帳を見せられた瞬間、頭の中でこのフィルターを起動せよ！</span>
+    </div>
+
+    <div class="banner b-red">🚨 市販薬の「4大悪魔成分」を暗記せよ！ ➔ ①エフェドリン類、②抗コリン（ベラドンナ・ロートエキス・第1世代抗ヒスタミン）、③NSAIDs、④甘草（グリチルリチン酸）</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">患者の基礎疾患<br>（飲んでいる医療用薬）</th>
+          <th style="width:36%;">❌ 絶対に出してはいけない「OTCの地雷成分」と理由</th>
+          <th style="width:46%;">⭕ この疾患の患者に自信を持って出せる「安全なOTC提案レシピ」</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>① 高血圧・心疾患・不整脈・甲状腺機能亢進症</strong><br>（アムロジピン、ARB、β遮断薬、メルカゾール等）</td>
+          <td>
+            <span class="badge-ng">交感神経刺激成分</span><br>
+            ・<strong>プソイドエフェドリン、メチルエフェドリン、フェニレフリン、ナファゾリン（点鼻）</strong>、<strong>麻黄（葛根湯等）</strong><br>
+            ➔ 血管を収縮させ心臓を叩くため、<strong>血圧急上昇・動悸・狭心症発作・不整脈</strong>を誘発！<br>
+            <span class="badge-ng">甘草・ナトリウム・NSAIDs</span><br>
+            ・総合感冒薬のグリチルリチン酸や胃腸薬の重曹（Na）、ロキソニン（血圧上昇＆心不全増悪）にも注意！
+          </td>
+          <td>
+            ・<strong>熱・痛み：</strong><span class="product">タイレノールA</span>（アセトアミノフェン単剤）<br>
+            ・<strong>咳・痰：</strong><span class="product">メジコンせき止め錠Pro</span> ＋ <span class="product">クールワン去たん</span>（または麦門冬湯）<br>
+            ・<strong>鼻水：</strong><span class="product">アレグラFX</span> または <span class="product">クラリチンEX</span>（プソイドエフェドリン無配合！）<br>
+            ・<strong>風邪のひき始め：</strong>麻黄が入っていない<span class="product">桂枝湯（45番）</span>や<span class="product">参蘇飲（66番）</span>、のど風邪なら<span class="product">桔梗湯（138番）</span>！
+          </td>
+        </tr>
+        <tr>
+          <td><strong>② 前立腺肥大症・排尿障害 ／ 閉塞隅角緑内障</strong><br>（ハルナール、ユリーフ、ザルティア、緑内障点眼薬等）</td>
+          <td>
+            <span class="badge-ng">抗コリン成分（尿閉＆眼圧上昇！）</span><br>
+            ・<strong>クロルフェニラミン、ジフェンヒドラミン（ドリエル含む！）</strong>等の第1世代抗ヒスタミン薬<br>
+            ・鼻炎薬の<strong>ベラドンナ総アルカロイド、ヨウ化イソプロパミド</strong><br>
+            ・胃腸薬・下痢止めの<strong>ロートエキス</strong>、乗り物酔い薬（スコポラミン）<br>
+            <span class="badge-ng">エフェドリン類</span> 尿道括約筋を締めて<strong>完全な尿閉（おしっこが一滴も出なくなる）</strong>を起こす！
+          </td>
+          <td>
+            ・<strong>鼻水・アレルギー：</strong>抗コリン作用がほぼない第2世代単剤（<span class="product">アレグラFX</span>、<span class="product">クラリチンEX</span>）または点鼻ステロイド（<span class="product">ナザールαAR0.1%</span>等）！<br>
+            ・<strong>胃痛：</strong>ロートエキスが入っていない<span class="product">ガスター10</span>または<span class="product">セルベール</span><br>
+            ・<strong>不眠の相談：</strong>「ドリエル（ジフェンヒドラミン）」は抗コリン作用が強いため絶対NG！漢方の<span class="product">抑肝散</span>や<span class="product">加味帰脾湯</span>、生活指導で対応。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>③ 慢性腎臓病（CKD）・透析患者</strong><br>（フォシーガ、ARB、利尿薬、リン吸着薬等）</td>
+          <td>
+            <span class="badge-ng">NSAIDs（腎血流遮断！）</span><br>
+            ・<strong>ロキソニンS、イブ、バファリンA、外用NSAIDs湿布の大量貼り</strong>（特にARB＋利尿薬服用中はTriple Whammyで一発AKI！）<br>
+            <span class="badge-ng">金属（Al・Mg・Ca）含有薬</span><br>
+            ・<strong>アルミニウム含有胃腸薬</strong>（スクラルファート、合成ヒドロタルサイト等＝<strong>透析患者はアルミニウム脳症・骨症で絶対禁忌！</strong>）<br>
+            ・<strong>酸化マグネシウム</strong>（高Mg血症）、<strong>ガスター10</strong>（100%腎排泄で意識障害・痙攣！）
+          </td>
+          <td>
+            ・<strong>熱・痛み：</strong><span class="product">タイレノールA</span>（アセトアミノフェン単剤が唯一の安全港！）<br>
+            ・<strong>胃痛・胸やけ：</strong>腎排泄のガスター10やAl入り胃腸薬は避け、肝代謝主体のPPIスイッチOTC（<span class="product">タケプロンS / オメプラールS / パリエットS</span>）または<span class="product">セルベール</span>（テプレノン）！<br>
+            ・<strong>鼻水：</strong>腎機能の影響を受けにくい<span class="product">クラリチンEX</span>（ロラタジン）または<span class="product">アレグラFX</span>（※ザイザルやジルテック［コンタック鼻炎Z］は腎排泄のため回避！）。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>④ 気管支喘息</strong><br>（レルベア、シムビコート、モンテルカスト等）</td>
+          <td>
+            <span class="badge-ng">NSAIDs（アスピリン喘息誘発！）</span><br>
+            ・<strong>ロキソプロフェン、イブプロフェン、アスピリン、エテンザミド等を含む全ての鎮痛薬・総合感冒薬・外用湿布薬！</strong><br>
+            ➔ 成人の喘息患者の約10%はNSAIDsで<strong>致死的な大発作（NSAIDs過敏喘息）</strong>を起こす（本人が自覚していないことも多い）！<br>
+            ・<strong>コデイン類：</strong>気道分泌を抑えて痰を詰まらせ、呼吸抑制を起こすため発作時はNG。
+          </td>
+          <td>
+            ・<strong>熱・痛み：</strong>1回300mg以下の<span class="product">タイレノールA</span>（アセトアミノフェン単剤）※高用量ではまれに誘発するため少量から。<br>
+            ・<strong>関節痛・筋肉痛（湿布）：</strong>インドメタシンやロキソプロフェン等のNSAIDs湿布は絶対に出さず、サリチル酸メチル等も避け、温感/冷感のみのケアや受診勧奨を行う。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>⑤ 糖尿病 ／ 抗血栓薬（DOAC・ワルファリン）服用中</strong></td>
+          <td>
+            ・<strong>糖尿病にNG：</strong>エフェドリン類・麻黄（交感神経刺激で血糖値を上げる）、甘いシロップ剤。<br>
+            ・<strong>抗血栓薬にNG：</strong><strong>NSAIDs（ロキソニン・アスピリン等＝消化管大出血リスク激増！）</strong>、<strong>ミコナゾール（フロリードゲル等＝ワルファリン禁忌）</strong>、トラネキサム酸（血栓傾向注意）。
+          </td>
+          <td>
+            ・<strong>抗血栓薬服用中の痛み・熱：</strong>胃粘膜を荒らさず血小板も邪魔しない<span class="product">タイレノールA</span>一択！<br>
+            ・<strong>糖尿病患者の風邪：</strong>エフェドリン・麻黄を含まない単剤組み合わせ（タイレノール＋メジコンPro＋アレグラFX等）。
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       PART 3: 総合感冒薬の「分解パズル」と「それでも総合薬を欲しがる人への裏ワザ」
+       ========================================== -->
+  <div class="otc-section o-cold">
+    <div class="sec-header">
+      <h2 class="sec-title">🤧 ③ 「総合感冒薬（パブロン・ルル等）の闇鍋解剖」と「迷った時のピンポイント推奨術」</h2>
+      <span class="sec-sub">学生に「なぜ総合感冒薬はプロにとって使いにくいのか？」を視覚的に理解させる</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="box-card">
+        <h4 style="color:var(--otc-danger);">🍲 一般的な「総合感冒薬（全部入り風邪薬）」の中身を解剖すると…</h4>
+        <p style="font-size:0.84rem; margin-bottom:8px;">患者さんが大好きな有名総合感冒薬（パブロンゴールドAや新ルルAなど）には、1錠の中にこれだけの成分が全部入っています：</p>
+        <ul>
+          <li>① <strong>解熱鎮痛成分</strong>（アセトアミノフェン or イブプロフェン）➔ <em>熱がないのに飲む必要ある？</em></li>
+          <li>② <strong>鎮咳成分</strong>（ジヒドロコデイン）➔ <em>便秘になる、12歳未満禁忌！</em></li>
+          <li>③ <strong>気管支拡張成分</strong>（メチルエフェドリン）➔ <em>高血圧・心臓病・糖尿病・前立腺肥大にNG！</em></li>
+          <li>④ <strong>抗ヒスタミン成分</strong>（クロルフェニラミン）➔ <em>猛烈に眠くなる、緑内障・前立腺肥大にNG！</em></li>
+          <li>⑤ <strong>去痰成分</strong>（グアイフェネシン / ブロムヘキシン）</li>
+          <li>⑥ <strong>無水カフェイン</strong> ➔ <em>風邪で寝たいのに目が冴えて眠れなくなる！</em></li>
+          <li>⑦ <strong>ビタミン類・生薬（カンゾウ等）</strong></li>
+        </ul>
+        <div style="background:#fee2e2; padding:8px; border-radius:6px; margin-top:8px; font-size:0.83rem; color:#991b1b; font-weight:bold;">
+          💡 指導の結論：「のどが痛いだけ」「鼻水が出るだけ」の人に総合感冒薬を出すのは、ハエを叩くために部屋中にバズーカ砲を撃つようなもの！一番つらい症状1〜2個に絞って単剤を出すのがプロの薬学管理！
+        </div>
+      </div>
+
+      <div class="box-card">
+        <h4 style="color:var(--otc-safe);">✨ それでも「1箱で済む風邪薬」を求められた時の『引き算型・優秀OTC』</h4>
+        <p style="font-size:0.84rem; margin-bottom:8px;">どうしても1つの箱で風邪薬を買いたい患者さんには、地雷成分が抜かれている以下の製品を選ぶと安全です：</p>
+        <ul>
+          <li><strong>① 眠くなる成分（抗ヒスタミン）が入っていない風邪薬：</strong>
+            <br>➔ <span class="product">ストナデイタイム</span> などの「眠くなりにくい設計」の製品、または漢方薬（葛根湯・麻黄湯・柴胡桂枝湯・麦門冬湯・桔梗湯）。</li>
+          <li><strong>② コデイン・エフェドリン・カフェインが入っていない小児・高齢者向け：</strong>
+            <br>➔ 漢方の<span class="product">小柴胡湯加桔梗石膏（109番）</span>：<strong>「のどが赤く腫れて痛む風邪・扁桃炎」</strong>の特効薬！麻黄もエフェドリンも抗コリンも入っていないため、高血圧や前立腺肥大の人の「のど風邪」に最強の切れ味を誇る！</li>
+          <li><strong>③ 妊娠中・授乳中のママから相談された時の「神の3神器」：</strong>
+            <br>・<strong>熱・頭痛：</strong><span class="product">タイレノールA</span>（アセトアミノフェン単剤）
+            <br>・<strong>のどの痛み：</strong><span class="product">桔梗湯（138番）</span>をお湯に溶かしてうがいしながら少しずつ飲み込む！または<span class="product">アズレンうがい薬</span>
+            <br>・<strong>便秘：</strong><span class="product">酸化マグネシウムE便秘薬</span> または <span class="product">新ビオフェルミンS</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showOtc(cls, btn) {
+    const btns = document.querySelectorAll('.tab-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const secs = document.querySelectorAll('.otc-section');
+    secs.forEach(s => {
+      if (cls === 'all' || s.classList.contains(cls)) {
+        s.style.display = 'block';
+      } else {
+        s.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>
+```

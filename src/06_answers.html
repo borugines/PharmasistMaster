@@ -1,0 +1,805 @@
+<!-- 指導薬剤師用 Answer Book タブペイン -->
+<div id="tab-answers" class="tab-pane">
+  <div class="card" style="margin-bottom:20px; background:linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-left:4px solid var(--accent);">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h2 style="font-size:1.35rem; color:var(--primary); font-weight:800; margin-bottom:4px;">💡 指導薬剤師用 Answer Book（全16問 完全解説）</h2>
+        <p style="font-size:0.88rem; color:#64748b; margin:0;">
+          「30秒の結論」「先輩の比喩」「ドヤ顔できる深掘り背景」で実習生の知的好奇心を刺激する現場用トークスクリプトです。
+        </p>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px; background:white; padding:8px 14px; border-radius:8px; border:1px solid #cbd5e1; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <label style="font-weight:700; font-size:0.88rem; color:#1e293b; cursor:pointer;" for="answerToggleChk">
+          🎓 学生ワークシートモード（解答を隠す）
+        </label>
+        <input type="checkbox" id="answerToggleChk" onchange="toggleAnswerVisibility(this.checked)" style="transform:scale(1.2); cursor:pointer;">
+      </div>
+    </div>
+  </div>
+  <div class="answers-container">
+
+<!-- Q-Extra: オグサワ処方 -->
+<div class="qa-card" style="border-left: 4px solid #ca8a04;">
+  <div class="q-box" style="background:#fefce8; border-color:#fde047;">
+    <span class="q-title" style="color:#854d0e;">Q.【成人呼吸器・小児・感染症】オーグメンチンとサワシリンが同時に処方された！重複処方？過量投与？</span>
+    「オーグメンチン（アモキシシリン＋クラブラン酸）」と「サワシリン（アモキシシリン）」が同時に出ている処方箋を見かけました。アモキシシリンが重複しており過量投与ではないでしょうか？疑義照会すべきですか？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong>絶対に疑義照会してはいけません！これは<strong>成人（呼吸器内科・耳鼻科・口腔外科・感染症）および小児科で極めて有名な「オグサワ処方」</strong>という合目的処方です。日本のオーグメンチンの配合比率の欠陥（クラブラン酸による激烈な水様性下痢）を回避しつつ、アモキシシリンだけを高用量にするプロの処方設計です。
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「下痢の元（クラブラン酸）はそのまま、攻撃力（アモキシシリン）だけをドーピング！」</h4>
+      ・日本のオーグメンチンは「アモキシシリン：クラブラン酸 ＝ 2：1」と世界一クラブラン酸比率が高い！<br>
+      ・成人の市中肺炎・誤嚥性肺炎・動物咬傷や小児中耳炎で耐性菌（PRSP・嫌気性菌・BLNAR）を倒すため、アモキシシリンを高用量（成人1500〜2000mg/日、小児70〜90mg/kg/日）にしたい。<br>
+      ・しかしオーグメンチンだけで増量すると、クラブラン酸が過量（成人上限375mg/日、小児10mg/kg/日超）になって<strong>激烈な水様性下痢</strong>を起こし服薬継続不可能になる。<br>
+      ・そこで「オーグメンチンで下痢の起きない安全なクラブラン酸量をキープ」しつつ、「サワシリン単剤を上乗せ」して欧米基準の黄金比率（4:1〜14:1）を日本で人工的に再現している！
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（成人・小児の鑑査ダブルスタンダード！）</h4>
+      ・<strong>成人鑑査：</strong>オーグメンチン配合錠250RS 3錠/日（CVA 375mg上限）＋ サワシリン250mg 3〜5Cap/日 ＝ AMPC 1500〜2000mg/日。必ず<strong>「食直後」</strong>服用を指導し、ビオフェルミンR散等の耐性乳酸菌併用を確認！<br>
+      ・<strong>小児鑑査：</strong>オーグメンチン細粒（CVA ≤ 10mg/kg/日）＋ ワイドシリン細粒（AMPC計 70〜90mg/kg/日）。「おっ、先生は耐性菌対策と下痢予防のバランスを成人・小児ともに完璧に計算しているな！」と鑑査できれば一人前のプロ薬剤師です！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+<!-- Q-Extra2: リリカ vs タリージェ -->
+<div class="qa-card" style="border-left: 4px solid #0284c7;">
+  <div class="q-box" style="background:#f0f9ff; border-color:#bae6fd;">
+    <span class="q-title" style="color:#0369a1;">Q.【整形外科・疼痛】リリカからタリージェへ切り替える医師が急増中！違いと鑑査の急所は？</span>
+    腰痛症や坐骨神経痛の患者さんで、リリカからタリージェへ変更される処方をよく見ます。同じCaチャネルα2δリガンドなのに何が違うのですか？鑑査で絶対に見落としてはいけないポイントは？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong>決定的な違いは<strong>「鎮痛サブユニット（α2δ-1）に長く留まり、副作用サブユニット（α2δ-2）から早く離れる」</strong>という受容体解離速度の差です！これにより、タリージェはリリカより<strong>「痛みを強力に抑えつつ、めまい・ふらつき・体重増加が軽減しやすい」</strong>ため整形外科の第一選択として急速に普及しています。ただし<strong>適応症の違い（線維筋痛症はリリカのみ）</strong>と<strong>両剤とも100%腎排泄（eGFR減量鑑査）</strong>が絶対の必須知識です！
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「痛みの犯人はガッチリ捕まえ、副作用の部屋からは即座に立ち去る！」</h4>
+      ・<strong>リリカ：</strong>α2δ-1（痛み）とα2δ-2（めまい・小脳症状）に同じ強さで結合するため、薬が効くのと同時に「猛烈な眠気・ふらつき・長期の体重増加（むくみ）」が出やすい。<br>
+      ・<strong>タリージェ：</strong>痛み（1）には長くくっついてしっかり除痛し、副作用（2）からはパッと離れるスマート設計！「リリカでふらついて続けられなかった」「太って困る」患者の切り替え先として重宝される。
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（鑑査の2大地雷：適応症 ＆ eGFR減量！）</h4>
+      ① <strong>適応症トラップ：</strong>「線維筋痛症」や「脳卒中後・脊髄損傷後の中枢性神経痛」に適応があるのは<strong>リリカだけ</strong>！タリージェは「末梢性」限定のため適応外処方になっていないか確認。<br>
+      ② <strong>100%腎排泄の減量トラップ：</strong>両剤とも未変化体で尿から出るため、高齢者の腎機能低下（eGFR 30〜59で半量減量、30未満で1日1回）を必ず電卓でチェック！初期用量（リリカ75mg bid、タリージェ5mg bid）を遵守しないと<strong>意識障害・転倒骨折</strong>を招きます！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+<!-- Q-Extra3: アカシジア vs ジスキネジア vs ウェアリングオフ -->
+<div class="qa-card" style="border-left: 4px solid #ea580c;">
+  <div class="q-box" style="background:#fff7ed; border-color:#fed7aa;">
+    <span class="q-title" style="color:#c2410c;">Q.【精神・神経運動障害】アカシジア、ジスキネジア、ジストニア、ウェアリングオフの違いと誤診増量の罠とは？</span>
+    抗精神病薬やパーキンソン病治療薬を服用中の患者さんで、「足がムズムズして落ち着かない」「口が勝手にもぐもぐ動く」「薬が切れると体が固まる」といった症状を訴えられた際、どう見分けて対処すべきですか？鑑査・服薬指導における最大の地雷は何ですか？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong>決定的な違いは<strong>「症状・発症機序（ドパミン不足か過剰か）・発症時期・特効薬」</strong>です！薬剤師が最も警戒すべきは<strong>「アカシジアを精神症状の悪化と誤認して抗精神病薬を増量してしまう地雷（自殺企図のリスク）」</strong>と<strong>「遅発性ジスキネジアに抗コリン薬を追加して激悪化させる地雷」</strong>の2大医療事故です！
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「ドパミンとアセチルコリンの天秤」と「発症時期」で一発整理！</h4>
+      ・<strong>アカシジア（静坐不能症）：</strong>「足がムズムズして座っていられない！」。D2遮断によるノルアドレナリン暴走。投与初期（数日〜数週）。第一選択は<strong>インデラル（β遮断薬）</strong>！<br>
+      ・<strong>急性ジストニア：</strong>「首や目が勝手に上や横につっぱる！」。急激なD2遮断でアセチルコリンが過剰暴走。投与直後（数時間〜数日）。特効薬は<strong>アキネトン（抗コリン薬）</strong>！<br>
+      ・<strong>遅発性ジスキネジア（TD）：</strong>「口をもぐもぐ、舌をペロペロ勝手に出す」。長期D2遮断で受容体が過敏化（数ヶ月〜数年）。特効薬は<strong>ジスバル（VMAT2阻害薬）</strong>！抗コリン薬は悪化するため禁忌！<br>
+      ・<strong>ウェアリング・オフ：</strong>「次の服薬前に薬が切れて手が震え、動けなくなる」。パーキンソン病の進行でドパミン貯蔵能消失。対処法は<strong>COMT阻害薬（オンジェンティス等）やMAO-B阻害薬の追加・服薬回数増加</strong>！
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（命を救う鑑査の2大ピットフォール！）</h4>
+      ① <strong>アカシジア増量トラップ（自殺の引き金）：</strong>患者が「イライラして落ち着かない、ソワソワする」と訴えた際、未熟な医師は統合失調症の不穏・焦燥悪化と誤認して抗精神病薬（エビリファイやリスパダール等）を増量しがちです。増量されると耐え難い地獄の苦痛となり<strong>「突発的な飛び降り自殺」</strong>を引き起こします！「じっと座っていられますか？足踏みしたくなりませんか？」と確認し、疑義照会でインデラル追加や減量を提案するのがデキる薬剤師！<br>
+      ② <strong>遅発性ジスキネジアへの抗コリン薬誤投薬トラップ：</strong>「錐体外路症状だから」と短絡的にアキネトンを出すと、ドパミン過敏状態に油を注ぎ<strong>ジスキネジアが劇的に激悪化・不可逆化</strong>します！アキネトンが効くのは「急性ジストニア」や「パーキンソニズム（振戦・筋強剛）」であり、口をもぐもぐする遅発性ジスキネジアには【ジスバル錠（バルベナジン）】または原因薬減量が世界標準です！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+<!-- Q-Extra4: 吸入薬の指導急所（DPI vs pMDI ＆ うがい2段階） -->
+<div class="qa-card" style="border-left: 4px solid #16a34a;">
+  <div class="q-box" style="background:#f0fdf4; border-color:#bbf7d0;">
+    <span class="q-title" style="color:#15803d;">Q.【呼吸器・吸入指導】「毎日吸ってるのに咳が止まらない」の8割は手技ミス！DPIとpMDIの吸い方の真逆とうがいの2段階とは？</span>
+    喘息の患者さんから「レルベアやシムビコートを毎日使っているのに全然効かない」と言われました。疑義照会で薬を変更すべきですか？それとも手技指導で解決できますか？鑑査と指導の急所を教えてください。
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong>疑義照会する前に、<strong>薬局のデモ器を使って「目の前で実際に吸ってもらう」手技確認</strong>が最優先です！効果不十分の8割以上は「吸えていない（手技ミス）」が原因です。最大のポイントは<strong>「粉末DPIは強く速く一気に吸う」「霧状pMDI/SMIはゆっくり深く吸う」</strong>という真逆の吸気速度、そして<strong>「吸入後5秒息止め」と「ブクブク＋ガラガラ2段階うがい」</strong>の徹底です！
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「ストローで粉を吸い上げる力技」vs「霧雨を肺いっぱいに吸い込む静けさ」</h4>
+      ・<strong>DPI（エリプタ、タービュヘイラー、ディスカス）：</strong>粉末の塊を空気の乱流でバラバラに粉砕して肺奥に届けるため、<strong>「スッと強く一気に吸い込む力」</strong>が必要！高齢者で「すーっと弱々しく」吸っていると、喉の手前で粉が全部落ちてしまいます。<br>
+      ・<strong>pMDI / SMI（フルティフォーム、レスピマット）：</strong>ガスやバネで細かい霧が自動で飛んでくるため、強く吸うと喉の奥に衝突してしまいます。<strong>「押すと同時に、息をゆっくり4〜5秒かけて深く吸う」</strong>のが正解！タイミングが合わないならスペーサー（補助具）を提案！
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（命を救う3大落とし穴 ＆ うがい指導！）</h4>
+      ① <strong>吸入器に息を吹き込むと「全滅」：</strong>吸う前に息を吐く際、吸入器をくわえたまま「フーーッ」と息を吹き込んでしまう患者が多発！呼気中の湿気で内部の粉がガチガチに固まり、以降二度と粉が出なくなります。「吸入器から口を離して横を向いて息を吐ききる」ことを徹底！<br>
+      ② <strong>吸入直後の「5秒息止め」：</strong>吸ってすぐに「ハーッ」と吐き出すと、せっかく吸った薬剤がそのまま煙のように出ていきます。口を閉じて頭の中で「1、2、3、4、5」と数えさせます。<br>
+      ③ <strong>うがいは「ブクブク」と「ガラガラ」の2段構え：</strong>口の中をすすぐ「ブクブク」だけでは声帯に張り付いたステロイドが落ちず、<strong>声枯れ（嗄声）</strong>が起きます！必ず「上を向いて喉の奥を洗うガラガラうがい」もセットで行わせてください！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+<!-- Q-Extra5: 点鼻薬の指導急所（外側噴霧法 ＆ 薬剤性鼻炎） -->
+<div class="qa-card" style="border-left: 4px solid #0891b2;">
+  <div class="q-box" style="background:#ecfeff; border-color:#a5f3fc;">
+    <span class="q-title" style="color:#0e7490;">Q.【耳鼻科・点鼻薬指導】ステロイド点鼻薬で鼻血が出る患者が続出！市販の点鼻薬を使い続けると鼻が余計に詰まる理由とは？</span>
+    アラミストやナゾネックスを処方された患者さんから「鼻血が出た」「喉に流れて苦い」と相談されました。また「市販の点鼻スプレー（ナザール等）を使っているが、やめると以前より鼻が詰まる」という患者への適切な介入法とは？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong>鼻血が出る最大の原因は、ノズルをまっすぐ突っ込んで<strong>「鼻中隔（真ん中の壁：キーゼルバッハ血管網）」に直撃させているから</strong>です！<strong>「左手で右の鼻、右手で左の鼻」</strong>を持つクロスハンド法で【目尻（外側）】に向けて噴霧させれば鼻出血は激減します！また市販の血管収縮点鼻薬は1〜2週間連用で<strong>「薬剤性肥厚性鼻炎（リバウンド鼻閉）」</strong>を招くため、直ちにステロイド点鼻へ移行させることが薬剤師の重大使命です！
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「鼻の真ん中は血管だらけの薄皮、効かせたいのは外側の腫れた粘膜！」</h4>
+      ・<strong>鼻血のトラップ：</strong>鼻の穴の真ん中の仕切り壁（鼻中隔）の前端には、毛細血管が網目状に集まる「キーゼルバッハ部位」があります。ここにステロイドスプレーの強い噴流を毎日直撃させると、粘膜がびらん・潰瘍を起こして大出血します！<br>
+      ・<strong>クロスハンド法の極意：</strong>右手で左の鼻の穴、左手で右の鼻の穴を持つと、手の構造上、自然とノズルが<strong>「外側（耳や目尻の方向）」</strong>を向きます。外側の腫れた下鼻甲介に薬が綺麗に当たり、鼻血も防げて一石二鳥！
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（市販薬のリバウンド鼻閉を救い出せ！）</h4>
+      ① <strong>血管収縮薬（ナファゾリン等）の連用地雷：</strong>「シュッとすると1分で鼻が通る！」市販点鼻薬は、毛細血管を無理やり絞め上げて粘膜を縮めているだけです。1〜2週間連用すると受容体がバカになり（脱感作）、薬が切れた瞬間に反跳作用（リバウンド）で以前よりも激しく粘膜が腫れ上がります！「点鼻薬中毒（薬剤性鼻炎）」の患者を見つけたら、耳鼻科受診を促し、安全なステロイド点鼻薬（ナゾネックス等）への切り替えと離脱を支援してください！<br>
+      ② <strong>強くスースー吸い込むな：</strong>「粉末点鼻のエリザス」や「懸濁液のアラミスト」をスースー強く吸い込むと、鼻粘膜に留まらず全部喉へ流れて食道に入ってしまいます。「軽く自然に息を吸いながらプッシュし、噴霧後は数秒息を止め、強く鼻をすすらない」が正しい手技です！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+<!-- Q-Extra6: スポーツファーマシスト・うっかりドーピング防止 -->
+<div class="qa-card" style="border-left: 4px solid #0284c7;">
+  <div class="q-box" style="background:#f0f9ff; border-color:#bae6fd;">
+    <span class="q-title" style="color:#0369a1;">Q.【スポーツ薬学・OTC】アスリートや部活生が「風邪薬やのど飴」を買いに来た！絶対に避けるべき地雷成分と安全な推奨OTCとは？</span>
+    「週末に陸上大会がある高校生」「国体やインカレに出場する実業団選手」が薬局の市販薬コーナーで風邪薬や鼻炎薬、のど飴を探しています。薬剤師として絶対に踏んではいけない「うっかりドーピングの地雷」と、自信を持って出せる安全処方は何ですか？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong>「知らなかった」は通用せず一発で資格停止になるのがアンチ・ドーピングの鉄則です！市販薬で最も危険なのは<strong>「エフェドリン類（総合感冒薬・鼻炎薬・咳止めの9割に配合）」</strong>、<strong>「漢方生薬の麻黄（葛根湯・小青竜湯）」</strong>、そして<strong>「南天のど飴（ヒゲナミン含有）」</strong>の3大地雷です！アスリートには<strong>「タイレノールA（解熱）」「アレグラFX（鼻炎）」「メジコンせき止めPro（咳）」「ペラックT錠（咽頭痛）」</strong>の単一成分処方のみを指名買いさせるのがプロの防衛策です！
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「総合薬は地雷原！単一成分の『スナイパーOTC』だけを選べ！」</h4>
+      ・<strong>総合風邪薬のワナ：</strong>「熱も鼻も咳も一発で治す！」市販薬には、気管支を広げるため興奮薬の「dl-メチルエフェドリン」や「プソイドエフェドリン」がほぼ100%入っています。競技会検査で一発アウト！<br>
+      ・<strong>のど飴のワナ：</strong>「南天のど飴」に含まれる生薬ナンテンジツには、気管支拡張作用を持つ「ヒゲナミン（β2作動薬）」が含まれており、<strong>常時禁止物質</strong>です！「お菓子感覚でのど飴をなめただけ」で陽性になった事例が多発しています！<br>
+      ・<strong>漢方薬のワナ：</strong>「葛根湯」「小青竜湯」「麻黄湯」などには天然のエフェドリン（麻黄）が大量に含まれています。「体に優しい漢方だから」と油断して飲むと即失格！
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（ステロイド外用OKのルール ＆ TUE制度！）</h4>
+      ① <strong>ステロイド点鼻・吸入・湿布は使用OK！：</strong>「ステロイドは全面禁止」と誤解されがちですが、禁止されているのは<strong>「経口内服（セレスタミン等）と注射」</strong>です！花粉症の<strong>点鼻ステロイドスプレー（ナゾネックス・アラミスト等）や喘息の吸入ステロイド（フルタイド等）、皮膚の外用軟膏、湿布薬はWADA規定で使用が認められています</strong>！<br>
+      ② <strong>TUE（治療使用特例）で命を守る：</strong>喘息発作や重症疾患でどうしても禁止薬（吸入β2刺激薬高用量やインスリン等）が必要な場合、医師の診断書を添えて事前にJADA（日本アンチ・ドーピング機構）に申請し許可をもらう「TUE制度」があります。アスリートの健康と競技生活を両立させるのがスポーツファーマシストの使命です！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+<!-- Q-Extra7: 鉄剤の服薬指導急所（フェロミア vs フェルム、キレート、貯蔵鉄） -->
+<div class="qa-card" style="border-left: 4px solid #db2777;">
+  <div class="q-box" style="background:#fdf2f8; border-color:#fbcfe8;">
+    <span class="q-title" style="color:#9d174d;">Q.【血液・貧血】フェロミアで胃もたれ・吐き気が出る患者の切り替え先は？便が真っ黒？鉄剤指導の4大急所とは？</span>
+    鉄欠乏性貧血でフェロミアを処方された患者さんから「気持ち悪くて飲めない」「便が真っ黒になって怖い」「Hbが治ったのにまだ飲まないといけないの？」と相談されました。薬剤師としてどう鑑査・指導し、必要なら処方提案すべきですか？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong>フェロミアの胃腸障害（悪心・胃痛）への第一選択の処方提案は<strong>「徐放性カプセルのフェルム（溶性ピロリン酸第二鉄）」への変更</strong>です！小腸上部でゆっくり鉄を放出するため胃刺激が激減します。そして<strong>「便の黒色化は正常反応」「チラーヂン・キノロンとはキレートで最低2時間空ける」「Hb（財布のお金）が治ってもフェリチン（銀行の貯金）が満ちるまで2〜3ヶ月継続」</strong>の4大原則を徹底指導します！
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「財布のお金（Hb）と銀行の定期預金（フェリチン）」で患者を納得させる！</h4>
+      ・<strong>なぜ貧血が治っても飲み続けるのか？：</strong>「採血でヘモグロビンが正常に戻ったのは、お財布にお金が入っただけの状態です。肝臓にある銀行の貯金（貯蔵鉄＝フェリチン）はまだ空っぽです！ここで鉄剤をやめると、次にお金を使った瞬間にまた貧血が再発します。銀行の金庫を満タンにするため、あと2〜3ヶ月だけ預金を続けましょう！」と例えると100%納得してくれます。<br>
+      ・<strong>胃もたれのウラ技：</strong>空腹時が最も吸収が良いですが、胃が荒れるなら迷わず「食後すぐ」に飲ませてOK！それでもダメなら「1日1回就寝前にフェルム1カプセル」に変更すれば、寝ている間に吸収されるため日中の吐き気は劇的に消えます。
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（お茶OKの現代医学 ＆ チラーヂンキレート地雷！）</h4>
+      ① <strong>「お茶で飲んでも大丈夫」と安心させよ：</strong>昔の教科書には「お茶のタンニンが鉄を奪うから水で飲め」と書いてありましたが、現代の医薬品鉄剤は鉄含有量が十分に多いため、一般的な緑茶1〜2杯程度の影響は無視できます。「水がないから飲まない」方がよほど問題なので、アドヒアランス優先で「お茶で飲んで大丈夫ですよ」と伝えるのがデキる薬剤師！<br>
+      ② <strong>チラーヂンSとのキレート地雷を見逃すな！：</strong>甲状腺機能低下症の「チラーヂンS」と鉄剤を同時に飲むと、胃腸内でガッチリ合体（キレート）して<strong>チラーヂンが全く吸収されなくなります</strong>！「朝食前にチラーヂン、夕食後または就寝前に鉄剤」のように最低2〜4時間離して服用させることが絶対の生命線です！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+<!-- Q-Extra8: ニキビ抗菌薬の使い分け（ミノマイシン vs ビブラマイシン ＆ 漫然投与禁止） -->
+<div class="qa-card" style="border-left: 4px solid #0284c7;">
+  <div class="q-box" style="background:#f0f9ff; border-color:#bae6fd;">
+    <span class="q-title" style="color:#0369a1;">Q.【皮膚科・ニキビ】ミノマイシンとビブラマイシンは何が違う？ニキビに抗菌薬を何か月も漫然と飲み続けてはいけない理由とは？</span>
+    重い赤ニキビの患者さんにミノマイシンが処方されましたが、「ふわふわしてめまいがする」と訴えがありました。ビブラマイシンへ変更する意義は何ですか？また「治らないから半年間ずっと抗生剤を飲んでいる」患者への指導と疑義照会のポイントは？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong>ミノマイシンからビブラマイシンへの変更の最大の意義は<strong>「前庭機能障害（めまい・ふらつき）の回避」</strong>です！両剤とも日本皮膚科学会ガイドライン最高推奨度Aですが、ビブラマイシンはめまい発現率が極めて低いため最良の乗り換え先になります。そしてガイドラインの絶対原則として<strong>「経口抗菌薬は炎症期に限定し、原則3ヶ月以内に中止してベピオやディフェリンの外用維持療法へ移行する」</strong>ことが耐性菌防止の鉄則です！
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「火事の初期消火（抗菌薬）と、防炎壁の維持（BPO・アダパレン）」</h4>
+      ・<strong>抗菌薬は『消防車の放水』：</strong>赤く腫れ上がったアクネ菌の炎症（火事）を一気に消し止めるための緊急処置。火が消えた後も放水（抗生剤内服）を何か月も続けていると、家が水浸しになる（腸内細菌叢の破壊、めまい、皮膚・爪の青黒い色素沈着）だけでなく、薬が効かない<strong>最強の耐性アクネ菌</strong>が生まれてしまいます！<br>
+      ・<strong>火が消えたら『防炎壁』へバトンタッチ：</strong>炎症が落ち着いたら、耐性菌の生じない<strong>過酸化ベンゾイル（ベピオ）やアダパレン（ディフェリン）</strong>による「毛穴詰まり除去」へ切り替えるのが皮膚科の勝ちパターン！
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（ビブラマイシンの食道潰瘍トラップ ＆ キレート地雷！）</h4>
+      ① <strong>ビブラマイシンは「水多め＆横になるな」が絶対鉄則！：</strong>カプセルが食道に引っかかって溶けると、強酸性の薬剤が粘膜を直撃して<strong>激しい食道潰瘍（胸痛・嚥下痛）</strong>を起こします！必ず「コップ1杯以上の多めの水で立ち上がって飲み、服用後30分は絶対に横にならない」よう徹底指導してください！<br>
+      ② <strong>サプリ（鉄・カルシウム・牛乳）とのキレート地雷：</strong>テトラサイクリン系（ミノマイシン・ビブラマイシン）は、多価金属イオン（Fe、Ca、Mg、Al）と腸内で不溶性キレートを形成し吸収が激減します。「便秘薬のマグミット」や「鉄剤」「美肌目的のカルシウム・ミネラルサプリ」とは最低2時間以上あけて服用させることが必須です！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+<!-- Q-Extra9: 喘息・COPD吸入薬の決定打（レルベア vs テリルジー vs ビレーズトリ vs エナジア） -->
+<div class="qa-card" style="border-left: 4px solid #6366f1;">
+  <div class="q-box" style="background:#eef2ff; border-color:#c7d2fe;">
+    <span class="q-title" style="color:#3730a3;">Q.【呼吸器】レルベア、テリルジー、ビレーズトリは何が違う？COPDと喘息で使えないトリプル製剤があるって本当？</span>
+    喘息とCOPDの患者さんで吸入薬の変更が頻繁にありますが、「レルベアとテリルジーの違い」「テリルジーとビレーズトリとエナジアの使い分け」はどう説明しますか？保険適応上の絶対に外せない鑑査トラップは？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong>レルベア（ICS/LABAの2剤）に<strong>LAMA（抗コリン薬）が追加されたのがテリルジー（3剤トリプル）</strong>です！同じエリプタ器のため手技の覚え直し不要でステップアップできます。そしてトリプル3剤の鑑査の最大急所は<strong>『適応症の棲み分け』</strong>です！<strong>「テリルジーは喘息・COPD両対応」「ビレーズトリはCOPD専用（喘息不可）」「エナジアは喘息専用（COPD不可）」</strong>という保険適応トラップがあり、病名不一致は査定・返戻の直撃を食らいます！
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「自力で吸える若者・活動期（DPI）」vs「吸えない高齢肺気腫（pMDI）」</h4>
+      ・<strong>テリルジー（エリプタ）＝『新幹線の自動改札』：</strong>カバーをカチッと開けてスッと吸うだけ。1日1回1吸入で喘息もCOPDも抑え込む万能エース。自力でスーッと吸気できる患者のアドヒアランス維持に最強。<br>
+      ・<strong>ビレーズトリ（エアロスフィア：pMDI）＝『酸素マスクの補助スプレー』：</strong>重症COPDで「息を強く吸い込む力（吸気流速）が残っていない」超高齢者に、息を吸いながら押すだけで霧が気道奥まで届く。喘息には適応がない<strong>COPD特化型レスキュー</strong>！<br>
+      ・<strong>エナジア（ブリーズヘラー）＝『五感確認型カプセル』：</strong>「カラカラ」という回転音と振動、味で吸入完了が100%わかる喘息専用トリプル！
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（抗コリン禁忌 ＆ うがいの徹底指導！）</h4>
+      ① <strong>トリプル製剤（テリルジー・ビレーズトリ・エナジア）は「緑内障・前立腺肥大」を即座にチェック！：</strong>3剤すべてにLAMA（抗コリン成分）が入っているため、<strong>【閉塞隅角緑内障】</strong>（眼圧急上昇で失明リスク）と<strong>【前立腺肥大症による排尿障害】</strong>（尿閉リスク）が絶対禁忌です！お薬手帳の他科処方（泌尿器・眼科）を必ずスクリーニングしてください！<br>
+      ② <strong>うがいは「ブクブク」と「ガラガラ」の2段構え：</strong>ICS（ステロイド）による口腔カンジダ症（口の中の白苔・痛み）と嗄声（声枯れ）を防ぐため、「口の中をゆすぐブクブク」と「喉の奥をゆすぐガラガラ」の両方を指導します！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+<!-- Q-Extra10: めまい（眩暈）の病態鑑別と治療薬の使い分け -->
+<div class="qa-card" style="border-left: 4px solid #0f766e;">
+  <div class="q-box" style="background:#f0fdfa; border-color:#99f6e4;">
+    <span class="q-title" style="color:#115e59;">Q.【耳鼻科・脳神経】「めまい」の処方箋が来たら何を疑う？メリスロン・セファドール・イソバイドの使い分けと、絶対に逃してはならない危険なめまいとは？</span>
+    「天井がぐるぐる回る」「体がふわふわ浮く」「立ち上がるとクラッとする」など様々なめまい患者さんが来局します。回転性と浮動性の見分け方、BPPVに薬が効きにくい理由、イソバイドの激マズ対策と鑑査の急所を教えてください。
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong>めまいはまず<strong>「① 回転性（内耳・中枢）」「② 浮動性（全身・脳虚血・薬剤性）」「③ 立ちくらみ（起立性低血圧）」</strong>の3つに鑑別します！そして最も重要なのは<strong>『危険な中枢性めまい（小脳・脳幹梗塞・出血）』の除外</strong>です。「麻痺、ろれつが回らない、物が二重に見える、激しい頭痛」があれば即座に救急受診！薬剤選択では<strong>内耳血流を増やすメリスロン（喘息・潰瘍注意）</strong>、<strong>前庭神経を遮断するセファドール（抗コリン作用・緑内障/前立腺肥大注意）</strong>、<strong>内リンパ水腫を抜くイソバイド（冷やす/炭酸割り指導）</strong>を病態に合わせて見極めます！
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「メニエールは内耳の水害、BPPVは排水溝の小石、中枢性は送電線のショート」</h4>
+      ・<strong>メニエール病＝『内耳の水害（内リンパ水腫）』：</strong>内耳に水が溜まりすぎて警報（めまい・低音難聴・耳閉感）が鳴る。水抜きポンプ（イソバイド・五苓散）と水路拡張（メリスロン・アデホス）で排水する！<br>
+      ・<strong>BPPV（良性発作性頭位めまい症）＝『排水口に小石が詰まった状態』：</strong>耳石が外れて三半規管に転がり込み、頭を動かすたびに激震が走る。薬（内服）では小石は消えないため、<strong>頭を動かして小石を戻すエプリー法（耳石置換理学療法）</strong>が絶対の根本治療！<br>
+      ・<strong>中枢性めまい＝『司令部（小脳・脳幹）の停電・火災』：</strong>内耳ではなく脳の血管が詰まったり破れたりしている。耳鳴りや難聴がない激しいめまいは中枢性を疑う！
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（BPPVの誤解 ＆ 薬剤性めまいの地雷！）</h4>
+      ① <strong>BPPV患者に「安静に寝ていては治らない！」と伝える：</strong>患者はめまいが怖くて頭を動かさずじっと寝ていようとしますが、安静にしていると耳石が元の場所に戻らず長引きます。「エプリー法や寝返り運動など、頭を積極的に動かすことで耳石が自然吸収されて治る」ことを指導するのが薬剤師の腕の見せ所です！<br>
+      ② <strong>高齢者のふわふわめまいは「薬剤性」を疑え！：</strong>高齢者の「なんとなくふらつく、頭がボーッとする」の多くは、<strong>降圧薬の効きすぎ（過降圧）</strong>、<strong>前立腺肥大症薬（α1遮断薬）による起立時低血圧</strong>、あるいは<strong>ベンゾ系睡眠薬・安定剤の翌朝への持ち越し・筋弛緩</strong>です！処方変更や増量のタイミングと症状発現の一致を疑義照会・主治医相談に繋げてください！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+<!-- Q-Extra11: 便秘症治療薬の使い分け（モビコール vs 酸化マグネシウム ＆ 高Mg血症・PPIトラップ） -->
+<div class="qa-card" style="border-left: 4px solid #b45309;">
+  <div class="q-box" style="background:#fffbeb; border-color:#fde68a;">
+    <span class="q-title" style="color:#78350f;">Q.【消化器・便秘】モビコールと酸化マグネシウムは何が違う？タケキャブ（胃薬）と一緒に飲むと酸化Mgが効かなくなる理由と、高Mg血症の鑑査急所とは？</span>
+    長年酸化マグネシウムを飲んでいる高齢患者さんにモビコールが追加・変更されるケースが増えています。両者の違いやメリット、タケキャブやネキシウム（PPI）との併用で起きる化学反応トラップ、モビコールの飲み方のコツを教えてください。
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong>最大の決定打は<strong>「体内に吸収されるか否か（高マグネシウム血症リスクゼロ）」</strong>と<strong>「胃酸に左右されない安定した効果」</strong>です！酸化Mgは安価ですが一部吸収されるため腎機能低下高齢者で致死的高Mg血症（意識障害・心停止）の厚労省警告があり、さらにPPI等で胃酸が止まると化学反応（不溶化）で全く効かなくなります。一方、モビコール（高分子PEG）は<strong>体内に一切吸収されず純粋に水を抱え込んで便へ届ける</strong>ため、腎不全・高齢者・小児（2歳以上）でも極めて安全に使えます！
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「スポンジで水を運ぶモビコール」vs「胃酸の化学実験をする酸化Mg」</h4>
+      ・<strong>モビコール＝『乾かないハイテクスポンジ』：</strong>水に溶かして飲むと、高分子ポリマー（PEG）が水をギュッと抱え込んだまま腸管を通過。大腸でカチコチの便に水分を供給して自然なバナナ便に膨らませる。体内に吸収されないため電解質異常のリスクがゼロ！<br>
+      ・<strong>酸化マグネシウム＝『胃酸頼みの化学実験』：</strong>難溶性のMgOが胃酸（2HCl）と反応して初めて水溶性の塩化マグネシウム（MgCl2）になり、腸管で重炭酸塩となって浸透圧を発揮する。胃酸を強力に止めるタケキャブやネキシウムを一緒に飲むと、<strong>「胃酸がないため化学反応が起きず、ただの白い粉のまま排泄されて便秘が全く治らない」</strong>という悲劇が起こる！
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（モビコールの美味しい飲み方 ＆ 刺激性の連用阻止！）</h4>
+      ① <strong>モビコールが「まずい・飲みにくい」と言われた時の神アドバイス：</strong>モビコールは浸透圧を等張にするため少し塩味（ナトリウム含有）がします。「1包あたり水約60mL」で溶かしますが、水が苦手な患者には<strong>「冷たいリンゴジュース」「麦茶」「スポーツドリンク（アクアソリタ等）」</strong>で溶かすと塩味が中和されて美味しく飲めます！（※とろみ剤併用時はPEGがとろみを分解してサラサラに戻すため、とろみ飲料への溶解は避ける指導）。<br>
+      ② <strong>刺激性下剤（センノシド・プルゼニド等）の毎日連用を止めさせる：</strong>「出ないから毎日センナを飲んでいる」患者は大腸の神経が麻痺して自力排便ができなくなり、大腸粘膜が真っ黒になる<strong>大腸メラノーシス（黒皮症）</strong>に陥っています。「モビコールやグーフィスで便の硬さを整えて、刺激性下剤は3日出ない時だけの『お助けレスキュー』に格下げする」指導が便秘治療成功の鍵です！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+<!-- Q1 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q1.【悪性腫瘍】S-1の休薬期間ミスと、3成分合体の理由は？</span>
+    S-1（テガフール・ギメラシル・オテラシル）の休薬期間を間違えて飲み続けてしまうと何が起きる？また、なぜ3成分が合体している？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>休薬しないと5-FUが蓄積し、<strong>重篤な骨髄抑制（白血球減少→敗血症）、激しい下痢、重症口内炎</strong>で命に関わる。3成分は「効果アップ」と「消化管毒性の軽減」の役割分担。
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「戦国武将の3人組」でイメージ！</h4>
+    ・<strong>テガフール（主役の武将）：</strong>体内で5-FUに変身してがん細胞を斬る！<br>
+    ・<strong>ギメラシル（敏腕ボディガード）：</strong>5-FUを分解する酵素（DPD）を邪魔して、5-FUの濃度を長く高く保つ！<br>
+    ・<strong>オテラシル（胃腸を守る盾）：</strong>消化管粘膜に留まって5-FUの活性化を抑え、下痢や口内炎を防ぐ！
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント（腎機能の罠！）</h4>
+    ボディガードの<strong>「ギメラシル」は腎排泄型</strong>！だから腎機能が落ちた人にS-1を出すと、ギメラシルが体内に溜まりすぎて5-FUが分解されなくなり、猛烈な副作用が出る。「肝代謝のテガフールなのに、なぜS-1はCCrで減量基準があるのか？」の答えはギメラシルにあり！
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q2 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q2.【高血圧症】「上の血圧は下がったのに下が低すぎる（高齢者）」と、逆に「下の血圧だけ90以上あって高い（若年・中年）」への対応と病態の違いは？</span>
+    ①「上の血圧は120に下がったのに、下の血圧が55しかなくて脈圧が大きいのが心配」と言われた時と、②「上の血圧は135で普通なのに、下の血圧が98もあって下だけ高い」と言われた時、血管の中で起きていることの違いをどう説明し、どうアドバイスする？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong><br>
+      ・<strong>① 高齢者の「上高・下低（脈圧大）」：</strong>大動脈が硬化してクッション性が失われた自然な老化現象。めまい・ふらつき・胸痛がなければ上の血圧（収縮期）が下がっているメリットが勝るため安心させる。<br>
+      ・<strong>② 若年・中年の「下が高い（拡張期高血圧）」：</strong>交感神経やRAASの過剰緊張で<strong>「全身の細い血管（末梢細動脈）がギュッと締め上げられている（末梢血管抵抗の増大）」</strong>状態！放置すると心臓の左室肥大や早期腎硬化症・心不全に直結するため、<strong>「減量・節酒・十分な睡眠」＋「ARB/ACE-Iや交感神経を刺激しないCCB（シルニジピン等）」</strong>で積極的に治療が必要！
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「塩ビパイプ」vs「ホースの先をつまむ指」の鮮やかな違い！</h4>
+      ・<strong>高齢者の脈圧大（塩ビパイプ）：</strong>若い血管はゴムホースのように心臓の拍出圧（上）を蓄え、心臓が休む時（下）に縮んで押し出す。硬い塩ビパイプになると圧を蓄えられないため、心臓が休むと圧力（下）がストンと落ちる。<br>
+      ・<strong>若年者の下が高い（ホースの先をつまむ指）：</strong>心臓が休んでいる間も、全身の毛細血管の手前の蛇口（細動脈）をギュッと指でつまんで出口を塞いでいるため、血液が逃げ場を失い、休んでいるはずの拡張期にも高い圧力がかかり続けている！
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（Jカーブ現象 ＆ 隠れた真犯人「お酒」！）</h4>
+      ・<strong>高齢者の下がりすぎ（Jカーブ）：</strong>心臓を栄養する「冠動脈」は心臓が休む拡張期に血流が流れる。狭心症既往がある高齢者で下が50未満になると冠血流低下で胸痛を起こすリスクがあるため、「胸の違和感や強い立ちくらみはないですか？」と確認できれば100点！<br>
+      ・<strong>下の血圧を跳ね上げる最大の真犯人は「アルコール」：</strong>毎晩お酒を飲む中年男性で下だけ高い人が非常に多い。アルコールは一時的に血管を広げるが、数時間後〜翌朝にかけて交感神経を猛烈に刺激して末梢血管を収縮させる。「休肝日を作ってお酒を減らすだけで、下の血圧が10〜15も下がる」臨床事実を指導できる薬剤師は頼もしい！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+
+
+
+<!-- Q3 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q3.【糖尿病】造影CT検査の前後でメトホルミンを48時間休薬する理由は？</span>
+    造影CT検査を受ける患者さんがメトホルミンを飲んでいたら、なぜ前後48時間休薬しないといけないのか？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>ヨード造影剤で一時的に腎機能が低下（造影剤腎症）した際、腎排泄型のメトホルミンが体内に蓄積し、致死的な<strong>「乳酸アシドーシス」</strong>を引き起こすのを防ぐため。
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「ゴミ処理場のストライキ」に備えよ！</h4>
+    メトホルミンは肝臓で「乳酸」から糖を作るのを止める薬だから、普段から少し乳酸が溜まりやすい。健康ならおしっこからメトホルミンがすぐ出ていくから安全だけど、ヨード造影剤はときどき腎臓のフィルターを一時的に目詰まりさせる。出口が詰まった状態でメトホルミンを飲むと体内で大渋滞し、乳酸が爆発的に増えて血液が酸性になる！
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    特にeGFR 30〜60未満の患者では前後48時間の休薬が厳格に求められる。もし他の薬と一緒に「一包化」されていたら、患者さんが自分でメトホルミンだけ抜くのは不可能に近い。検査予定を聞き出して事前に別包にするのが薬局・病棟薬剤師のファインプレー！
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q4 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q4.【心疾患】心房細動にアスピリンではなくDOACを使う理由を「川の流れ」で例えると？</span>
+    心房細動の患者さんに、なぜバイアスピリン（抗血小板薬）ではなくDOAC（抗凝固薬）を使わないといけないのか？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>心房細動の血栓は、心臓内の血流のよどみでフィブリン（凝固因子）が固まってできる<strong>「赤色血栓」</strong>であり、血小板を抑えるアスピリンでは全く予防できないから。
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「激流の川」と「よどんだ池のゼリー」！</h4>
+    ・<strong>抗血小板薬（アスピリン）：</strong>動脈という「激流の川」で、傷ついた岩肌に流されないよう必死にへばりつく「血小板（白色血栓）」を止める薬。<br>
+    ・<strong>抗凝固薬（DOAC）：</strong>心房細動は心臓がブルブル震えて「よどんだ池」になった状態。よどみでは血液中の糊（フィブリン）が赤血球を巻き込んで<strong>巨大な「赤い寒天ゼリー（赤色血栓）」</strong>を作る。ゼリーを止めるには糊（凝固因子）を止めるDOACが必須！
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    日本の臨床試験（JAST試験）で「心房細動の脳梗塞予防にアスピリンは全く効かず、ただ出血を増やすだけ」と証明され、ガイドラインでも明確に否定された歴史を教えてあげよう。
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q5 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q5.【脳血管障害】経管栄養（胃ろう）で徐放錠・腸溶錠を粉砕してはいけない理由は？</span>
+    胃ろうの患者さんに、アダラートCR錠（徐放錠）やバイアスピリン腸溶錠を粉砕して流そうとしていたらどう止める？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>徐放錠を潰すと1日分の薬が一気に溶け出して<strong>急激な血圧低下（ショック）</strong>を起こす。腸溶錠を潰すと胃酸で失活・胃粘膜障害を起こすうえ、<strong>チューブが詰まる</strong>。
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「精密なタイムカプセル」をハンマーで割るな！</h4>
+    アダラートCRは24時間じわじわ溶けるように設計された精密なタイムカプセル。これを粉砕するのは1日分の爆薬を30分で爆発させるようなもの！代替案として、粉砕しなくても55℃の温湯で溶かせる<strong>「簡易懸濁法」</strong>と、薬自体の半減期が長い<strong>アムロジピンOD錠やクロピドグレル錠などへの処方変更</strong>を提案しよう。
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    同じ腸溶製剤でも「錠剤の外側だけコーティングしたシングルユニット（バイアスピリン等＝粉砕NG）」と、「腸溶性の微小顆粒を固めたマルチプルユニット（タケプロンOD錠等＝お湯で崩せば顆粒が生き残るので簡易懸濁OK）」の違いを語れるのが製剤学のプロである薬剤師！
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q6 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q6.【精神神経疾患】高齢者のベンゾジアゼピン系睡眠薬と夜間転倒の理由は？</span>
+    高齢者にマイスリーやデパスが出ている時、夜中にトイレに起きた際にどんな危険があるか、作用機序から説明して！
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>GABA-A受容体への作用で催眠と同時に<strong>「筋弛緩作用（足の力が抜ける）」「ふらつき」「前向性健忘」</strong>が起き、夜間のトイレ歩行時に転倒して<strong>大腿骨頸部骨折（寝たきり直結）</strong>を起こす危険がある。
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「脳のブレーキと、足のブレーキが連動している」！</h4>
+    デパス等のベンゾジアゼピン系は、脳を眠らせるスイッチ（ω1）だけでなく、筋肉の力を抜くスイッチ（ω2）まで一緒に押してしまう。「頭は寝ぼけていて、足はこんにゃくのようにフニャフニャ」で暗い廊下を歩くから転ぶ。筋肉の力を抜かずに覚醒スイッチだけを切る<strong>オレキシン受容体拮抗薬（デエビゴ・ベルソムラ等）</strong>が安全な理由がここにある！
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    長年デパスを飲んでいる高齢者に「危ないから今日からデエビゴに完全スイッチ！」とやると、猛烈な離脱症状と反跳性不眠で失敗する。「少しずつ減らす（漸減法）か、一時的に重ねて移行する」提案までできてこそ実臨床！
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q7 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q7.【免疫・アレルギー】吸入ステロイド後の「ブクブク＆ガラガラうがい」の理由は？</span>
+    吸入ステロイドの後、なぜ「ブクブクうがい」と「ガラガラうがい」の両方が必要？起きる副作用を2つ挙げて！
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>口や喉に残ったステロイドによる<strong>①口腔・咽頭カンジダ症（カビの繁殖）</strong>と、<strong>②嗄声（させい：声枯れ）</strong>の2大局所副作用を防ぐため。
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「警備員の居眠り」と「声帯の筋トレ不足」！</h4>
+    ・<strong>ブクブクうがい：</strong>口の中にステロイドが残ると、常在菌を見張る免疫（警備員）が眠ってしまい、カンジダ（カビ）が繁殖するのを防ぐ！<br>
+    ・<strong>ガラガラうがい：</strong>喉の声帯にステロイドがつくと、声帯を閉じる筋肉が軽い筋力低下（ミオパチー）を起こして隙間ができ、ハスキーボイス（嗄声）になるのを防ぐ！
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    「うがいができない高齢者や幼児はどうする？」→ 正解は<strong>「吸入直後に水やお茶をゴクンと飲む（または食前に吸入して食事で流す）」</strong>！吸入ステロイドは胃に入っても肝臓の初回通過効果でほぼ100%近く不活化されるため、飲み込んでも全身の副作用はまず出ない。
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q8 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q8.【感染症】抗菌薬と「普通のビオフェルミン・ミヤBM」の併用に意味はある？</span>
+    抗菌薬と一緒に耐性乳酸菌（R散）ではなく普通のミヤBM（酪酸菌）やビオフェルミンが出ている時、本当に意味はある？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong><strong>大いに意味がある！</strong>特にミヤBM（酪酸菌）は「芽胞」という殻を作って抗菌薬の攻撃を耐え抜き、腸の奥で発芽して下痢や偽膜性腸炎を防ぐ。
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「核シェルターに入った最強のサバイバー」！</h4>
+    ミヤBM（宮入菌）は、周囲の環境が悪くなると<strong>「芽胞（がほう）」という無敵のシェルター</strong>に閉じこもる性質がある。だから抗菌薬の爆撃を受けても胃酸を浴びても平気で生き残り、大腸に届いてから殻を破って善玉菌を増やす！普通のビオフェルミンも、死んだ菌体が善玉菌のエサになるため無駄にはならない。
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント（保険査定の裏知識）</h4>
+    実は「ビオフェルミンR」などの耐性乳酸菌製剤は、添付文書上「ニューキノロン系抗菌薬（クラビット等）」が適応に入っていないため、一緒に処方するとレセプトで査定（減点）されることがある！だからキノロン系のお供には最初からミヤBMを選ぶ医師が多いんだよ。
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q9 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q9.【腎・泌尿器疾患】寝たきり高齢者の「クレアチニン 0.6（基準値内）」の罠とは？</span>
+    寝たきりで筋肉が全くない85歳のおばあちゃんの血清Cr値が「0.6 mg/dL」だった時、「腎機能正常！」と評価してはいけない理由は？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>クレアチニン（Cr）は「筋肉の老廃物」だから。筋肉がない寝たきり高齢者ではそもそもCrが作られないため、<strong>実際は腎機能が低下していても見かけ上のCr値が低く出てeGFRが過大評価される</strong>から。
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「ゴミを出さない空き家」の罠！</h4>
+    腎臓を「ゴミ処理場」、Crを「家庭から出るゴミ（筋肉の燃えカス）」としよう。筋肉のないおばあちゃんは、そもそもゴミを出さない。ゴミ処理場（腎臓）が半分壊れていても、ゴミが出ないから血液中にゴミが溜まらない（Cr 0.6）。これを「処理場が正常だ！」と勘違いして通常量の薬を出すと一発で中毒になる！
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    対策は3つ！①筋肉量に影響されない<strong>「シスタチンC」</strong>によるeGFRを見る、②小柄な高齢者では体表面積補正を外した<strong>「個別eGFR」</strong>やCockcroft-Gault式のCCrを使う（実務上Crが0.6未満なら0.6に丸める手法もあるが、過信せず投与後の傾眠等を厳重にモニタリングする！）。
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q10 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q10.【脂質異常・骨粗鬆症】ビスホスホネート服用患者が「抜歯する」と言ったら？</span>
+    ビスホスホネート製剤を飲んでいる患者さんが「今度、歯医者で抜歯する」と言ったら、どんな確認とアドバイスをする？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>①歯科医師にお薬手帳を必ず見せる、②<strong>自己判断で勝手に休薬しない（最新ガイドラインでは原則休薬しない！）</strong>、③抜歯前後の徹底した口腔ケア（感染予防）が最重要と伝える。
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「工事現場のルール大転換」！</h4>
+    昔は「抜歯前に3ヶ月休薬」と言われたこともあったが、骨に何年も沈着する薬なので数ヶ月やめても顎骨壊死は減らず、むしろ<strong>「休薬中に骨折するリスク」の方が高い</strong>と判明した！最新のポジションペーパー2023では<strong>「原則として抜歯時に休薬はしない！それより抜歯前に口の中のバイ菌を徹底的に減らす（クリーニング）ことが大事！」</strong>とルールが変わった。
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    現場ではまだ古い知識で「抜歯だから3ヶ月休薬してきて」と指示が出ることもある。患者さんを板挟みにしないよう、処方医と歯科医の間で情報共有（トレーシングレポート等でフォロー）し、何より「日頃から歯医者さんで定期クリーニングを受けること」を指導しよう！
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+
+```html
+<!-- Q11 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q11.【消化器】酸化Mgとタケキャブ（PPI）併用で「便秘薬が効かなくなった」理由は？</span>
+    酸化マグネシウムとタケキャブが併用されている患者さんで「酸化Mgが全然効かない」と言われたら、化学反応の視点からどう推理する？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>酸化Mgは胃の中で<strong>「胃酸（HCl）」と反応して塩化マグネシウムになり、初めて腸で浸透圧作用を発揮する</strong>。タケキャブやPPIで胃酸が完全に止まっていると、酸化Mgが反応できずただの砂のように素通りして効果が激減するから！
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「胃酸という変身スイッチがないと働けないヒーロー」！</h4>
+    酸化Mg（$\text{MgO}$）は水に溶けない粉。胃の中で胃酸（$\text{2HCl}$）と出会って初めて水に溶ける「$\text{MgCl}_2$」に変身し、腸の中で重曹と反応して炭酸塩になることで水を集める。タケキャブで胃酸がゼロになっている人や胃切除後の人では変身できないため、量を増やしても高Mg血症のリスクが上がるだけ！胃酸に関係なく効く<strong>アミティーザ、リンゼス、モビコール等への処方変更</strong>を提案しよう！
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    「実は酸化Mgを増量しても効かないからと1日2gも3gも出し続け、結果的に高齢者が高Mg血症で救急搬送されるケースがある。胃酸分泌抑制薬との併用を見抜いて別クラスの便秘薬へスイッチ提案するのは、薬剤師の薬学知識が最も輝く瞬間だよ！」
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q12 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q12.【整形・疼痛】トラムセット服用患者にカロナールが追加されたらなぜ疑義照会？</span>
+    トラムセット配合錠（1日4錠）を飲んでいる患者さんに、風邪で内科から「カロナール500mg 1日3回」が追加されたらなぜ危険？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>トラムセット1錠中には「トラマドール37.5mg＋<strong>アセトアミノフェン325mg</strong>」が入っているため、成分重複により<strong>アセトアミノフェンの過量投与（重篤な肝障害リスク）</strong>になるから！
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「隠れアセトアミノフェン」を計算せよ！</h4>
+    ・トラムセット4錠中のアセトアミノフェン＝ $325\text{mg} \times 4 = 1,300\text{mg}$/日（もし最大8錠なら $2,600\text{mg}$/日）。<br>
+    ・ここにカロナール $500\text{mg} \times 3 = 1,500\text{mg}$ が乗ると、合計 $2,800\text{mg}$（8錠なら $4,100\text{mg}$ で1日上限 $4,000\text{mg}$ を突破！）。さらに高齢者や小柄な方、飲酒習慣がある方では少量でも劇症肝炎を起こす危険がある。「トラムセットという名前からアセトアミノフェンが見えなくなる罠」をお薬手帳で必ずブロックしよう！
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    同じく市販の総合感冒薬（風邪薬）のほとんどにもアセトアミノフェンが入っている。トラムセット服用中の患者さんには「市販の風邪薬や痛み止めを買う時は必ず薬局に相談してくださいね」と事前に釘を刺しておくのが鉄則！
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q13 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q13.【内分泌】高齢・心疾患合併の橋本病にチラーヂンSを超少量から始める理由は？</span>
+    狭心症や心不全がある高齢の橋本病患者さんにチラーヂンSを始める時、なぜ12.5〜25μgの超少量から慎重に始める？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>冬眠状態（省エネモード）だった心臓に突然大量の甲状腺ホルモンを入れると、心拍数と心筋酸素消費量が一気に跳ね上がり、心臓が追いつかず<strong>狭心症発作や心筋梗塞、急性心不全を誘発する</strong>から！
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「何年も放置していた古いエンジンの車を、いきなり時速200キロで走らせるな！」</h4>
+    橋本病で長年代謝が落ちていたお年寄りの心臓は、ゆっくり動く「省エネモード」に慣れきっている。そこに若い人と同じ量のチラーヂン（アクセル）をいきなり踏み込むと、冠動脈の血流が追いつかずにエンジン（心筋）が焼き切れてしまう。だから最初は12.5μgという微風から始め、数週間かけて心臓を慣らしながら増やすんだよ。
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    もう一つ、もし患者さんが「副腎皮質機能低下症（下垂体機能低下など）」を合併している場合、ステロイド（コートリル等）を先に補充せずにチラーヂンSだけを先に投与すると、ステロイドの消費が急増して致死的な「急性副腎不全（副腎クリーゼ）」を起こす（添付文書の禁忌・重大な注意）。内分泌の順番は奥が深い！
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q14 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q14.【眼科】タプロス点眼液とチモプトールXE点眼液の「差す順番と間隔」は？</span>
+    タプロス点眼液とチモプトールXE点眼液（持続性ゲル化点眼）の2本が出たら、どちらを先に差して何分空ける？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>①先に<strong>タプロス（水溶性）</strong>を差す ➔ ②<strong>5分以上（理想は10分）</strong>空ける ➔ ③<strong>最後にチモプトールXE（ゲル化剤）</strong>を差す！
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「目の表面にサランラップを貼ってから化粧水を塗っても染み込まない！」</h4>
+    チモプトールXEやリズモンTGは、涙の成分（ナトリウムイオンや熱）に反応して目の表面でゼリー状に固まり（ゲル化）、薬を長く留めるハイテク点眼薬。これを先に差してしまうと、目の表面にゼリーのバリアが張られてしまい、後から差したタプロスが全部弾き返されてしまう！だからゲル化剤や眼軟膏は「絶対に一番最後」！
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    逆に「リズモンTG」など熱応答性ゲル化剤の中には、特定のプロスタグランジン点眼薬との相互作用で、先に差す指定がある例外も一部存在するが、基本原則は「水溶性 ➔ 懸濁性 ➔ ゲル化剤 ➔ 眼軟膏」。患者さんには目薬のキャップにマジックで「①」「②」と番号を書いてあげると絶対に間違えない！
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+
+<!-- Q15 -->
+<div class="qa-card">
+  <div class="q-box">
+    <span class="q-title">Q15.【肝胆膵】肝硬変患者の「昼夜逆転・羽ばたき振戦」は何のサイン？確認すべき薬は？</span>
+    肝硬変の患者さんが「最近、昼夜が逆転して、手を前に伸ばすとパタパタ震える」と家族から相談されたら何を疑う？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+    <strong>🎯 結論：</strong>アンモニア等の毒素が脳に達して起きる<strong>「肝性脳症」</strong>の初期サイン！お薬手帳で<strong>①ラクツロース（モニラック等）、②リフキシマ、③リーバクト（BCAA）</strong>がきちんと飲めているか、そして<strong>「便秘をしていないか」</strong>を即座に確認する！
+  </div>
+  <div class="metaphor">
+    <h4>🧠 先輩の脳内翻訳：「腸というアンモニア工場が暴走し、解毒工場（肝臓）を素通りして脳を麻痺させている」！</h4>
+    肝性脳症の最大の原因は「便秘（腸内に便が溜まってアンモニアが大量吸収されること）」と「脱水（利尿薬の効きすぎ）」。モニラックをお腹がゆるくなるからと自己中断していないか確認し、すぐ主治医へ連絡（受診勧奨）しよう！
+  </div>
+  <div class="doya">
+    <h4>🔥 指導薬剤師のドヤ顔ポイント</h4>
+    「昼夜逆転して夜眠れないから」と、肝硬変の患者さんにうっかりベンゾジアゼピン系睡眠薬を出すと、肝臓で代謝されずに脳が完全にシャットダウンして肝性昏睡を誘発する！肝硬変患者の不眠の背景には「初期の肝性脳症（昼夜逆転）」が隠れていることを常に疑え！
+  </div>
+  </div>
+      <div class="student-answer-blank">
+        <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+        <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+      </div>
+
+</div>
+  </div><!-- /.answers-container -->
+
+
+<!-- Q16 -->
+<div class="qa-card" id="ans-q16">
+  <div class="q-box">
+    <span class="q-title">Q16.【皮膚科】ステロイド外用薬を「薄く伸ばして塗る」のが逆効果な理由と、FTU・プロアクティブ療法の指導法は？</span>
+    「ステロイド軟膏は副作用が怖いので、できるだけ薄く伸ばして塗っています」と言うアトピー患者さんに、なぜそれが逆効果なのか、どう例えて指導する？また、FTU（フィンガーチップユニット）の目安はどう説明する？
+  </div>
+  <div class="ans-content-wrapper">
+    <div class="ans-section">
+      <strong>🎯 結論：</strong><br>
+      ・<strong>薄塗りが逆効果な理由：</strong>必要薬効濃度に達せず炎症の火種（火事）が消えないため、かえってダラダラと長期間塗り続けることになり、結果として副作用（皮膚菲薄化やバリア破壊）のリスクが高まる。<br>
+      ・<strong>FTU（フィンガーチップユニット）：</strong>大人の人差し指の先端から第一関節まで押し出した量（約0.5g）＝「手のひら2枚分」の面積。<br>
+      ・<strong>プロアクティブ療法：</strong>ツルツルに治った後も、週2回（水・日など）定期的に非ステロイド性新世代薬（コレクチム/モイゼルト）やタクロリムス軟膏を病変部に塗り、再燃を先回りして防ぐ。
+    </div>
+    <div class="metaphor">
+      <h4>🧠 先輩の脳内翻訳：「火事の消火」で患者さんに一発で伝わる！</h4>
+      「火事の時に、水をケチってコップ半分ずつチビチビかけていたら、いつまで経っても煙（炎症）がくすぶり続けて、家（皮膚）がボロボロになってしまいますよね？<br>
+      <strong>バケツ一杯の水（適量＝FTU）で一気に火を消し止め、火が完全に消えたら火の粉の見張り（保湿剤や新薬）に切り替える</strong>のが、実はステロイドを一番早く、安全に卒業できる近道なんですよ！」
+    </div>
+    <div class="doya">
+      <h4>🔥 指導薬剤師のドヤ顔ポイント（外用薬の監査と基剤の妙）</h4>
+      ・<strong>塗布量のリアルな目安：</strong>「ティッシュがペタッと貼り付いて落ちない程度（テカるくらい）」が適量。<br>
+      ・<strong>処方本数からの逆算監査：</strong>手のひら4枚分の皮疹なら1回1g、1日2回で1日2g、2週間なら28g（5gチューブなら約6本）必要。「2週間分で5gチューブ1本」しか出ていなければ、明らかに患者がケチって塗っているか医師の処方量不足！<br>
+      ・<strong>塗る順番：</strong>全身の保湿剤（ヒルドイド等）が先、病変部へのステロイド重ね塗りが後！
+    </div>
+  </div>
+  <div class="student-answer-blank">
+    <div style="font-weight:700; color:#475569; margin-bottom:4px; font-size:0.85rem;">✏️ 実習生 解答・考察記入欄（印刷用）：</div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+    <div style="border-bottom:1px dashed #cbd5e1; height:32px;"></div>
+  </div>
+</div>
+
+</div><!-- /#tab-answers -->

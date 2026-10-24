@@ -1,0 +1,370 @@
+﻿```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>服薬期間中フォローアップ＆トレーシングレポート（TR）実践マニュアル</title>
+<style>
+  :root {
+    --primary: #0f172a;
+    --fu-main: #7c3aed;
+    --fu-safe: #059669;
+    --fu-bg: #f5f3ff;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --border: #cbd5e1;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    padding-bottom: 50px;
+  }
+
+  /* 上部ナビゲーション */
+  .top-nav {
+    background: linear-gradient(135deg, #0f172a 0%, #5b21b6 100%);
+    color: white;
+    padding: 15px 25px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .top-nav h1 { font-size: 1.2rem; color: #c4b5fd; }
+  .tab-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .tab-btn {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: 0.2s;
+  }
+  .tab-btn.active, .tab-btn:hover { background: #a78bfa; color: #0f172a; font-weight: bold; }
+  .print-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+
+  .container { max-width: 1220px; margin: 20px auto; padding: 0 15px; }
+
+  .fu-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .sec-header {
+    border-bottom: 3px solid var(--fu-main);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .sec-title { font-size: 1.35rem; font-weight: 800; color: var(--primary); }
+  .sec-sub { font-size: 0.85rem; color: #64748b; font-weight: bold; }
+
+  .banner {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.92rem;
+    margin: 14px 0 10px 0;
+  }
+  .b-purple { background: var(--fu-bg); color: #4c1d95; border-left: 5px solid var(--fu-main); }
+  .b-green { background: #dcfce7; color: #14532d; border-left: 5px solid var(--fu-safe); }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 0.86rem; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #f8fafc; font-weight: bold; color: var(--primary); }
+
+  .badge-target { background: #ede9fe; color: #6d28d9; padding: 2px 7px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; display: inline-block; margin-bottom: 3px; }
+  .template-box {
+    background: #f8fafc;
+    border: 1px dashed #64748b;
+    border-radius: 8px;
+    padding: 14px;
+    font-family: monospace;
+    font-size: 0.84rem;
+    color: #0f172a;
+    margin-top: 8px;
+    white-space: pre-wrap;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .box-card { border: 1px solid var(--border); border-radius: 8px; padding: 14px; background: #fafafa; }
+  .box-card h4 { font-size: 0.95rem; margin-bottom: 8px; color: var(--primary); border-bottom: 2px solid #cbd5e1; padding-bottom: 4px; }
+  ul { padding-left: 18px; font-size: 0.86rem; }
+  li { margin-bottom: 5px; }
+
+  @media print {
+    body { background: white; font-size: 7.8pt; padding: 0; }
+    .top-nav { display: none !important; }
+    .container { max-width: 100%; margin: 0; padding: 0; }
+    .fu-section {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+      margin-bottom: 0;
+      page-break-after: always;
+    }
+    th, td { padding: 5px 6px; font-size: 7.5pt; }
+    @page { size: A4 landscape; margin: 8mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <h1>📋 服薬期間中フォローアップ ＆ トレーシングレポート（TR）実践マニュアル</h1>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showFu('all', this)">すべて表示（一括印刷）</button>
+    <button class="tab-btn" onclick="showFu('f-matrix', this)">🎯 ① 疾患・薬剤別チェック項目マトリクス</button>
+    <button class="tab-btn" onclick="showFu('f-template', this)">✍️ ② すぐに使えるTR（情報提供書）文面</button>
+    <button class="tab-btn" onclick="showFu('f-student', this)">🎓 ③ 実習生への指導ステップ</button>
+    <button class="print-btn" onclick="window.print()">🖨️ A4横で印刷</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ==========================================
+       PART 1: 疾患・薬剤別「フォローアップすべきチェック項目」マトリクス
+       ========================================== -->
+  <div class="fu-section f-matrix">
+    <div class="sec-header">
+      <h2 class="sec-title">🎯 ① 疾患・薬剤別「服薬期間中フォローアップ」チェックポイント一覧</h2>
+      <span class="sec-sub">「いつ・誰に・何を聞き、どのような基準で異常と判断するか」の完全マニュアル</span>
+    </div>
+
+    <div class="banner b-purple">💡 フォローアップの黄金原則 ➔ 「新薬開始時」「用量変更時」「ハイリスク薬（抗がん薬・抗血栓薬・インスリン等）」は開始後数日〜1週間以内に電話や面談で必ず初期モニタリングを行う！</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">対象疾患・薬剤グループ</th>
+          <th style="width:16%;">フォローアップのタイミング</th>
+          <th style="width:34%;">何を質問・確認するか？（聞き取り項目）</th>
+          <th style="width:34%;">「異常あり」と判断する基準 ＆ 次のアクション</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>抗がん薬（内服）</strong><br>（S-1、分子標的薬等）</td>
+          <td><strong>開始後 1〜2週間以内</strong><br>（骨髄抑制や副作用が最も出やすい魔の期間）</td>
+          <td>
+            ・下痢の回数（1日何回？）<br>
+            ・口内炎で食事が取れているか？<br>
+            ・手のひら・足の裏の赤み、しびれ（手足症候群）<br>
+            ・<strong>「37.5℃以上の発熱」がないか？</strong>
+          </td>
+          <td>
+            <span style="color:#dc2626; font-weight:bold;">🚨 要緊急連絡（医師へ即報告）：</span><br>
+            白血球減少による「発熱（37.5℃以上）」があれば即受診勧奨＆医師へ連絡！下痢が1日4回以上なら休薬判断を仰ぐためのTR送信。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>新規導入の降圧薬 / ARB・利尿薬</strong></td>
+          <td><strong>開始・変更後 1〜2週間</strong></td>
+          <td>
+            ・朝・晩の家庭血圧の数値は下がっているか？<br>
+            ・<strong>「立ちくらみ、ふらつき、めまい」</strong>はないか？（下がりすぎていないか）<br>
+            ・足のむくみ（Ca拮抗薬）、空咳（ACE-I）が出ていないか？
+          </td>
+          <td>
+            ・収縮期血圧が100mmHg未満でふらつきがある場合は過度な降圧（低血圧）のため受診時減量相談。<br>
+            ・利尿薬やARB開始後の「脱水や腎機能低下（尿量減少）」に注意。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>糖尿病治療薬</strong><br>（インスリン / SU薬 / SGLT2）</td>
+          <td><strong>開始・増量後 1週間以内</strong></td>
+          <td>
+            ・低血糖症状（冷え、手の震え、冷汗、動悸）の有無と対処法が理解できているか？<br>
+            ・（SGLT2）十分な水分を摂れているか？（脱水・頻尿）<br>
+            ・シックデイ（発熱・下痢時）の対応ルールを守れているか？
+          </td>
+          <td>
+            ・低血糖を頻発している場合は医師へ減量提案。<br>
+            ・SGLT2服用中で過度な脱水や尿路感染（陰部痛・排尿痛）があれば受診を促す。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>抗血栓薬（DOAC / 抗血小板薬）</strong></td>
+          <td><strong>継続中、および抜歯・検査前</strong></td>
+          <td>
+            ・出血傾向（歯磨き時の出血が止まらない、鼻血、大きな皮下出血、黒色便・血尿）はないか？<br>
+            ・近く、歯科の抜歯や内視鏡・手術の予定はないか？（自己判断で休薬していないか確認！）
+          </td>
+          <td>
+            ・ブラック・タール便（消化管出血）や血尿があれば即受診。<br>
+            ・抜歯・検査前の自己判断休薬を防ぎ、事前に医療機関と休薬日数を調整する。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>吸入薬（喘息・COPD）</strong></td>
+          <td><strong>初回処方時 ＆ 2回目来局時</strong></td>
+          <td>
+            ・デバイス（吸入器）を実際に正しく使えているか？（空打ちや残量確認）<br>
+            ・吸入後に「うがい（ブクブク・ガラガラ）」を毎回徹底できているか？（嗄声・カンジダ予防）<br>
+            ・発作が起きる頻度が増えていないか？
+          </td>
+          <td>
+            ・吸入不手際があればその場で実演指導。<br>
+            ・嗄声や口腔カンジダ（白い苔）が出ている場合はうがい方法の再指導。
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       PART 2: すぐに使える「トレーシングレポート（TR）」実践文面テンプレート
+       ========================================== -->
+  <div class="fu-section f-template">
+    <div class="sec-header">
+      <h2 class="sec-title">✍️ ② 医師にそのまま送れる「トレーシングレポート（服薬情報提供書）」実践文面集</h2>
+      <span class="sec-sub">フォローアップで得た気づきを、簡潔かつ論理的に医師へ伝えるプロの文章フォーマット</span>
+    </div>
+
+    <div class="banner b-green">📝 TR作成の極意 ➔ 「主観（患者さんが言っていた）」だけでなく「客観的な事実（検査値・服薬状況・日数）」を整理し、最後に「提案（変更・検査の検討）」を添える！</div>
+
+    <div class="grid-2">
+      <!-- テンプレート1 -->
+      <div class="box-card">
+        <h4>パターンA：Ca拮抗薬による「足のむくみ」に対する変更提案</h4>
+        <div class="template-box">【トレーシングレポート（服薬情報提供書）】
+発行日：202X年○月○日
+医療機関名：○○病院 ○○科 御中
+保険薬局名：○○薬局 （薬剤師：○○ ○○）
+
+患者氏名：○○ ○○ （○○歳・女性）
+処方内容：アムロジピン錠 5mg 1錠 分1 朝食後
+
+【情報提供の内容】
+貴院より処方された上記薬剤の服薬期間中フォローアップを電話にて実施いたしました。
+・患者より「この薬を飲み始めてから、両足首から下がパンパンにむくんで靴がきつい」との訴えがございました。
+・血圧は125/78 mmHgと良好にコントロールされておりますが、日常生活に支障をきたすレベルの下肢浮腫が認められます。
+
+【提案・ご検討事項】
+Ca拮抗薬による毛細血管内圧上昇に起因する浮腫が疑われます。
+もし臨床上可能であれば、N型/T型Caチャネル阻害作用を併せ持ち、浮腫軽減効果が期待される「シルニジピン（アテレック等）への変更」または「ARBの追加・変更」をご検討いただけますと幸いです。</div>
+      </div>
+
+      <!-- テンプレート2 -->
+      <div class="box-card">
+        <h4>パターンB：抗血栓薬（DOAC）服用中の「抜歯前休薬」の確認・調整</h4>
+        <div class="template-box">【トレーシングレポート（服薬情報提供書）】
+発行日：202X年○月○日
+医療機関名：○○クリニック 御中
+保険薬局名：○○薬局 （薬剤師：○○ ○○）
+
+患者氏名：○○ ○○ （○○歳・男性）
+処方内容：リクシアナ錠 30mg 1錠 分1 朝食後 （心房細動の脳梗塞予防）
+
+【情報提供の内容】
+患者が来局時、「来週○月○日に歯科医院で下の奥歯の抜歯を行う予定である」と申し出がございました。
+現在、貴院処方のリクシアナ30mgが継続処方されておりますが、歯科医師から「事前に血をサラサラにする薬を止めてもらうよう主治医に確認してきてください」と指示があったとのことです。
+
+【確認・ご指示のお願い】
+日本循環器学会等の最新ガイドライン（2020年改訂等）におきましては、通常の抜歯において抗凝固薬（DOAC）の休薬は「原則非休薬」または「手術当日の朝のみ休薬等」とされております。
+つきましては、本症例における今回の抜歯前の休薬の有無（および休薬する場合の日数）につきまして、ご指示を賜りたく存じます。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PART 3: 実習生に「フォローアップとTR」を指導するステップ
+       ========================================== -->
+  <div class="fu-section f-student">
+    <div class="sec-header">
+      <h2 class="sec-title">🎓 ③ 実習生に「フォローアップとトレーシングレポート」を体得させる指導ステップ</h2>
+      <span class="sec-sub">11実習期間を通じて、学生を「受動的な勉強」から「能動的な臨床薬剤師」に変えるアプローチ</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">実習フェーズ</th>
+          <th style="width:28%;">指導薬剤師の仕掛け（実践内容）</th>
+          <th style="width:54%;">学生の成長と到達目標</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>序盤（1〜3週目）</strong><br>【基礎固め】</td>
+          <td>
+            ・調剤時に「この薬は開始後いつ頃にどんな副作用が出やすいか？」を毎回問いかける。<br>
+            ・過去の優れたトレーシングレポートの事例（ファイル）を本人に読ませる。
+          </td>
+          <td>
+            薬ごとの「モニタリング期間（いつ警戒すべきか）」を意識できるようになる。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>中盤（4〜7週目）</strong><br>【ロールプレイと模擬実践】</td>
+          <td>
+            ・実際の患者さん（または指導薬剤師を相手に模擬患者）に対し、服薬期間中電話フォローのロールプレイ（台本作成含む）を行わせる。<br>
+            ・「もし足のむくみを聞き出したら、カルテと照らし合わせて次にどう動くか」を机上でシミュレーション。
+          </td>
+          <td>
+            患者の訴え（S情報）を引き出し、それを病態・薬理学的に解釈（Assessment）する力がつく。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>終盤（8〜11週目）</strong><br>【実患者のフォローとTR作成】</td>
+          <td>
+            ・新薬やハイリスク薬を開始した患者を1人担当させ、服薬1週間後のフォロー面談（または電話）に同行・実践させる。<br>
+            ・得られた情報を元に、学生自身にトレーシングレポートのドラフトを書かせて添削・共同で完成させる。
+          </td>
+          <td>
+            自分の提案が医師に受け入れられ、患者のQOL改善や安全確保に直結した成功体験（臨床の手応え）を得る！
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+  function showFu(cls, btn) {
+    const btns = document.querySelectorAll('.tab-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const secs = document.querySelectorAll('.fu-section');
+    secs.forEach(s => {
+      if (cls === 'all' || s.classList.contains(cls)) {
+        s.style.display = 'block';
+      } else {
+        s.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>
+```

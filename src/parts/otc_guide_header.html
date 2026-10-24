@@ -1,0 +1,22 @@
+<!-- シンプルOTC推奨＆基礎疾患別マトリクス タブペイン -->
+<div id="tab-otc" class="tab-pane">
+  <div class="card" style="margin-bottom:20px; background:linear-gradient(135deg, #0f172a 0%, #0369a1 100%); color:white; border-left:4px solid #38bdf8;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h2 style="font-size:1.35rem; color:#7dd3fc; font-weight:800; margin-bottom:4px;">🛒 薬剤師が勧めやすい「シンプルOTC」＆ 基礎疾患別・安全販売マトリクス</h2>
+        <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+          「余計な成分が入っていない単剤OTC」の指名買いリストと、高血圧・緑内障・前立腺肥大・妊婦の「買ってはいけない地雷市販薬」を完全整理。
+        </p>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <button class="header-print-btn" onclick="window.print()" style="padding:7px 14px; font-size:0.85rem; background:#10b981;">🖨️ A4横で印刷</button>
+      </div>
+    </div>
+    <div class="tab-bar" style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
+      <button class="tab-btn active" onclick="showOtc('all', this)">すべて表示（一括印刷）</button>
+      <button class="tab-btn" onclick="showOtc('o-simple', this)">🎯 ① 症状別「シンプル単一成分OTC」</button>
+      <button class="tab-btn" onclick="showOtc('o-disease', this)">🛡️ ② 基礎疾患持ちの「⭕安全 vs ❌地雷」</button>
+      <button class="tab-btn" onclick="showOtc('o-cold', this)">🤧 ③ 総合感冒薬の「分解パズル」と漢方</button>
+    </div>
+  </div>
+  <div class="otc-container">

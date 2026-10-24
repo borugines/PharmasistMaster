@@ -1,0 +1,180 @@
+<!-- ==========================================
+     19_wizard.html: 対話型・病態特定プログラム（Prescription Profiling Wizard）
+     ========================================== -->
+<section id="tab-wizard" class="tab-pane">
+  <div class="content-container">
+
+    <!-- ヘッダーカード -->
+    <div class="wizard-header-hero">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
+        <div>
+          <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.2); backdrop-filter:blur(4px); padding:4px 12px; border-radius:20px; font-size:0.82rem; font-weight:700; margin-bottom:8px; border:1px solid rgba(255,255,255,0.3);">
+            <span>🧩 処方推論AIアシスタント</span>
+            <span style="opacity:0.7;">|</span>
+            <span>ステップバイステップ病態特定エンジン</span>
+          </div>
+          <h1 style="font-size:1.6rem; font-weight:800; margin:0 0 6px 0; letter-spacing:-0.02em;">
+            🧩 対話型・病態特定プログラム
+          </h1>
+          <p style="font-size:0.9rem; opacity:0.95; margin:0; line-height:1.5; max-width:850px;">
+            処方箋にある<strong>「1剤」</strong>を入力すると、病態鑑別の決め手となる<strong>「併用薬・用量」</strong>に加え、<strong>薬だけでは特定できない場合の「🗣️ 患者への自覚症状・主訴の問診質問」</strong>が動的に提示されます。全150疾患データベースと連動し、選択肢を選んでいく（または途中で打ち切る）ことで、<strong>最も可能性の高い疾患・詳細病態・確認事項</strong>を確率順に導き出します。
+          </p>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="wizard-reset-btn" onclick="resetWizard()" title="最初からやり直す">
+            🔄 リセット
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- メインウィザードカード -->
+    <div class="wizard-main-card">
+
+      <!-- STEP 1: 始点となる薬品の選択 / 入力 -->
+      <div id="wizardStep1" class="wizard-step-section">
+        <div class="wizard-step-badge">
+          <span class="step-num">STEP 1</span>
+          <span class="step-title">鑑別の起点となる薬剤を入力、またはクイック選択してください</span>
+        </div>
+
+        <div class="wizard-input-wrapper">
+          <div style="position:relative; width:100%;">
+            <input type="text" id="wizardDrugInput" class="wizard-search-input" 
+                   placeholder="薬品名を入力（例：スピロノラクトン、フォシーガ、プレドニン、タケキャブ、メインテート...）" 
+                   autocomplete="off" oninput="handleWizardDrugInput(this.value)" onkeydown="handleWizardDrugKeydown(event)" />
+            <span class="wizard-input-icon">🔍</span>
+            <button id="wizardClearInputBtn" class="wizard-input-clear" onclick="clearWizardDrugInput()" style="display:none;">✕</button>
+          </div>
+        </div>
+
+        <!-- 入力候補サジェストドロップダウン -->
+        <div id="wizardSuggestDropdown" class="wizard-suggest-dropdown" style="display:none;"></div>
+
+        <!-- クイック候補タグ群 -->
+        <div style="margin-top:14px;">
+          <div style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+            <span>⚡ よく鑑別される代表的処方起点（ワンタップで開始）：</span>
+          </div>
+          <div class="wizard-quick-tags">
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('スピロノラクトン')">🫀 スピロノラクトン (MRA)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('フォシーガ')">🍬 フォシーガ (SGLT2阻害)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メインテート')">💓 メインテート (β遮断)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('プレドニン')">🧪 プレドニン (ステロイド)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('タケキャブ')">🍽️ タケキャブ (P-CAB)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アムロジピン')">🩸 アムロジピン (CCB)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コルヒチン')">🦶 コルヒチン</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ダイフェン')">💊 ダイフェン (ST合剤)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('サインバルタ')">⚡ サインバルタ (SNRI)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('サムスカ')">💧 サムスカ (V2拮抗)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アルマール')">🤝 アルマール (本態性振戦)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('エリキュース')">🛡️ エリキュース (DOAC)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('リクシアナ')">👴 リクシアナ (DOAC)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アジルバ')">⏰ アジルバ (最強ARB)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('シルニジピン')">⚡ シルニジピン (N型CCB)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ロサルタン')">🦶 ロサルタン (URAT1)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アゾセミド')">⏳ アゾセミド (長時間ループ)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('トラゼンタ')">💩 トラゼンタ (胆汁排泄)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ミルタザピン')">💤 ミルタザピン (NaSSA)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('レルベア')">🫁 レルベア (吸入合剤)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('イリボー')">🚽 イリボー (5-HT3拮抗)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドパコール')">🧠 ドパコール (レボドパ)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メスチノン')">👁️ メスチノン (MG)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('オフェブ')">🫁 オフェブ (IPF)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ワーファリン')">🩸 ワーファリン (VKA)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: 動的な追加質問・併用薬の選択（インタラクティブ問診） -->
+      <div id="wizardStep2" class="wizard-step-section" style="display:none; border-top:2px dashed #e2e8f0; margin-top:20px; padding-top:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+          <div class="wizard-step-badge">
+            <span class="step-num">STEP 2</span>
+            <span class="step-title">鑑別のための質問（①処方箋の併用薬・用量 ＋ ②患者への自覚症状問診）</span>
+          </div>
+          <div id="wizardSelectedDrugBadge" class="wizard-selected-drug-badge">
+            <!-- 選択された起点薬 -->
+          </div>
+        </div>
+
+        <!-- 質問コンテナ（JSで動的生成） -->
+        <div id="wizardQuestionsContainer">
+          <!-- 動的質問カード群 -->
+        </div>
+
+        <!-- フリー追加（主訴・自覚症状 ＆ 併用薬）入力エリア -->
+        <div class="wizard-custom-drug-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+            <span style="font-size:0.88rem; font-weight:800; color:#065f46;">
+              🎯 精度UP！患者の主訴・症状や気になる併用薬を自由に追加（複数入力可）：
+            </span>
+            <span style="font-size:0.75rem; color:#64748b; background:#ffffff; padding:2px 8px; border-radius:10px; border:1px solid #cbd5e1;">
+              💡 主訴を追加するほどベイズ推論で精度が急上昇します
+            </span>
+          </div>
+          <p style="font-size:0.78rem; color:#64748b; margin:4px 0 8px 0;">
+            処方箋だけでは特定できない場合でも、患者さんの生の声（例：「朝のこわばり」「夜間の胸痛」「足のむくみ」「手の震え」「足のしびれ」等）を入力・選択すると、合致する疾患の確信度が劇的に高まります。
+          </p>
+          <div style="display:flex; gap:6px;">
+            <input type="text" id="wizardCustomDrugInput" placeholder="主訴・症状や併用薬を入力（例：朝のこわばり、胸痛、手の震え、足のむくみ、息切れ、エンレスト...）" 
+                   style="flex:1; padding:9px 12px; border:2px solid #cbd5e1; border-radius:6px; font-size:0.88rem; outline:none;" 
+                   onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#cbd5e1'"
+                   onkeydown="if(event.key==='Enter'){ addWizardCustomDrug(); }" />
+            <button onclick="addWizardCustomDrug()" class="wizard-action-btn-small" style="padding:9px 18px; font-size:0.85rem;">追加して絞り込む</button>
+          </div>
+
+          <!-- よくある主訴クイック追加ボタン群 -->
+          <div style="margin-top:10px;">
+            <span style="font-size:0.76rem; font-weight:700; color:#475569;">💡 代表的な主訴をワンタップ追加：</span>
+            <div style="display:flex; gap:5px; flex-wrap:wrap; margin-top:4px;">
+              <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('朝のこわばり')">朝のこわばり</button>
+              <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('夜間・早朝の胸痛')">夜間・早朝の胸痛</button>
+              <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('階段での息切れ・動悸')">息切れ・動悸</button>
+              <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('足やすねのむくみ')">足のむくみ</button>
+              <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('足裏のピリピリ・しびれ')">足のしびれ・痛み</button>
+              <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('手や指の震え')">手の震え</button>
+              <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('手足の脱力感・こむら返り')">脱力感・こむら返り</button>
+              <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('夕方のまぶたの重み・複視')">まぶたの下垂・複視</button>
+              <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('胸やけ・酸っぱい液')">胸やけ・呑酸</button>
+              <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('お腹の張り・腹水')">お腹の張り・腹水</button>
+              <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('空咳が続く')">空咳（乾性咳嗽）</button>
+            </div>
+          </div>
+
+          <div id="wizardCustomDrugTags" style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;"></div>
+        </div>
+
+        <!-- アクションボタン群（打ち切り＆判定） -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-top:20px;">
+          <button class="wizard-action-btn-secondary" onclick="resetWizard()">
+            ← 起点薬を選び直す
+          </button>
+          <button id="wizardDiagnoseBtn" class="wizard-action-btn-primary" onclick="calculateWizardDiagnosis(true)">
+            🚀 この条件で病態を判定する（質問を打ち切る）
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: 診断結果・確率判定パネル（特定された詳細病態） -->
+      <div id="wizardStep3" class="wizard-step-section" style="display:none; border-top:2px solid #10b981; margin-top:24px; padding-top:24px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+          <div class="wizard-step-badge" style="background:#ecfdf5; border-color:#a7f3d0; color:#065f46;">
+            <span class="step-num" style="background:#059669; color:white;">RESULT</span>
+            <span class="step-title" style="color:#065f46;">推論結果：確率の高い疾患 ＆ 特定された詳細病態</span>
+          </div>
+          <button class="wizard-action-btn-secondary" onclick="resetWizard()" style="padding:6px 14px; font-size:0.82rem;">
+            🔄 新しい処方を判定する
+          </button>
+        </div>
+
+        <!-- 診断結果表示コンテナ -->
+        <div id="wizardResultsContainer">
+          <!-- JSで動的レンダリング -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

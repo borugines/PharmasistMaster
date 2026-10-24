@@ -1,0 +1,529 @@
+﻿```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>処方箋プロファイリング＆病態逆引きチャート</title>
+<style>
+  :root {
+    --primary: #0f172a;
+    --secondary: #1e40af;
+    --accent: #0284c7;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --text: #1e293b;
+    --border: #cbd5e1;
+    --step1: #dcfce7; --step1-text: #166534;
+    --step2: #fef9c3; --step2-text: #854d0e;
+    --step3: #fee2e2; --step3-text: #991b1b;
+    --chameleon: #f3e8ff; --chameleon-border: #9333ea;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    padding-bottom: 50px;
+  }
+
+  /* ヘッダー＆コントロールバー */
+  .top-bar {
+    background: var(--primary);
+    color: white;
+    padding: 15px 30px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  .top-bar h1 { font-size: 1.25rem; color: #38bdf8; }
+  .controls { display: flex; gap: 10px; align-items: center; }
+  .search-input {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    width: 260px;
+    font-size: 0.9rem;
+  }
+  .tab-btn {
+    background: #334155;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.2s;
+  }
+  .tab-btn.active, .tab-btn:hover { background: var(--accent); font-weight: bold; }
+  .print-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .container { max-width: 1150px; margin: 25px auto; padding: 0 20px; }
+
+  /* セクション共通 */
+  .section-block {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 30px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  }
+  .section-header {
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .section-title { font-size: 1.35rem; font-weight: 800; color: var(--primary); }
+  .section-sub { font-size: 0.85rem; color: #64748b; }
+
+  /* テーブルデザイン */
+  table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 0.9rem; }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+  th { background: #f8fafc; font-weight: bold; color: var(--primary); }
+  
+  /* バッジ類 */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  .b-step1 { background: var(--step1); color: var(--step1-text); }
+  .b-step2 { background: var(--step2); color: var(--step2-text); }
+  .b-step3 { background: var(--step3); color: var(--step3-text); }
+  .b-cham { background: var(--chameleon); color: #6b21a8; border: 1px solid #d8b4fe; }
+
+  /* フローチャート風ボックス */
+  .flow-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+  }
+  .flow-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    background: #fafafa;
+    position: relative;
+  }
+  .flow-card h4 { font-size: 0.95rem; margin-bottom: 8px; color: var(--secondary); border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px; }
+  .rx-box {
+    background: #fff;
+    border: 1px solid #94a3b8;
+    border-left: 4px solid var(--secondary);
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.88rem;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  .insight { font-size: 0.88rem; margin-bottom: 6px; }
+  .talk {
+    background: #eff6ff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.83rem;
+    color: #1e3a8a;
+    margin-top: 6px;
+  }
+
+  /* 印刷用最適化 */
+  @media print {
+    body { background: white; font-size: 8.5pt; padding: 0; }
+    .top-bar { display: none !important; }
+    .container { max-width: 100%; margin: 0; padding: 0; }
+    .section-block {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+      margin-bottom: 15px;
+      page-break-inside: avoid;
+    }
+    .page-break { page-break-after: always; }
+    th, td { padding: 6px 8px; font-size: 8.5pt; }
+    .flow-grid { gap: 8px; }
+    .flow-card { padding: 8px; }
+    @page { size: A4 landscape; margin: 10mm; } /* 一覧性を高めるためA4横で印刷 */
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>🕵️‍♂️ 処方箋プロファイリング＆病態逆引きチャート</h1>
+  <div class="controls">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 薬名・病態で絞り込み (例: フォシーガ, 寝る前)" onkeyup="filterContent()">
+    <button class="tab-btn active" onclick="switchView('all', this)">すべて表示</button>
+    <button class="tab-btn" onclick="switchView('chameleon-sec', this)">🦎 カメレオン薬鑑別</button>
+    <button class="tab-btn" onclick="switchView('disease-sec', this)">📊 10疾患別チャート</button>
+    <button class="print-btn" onclick="window.print()">🖨️ A4横で綺麗に印刷</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ==========================================
+       PART 1: 複数適応を持つ「カメレオン薬剤」鑑別マトリクス
+       ========================================== -->
+  <div class="section-block chameleon-sec page-break">
+    <div class="section-header">
+      <div>
+        <span class="badge b-cham">Step 0：まず単独の薬からウラを読む</span>
+        <h2 class="section-title">🦎 複数の顔を持つ「カメレオン薬剤」鑑別マトリクス</h2>
+      </div>
+      <span class="section-sub">「用量」「飲むタイミング」「相棒（併用薬）」の3点で真の適応を見抜く！</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">薬剤名</th>
+          <th style="width:28%;">パターンA（王道の適応）</th>
+          <th style="width:28%;">パターンB（第2の顔・臓器保護等）</th>
+          <th style="width:28%;">パターンC（適応外・特殊な現場意図）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="searchable">
+          <td><strong>SGLT2阻害薬</strong><br>（フォシーガ）<br>（ジャディアンス）</td>
+          <td><span class="badge b-step1">糖尿病</span><br><strong>手がかり：</strong>DPP-4阻害薬やメトホルミンと併用。5mgから開始し効果不十分なら10mgへ増量される。</td>
+          <td><span class="badge b-step2">慢性心不全</span><br><strong>手がかり：</strong>最初から<strong>10mg固定</strong>。相棒にエンレスト、β遮断薬、スピロノラクトンがいる。</td>
+          <td><span class="badge b-step3">慢性腎臓病（CKD）</span><br><strong>手がかり：</strong>10mg固定。相棒にARB（アジルバ等）や重曹、フェブキソスタットがいる。血糖値は正常！</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>β遮断薬</strong><br>（プロプラノロール）<br>（ビソプロロール）<br>（カルベジロール）</td>
+          <td><span class="badge b-step1">高血圧・狭心症・頻脈性心房細動</span><br><strong>手がかり：</strong>ビソプロロール2.5〜5mg等、最初からしっかりした維持量で処方される。</td>
+          <td><span class="badge b-step2">慢性心不全（HFrEF）</span><br><strong>手がかり：</strong>ビソプロロール<strong>0.625mg</strong>やカルベジロール<strong>1.25mg</strong>など「超少量」から開始し、数週間ごとに倍々に増えている。</td>
+          <td><span class="badge b-cham">片頭痛予防・振戦・門脈圧亢進</span><br><strong>手がかり：</strong>プロプラノロール（インデラル）が若年女性（片頭痛予防）や、トリプタン製剤と併用。または肝硬変患者（食道静脈瘤予防）。</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>MRA（抗アルドステロン）</strong><br>（スピロノラクトン）<br>（エplerenone）<br>（エサキセレノン）</td>
+          <td><span class="badge b-step1">治療抵抗性高血圧</span><br><strong>手がかり：</strong>ARB＋Ca拮抗薬＋利尿薬でも下がらない時の「4剤目（ミネブロ等）」として追加。</td>
+          <td><span class="badge b-step2">慢性心不全の予後改善</span><br><strong>手がかり：</strong>スピロノラクトン<strong>12.5〜25mg/日</strong>の少量。利尿ではなく「心筋の線維化防止」が目的！</td>
+          <td><span class="badge b-step3">肝硬変の腹水・浮腫</span><br><strong>手がかり：</strong>スピロノラクトン<strong>50〜100mg/日</strong>の高用量＋フロセミド併用。相棒に分岐鎖アミノ酸（リーバクト）。</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>α1遮断薬</strong><br>（タムスロシン）<br>（ドキサゾシン）</td>
+          <td><span class="badge b-step1">男性の前立腺肥大症</span><br><strong>手がかり：</strong>男性患者にタムスロシン0.2mg 1日1回。相棒にベオーバやデュタステリド。</td>
+          <td><span class="badge b-step2">早朝高血圧（モーニングサージ）</span><br><strong>手がかり：</strong>ドキサゾシン（カルデナリン）が<strong>「1日1回 就寝前」</strong>に処方されている。</td>
+          <td><span class="badge b-cham">女性の排尿困難・尿管結石排出</span><br><strong>手がかり：</strong><strong>女性患者</strong>にタムスロシン！神経因性膀胱の排尿補助か、ロキソニン・ウロカルンと一緒に「尿管結石を落とすため」の処方。</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>クエチアピン（セロクエル）<br>アリピプラゾール（エビリファイ）</strong></td>
+          <td><span class="badge b-step1">統合失調症・双極性障害</span><br><strong>手がかり：</strong>クエチアピン200〜600mg/日、エビリファイ12〜24mg/日の高用量。</td>
+          <td><span class="badge b-step2">うつ病の増強療法（Augmentation）</span><br><strong>手がかり：</strong>SSRI/SNRI（レクサプロやサインバルタ）の相棒として、エビリファイ<strong>1〜3mg</strong>が追加されている。</td>
+          <td><span class="badge b-cham">高齢者の夜間せん妄・不眠・BPSD</span><br><strong>手がかり：</strong>クエチアピン<strong>12.5〜25mg「寝る前」</strong>の超少量！（※糖尿病禁忌チェックは絶対忘れるな！）</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>デュロキセチン<br>（サインバルタ）</strong></td>
+          <td><span class="badge b-step1">うつ病・うつ状態</span><br><strong>手がかり：</strong>精神科・心療内科から処方。睡眠薬や抗不安薬が併用されている。</td>
+          <td><span class="badge b-step2">慢性腰痛・変形性関節症・糖尿病性神経障害</span><br><strong>手がかり：</strong>整形外科や内科から処方。ロキソニンやリリカ・タリージェ、貼付剤が相棒にいる。</td>
+          <td><span class="badge b-cham">抗がん薬によるしびれ（CIPN）</span><br><strong>手がかり：</strong>腫瘍内科・外科から、オキサリプラチンやパクリタキセル治療中の患者に処方（ガイドライン推奨度No.1）。</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>マクロライド・ST合剤</strong><br>（クラリスロマイシン）<br>（バクタ配合錠）</td>
+          <td><span class="badge b-step1">急性細菌感染症（肺炎・膀胱炎等）</span><br><strong>手がかり：</strong>クラリス<strong>400mg/日（分2）を7日間</strong>。バクタ<strong>4錠/日（分2）を3〜7日間</strong>。</td>
+          <td><span class="badge b-step2">ピロリ菌除菌</span><br><strong>手がかり：</strong>ボノサップ（ボノプラザン＋アモキシシリン＋クラリス400〜800mg）の7日間パック処方。</td>
+          <td><span class="badge b-cham">慢性気道炎症抑制 ／ PCP肺炎予防</span><br><strong>手がかり：</strong>クラリス<strong>200mg（1錠）が30〜90日分</strong>（副鼻腔炎・DPBの免疫修飾）。バクタ<strong>1日1錠または週3回</strong>（ステロイド服用中のPCP予防）。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       PART 2: 10疾患別「処方レシピ ➔ 病態・ガイドライン段階」逆引きチャート
+       ========================================== -->
+  
+  <!-- 疾患 1 & 2 -->
+  <div class="section-block disease-sec page-break">
+    <div class="section-header">
+      <div>
+        <span class="badge b-step1">Chart 01 - 02</span>
+        <h2 class="section-title">📊 【1. 悪性腫瘍】＆【2. 高血圧症】処方プロファイリング</h2>
+      </div>
+      <span class="section-sub">処方の組み合わせ（レシピ）から、患者の現在のステージと声をかけるべきポイントを特定する</span>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">① 悪性腫瘍（がん：外来化学療法・緩和ケア）</h3>
+    <div class="flow-grid" style="margin-bottom:20px;">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">パターンA：経口抗がん薬＋支持療法</span>
+        <h4>大腸がん・胃がん・肺がん等の外来通院</h4>
+        <div class="rx-box">Rp1) カペシタビン（ゼローダ） 14日分<br>Rp2) ヘパリン類似物質＋ステロイド軟膏<br>Rp3) デュロキセチン＋ミロガバリン</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>点滴（オキサリプラチン）と内服を組み合わせたXELOX療法中。すでに「手足症候群（皮膚のひび割れ）」予防と「末梢神経障害（冷感・しびれ）」の対策が入っている中盤以降のステージ。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「休薬期間のカレンダー確認」と「冷たいものを触った時のビリビリ感、足の裏の赤みは大丈夫ですか？」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">パターンB：分子標的薬の先制治療</span>
+        <h4>EGFR遺伝子変異陽性 肺がん／大腸がん</h4>
+        <div class="rx-box">Rp1) オシメルチニブ（タグリッソ）<br>Rp2) ミノサイクリン100mg<br>Rp3) ロコイド軟膏＋ヒルドイド</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>EGFR阻害薬による「ざ瘡様皮疹（ニキビのような湿疹）」「爪囲炎」を防ぐため、治療初日から抗生剤と外用薬をセットにした<strong>先制治療（Pre-emptive）</strong>。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「まだ湿疹が出ていなくても、予防のために今日から保湿と飲み薬を始める大事なセットですよ」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">パターンC：がん疼痛のオピオイド導入</span>
+        <h4>中等度〜高度のがん疼痛コントロール</h4>
+        <div class="rx-box">Rp1) オキシコドン徐放錠（オキシコンチン）<br>Rp2) オキシコドン速放散（オキノーム）頓用<br>Rp3) ナルデメジン（スインプロイク）＋プロクロルペラジン</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>定時薬で痛みのベースを抑え、突出痛にレスキューを使う王道処方。麻薬特有の便秘（スインプロイク）と初期の吐き気（ノバミン）に対する防御陣形も完璧。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「痛み止めを我慢せず使えていますか？レスキューを1日に何回使ったか教えてくださいね」</div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">② 高血圧症（JSHガイドライン準拠）</h3>
+    <div class="flow-grid">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">Step 1〜2：王道の併用療法</span>
+        <h4>合併症のない本態性高血圧</h4>
+        <div class="rx-box">Rp1) アジルサルタン・アムロジピン配合錠（ザクラス） 1錠 分1 朝食後</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>単剤では目標（130/80未満）に届かず、ARB＋Ca拮抗薬の2剤併用へ進み、アドヒアランス向上のため配合剤にまとめた安定期。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「お家で測る朝の血圧は125/75を切っていますか？足のむくみや立ちくらみはないですか？」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">合併症あり：蛋白尿を伴うCKD・糖尿病</span>
+        <h4>臓器保護（腎保護）を最優先する高血圧</h4>
+        <div class="rx-box">Rp1) オルメサルタン 20mg<br>Rp2) シルニジピン（アテレック） 10mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>輸出細動脈を広げて糸球体内圧を下げるため<strong>RAS阻害薬（ARB）が絶対の主役</strong>。さらにCa拮抗薬もN型チャネル阻害作用を持ち腎保護・むくみ軽減に優れるシルニジピンが選ばれている玄人処方！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「血圧を下げるだけでなく、腎臓のフィルターを守る組み合わせが出ていますよ」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">Step 3〜4：治療抵抗性高血圧</span>
+        <h4>3剤でも下がらない難治性高血圧</h4>
+        <div class="rx-box">Rp1) テルミサルタン・アムロジピン・ヒドロクロロチアジド配合錠（ミカトリオ）<br>Rp2) エサキセレノン（ミネブロ） 2.5mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>ARB＋Ca拮抗薬＋利尿薬の3剤（ミカトリオ）でも目標未達のため、ガイドラインStep 4の切り札である<strong>MRA（ミネブロ）</strong>が投入された状態。高K血症リスク大！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「しっかり血圧を下げる4つ目の成分が入っています。最近の血液検査でカリウム（K）の値は大丈夫でしたか？」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 疾患 3 & 4 -->
+  <div class="section-block disease-sec page-break">
+    <div class="section-header">
+      <div>
+        <span class="badge b-step1">Chart 03 - 04</span>
+        <h2 class="section-title">📊 【3. 糖尿病】＆【4. 心疾患】処方プロファイリング</h2>
+      </div>
+      <span class="section-sub">インスリン抵抗性か分泌不全か？心不全か虚血か不整脈か？を一瞬で見抜く</span>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">③ 2型糖尿病（日本糖尿病学会アルゴリズム準拠）</h3>
+    <div class="flow-grid" style="margin-bottom:20px;">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">プロファイルA：肥満・インスリン抵抗性型</span>
+        <h4>内臓脂肪型肥満・メタボを伴う2型糖尿病</h4>
+        <div class="rx-box">Rp1) メトホルミン 1000mg〜1500mg<br>Rp2) ダパグリフロジン 5mg<br>Rp3) セマグルチド（リベルサス錠 or オゼンピック注）</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>インスリンは出ているが効きが悪い（抵抗性）タイプ。体重を増やさず、むしろ<strong>減量効果と心腎保護がある「ビグアナイド＋SGLT2阻害薬＋GLP-1受容体作動薬」</strong>の最強トリオ。この単独・併用なら低血糖リスクは極めて低い！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「リベルサスは『起床時・約120mL以下の水・服用後30分絶飲食』のルールで飲めていますか？脱水を防ぐため水分はしっかり摂りましょう」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">プロファイルB：非肥満・インスリン分泌不全型</span>
+        <h4>やせ型・高齢者に多い日本人の典型例</h4>
+        <div class="rx-box">Rp1) シタグリプチン（ジャヌビア） 50mg<br>Rp2) グリメピリド（アマリール） 0.5mg<br>Rp3) ミグリトール（セイブル） 150mg 食直前</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>膵臓からのインスリン分泌自体が弱っているタイプ。DPP-4阻害薬と少量のSU薬で分泌を促し、食後高血糖をα-GIで抑えている。<strong>SU薬が入っているため「低血糖」に厳戒態勢が必要！</strong>さらにα-GI併用なので低血糖時は砂糖不可（ブドウ糖必須）！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「冷や汗や手の震えなどの低血糖症状はないですか？セイブルを飲んでいるので、万が一の時はお砂糖ではなく必ず『ブドウ糖』を摂ってくださいね」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">プロファイルC：インスリン強化療法（BOT含む）</span>
+        <h4>経口薬だけでは膵臓が疲弊したステージ</h4>
+        <div class="rx-box">Rp1) インスリン グラルギン（ランタスXR） 1日1回<br>Rp2) インスリン リスプロ（ヒューマログ） 毎食直前</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>持効型（グラルギン）で24時間の基礎分泌を補い、超速効型（リスプロ）で毎食後のスパイクを抑える<strong>Basal-Bolus療法（強化インスリン療法）</strong>。1型糖尿病、またはインスリン分泌が枯渇した2型糖尿病・周術期・シックデイ後。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「お腹の打つ場所は毎回2〜3cmずつずらしていますか？針を刺す場所が硬くなっていないか触ってみましょう」</div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">④ 心疾患（慢性心不全・虚血性心疾患・心房細動）</h3>
+    <div class="flow-grid">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">レシピA：HFrEF（収縮機能が落ちた心不全）</span>
+        <h4>ガイドライン推奨「ファンタスティック・フォー」</h4>
+        <div class="rx-box">Rp1) エンレスト（ARNI）<br>Rp2) ビソプロロール（β遮断薬）<br>Rp3) スピロノラクトン（MRA）<br>Rp4) フォシーガ（SGLT2阻害薬）＋フロセミド</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>心臓のポンプ機能（LVEF 40%以下）が低下した<strong>HFrEFの完全標準治療</strong>。Rp1〜4は「心臓を休ませて予後（寿命）を延ばす4銃士」、フロセミドは「今あるむくみ（うっ血）を抜く薬」。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「毎朝の体重測定で、数日で2kg以上増えていませんか？夜寝ると苦しくて起き上がる（起座呼吸）ことはないですか？」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">レシピB：PCI（冠動脈ステント留置）後</span>
+        <h4>心筋梗塞・狭心症のカテーテル治療後</h4>
+        <div class="rx-box">Rp1) バイアスピリン 100mg<br>Rp2) プラスグレル（エフィエント） 3.75mg<br>Rp3) ロスバスタチン 10mg ＋ エゼチミブ 10mg<br>Rp4) ボノプラザン（タケキャブ） 10mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>ステント血栓症を防ぐ<strong>DAPT（抗血小板薬2剤併用）</strong>中＝<strong>カテーテル治療から1ヶ月〜1年以内のハイリスク期</strong>！二次予防のためLDL-Cを70未満に叩き落とすストロングスタチン＋エゼチミブ、さらにDAPTの胃出血を防ぐタケキャブが揃った完璧な布陣。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「ステントが馴染むまでの絶対に血サラサラ薬を止められない大切な時期です。青あざや黒い便は出ていませんか？」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">レシピC：心房細動＋冠動脈疾患の合併</span>
+        <h4>出血リスクと血栓リスクの究極のバランス</h4>
+        <div class="rx-box">Rp1) エドキサバン（リクシアナ） 30mg または 60mg<br>Rp2) クロピドグレル 75mg（または単剤でRp1のみ）<br>Rp3) ビソプロロール 2.5mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>心房細動の脳塞栓予防（DOAC）とステント保護（抗血小板薬）の両立。最新ガイドライン（AFIRE試験等）では、<strong>PCIから1年経過した安定冠動脈疾患なら「抗血小板薬を外してDOAC単剤にする」</strong>のが推奨！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「カテーテル治療から何年経ちましたか？（もし1年以上経っていて2剤併用なら、医師へ単剤化の検討が可能か情報提供のチャンス！）」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 疾患 5 & 6 -->
+  <div class="section-block disease-sec page-break">
+    <div class="section-header">
+      <div>
+        <span class="badge b-step1">Chart 05 - 06</span>
+        <h2 class="section-title">📊 【5. 脳血管障害】＆【6. 精神神経疾患】処方プロファイリング</h2>
+      </div>
+      <span class="section-sub">脳梗塞の3つの病型と、精神科領域の「増強療法・適応外少量処方」を読み解く</span>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">⑤ 脳血管障害（脳梗塞の再発予防と後遺症管理）</h3>
+    <div class="flow-grid" style="margin-bottom:20px;">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">病型A：非心原性（アテローム・ラクナ梗塞）</span>
+        <h4>脳や首の血管自体の動脈硬化が原因</h4>
+        <div class="rx-box">Rp1) クロピドグレル 75mg（またはシロスタゾール）<br>Rp2) アトルバスタチン 10mg<br>Rp3) アムロジピン 5mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>高流速の動脈にできる白色血栓が原因のため、<strong>抗血小板薬単剤</strong>が基本（発症直後3週間だけアスピリンと2剤併用されるが、慢性期は単剤）。スタチンでプラークを安定化させている。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「（もしシロスタゾールなら）飲み始めに頭がガンガンしたり、ドキドキしたりしていませんか？」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">病型B：心原性脳塞栓症</span>
+        <h4>心房細動で心臓から飛んできた巨大血栓</h4>
+        <div class="rx-box">Rp1) アピキサバン（エリキュース） 5mg 1日2回<br>（または2.5mg 1日2回）<br>Rp2) レベチラセタム（イーケプラ） 1000mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>心臓由来のフィブリン血栓のため<strong>DOACが必須</strong>。さらにイーケプラが出ていることから、比較的大きな脳梗塞の後遺症として<strong>「脳卒中後てんかん」</strong>を合併（または予防）していると推理できる！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「エリキュースは1日2回、飲み忘れなく飲めていますか？（80歳以上・60kg以下・Cr1.5以上の2つ該当で減量基準チェック！）」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">病型C：慢性期・嚥下障害＆誤嚥性肺炎対策</span>
+        <h4>後遺症によるむせ・誤嚥リスクが高い高齢者</h4>
+        <div class="rx-box">Rp1) シロスタゾールOD錠 100mg<br>Rp2) イミダプリル（タナトリル） 5mg<br>Rp3) アマンタジン 100mg ＋ 半夏厚朴湯</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>すべての薬が<strong>「サブスタンスPを増やして嚥下反射・咳反射を高める（誤嚥性肺炎を防ぐ）」</strong>という明確な意図で統一されている！OD錠が選ばれているのも嚥下低下への配慮。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「最近、お水やお茶を飲む時にむせたり、食事に時間がかかったりしていませんか？」</div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">⑥ 精神神経疾患（うつ病・双極性障害・認知症）</h3>
+    <div class="flow-grid">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">ステージA：うつ病の導入初期（1〜2週目）</span>
+        <h4>副作用を抑えながら効果発現を待つ時期</h4>
+        <div class="rx-box">Rp1) エスシタロプラム（レクサプロ） 10mg 夕食後<br>Rp2) モサプリド 15mg 毎食後<br>Rp3) レンボレキサント（デエビゴ） 5mg 就寝前</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>SSRI開始初期の<strong>「吐き気・胃腸障害」を防ぐためにモサプリド</strong>がセットになっている。効果が出るまで2〜4週間かかるため、今ある不眠には依存性のないデエビゴで対処している初期処方。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「飲み始めの1週間だけ少し胃がムカムカすることがありますが、胃薬も一緒に出ているので安心してくださいね。効果は2週間ほどでじわじわ出てきますよ」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">ステージB：難治性うつ病 or 双極性障害</span>
+        <h4>単剤で効かない時の「増強療法」を見抜く</h4>
+        <div class="rx-box">【パターン①】サインバルタ ＋ ミルタザピン（リフレックス）<br>【パターン②】レクサプロ ＋ エビリファイ 1mg<br>【パターン③】ラモトリギン ＋ リチウム ＋ クエチアピン</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>①はSNRI＋NaSSAの「カリフォルニア・ロケット（最強の抗うつ併用）」。②はエビリファイ少量による増強療法。③は抗うつ薬がなく気分安定薬中心なので「うつ病ではなく<strong>双極性障害（躁うつ病）のうつ状態</strong>」！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「（③のラモトリギンの場合）飲み始めや増量時に、発疹や唇のただれ、発熱が出たらすぐに連絡してくださいね（SJS予防）」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">ステージC：認知症の中核症状＋BPSD対策</span>
+        <h4>介護者の負担と転倒リスクに配慮した処方</h4>
+        <div class="rx-box">Rp1) ドネペジルOD錠 5mg（またはリバスチグミンテープ）<br>Rp2) メマンチン（メマリー）OD錠 20mg<br>Rp3) 抑肝散 7.5g ＋ トラゾドン 25mg 就寝前</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>コリンエステラーゼ阻害薬（ドネペジル）とNMDA受容体拮抗薬（メマンチン）が併用されているため、<strong>中等度〜高度のアルツハイマー型認知症</strong>。さらにイライラ・易怒性（BPSD）に抑肝散、夜間せん妄・不眠にトラゾドン少量が入っている。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「（ご家族へ）お薬を嫌がったり飲み忘れたりしていませんか？（もし内服拒否があればテープ剤への変更提案！）」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 疾患 7, 8, 9, 10 -->
+  <div class="section-block disease-sec">
+    <div class="section-header">
+      <div>
+        <span class="badge b-step1">Chart 07 - 10</span>
+        <h2 class="section-title">📊 【7. 免疫・喘息】【8. 感染症】【9. 腎・泌尿器】【10. 骨・代謝】</h2>
+      </div>
+      <span class="section-sub">ステップアップ治療の段階と、ハイリスクな組み合わせを一目で監査する</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:15%;">領域・疾患</th>
+          <th style="width:28%;">軽症〜標準ステップの処方と病態</th>
+          <th style="width:28%;">中等症〜重症・併用ステップの処方と病態</th>
+          <th style="width:29%;">指導薬剤師の「ここを見抜いたら100点！」</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="searchable">
+          <td><strong>7. 気管支喘息<br>・COPD</strong></td>
+          <td><span class="badge b-step1">喘息 Step 1〜2</span><br><strong>処方：</strong>レルベア100 または シムビコート（ICS/LABA）<br><strong>病態：</strong>気道炎症を抑える基本形。シムビコートが「定期＋発作時頓用」で出ていれば<strong>SMART療法</strong>！</td>
+          <td><span class="badge b-step3">喘息 Step 3〜4 ／ COPD合併（ACO）</span><br><strong>処方：</strong>テリルジー または ビレーズトリ、エナジア（<strong>ICS/LABA/LAMA トリプル製剤</strong>）＋モンテルカスト<br><strong>病態：</strong>2剤ではコントロール不十分、またはCOPD合併例。</td>
+          <td><strong>🔍 抗コリン（LAMA）の禁忌チェック！：</strong><br>トリプル製剤（テリルジー等）やスピリーバには「LAMA（抗コリン薬）」が入っている！<strong>閉塞隅角緑内障</strong>と<strong>前立腺肥大症による排尿障害</strong>がないか必ず聴取せよ！</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>7. 関節リウマチ<br>・自己免疫</strong></td>
+          <td><span class="badge b-step1">Phase I（アンカードラッグ）</span><br><strong>処方：</strong>メトトレキサート（MTX）週6〜8mg（月・火に分けて服用）＋ フォリアミン（木曜日に1錠）<br><strong>病態：</strong>診断後早期の基本治療。</td>
+          <td><span class="badge b-step3">Phase II〜III（生物学的製剤・JAK阻害薬）</span><br><strong>処方：</strong>MTX ＋ アクテムラ皮下注／ヒュミラ皮下注 または リンヴォック錠（JAK阻害薬）＋ バクタ（週3回）<br><strong>病態：</strong>MTX効果不十分で分子標的治療へ進んだ段階。</td>
+          <td><strong>🔍 感染症サインの徹底指導：</strong><br>生物学的製剤（特にIL-6阻害薬のアクテムラ等）やJAK阻害薬は、<strong>「肺炎になっても熱が出ない・CRPが上がらない（炎症反応がマスクされる）」</strong>！少しの息切れやだるさでも即受診させる！</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>8. 感染症</strong></td>
+          <td><span class="badge b-step1">市中肺炎・気道感染（外来）</span><br><strong>処方：</strong>アモキシシリン/クラブラン酸（オーグメンチン）＋サワシリン（<strong>オグサワ処方</strong>）1日3〜4回<br><strong>病態：</strong>時間依存性抗菌薬の理想的な高用量・分割投与！</td>
+          <td><span class="badge b-step2">非定型肺炎・マイコプラズマ・腎盂腎炎</span><br><strong>処方：</strong>レボフロキサシン（クラビット）500mg 1日1回 または アジスロマイシン（ジスロマック）3日間<br><strong>病態：</strong>濃度依存性抗菌薬の一撃必殺投与！</td>
+          <td><strong>🔍 「オグサワ処方」の意図を説明できるか？：</strong><br>オーグメンチンだけではアモキシシリン量が足りず、逆にオーグメンチンを増やすとクラブラン酸の副作用で猛烈な下痢をする。だから<strong>サワシリンだけを足してアモキシシリン比率を高める</strong>超合理的な処方！</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>9. 慢性腎臓病<br>（CKD保存期）</strong></td>
+          <td><span class="badge b-step2">CKD ステージ G3a〜G3b</span><br><strong>処方：</strong>ARB ＋ フォシーガ10mg ＋ フェブキソスタット<br><strong>病態：</strong>糸球体の過剰ろ過を抑え、透析導入を全力で遠ざけている段階。</td>
+          <td><span class="badge b-step3">CKD ステージ G4〜G5（透析前保存期）</span><br><strong>処方：</strong>上記 ＋ ダーブロック（HIF-PH阻害薬）＋ ロケルマ（高K改善）＋ ホスレノール（リン吸着）＋ 重曹 ＋ クレメジン<br><strong>病態：</strong>腎臓の4大機能（造血・電解質・酸塩基・毒素排泄）を薬で総力カバーしている状態！</td>
+          <td><strong>🔍 服用タイミングのパズルを整理せよ！：</strong><br>・ダーブロック：鉄剤やリン吸着薬と<strong>併用間隔を空ける</strong>（キレート防止）<br>・ホスレノール：食べ物の中のリンを捕まえるため<strong>「食直後」</strong>必須！<br>・クレメジン：他剤を吸着するため<strong>他剤と時間をずらす</strong>！</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>10. 骨粗鬆症</strong></td>
+          <td><span class="badge b-step1">標準予防・治療</span><br><strong>処方：</strong>アレンドロン酸（週1回起床時）または ラロキシフェン（エビスタ：閉経後女性）＋ エルデカルシトール</td>
+          <td><span class="badge b-step3">骨折ハイリスク（逐次療法）</span><br><strong>処方：</strong>イベニティ皮下注（1年間）または テリパラチド ➔ 終了後に<strong>プラリア皮下注（6ヶ月に1回）＋ デノタスチュアブル</strong>へ移行。</td>
+          <td><strong>🔍 エビスタ（SERM）の隠れリスク：</strong><br>女性ホルモン様作用があるため、<strong>「長期の飛行機移動や入院・手術で足を動かさない時」に深部静脈血栓症（エコノミークラス症候群）</strong>を起こすリスクがある！整形外科の手術前などは休薬確認！</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+  function switchView(targetClass, btn) {
+    const btns = document.querySelectorAll('.tab-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const sections = document.querySelectorAll('.section-block');
+    sections.forEach(sec => {
+      if (targetClass === 'all' || sec.classList.contains(targetClass)) {
+        sec.style.display = 'block';
+      } else {
+        sec.style.display = 'none';
+      }
+    });
+  }
+
+  function filterContent() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const items = document.querySelectorAll('.searchable');
+    
+    items.forEach(item => {
+      const text = item.innerText.toLowerCase();
+      if (text.includes(query)) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>

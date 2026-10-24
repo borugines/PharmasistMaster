@@ -1,0 +1,517 @@
+﻿```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>薬局で押さえるべき「ここ数年の新薬トレンド＆パラダイムシフト」図鑑</title>
+<style>
+  :root {
+    --primary: #0f172a;
+    --secondary: #4f46e5;
+    --accent: #0ea5e9;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --border: #cbd5e1;
+    --new-badge: #fef08a;
+    --new-text: #854d0e;
+    --warn-bg: #fff1f2;
+    --warn-border: #f43f5e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    padding-bottom: 50px;
+  }
+
+  .top-bar {
+    background: linear-gradient(135deg, #0f172a 0%, #312e81 100%);
+    color: white;
+    padding: 16px 25px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .top-bar h1 { font-size: 1.25rem; color: #38bdf8; }
+  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .f-btn {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.2s;
+  }
+  .f-btn.active, .f-btn:hover { background: #38bdf8; color: #0f172a; font-weight: bold; }
+  .print-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+
+  .container { max-width: 1200px; margin: 25px auto; padding: 0 15px; }
+
+  .trend-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .trend-header {
+    border-bottom: 3px solid var(--secondary);
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .trend-title { font-size: 1.35rem; font-weight: 800; color: var(--primary); }
+  .trend-sub { font-size: 0.85rem; color: #64748b; font-weight: bold; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 0.88rem; }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+  th { background: #f1f5f9; color: var(--primary); font-weight: bold; }
+
+  .drug-name { font-size: 1rem; font-weight: 800; color: var(--secondary); display: block; margin-bottom: 3px; }
+  .gen-name { font-size: 0.78rem; color: #64748b; display: block; margin-bottom: 6px; }
+  .tag-mech {
+    display: inline-block;
+    background: #e0e7ff;
+    color: #3730a3;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+  .tag-new {
+    display: inline-block;
+    background: var(--new-badge);
+    color: var(--new-text);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .pitfall-box {
+    background: var(--warn-bg);
+    border-left: 4px solid var(--warn-border);
+    padding: 8px 10px;
+    border-radius: 0 4px 4px 0;
+    margin-top: 6px;
+    font-size: 0.84rem;
+    color: #881337;
+  }
+
+  @media print {
+    body { background: white; font-size: 8pt; padding: 0; }
+    .top-bar { display: none !important; }
+    .container { max-width: 100%; margin: 0; padding: 0; }
+    .trend-section {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+      margin-bottom: 12px;
+      page-break-inside: avoid;
+    }
+    .page-break { page-break-after: always; }
+    th, td { padding: 6px 8px; font-size: 8pt; }
+    @page { size: A4 landscape; margin: 10mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>🚀 薬局で押さえるべき「ここ数年の新薬トレンド＆現場の勘所」図鑑</h1>
+  <div class="filter-group">
+    <button class="f-btn active" onclick="filterTrend('all', this)">すべて表示</button>
+    <button class="f-btn" onclick="filterTrend('t-meta', this)">① 糖尿病・肥満・心腎</button>
+    <button class="f-btn" onclick="filterTrend('t-neuro', this)">② 不眠・片頭痛・神経</button>
+    <button class="f-btn" onclick="filterTrend('t-derm', this)">③ 皮膚・アレルギー・呼吸器</button>
+    <button class="f-btn" onclick="filterTrend('t-other', this)">④ 感染症・婦人科・消化器</button>
+    <button class="print-btn" onclick="window.print()">🖨️ A4横で印刷</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ==========================================
+       カテゴリ1：糖尿病・心不全・CKD・代謝領域の新薬
+       ========================================== -->
+  <div class="trend-section t-meta page-break">
+    <div class="trend-header">
+      <h2 class="trend-title">① 糖尿病・心不全・CKD領域：「新機序ラッシュ」の主役たち</h2>
+      <span class="trend-sub">ガイドラインを書き換えたモンスター級の新薬群</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:20%;">新薬名・一般名・機序</th>
+          <th style="width:38%;">何が革命的なのか？（従来の薬との違い・脳内翻訳）</th>
+          <th style="width:42%;">薬局カウンターでの必須指導＆ピットフォール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="drug-name">マンジャロ皮下注</span>
+            <span class="gen-name">（チルゼパチド）</span>
+            <span class="tag-mech">GIP/GLP-1受容体作動薬</span>
+          </td>
+          <td>
+            <span class="tag-new">血糖＆体重減少の絶対王者</span><br>
+            従来のGLP-1単独（オゼンピック等）に<strong>「GIP受容体刺激」を合体させた世界初のデュアルアゴニスト</strong>。食欲抑制と代謝改善が凄まじく、臨床試験ではHbA1c低下・体重減少ともに既存のあらゆる薬を圧倒！（※肥満症適応の同成分薬は<strong>「ゼップバウンド」</strong>、セマグルチドの肥満症薬は<strong>「ウゴービ」</strong>）。
+          </td>
+          <td>
+            ・<strong>段階的増量ルール：</strong>必ず週1回 <strong>2.5mg（導入量）を4週間</strong>続け、その後5mgへ増量する（いきなり5mg開始は嘔吐必発！）。<br>
+            <div class="pitfall-box">⚠️ <strong>現場の罠：</strong>高齢者が使うと<strong>「痩せすぎ（サルコペニア・フレイル）」</strong>や栄養不良になりやすい。また急激な体重減少に伴う<strong>「胆石症・急性胆嚢炎（右上腹部痛）」</strong>に注意！デバイス（アテオス）はロックを外してボタンを押すだけ（トルリシティと同じ）。</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">ツイミーグ錠</span>
+            <span class="gen-name">（イメグリミン）</span>
+            <span class="tag-mech">ミトコンドリア機能改善薬</span>
+          </td>
+          <td>
+            <span class="tag-new">日本人が得意な「分泌促進＋抵抗性改善」の二刀流</span><br>
+            メトホルミンと構造が似ているが全く新しいクラス（グリミン系）。膵臓のミトコンドリアに働いて<strong>「血糖が高い時だけインスリン分泌を助け」</strong>つつ、肝・筋肉での糖利用も改善する。
+          </td>
+          <td>
+            ・<strong>用法：</strong>1回1000mg（2錠）を1日2回 朝・夕。<br>
+            <div class="pitfall-box">⚠️ <strong>メトホルミンとの併用と腎機能：</strong>メトホルミンと併用すると<strong>「消化器症状（吐き気・下痢）」が倍増</strong>しやすい。また腎排泄のため<strong>eGFR 45未満は投与非推奨（実質使えない）</strong>である点がメトホルミン（eGFR 30まで可）より厳しいので監査注意！</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">ケレンディア錠</span>
+            <span class="gen-name">（フィネレノン）</span>
+            <span class="tag-mech">非ステロイド型選択的MRA</span>
+          </td>
+          <td>
+            <span class="tag-new">糖尿病性腎症（DKD）の炎症・線維化を止める盾</span><br>
+            「ARB＋SGLT2阻害薬」を使っていても進行してしまう<strong>2型糖尿病合併CKDの「第3の柱」</strong>（さらに心不全にも適応拡大）。血圧をほとんど下げずに腎臓と心臓の線維化だけを強力にブロックする！
+          </td>
+          <td>
+            ・<strong>開始用量の監査：</strong>eGFR 60以上なら20mg、<strong>eGFR 25〜60未満なら10mgから開始</strong>。<br>
+            <div class="pitfall-box">⚠️ <strong>高カリウム血症とグレープフルーツ：</strong>MRAなので<strong>「血清カリウム値（K値）」の上昇</strong>が最大のリスク。またCYP3A4代謝のため<strong>グレープフルーツジュース（GFJ）は摂取を避ける</strong>よう指導！</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">エンレスト錠</span>
+            <span class="gen-name">（サクビトリルバルサルタン）</span>
+            <span class="tag-mech">ARNI（アンジオテンシン受容体ネプリライシン阻害薬）</span>
+          </td>
+          <td>
+            <span class="tag-new">心不全の主役から「難治性高血圧」のエースへ</span><br>
+            もともと慢性心不全の薬として登場したが、<strong>「高血圧症」の適応が追加されてからクリニックの処方が爆発的に増加！</strong>血管を広げつつ、ナトリウム利尿ペプチド（ANP/BNP）の分解を止めて塩分と水を排泄するため、劇的に血圧が下がる。
+          </td>
+          <td>
+            ・<strong>高血圧の用量：</strong>通常1日1回 200mg（最大400mg）。（※心不全は1回50mg×1日2回から漸増と用法が全く違う！）<br>
+            <div class="pitfall-box">⚠️ <strong>現場の罠：</strong>従来のARBからエンレスト200mgへ切り替えた際、<strong>効きすぎて「立ちくらみ・めまい・低血圧」を起こす高齢者が続出</strong>している。切り替え初期の家庭血圧モニタリングが超重要！（※ACE阻害薬からは36時間休薬必須）。</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">ベリキューボ錠</span>
+            <span class="gen-name">（ベルイシグアト）</span>
+            <span class="tag-mech">可溶性グアニル酸シクラーゼ（sGC）刺激薬</span>
+          </td>
+          <td>
+            <span class="tag-new">ファンタスティック・フォーでも入院してしまう心不全の第5の矢</span><br>
+            心不全が悪化して入退院を繰り返す患者に対し、血管や心筋の「cGMP」を増やして心臓と血管をしなやかに保つ新しい心不全治療薬。
+          </td>
+          <td>
+            ・<strong>必ず「食後」に服用：</strong>空腹時だと吸収が落ちる。<br>
+            <div class="pitfall-box">⚠️ <strong>併用禁忌：</strong>PDE5阻害薬（バイアグラ・シアリス・ザルティア等）やアデムパスとは、血圧が下がりすぎるため<strong>絶対併用禁忌</strong>！前立腺肥大症の<strong>「ザルティア（タダラフィル）」</strong>がお薬手帳に隠れていないか必ずチェック！</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       カテゴリ2：不眠・片頭痛・神経・疼痛領域の新薬
+       ========================================== -->
+  <div class="trend-section t-neuro page-break">
+    <div class="trend-header">
+      <h2 class="trend-title">② 不眠・片頭痛・神経領域：患者のQOLを激変させた新薬たち</h2>
+      <span class="trend-sub">「我慢するしかなかった片頭痛」や「翌朝残る睡眠薬」からの解放</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:20%;">新薬名・一般名・機序</th>
+          <th style="width:38%;">何が革命的なのか？（従来の薬との違い・脳内翻訳）</th>
+          <th style="width:42%;">薬局カウンターでの必須指導＆ピットフォール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="drug-name">クービビック錠</span>
+            <span class="gen-name">（ダリドレキサント）</span>
+            <span class="tag-mech">オレキシン受容体拮抗薬（DORA第3世代）</span>
+          </td>
+          <td>
+            <span class="tag-new">「翌朝に眠気が残らない」を極めた最新睡眠薬</span><br>
+            ベルソムラ（半減期約12h）、デエビゴ（実効半減期長め）に続く第3のオレキシン拮抗薬。<strong>半減期が「約8時間」という黄金設計</strong>のため、夜中はしっかり眠れるのに、朝起きた時の「頭がボーッとする持ち越し効果」が最も出にくい！
+          </td>
+          <td>
+            ・<strong>用法：</strong>1日1回 50mgを就寝直前に服用（食事と同時・食直後は効果が遅れるため空腹時がベスト）。<br>
+            <div class="pitfall-box">⚠️ <strong>相互作用（CYP3A4）：</strong>クラリスロマイシン等の強いCYP3A阻害薬とは<strong>併用禁忌</strong>。中程度の阻害薬（ベラパミル、フルコナゾール等）併用時や中等度肝障害では<strong>25mgへ減量</strong>！</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">エムガルティ / アジョビ / アイモビーグ</span>
+            <span class="gen-name">（ガルカネズマブ等）</span>
+            <span class="tag-mech">CGRP関連抗体薬（皮下注）</span>
+          </td>
+          <td>
+            <span class="tag-new">片頭痛の歴史を変えた「月1回注射の予防薬」</span><br>
+            片頭痛の真犯人である神経ペプチド「CGRP」を直接捕まえる抗体医薬。<strong>月に1回皮下注射するだけで、寝込むほどの片頭痛発作が半分〜ゼロ近くまで激減する</strong>患者が続出！薬局でも在宅自己注射として調剤する機会が急増。
+          </td>
+          <td>
+            ・<strong>冷所保存と室温戻し：</strong>冷蔵庫（2〜8℃）で保管し、<strong>打つ30分前に冷蔵庫から出して室温に戻してから打つ</strong>（冷たいまま打つと痛い！絶対に振らない・温めない）。<br>
+            <div class="pitfall-box">⚠️ <strong>アイモビーグの便秘：</strong>CGRPは腸の動きにも関わるため、特に受容体をブロックするアイモビーグ等では<strong>「便秘」</strong>の副作用に注意。</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">レイボー錠</span>
+            <span class="gen-name">（ラスミジタン）</span>
+            <span class="tag-mech">5-HT1F受容体作動薬（ジタン系）</span>
+          </td>
+          <td>
+            <span class="tag-new">血管を一切縮めない！タイミング遅れでも効く片頭痛薬</span><br>
+            従来のトリプタン製剤（5-HT1B/1D）は血管を収縮させるため心筋梗塞や脳梗塞の既往がある人には使えなかった。レイボーは神経の<strong>5-HT1Fだけを狙うため血管を縮めず、しかも「痛みがピークに達した後」に飲んでも効く！</strong>
+          </td>
+          <td>
+            <div class="pitfall-box">⚠️ <strong>最大の注意点「めまい・眠気・運転禁止」：</strong>脳の中枢にも作用するため、服用後に<strong>かなり強い「めまい・ふらつき・眠気」</strong>が高率に出る！「飲んだらそのまま少し横になれる環境で飲むこと」「服用後8時間は自動車運転等をしないこと」を必ず指導（初回は50mg等の少量から試すのも手）。</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">クーデック / ナルティーク</span>
+            <span class="gen-name">（アトゲパント / リメゲパント等）</span>
+            <span class="tag-mech">経口CGRP受容体拮抗薬（ゲパント系）</span>
+          </td>
+          <td>
+            <span class="tag-new">注射ではなく「飲み薬」でCGRPをブロックする新世代</span><br>
+            注射（エムガルティ等）が怖くて使えなかった片頭痛患者待望の<strong>「飲むCGRP阻害薬（ゲパント系）」</strong>。血管収縮作用がなく、薬物乱用頭痛（MOH）も起こしにくいのが最大の武器！
+          </td>
+          <td>
+            ・急性期治療（発作時）と予防治療の両面で展開される新クラス。CYP3A4阻害薬との相互作用に注意。
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       カテゴリ3：皮膚科・アレルギー・呼吸器・免疫領域の新薬
+       ========================================== -->
+  <div class="trend-section t-derm page-break">
+    <div class="trend-header">
+      <h2 class="trend-title">③ 皮膚・アレルギー・呼吸器領域：「ステロイド外用薬一択」からの脱却</h2>
+      <span class="trend-sub">アトピー・乾癬・多汗症・慢性咳嗽の新しい選択肢</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:20%;">新薬名・一般名・機序</th>
+          <th style="width:38%;">何が革命的なのか？（従来の薬との違い・脳内翻訳）</th>
+          <th style="width:42%;">薬局カウンターでの必須指導＆ピットフォール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="drug-name">コレクチム軟膏<br>モイゼルト軟膏<br>ブイタマークリーム</span>
+            <span class="gen-name">（デルゴシチニブ / ジファミラスト / タピナロフ）</span>
+            <span class="tag-mech">非ステロイド性抗炎症外用薬（JAK / PDE4 / AhR）</span>
+          </td>
+          <td>
+            <span class="tag-new">ステロイドのように皮膚が薄くならず、プロトピックのようにヒリヒリしない！</span><br>
+            長年ステロイドとプロトピックしかなかったアトピー外用薬に3つの新機序が登場！<strong>顔や首など皮膚が薄い場所にも長期間安心して塗れる</strong>ため、寛解維持（プロアクティブ療法）の主役に！（ブイタマーは1日1回で乾癬にも効く）。
+          </td>
+          <td>
+            ・<strong>コレクチム（外用JAK阻害薬）：</strong>局所の免疫を抑えるため、塗った場所に<strong>「ニキビ（ざ瘡）やヘルペス、毛包炎」</strong>ができたらその部分には塗らないよう指導。<br>
+            ・<strong>ブイタマー（AhR調整薬）：</strong>1日1回塗布。まれに塗布部位の毛包炎や接触皮膚炎、頭痛。
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">デュピクセント皮下注<br>ミチーガ / アドトラーザ / イブグリース</span>
+            <span class="gen-name">（デュピルマブ / ネモリズマブ等）</span>
+            <span class="tag-mech">アトピー・痒疹・喘息 生物学的製剤</span>
+          </td>
+          <td>
+            <span class="tag-new">「かゆみで夜も眠れない重症アトピー」を劇的に変える自己注射</span><br>
+            IL-4/13を抑えるデュピクセント（アトピー・喘息・鼻茸を伴う副鼻腔炎・特発性慢性蕁麻疹など適応拡大ラッシュ）や、<strong>「かゆみの神経（IL-31）」をピンポイントで遮断するミチーガ</strong>など、薬局でペン型自己注射を渡すケースが急増！
+          </td>
+          <td>
+            <div class="pitfall-box">⚠️ <strong>デュピクセント特有の副作用「結膜炎（目の充血・かゆみ）」：</strong>顔や目の周りの湿疹は綺麗になるのに、なぜか<strong>「アレルギー性結膜炎・眼瞼炎」</strong>が高率に出る！目薬でコントロールできるため自己中断させない。また<strong>使用中は「生ワクチン」の接種は不可</strong>！</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">エクロックゲル<br>ラピフォートワイプ<br>アポハイドローション</span>
+            <span class="gen-name">（ソフピロニウム / グリコピロニウム / オキシブチニン）</span>
+            <span class="tag-mech">原発性腋窩多汗症・手掌多汗症治療薬（外用抗コリン薬）</span>
+          </td>
+          <td>
+            <span class="tag-new">「脇汗・手汗の悩み」が保険の塗り薬で治せる時代に！</span><br>
+            エクロックとラピフォートは「脇汗（腋窩多汗症）」、アポハイドは「手汗（手掌多汗症）」の保険適用外用薬。汗腺のムスカリン受容体をブロックして汗をピタッと止める。
+          </td>
+          <td>
+            <div class="pitfall-box">⚠️ <strong>最大のタブー「薬がついた手で絶対に目を触らない！」：</strong>中身は強力な<strong>抗コリン薬</strong>！塗った手でうっかり目をこすると、<strong>瞳孔がガバッと開いて「散瞳・霧視（眩しくてピントが合わない）」</strong>を起こす！塗った後は徹底的に石鹸で手を洗うこと（閉塞隅角緑内障・前立腺肥大症の排尿障害は禁忌！）。</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">リフヌア錠</span>
+            <span class="gen-name">（ゲーファピキサント）</span>
+            <span class="tag-mech">P2X3受容体拮抗薬</span>
+          </td>
+          <td>
+            <span class="tag-new">何をしても止まらない「難治性の慢性咳嗽」の切り札</span><br>
+            喘息でも逆流性食道炎でもなく、咳止めが全く効かない「原因不明の長引く咳」に対し、気道の知覚神経（P2X3）の過敏性を直接ブロックして咳を止める新機序薬。
+          </td>
+          <td>
+            <div class="pitfall-box">⚠️ <strong>必発の副作用「味覚異常（味がしない・苦い・金属味）」：</strong>実は舌の「味蕾（味を感じる神経）」にもP2X3受容体があるため、<strong>患者の約半数以上に味覚異常が出る！</strong>「咳が止まればやめられる一時的なもので、薬をやめれば味は元に戻りますよ」と事前に説明しておかないと100%驚かれる！</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       カテゴリ4：感染症・婦人科・消化器・腎臓領域の新薬
+       ========================================== -->
+  <div class="trend-section t-other">
+    <div class="trend-header">
+      <h2 class="trend-title">④ 感染症・婦人科・腎臓領域：知っておくべき最新トピック</h2>
+      <span class="trend-sub">相互作用の怪物から更年期・子宮筋腫の新薬まで</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:20%;">新薬名・一般名・機序</th>
+          <th style="width:38%;">何が革命的なのか？（従来の薬との違い・脳内翻訳）</th>
+          <th style="width:42%;">薬局カウンターでの必須指導＆ピットフォール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="drug-name">パキロビッドパック<br>ゾコーバ錠</span>
+            <span class="gen-name">（ニルマトレルビル・リトナビル / エンシトレルビル）</span>
+            <span class="tag-mech">COVID-19 3CLプロテアーゼ阻害薬</span>
+          </td>
+          <td>
+            <span class="tag-new">コロナ治療薬であり、薬局薬剤師の「相互作用監査力」が試される試金石！</span><br>
+            ウイルスの増殖酵素（3CLプロテアーゼ）を止める5日間内服薬。特に初日の服用量が多いゾコーバ（初日3錠・2〜5日目1錠）や、PTPシートが朝・夕に分かれたパキロビッドは用法指導の要。
+          </td>
+          <td>
+            <div class="pitfall-box">⚠️ <strong>超強力な「CYP3A4阻害作用（併用禁忌が約30〜40成分以上！）」：</strong>両剤ともCYP3A4を猛烈にブロックするため、普段飲んでいる<strong>ベルソムラ・デエビゴ、リvaroxaban（イグザレルト）、アトルバスタチン、一部のCa拮抗薬や抗不整脈薬などが軒並み「併用禁忌」または休薬・減量対象</strong>になる！お薬手帳の完全監査が必須（ゾコーバは<strong>妊婦絶対禁忌</strong>！）。</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">レルミナ錠<br>コレミナール / イセルティ</span>
+            <span class="gen-name">（レルゴリクス / リンザゴリクス等）</span>
+            <span class="tag-mech">経口GnRHアンタゴニスト</span>
+          </td>
+          <td>
+            <span class="tag-new">子宮筋腫・子宮内膜症を「注射ではなく1日1回の飲み薬」で小さくする！</span><br>
+            従来のGnRHアゴニスト（リュープリン注射等）は最初に一時的にホルモンが増えて症状が悪化する「フレアアップ」があったが、アンタゴニストのレルミナ等は<strong>初日から女性ホルモンをピタッと下げて出血や痛みを止める！</strong>
+          </td>
+          <td>
+            ・<strong>レルミナの用法：</strong>食事で吸収が半減するため<strong>「1日1回 空腹時（食前30分以上前）」</strong>が鉄則！<br>
+            <div class="pitfall-box">⚠️ <strong>注意事項：</strong>閉経状態を作るため<strong>「更年期様症状（ほてり・発汗）」と「骨密度低下（原則6ヶ月までの投与制限）」</strong>が出る。また<strong>低用量ピル（LEP）やホルモン剤とは効果が打ち消し合うため併用注意・切り替えタイミングの確認</strong>が必要！</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">ロケルマ懸濁用散</span>
+            <span class="gen-name">（ジルコニウムシクロケイ酸ナトリウム）</span>
+            <span class="tag-mech">非ポリマー性カリウム吸着薬</span>
+          </td>
+          <td>
+            <span class="tag-new">「砂を飲んでいるようで便秘になるカリメート」からの大進化！</span><br>
+            CKDや心不全患者（ARB＋MRA服用中）の「高カリウム血症」を改善する新世代薬。カリウムイオンのサイズだけを精密に捕まえる結晶構造を持ち、<strong>腸の中で膨張しないため「便秘や腸管穿孔リスク」が圧倒的に少なく、しかも無味無臭で飲みやすい！</strong>
+          </td>
+          <td>
+            ・<strong>飲み方の指導：</strong>水に溶けない（懸濁する）パウダーのため、約45mLの水に入れてよくかき混ぜ、<strong>「沈殿する前に一気に飲み干す（底に残ったらもう一度水を入れて飲む）」</strong>よう指導！<br>
+            <div class="pitfall-box">⚠️ <strong>レントゲンに写る！：</strong>ジルコニウム（金属元素）を含むため、<strong>腹部X線やCT検査の時に「腸の中に白い影（造影剤や石のような影）」として写ることがある</strong>と患者・医療者に伝えておくと親切！</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="drug-name">フォゼベル錠</span>
+            <span class="gen-name">（テナパノル）</span>
+            <span class="tag-mech">NHE3阻害薬（高リン血症治療薬）</span>
+          </td>
+          <td>
+            <span class="tag-new">毎回何錠も噛み砕いていた「リン吸着薬」を劇的に減らせる小さな錠剤！</span><br>
+            透析患者はこれまで毎食直後に大きなリン吸着薬（ホスレノール等）を何錠も飲んで便秘に苦しんでいた。フォゼベルは腸の細胞の隙間を閉じてリンの吸収自体をブロックする全く新しい薬で、<strong>「1日2回（朝・夕食直前）小さな錠剤を1錠飲むだけ」でリンが下がり、しかも便が柔らかくなる（下痢しやすい）！</strong>
+          </td>
+          <td>
+            ・<strong>用法：</strong>1日2回 朝・夕食直前。<br>
+            <div class="pitfall-box">⚠️ <strong>副作用の「下痢」：</strong>腸の中にナトリウムと水分を残す作用があるため、高率に<strong>「軟便・下痢」</strong>が出る（これまで便秘で下剤を飲んでいた透析患者なら、下剤をやめられて一石二鳥になることも！）。</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+  function filterTrend(cls, btn) {
+    const btns = document.querySelectorAll('.f-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const secs = document.querySelectorAll('.trend-section');
+    secs.forEach(s => {
+      if (cls === 'all' || s.classList.contains(cls)) {
+        s.style.display = 'block';
+      } else {
+        s.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>
+```

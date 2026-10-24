@@ -1,0 +1,2439 @@
+﻿<!-- 実戦スペシャルトピック タブペイン -->
+<div id="tab-special" class="tab-pane">
+  <div class="card" style="margin-bottom:20px; background:linear-gradient(135deg, #0f172a 0%, #065f46 100%); color:white; border-left:4px solid #10b981;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h2 style="font-size:1.35rem; color:#6ee7b7; font-weight:800; margin-bottom:4px;">🛠️ 薬局実戦スペシャルトピック＆現場チートシート（全7領域 ＆ 実戦生活指導集）</h2>
+        <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+          教科書と臨床の溝を埋める「漢方」「小児」「在宅・栄養・褥瘡」「周術期休薬」「相互作用NG」「妊娠・授乳中」の超実践ナレッジ集。
+        </p>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <button class="header-print-btn" onclick="window.print()" style="padding:7px 14px; font-size:0.85rem; background:#10b981;">🖨️ A4横で印刷</button>
+      </div>
+    </div>
+    <div class="tab-group" style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
+      <button class="t-btn active" onclick="showTopic('all', this)">すべて表示（一括印刷）</button>
+      <button class="t-btn" onclick="showTopic('sec-contra', this)" style="background:#fee2e2; color:#991b1b; font-weight:700; border:1px solid #f87171;">⚡ ① 一発アウト併用禁忌＆CYP</button>
+      <button class="t-btn" onclick="showTopic('sec-crush', this)" style="background:#e0e7ff; color:#3730a3; font-weight:700; border:1px solid #818cf8;">💊 ② 粉砕・簡易懸濁・一包化</button>
+      <button class="t-btn" onclick="showTopic('sec-peds', this)" style="background:#ecfdf5; color:#065f46; font-weight:700; border:1px solid #34d399;">👶 ③ 小児体重換算＆飲ませ方</button>
+      <button class="t-btn" onclick="showTopic('sec-inquiry', this)" style="background:#fef3c7; color:#92400e; font-weight:700; border:1px solid #f59e0b;">📞 ④ 疑義照会の神フレーズ</button>
+      <button class="t-btn" onclick="showTopic('sec-lifestyle', this)">🥗 ⑤ 疾患別 生活指導集</button>
+      <button class="t-btn" onclick="showTopic('sec-kampo', this)">🌿 ⑥ 頻出漢方薬</button>
+      <button class="t-btn" onclick="showTopic('sec-pregnancy', this)">🤰 ⑦ 妊娠・授乳中</button>
+      <button class="t-btn" onclick="showTopic('sec-surg', this)">✂️ ⑧ 手術・検査前休薬</button>
+      <button class="t-btn" onclick="showTopic('sec-home', this)">🏠 ⑨ 在宅・栄養剤・褥瘡</button>
+      <button class="t-btn" onclick="showTopic('sec-ng', this)">🚫 ⑩ 食品・サプリ相互作用</button>
+    </div>
+  </div>
+  <div class="special-container">
+
+  <!-- ==========================================
+       1. 粉砕・簡易懸濁可否 ＆ 一包化適否マスター
+       ========================================== -->
+    <!-- ==========================================
+       0. 命に関わる超危険ペア！一発アウト併用禁忌 ＆ CYP代謝酵素・P-gp早見表
+       ========================================== -->
+  <div class="topic-sec sec-contra" id="sec-contra">
+    <div class="sec-head" style="border-color: #ef4444;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <span class="badge" style="background:#b91c1c; color:white;">Fatal Drug Interactions & CYP Map</span>
+          <h2 class="sec-title" style="color: #991b1b; font-size:1.35rem; font-weight:800; margin-top:4px;">
+            ⚡ 命に関わる超危険ペア！「一発アウト併用禁忌 12選」＆ CYP代謝酵素・P-gp早見マップ
+          </h2>
+        </div>
+        <div>
+          <input type="text" id="contraFilterInput" placeholder="🔍 薬名・CYP分子種・機序で絞り込み (例: CYP3A4, MTX, パキロビッド)" onkeyup="filterContraTable()" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; width:280px;">
+        </div>
+      </div>
+      <span class="sec-sub" style="color: #dc2626;">調剤・鑑査台の最後の砦！見逃したら致死的な重篤事故に直結する併用禁忌ペアと、代謝酵素（CYP/P-gp）の阻害・誘導メカニズムを完全攻略</span>
+    </div>
+
+    <!-- PART A: 一発アウト併用禁忌 12大危険ペア テーブル -->
+    <div style="background:#fff1f2; border:1px solid #fecaca; border-radius:8px; padding:12px 14px; margin-bottom:16px;">
+      <h4 style="margin:0 0 6px 0; color:#991b1b; font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+        <span>🚨 鑑査台で絶対に通してはいけない！「一発アウト併用禁忌 12大危険ペア」</span>
+      </h4>
+      <div style="font-size:0.8rem; color:#7f1d1d; margin-bottom:10px;">
+        他院併用薬やお薬手帳の確認漏れで最も事故事例の多い「致死的一発アウト」の組み合わせです。発見時は直ちに調剤を止め、医師へ疑義照会を行います。
+      </div>
+
+      <div style="overflow-x:auto; background:white; border-radius:8px; border:1px solid #fca5a5;">
+        <table id="contraPairsTable" style="margin:0; width:100%; border-collapse:collapse;">
+          <thead>
+            <tr style="background:#fee2e2; border-bottom:2px solid #f87171; color:#991b1b;">
+              <th style="width:24%;">主剤 ＆ 併用禁忌薬（超危険ペア）</th>
+              <th style="width:22%;">相互作用の機序（メカニズム）</th>
+              <th style="width:28%;">⚠️ 発生する致命的結末（臨床症状）</th>
+              <th style="width:26%;">💡 現場での推奨代替案 ＆ アクション</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">シンバスタチン（リポバス）</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ イトラコナゾール / クラリス</span>
+              </td>
+              <td>強力な<strong>CYP3A4阻害</strong>により、シンバスタチンの肝代謝が完全停止し血中濃度が数十倍に跳ね上がる。</td>
+              <td><strong style="color:#dc2626;">劇症横紋筋融解症 ＆ 急性腎不全！</strong><br>激しい筋肉痛、コーラ色尿、腎不全で死亡例多数。</td>
+              <td><strong>プラバスタチン（メバロチン：CYP非依存）</strong>またはロスバスタチンへ変更提案。</td>
+            </tr>
+
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">メトトレキサート（MTX）</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ NSAIDs（ロキソニン等）/ バクタ</span>
+              </td>
+              <td>NSAIDsによる腎血流低下・尿細管分泌阻害＋血漿蛋白結合競合により、MTX排泄が著明遅延。バクタは葉酸代謝二重阻害。</td>
+              <td><strong style="color:#dc2626;">致死的骨髄抑制（汎血球減少）！</strong><br>白血球激減、敗血症、激しい口内炎・消化管潰瘍、出血死。</td>
+              <td>疼痛時は<strong>アセトアミノフェン（カロナール）</strong>へ変更。感染症時はペニシリン・セフェム系推奨。</td>
+            </tr>
+
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">フェブキソスタット / アロプリノール</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ アザチオプリン（イムラン）/ 6-MP</span>
+              </td>
+              <td>キサンチンオキシダーゼ（XO）阻害により、アザチオプリン活性代謝物（6-TGN）の分解が停止し骨髄毒性激増。</td>
+              <td><strong style="color:#dc2626;">重篤な骨髄抑制（無顆粒球症・致死的感染症）！</strong></td>
+              <td>痛風薬を<strong>ベンズブロマロン（排泄促進薬）</strong>へ変更、またはイムランを休薬・他剤へ変更。</td>
+            </tr>
+
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">ニトログリセリン / 硝酸薬全般</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ PDE5阻害薬（バイアグラ、シアリス）</span>
+              </td>
+              <td>NOによるcGMP産生促進 ＋ PDE5阻害によるcGMP分解阻害の二重増強で血管平滑筋が限界弛緩。</td>
+              <td><strong style="color:#dc2626;">制御不能な致死性血圧低下・ショック死！</strong><br>失神、心停止、冠血流急減。</td>
+              <td><strong>併用絶対禁忌！</strong>PDE5阻害薬内服後24〜48時間以内の硝酸薬投与は厳禁。胸痛時は他系統降圧薬。</td>
+            </tr>
+
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">パキロビッド（COVID-19薬）</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ 禁忌薬約40品目（リバロキサバン等）</span>
+              </td>
+              <td>リトナビルの不可逆的・超強力な<strong>CYP3A4阻害</strong>により、基質薬の血中濃度が危険水域へ跳ね上がる。</td>
+              <td>出血死（DOAC）、重度鎮静（トリアゾラム）、致死性不整脈（アミオダロン）、横紋筋融解症（スタチン）。</td>
+              <td>COVID治療薬を<strong>ラゲブリオ（モルヌピラビル：CYP相互作用なし）</strong>へ変更提案。</td>
+            </tr>
+
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">バルプロ酸ナトリウム（デパケン）</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ カルバペネム系（メロペン等）</span>
+              </td>
+              <td>カルバペネムがバルプロ酸グルクロン酸抱合体の加水分解を阻害し、赤血球移行と排泄を促進。</td>
+              <td><strong style="color:#dc2626;">バルプロ酸血中濃度が24時間以内に急落！</strong><br>てんかん重積発作が誘発され意識障害・死亡リスク。</td>
+              <td>抗菌薬を<strong>セフェム系・ペニシリン系・キノロン系</strong>へ直ちに変更提案。</td>
+            </tr>
+
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">ワルファリンカリウム</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ ミコナゾール（フロリードゲル経口用）</span>
+              </td>
+              <td>口腔用ゲル局所塗布でもミコナゾールが全身吸収され、ワルファリン代謝酵素<strong>CYP2C9を強力阻害</strong>。</td>
+              <td><strong style="color:#dc2626;">PT-INRが10以上に急上昇！</strong><br>頭蓋内出血、消化管大量出血、皮下巨大血腫。</td>
+              <td>口腔カンジダ治療薬を<strong>ファンギゾンシロップ（消化管吸収ゼロ）</strong>へ変更提案。</td>
+            </tr>
+
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">リオシグアト（アデムパス：PAH治療薬）</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ 硝酸薬 / PDE5阻害薬</span>
+              </td>
+              <td>sGC直接刺激薬と硝酸薬/PDE5iの二重作用で細胞内cGMP濃度が異常上昇し血管過剰拡張。</td>
+              <td><strong style="color:#dc2626;">症候性重篤低血圧・循環虚脱！</strong></td>
+              <td>併用絶対禁忌。処方元双方に疑義照会。</td>
+            </tr>
+
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">タクロリムス / シクロスポリン</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ セントジョーンズワート（西洋オトギリソウ）</span>
+              </td>
+              <td>サプリメント成分がCYP3A4およびP-gpを強力に<strong>誘導（増産）</strong>し、免疫抑制薬を急激分解。</td>
+              <td><strong style="color:#dc2626;">免疫抑制薬血中濃度急落による移植片拒絶反応！</strong><br>臓器廃絶、急性拒絶による死亡。</td>
+              <td>健康食品・ハーブティー・サプリメントの中止を徹底指導。</td>
+            </tr>
+
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">トリプタン系（レルパックス等）</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ エルゴタミン製剤（クリアミン等）</span>
+              </td>
+              <td>5-HT1B/1D受容体刺激の相乗効果による持続的で強力な血管攣縮。</td>
+              <td><strong style="color:#dc2626;">冠動脈攣縮（心筋梗塞） ＆ 脳血管攣縮！</strong><br>胸痛、心停止。</td>
+              <td><strong>相互に24時間以上の休薬間隔が必須！</strong>片頭痛発作時の併用は絶対禁止。</td>
+            </tr>
+
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">低用量ピル・LEP（ヤーズ、ジェミナ等）</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ 35歳以上で1日15本以上の喫煙</span>
+              </td>
+              <td>エストロゲンによる血液凝固能亢進 ＋ タバコのニコチンによる血管内皮障害・血小板凝集。</td>
+              <td><strong style="color:#dc2626;">致死的心筋梗塞、脳卒中、肺塞栓症（血栓症）！</strong></td>
+              <td><strong>禁煙指導</strong>、またはエストロゲンを含まない<strong>ディエノゲスト（プロゲスチン製剤）</strong>へ変更。</td>
+            </tr>
+
+            <tr class="contra-row">
+              <td>
+                <strong style="color:#b91c1c;">ARNI（エンレスト）</strong><br>
+                <span style="color:#dc2626; font-weight:800;">✖ ACE阻害薬（36時間休薬なし）</span>
+              </td>
+              <td>ネプリライシン阻害とACE阻害によるブラジキニン分解の二重遮断。</td>
+              <td><strong style="color:#dc2626;">致死性血管浮腫（咽頭浮腫・気道閉塞・窒息死）！</strong></td>
+              <td>ACE阻害薬の中止後、<strong>必ず「36時間以上」空けてから</strong>エンレストを開始。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PART B: CYP代謝酵素 ＆ P-gp 完全攻略マトリクス -->
+    <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px;">
+      <h4 style="margin:0 0 8px 0; color:#1e293b; font-size:1rem; display:flex; align-items:center; gap:6px;">
+        <span>🧬 主要5大CYP分子種 ＆ P-gp（トランスポーター）完全攻略マップ</span>
+      </h4>
+      <div style="font-size:0.82rem; color:#475569; margin-bottom:12px;">
+        「阻害薬（燃やせなくする＝濃度上昇・中毒）」と「誘導薬（燃やし尽くす＝濃度低下・無効化）」の代表薬を整理。鑑査の直感判断に役立ちます。
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table style="margin:0; width:100%; border-collapse:collapse; font-size:0.83rem;">
+          <thead>
+            <tr style="background:#e2e8f0; color:#0f172a; border-bottom:2px solid #cbd5e1;">
+              <th style="width:14%;">CYP分子種 / トランスポーター</th>
+              <th style="width:28%;">🛑 強力な阻害薬（Inhibitor）<br><span style="font-size:0.73rem; font-weight:normal;">基質薬の血中濃度急上昇・中毒</span></th>
+              <th style="width:26%;">🔥 強力な誘導薬（Inducer）<br><span style="font-size:0.73rem; font-weight:normal;">基質薬を分解・効果消失</span></th>
+              <th style="width:32%;">🎯 影響を受ける代表的な基質薬（Substrate）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="background:#eff6ff; font-weight:800; color:#1e40af;">
+                CYP3A4<br><span style="font-size:0.72rem; font-weight:normal;">（医薬品の約50%代謝）</span>
+              </td>
+              <td>
+                ・<strong>イトラコナゾール、ボリコナゾール</strong><br>
+                ・<strong>クラリスロマイシン、エリスロマイシン</strong><br>
+                ・<strong>リトナビル（パキロビッド）</strong><br>
+                ・<strong>グレープフルーツジュース（不可逆）</strong>
+              </td>
+              <td>
+                ・<strong>リファンピシン（最強誘導薬）</strong><br>
+                ・<strong>カルバマゼピン、フェニトイン</strong><br>
+                ・<strong>セントジョーンズワート</strong>
+              </td>
+              <td>
+                ・スタチン（シンバスタチン、アトルバスタチン）<br>
+                ・DOAC（アピキサバン、リバーロキサバン）<br>
+                ・睡眠薬（トリアゾラム、スボレキサント、デエビゴ）<br>
+                ・Ca拮抗薬、免疫抑制薬（タクロリムス）
+              </td>
+            </tr>
+
+            <tr>
+              <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">
+                CYP2D6<br><span style="font-size:0.72rem; font-weight:normal;">（中枢神経薬・β遮断）</span>
+              </td>
+              <td>
+                ・<strong>パロキセチン（パキシル）</strong><br>
+                ・<strong>キニジン</strong><br>
+                ・<strong>テルビナフィン（ラミシール）</strong>
+              </td>
+              <td>
+                ※誘導薬はほぼ存在しない（遺伝子多型PM/EMの影響大）
+              </td>
+              <td>
+                ・タモキシフェン（活性体エンドキシフェンへの変換阻害で乳がん再発リスク！）<br>
+                ・三環系抗うつ薬、β遮断薬（カルベジロール）<br>
+                ・コデイン（モルヒネ変換阻害で鎮痛効果消失）
+              </td>
+            </tr>
+
+            <tr>
+              <td style="background:#ecfdf5; font-weight:800; color:#065f46;">
+                CYP2C9<br><span style="font-size:0.72rem; font-weight:normal;">（狭い安全域の薬剤）</span>
+              </td>
+              <td>
+                ・<strong>フルコナゾール、ミコナゾール</strong><br>
+                ・<strong>アミオダロン（アンカロン）</strong><br>
+                ・<strong>ST合剤（バクタ）</strong>
+              </td>
+              <td>
+                ・<strong>リファンピシン</strong><br>
+                ・<strong>カルバマゼピン</strong>
+              </td>
+              <td>
+                ・<strong>ワルファリン</strong>（出血傾向・INR急上昇）<br>
+                ・<strong>フェニトイン</strong>（アタキシア・眼振・中毒）<br>
+                ・<strong>SU薬（グリメピリド）</strong>（低血糖昏睡）<br>
+                ・セレコキシブ（セレコックス）
+              </td>
+            </tr>
+
+            <tr>
+              <td style="background:#fffbeb; font-weight:800; color:#92400e;">
+                CYP2C19<br><span style="font-size:0.72rem; font-weight:normal;">（日本人PM約20%）</span>
+              </td>
+              <td>
+                ・<strong>オメプラゾール（オメプラール）</strong><br>
+                ・<strong>フルボキサミン（ルボックス）</strong><br>
+                ・<strong>チクロピジン</strong>
+              </td>
+              <td>
+                ・<strong>リファンピシン</strong>
+              </td>
+              <td>
+                ・<strong>クロピドグレル（プラビックス）</strong>（活性化阻害で抗血小板効果減弱➔タケキャブ/エソメプラゾール推奨）<br>
+                ・ジアゼパム、ボリコナゾール
+              </td>
+            </tr>
+
+            <tr>
+              <td style="background:#f5f3ff; font-weight:800; color:#5b21b6;">
+                CYP1A2<br><span style="font-size:0.72rem; font-weight:normal;">（喫煙・カフェイン）</span>
+              </td>
+              <td>
+                ・<strong>フルボキサミン（ルボックス）</strong><br>
+                ・<strong>シプロフロキサシン（シプロキサン）</strong>
+              </td>
+              <td>
+                ・<strong>タバコ（喫煙の煙）</strong><br>
+                ・<strong>オメプラゾール</strong>
+              </td>
+              <td>
+                ・<strong>テオフィリン</strong>（禁煙で中毒・喫煙で効果激減）<br>
+                ・<strong>オランザピン（ジプレキサ）、クロザピン</strong><br>
+                ・チザニジン（テルネリン）
+              </td>
+            </tr>
+
+            <tr>
+              <td style="background:#f1f5f9; font-weight:800; color:#0f172a;">
+                P-gp (P糖蛋白)<br><span style="font-size:0.72rem; font-weight:normal;">（排出トランスポーター）</span>
+              </td>
+              <td>
+                ・<strong>イトラコナゾール、クラリス</strong><br>
+                ・<strong>ベラパミル、アミオダロン</strong><br>
+                ・<strong>キニジン、シクロスポリン</strong>
+              </td>
+              <td>
+                ・<strong>リファンピシン</strong><br>
+                ・<strong>カルバマゼピン</strong><br>
+                ・<strong>セントジョーンズワート</strong>
+              </td>
+              <td>
+                ・<strong>DOAC全般</strong>（プラザキサ、リクシアナ等）<br>
+                ・<strong>ジゴキシン</strong>（血中濃度上昇でジギタリス中毒）<br>
+                ・コルヒチン（骨髄抑制・多臓器不全）
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<div class="topic-sec sec-crush" id="sec-crush">
+    <div class="sec-head" style="border-color: #6366f1;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <span class="badge" style="background:#4338ca; color:white;">Pharmacy Compounding & Tube Feeding Guide</span>
+          <h2 class="sec-title" style="color: #312e81; font-size:1.35rem; font-weight:800; margin-top:4px;">
+            💊 ① 粉砕・簡易懸濁可否 ＆ 一包化適否マスター（主要80大頻出薬）
+          </h2>
+        </div>
+        <div>
+          <input type="text" id="crushFilterInput" placeholder="🔍 薬名・粉砕不可理由で絞り込み (例: タケキャブ, 徐放, 腸溶, 吸湿)" onkeyup="filterCrushTable()" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; width:270px;">
+        </div>
+      </div>
+      <span class="sec-sub" style="color: #4f46e5;">嚥下困難・PEG胃瘻チューブ・一包化処方ですぐ引ける！「なぜ粉砕不可なのか」の医学的理由と簡易懸濁（55℃温湯）通過性を完全網羅</span>
+    </div>
+
+    <!-- なぜ粉砕してはいけないのか？5大医学的理由 -->
+    <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:12px 14px; margin-bottom:14px;">
+      <h4 style="margin:0 0 8px 0; color:#1e293b; font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+        <span>⚠️ なぜ粉砕してはいけないのか？「粉砕不可」の5大医学的理由</span>
+      </h4>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:8px; font-size:0.82rem;">
+        <div style="background:white; border-left:3px solid #ef4444; padding:8px 10px; border-radius:4px; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+          <strong style="color:#b91c1c;">① 徐放性製剤（CR/L/SR/ER）</strong><br>
+          粉砕すると徐放構造が破壊され、薬が一気に血中に溶け出し<strong>「急激な血中濃度上昇によるショック・中毒」</strong>（ニフェジピンCR、テオドール等）。
+        </div>
+        <div style="background:white; border-left:3px solid #f59e0b; padding:8px 10px; border-radius:4px; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+          <strong style="color:#b45309;">② 腸溶性製剤（エンテリック）</strong><br>
+          粉砕すると胃酸で薬が分解・失活し<strong>「効果が完全にゼロ」</strong>になるか、胃粘膜を荒らす（タケプロン、ネキシウム、バイアスピリン等）。
+        </div>
+        <div style="background:white; border-left:3px solid #8b5cf6; padding:8px 10px; border-radius:4px; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+          <strong style="color:#6d28d9;">③ 局所粘膜刺激・潰瘍惹起</strong><br>
+          食道や口腔粘膜に張り付き、<strong>「重篤な食道潰瘍・粘膜壊死」</strong>を引き起こす（ボナロン、フォサマック等の経口ビスホスホネート）。
+        </div>
+        <div style="background:white; border-left:3px solid #dc2626; padding:8px 10px; border-radius:4px; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+          <strong style="color:#991b1b;">④ 調剤者・看護師の被曝防止</strong><br>
+          微粉末の吸入や皮膚接触で<strong>「催奇形性・抗がん薬被曝」</strong>（プロペシア/フィナステリド、アボダート/デュタステリド、リウマトレックス）。
+        </div>
+        <div style="background:white; border-left:3px solid #64748b; padding:8px 10px; border-radius:4px; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+          <strong style="color:#334155;">⑤ 激しい苦味・刺激臭・着色</strong><br>
+          コーティングが剥がれ<strong>「悶絶する苦味」</strong>で服用不能になるか、他剤を変色・汚染（クラリス、オグサワ、アドナ等）。
+        </div>
+      </div>
+    </div>
+
+    <!-- 主要80大薬剤 粉砕・簡易懸濁・一包化判定マトリクス表 -->
+    <div style="overflow-x:auto; background:white; border-radius:10px; border:1px solid var(--border); box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+      <table id="crushMasterTable" style="margin:0; width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:#f8fafc; border-bottom:2px solid #e2e8f0;">
+            <th style="width:20%;">薬剤名（一般名・規格）</th>
+            <th style="width:10%;">粉砕可否</th>
+            <th style="width:14%;">簡易懸濁 (55℃温湯)</th>
+            <th style="width:12%;">一包化適否</th>
+            <th style="width:28%;">理由 ＆ 臨床鑑査・代替案のポイント</th>
+            <th style="width:16%;">推奨される代替剤形</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 循環器 -->
+          <!-- エブランチルカプセル -->
+          <tr class="crush-row">
+            <td>
+              <strong style="color:#b91c1c;">エブランチルカプセル15mg / 30mg</strong><br>
+              <span style="font-size:0.75rem; color:#64748b;">ウラピジル（α1遮断＋5-HT1A刺激）</span>
+            </td>
+            <td><span class="warn-tag" style="background:#fee2e2; color:#b91c1c;">❌ 粉砕不可</span></td>
+            <td><span class="warn-tag" style="background:#fef3c7; color:#92400e;">⚠️ 顆粒維持</span></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td><strong>カプセル内は徐放性微粒子。</strong>すりつぶし・粉砕すると徐放性が破壊され急激な血中濃度上昇により<strong>重篤な起立性低血圧・失神リスク！</strong>脱カプセルして顆粒を噛まずに服用は可。55℃温湯で顆粒を壊さず懸濁通過可。</td>
+            <td>脱カプセルして顆粒のまま服用、または他剤検討</td>
+          </tr>
+          <!-- リスモダン普通製剤 -->
+          <tr class="crush-row">
+            <td>
+              <strong>リスモダンカプセル / 錠</strong><br>
+              <span style="font-size:0.75rem; color:#64748b;">ジソピラミド（普通製剤）</span>
+            </td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td><span class="ok-tag">⭕ 可（懸濁可）</span></td>
+            <td><span class="ok-tag">⭕ 遮光</span></td>
+            <td>普通カプセル（脱カプセル）および普通錠は粉砕・懸濁可能。苦味あり。光で着色するため遮光一包化。<strong>※R製剤は粉砕厳禁！</strong></td>
+            <td>普通錠100mg、シベンゾリン細粒</td>
+          </tr>
+          <!-- リスモダンR徐放カプセル -->
+          <tr class="crush-row">
+            <td>
+              <strong style="color:#b91c1c;">リスモダンRカプセル150mg</strong><br>
+              <span style="font-size:0.75rem; color:#64748b;">ジソピラミド徐放カプセル</span>
+            </td>
+            <td><span class="warn-tag" style="background:#fee2e2; color:#b91c1c;">❌ 不可</span></td>
+            <td><span class="warn-tag" style="background:#fee2e2; color:#b91c1c;">❌ 不可</span></td>
+            <td><span class="warn-tag" style="background:#fee2e2; color:#b91c1c;">❌ 脱カプセル不可</span></td>
+            <td><strong>徐放性製剤（R）。</strong>開封・粉砕・温湯懸濁すると徐放性が破壊されて急激な血中濃度上昇 ➔ <strong>致死的不整脈・心停止・重篤な遷延性低血糖リスク！原形服用厳守。</strong></td>
+            <td>普通錠・通常カプセル（1日3回）へ変更、または他剤検討</td>
+          </tr>
+
+          <tr class="crush-row">
+            <td><strong>アムロジピン錠</strong></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td><span class="ok-tag">⭕ 可（10分崩壊）</span></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td>普通錠・OD錠ともに粉砕・懸濁可能。光でやや着色するが安定。</td>
+            <td>アムロジピンOD錠、細粒</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong style="color:#b91c1c;">アダラートCR / ニフェジピンCR</strong></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="ok-tag">⭕ 懸濁可（温湯崩壊）</span></td>
+            <td><span class="ok-tag">⭕ 可（防湿）</span></td>
+            <td><strong>徐放性製剤</strong>。粉砕すると急激血中濃度上昇で致死的低血圧・ショック。※簡易懸濁法（55℃温湯）なら被膜が残り徐放性維持したまま崩壊通過可能！</td>
+            <td>簡易懸濁法、またはアムロジピンへ変更</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong>カルベジロール（アーチスト）</strong></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td><span class="ok-tag">⭕ 可（5分崩壊）</span></td>
+            <td><span class="ok-tag">⭕ 可（遮光）</span></td>
+            <td>粉砕可能。光により退色するため遮光分包推奨。</td>
+            <td>粉砕後遮光袋</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong style="color:#b91c1c;">バイアスピリン錠 100mg</strong></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="warn-tag">❌ 不可（不通過）</span></td>
+            <td><span class="warn-tag">❌ 不可（吸湿）</span></td>
+            <td><strong>腸溶錠</strong>。粉砕すると胃内で溶解し胃潰瘍・消化管出血を誘発。湿気でサリチル酸と酢酸に加水分解するため一包化もNG（PTP保管）。</td>
+            <td>タケルダ配合錠、またはイグザレルト/エリキュース検討</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong style="color:#b91c1c;">プラザキサカプセル</strong></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="warn-tag">❌ 不可（脱カプセル禁）</span></td>
+            <td><span class="warn-tag">❌ 不可（吸湿激）</span></td>
+            <td>脱カプセル・粉砕絶対禁止（生物学的同等性が崩れバイオアベイラビリティ急増、出血死）。極めて吸湿性が高くPTPシートのまま保管必須。</td>
+            <td>リクシアナOD錠、エリキュース（粉砕可）</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong>エリキュース錠</strong></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td><span class="ok-tag">⭕ 可（速やかに崩壊）</span></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td>DOACの中で公式に粉砕・経管投与（経鼻胃管）が承認・データ確立されている。水または5%ブドウ糖で懸濁。</td>
+            <td>粉砕・経管投与可能</td>
+          </tr>
+
+          <!-- 消化器 -->
+          <tr class="crush-row">
+            <td><strong>タケキャブ錠（ボノプラザン）</strong></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td><span class="ok-tag">⭕ 可（5分崩壊）</span></td>
+            <td><span class="ok-tag">⭕ 可（防湿）</span></td>
+            <td>P-CABは酸による活性化不要のため、従来のPPIと異なり<strong>粉砕可能</strong>！吸湿性がややあるため防湿パック推奨。OD錠あり。</td>
+            <td>タケキャブOD錠</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong style="color:#b91c1c;">タケプロン / ネキシウム / パリエット</strong></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="ok-tag">⭕ 条件付き可（顆粒）</span></td>
+            <td><span class="warn-tag">❌ 不可（吸湿・失活）</span></td>
+            <td><strong>腸溶性製剤</strong>。粉砕すると胃酸で分解・失活して無効化。ネキシウムカプセルは脱カプセルし、中の腸溶性顆粒を潰さずに温湯懸濁すればチューブ通過可能。</td>
+            <td>タケプロンOD錠（口頭崩壊）、タケキャブへ変更</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong>マグミット錠（酸化Mg）</strong></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td><span class="ok-tag">⭕ 可（即崩壊）</span></td>
+            <td><span class="ok-tag">⭕ 可（防湿）</span></td>
+            <td>粉砕可能。懸濁性も極めて良好。他剤との配合変化（吸湿性）に注意。</td>
+            <td>マグミット細粒、モビコール</td>
+          </tr>
+
+          <!-- 糖尿病・代謝 -->
+          <tr class="crush-row">
+            <td><strong>メトグルコ錠（メトホルミン）</strong></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td><span class="ok-tag">⭕ 可（速やかに崩壊）</span></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td>粉砕可能。味はやや苦い。懸濁通過性良好。</td>
+            <td>粉砕可、簡易懸濁可</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong>フォシーガ錠 / ジャディアンス錠</strong></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td><span class="ok-tag">⭕ 可（10分崩壊）</span></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td>SGLT2阻害薬は粉砕可能。微粒子化しやすく懸濁液のチューブ通過性良好。</td>
+            <td>粉砕可、簡易懸濁可</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong style="color:#b91c1c;">リベルサス錠（経口GLP-1）</strong></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="warn-tag">❌ 不可（無効化）</span></td>
+            <td><span class="warn-tag">❌ 不可（吸湿失活）</span></td>
+            <td><strong>粉砕・割線・噛み砕き・一包化絶対禁止！</strong>吸収促進剤SNACが胃粘膜局所で作用する特殊設計。粉砕すると胃酸分解で吸収ゼロになり完全無効化。</td>
+            <td>オゼンピック皮下注、マンジャロ皮下注</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong style="color:#b91c1c;">グルコバイ / セイブル（α-GI）</strong></td>
+            <td><span class="warn-tag">❌ 不可（一部）</span></td>
+            <td><span class="warn-tag">❌ ゲル化注意</span></td>
+            <td><span class="warn-tag">❌ 不可（吸湿潮解）</span></td>
+            <td>吸湿性が極めて激しく、一包化すると空気中の水分を吸ってドロドロに潮解する。簡易懸濁でゲル化しチューブ閉塞のリスクあり。</td>
+            <td>ベイスンOD錠</td>
+          </tr>
+
+          <!-- 精神・神経 -->
+          <tr class="crush-row">
+            <td><strong style="color:#b91c1c;">デパケンR / セレニカR（バルプロ酸）</strong></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="warn-tag">❌ 原則不可（潮解）</span></td>
+            <td><strong>徐放性製剤</strong>。粉砕すると徐放性が失われ血中濃度急上昇・中毒。極めて潮解性が高く湿気で溶けるためPTP保管必須。</td>
+            <td>デパケン細粒、デパケンシロップ</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong>デエビゴ錠（レンボレキサント）</strong></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td><span class="ok-tag">⭕ 可（温湯で崩壊）</span></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td>粉砕可能。光にやや弱いため遮光推奨。簡易懸濁法でも通過可能。</td>
+            <td>粉砕後遮光分包</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong>ドパコール / ネオドパストン</strong></td>
+            <td><span class="ok-tag">⭕ 可</span></td>
+            <td><span class="ok-tag">⭕ 可（速やかに崩壊）</span></td>
+            <td><span class="warn-tag">⚠️ 遮光一包化</span></td>
+            <td>粉砕可能。光・湿気で黒ずむ（酸化）ため防湿・遮光分包が必須。</td>
+            <td>粉砕・遮光防湿分包</td>
+          </tr>
+
+          <!-- 骨・運動器・抗がん・特殊 -->
+          <tr class="crush-row">
+            <td><strong style="color:#b91c1c;">ボナロン / フォサマック（ビスホスホネート）</strong></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><strong>粘膜障害性</strong>。粉砕すると口腔・咽頭・食道粘膜に激しい化学的潰瘍・壊死を引き起こす。週1回製剤を一包化に混入すると連日服用で死亡事故。</td>
+            <td>ボナロン点滴、ボンビバ静注、プラリア皮下注</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong style="color:#b91c1c;">リウマトレックス（MTX）</strong></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="warn-tag">❌ 不可（被曝）</span></td>
+            <td><span class="warn-tag">❌ 混入厳禁</span></td>
+            <td><strong>細胞毒性・催奇形性</strong>。粉砕時の微粉末吸入で調剤者・看護師が被曝。連日服用で骨髄抑制死亡事故があるため一包化への混入は絶対厳禁！</td>
+            <td>メトジェクト皮下注ペン（自己注射）</td>
+          </tr>
+          <tr class="crush-row">
+            <td><strong style="color:#b91c1c;">プロペシア / アボダート（5α還元阻害）</strong></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="warn-tag">❌ 不可</span></td>
+            <td><span class="ok-tag">PTP保管必須</span></td>
+            <td><strong>催奇形性（男子胎児の外生殖器奇形）</strong>。妊婦または妊娠の可能性のある女性が砕けた粉に触れると皮膚から吸収されるため粉砕・脱カプセル厳禁！</td>
+            <td>PTPシートのまま調剤</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<div class="topic-sec sec-kampo">
+    <div class="sec-head" style="border-color: var(--kampo);">
+      <h2 class="sec-title" style="color: var(--kampo);">🌿 ① 薬局で毎日出る「頻出漢方薬ベスト15」ウラ読み＆5大危険生薬</h2>
+      <span class="sec-sub">番号と「証（体力）」だけでなく、医師が狙っているモダンな薬理作用で説明する！</span>
+    </div>
+
+    <div class="sub-bar bar-kampo">🔥 まずここを監査せよ！「5大要注意生薬」の副作用トラップ</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:14%;">要注意生薬</th>
+          <th style="width:18%;">主成分・薬理作用</th>
+          <th style="width:32%;">代表的な配合漢方薬</th>
+          <th style="width:36%;">現場で絶対に見逃せない副作用・禁忌チェック</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>① 甘草（カンゾウ）</strong></td>
+          <td>グリチルリチン酸<br>（コルチゾール変換阻害）</td>
+          <td><strong>ほぼ7割の漢方に配合！</strong><br>特に<strong>芍薬甘草湯（最多！）</strong>、抑肝散、六君子湯、補中益気湯、葛根湯など</td>
+          <td><span class="warn-tag">偽アルドステロン症</span> <strong>「血圧上昇・むくみ・低カリウム血症（手足の脱力・筋肉痛・不整脈）」</strong>！漢方を2種類以上併用している高齢者や、グリチロン、利尿薬併用時はK値を必ず確認！（※五苓散、大建中湯、半夏厚朴湯、茵蔯蒿湯には甘草が入っていない＝安全！）</td>
+        </tr>
+        <tr>
+          <td><strong>② 麻黄（マオウ）</strong></td>
+          <td><strong>エフェドリン類</strong><br>（交感神経刺激）</td>
+          <td><strong>葛根湯、麻黄湯、小青竜湯</strong>、麻黄附子細辛湯、防風通聖散、越婢加朮湯</td>
+          <td><span class="warn-tag">交感神経興奮</span> <strong>「動悸・頻脈・血圧上昇・不眠・尿閉（前立腺肥大の高齢男性は要注意！）」</strong>。狭心症・心근梗塞・重症高血圧・高度腎障害には慎重投与。</td>
+        </tr>
+        <tr>
+          <td><strong>③ 大黄（ダイオウ）<br>＋ 芒硝（ボウショウ）</strong></td>
+          <td>センノシド類（刺激性）<br>＋ 硫酸Na（塩類下剤）</td>
+          <td><strong>麻子仁丸、潤腸湯、桃核承気湯、防風通聖散</strong>、大黄甘草湯、乙字湯</td>
+          <td><span class="warn-tag">子宮収縮・流早産リスク</span> 大黄は骨盤内臓器を充血させ子宮を収縮させるため<strong>妊婦には原則禁忌（または慎重投与）</strong>！授乳婦も母乳に移行して赤ちゃんが下痢をするため注意。</td>
+        </tr>
+        <tr>
+          <td><strong>④ 黄芩（オウゴン）</strong></td>
+          <td>バイカリン等</td>
+          <td><strong>小柴胡湯、柴苓湯、半夏瀉心湯、防風通聖散、辛夷清肺湯</strong>、黄連解毒湯</td>
+          <td><span class="warn-tag">間質性肺炎 ＆ 肝機能障害</span> 原因不明の<strong>「空咳・息切れ・発熱（間質性肺炎）」</strong>と<strong>「黄疸・だるさ（薬物性肝障害）」</strong>の原因生薬No.1！（小柴胡湯はインターフェロン製剤と併用禁忌・肝硬変に禁忌）。</td>
+        </tr>
+        <tr>
+          <td><strong>⑤ 山梔子（サンシシ）</strong></td>
+          <td>ゲニポシド</td>
+          <td><strong>加味逍遙散、黄連解毒湯、防風通聖散、辛夷清肺湯</strong>、茵蔯蒿湯</td>
+          <td><span class="warn-tag">腸間膜静脈硬化症</span> <strong>5年以上などの長期漫然服用</strong>により、大腸の静脈が石灰化して青黒くなり、慢性的な腹痛・下痢・便潜血を起こす！「何年も飲み続けていませんか？」と確認せよ！</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-bar bar-kampo">🏆 処方箋で毎日見る「頻出15漢方」の脳内翻訳＆ウラ読みリスト</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">番号・漢方名</th>
+          <th style="width:12%;">甘草 / 麻黄</th>
+          <th style="width:32%;">王道の適応 ＋ 【処方箋のウラ読み（意外な意図）】</th>
+          <th style="width:38%;">先輩の脳内翻訳（患者説明のキラーフレーズ）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="num-badge">1</span><strong>葛根湯</strong></td>
+          <td>甘○ / <strong>麻○</strong></td>
+          <td>風邪のひき始め（汗をかいていない時）<br><strong>【ウラ読み】</strong>整形外科なら<strong>「肩こり・五十肩」</strong>、脳外科なら<strong>「緊張型頭痛」</strong>、産婦人科なら<strong>「乳腺炎（おっぱいの詰まり）」</strong>！</td>
+          <td>「首から背中の筋肉を温めて血流を一気に良くするお薬です。お湯に溶かして温かいうちに飲むと効果倍増ですよ」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">17</span><strong>五苓散</strong></td>
+          <td><strong>甘× / 麻×</strong></td>
+          <td>水様下痢、二日酔い、むくみ<br><strong>【ウラ読み】</strong>耳鼻科なら<strong>「めまい（メニエール）」</strong>、頭痛外来なら<strong>「気圧低下（雨の日）の頭痛」</strong>、脳外科なら<strong>「慢性硬膜下血腫の再発予防」</strong>！</td>
+          <td>「細胞の水の通り道（アクアポリン）を調整して、<strong>『むくんでいる場所からは水を抜き、脱水なら水を保つ』天才的な水分バランサー</strong>です！」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">24</span><strong>加味逍遙散</strong><br><span class="num-badge">23</span><strong>当帰芍薬散</strong></td>
+          <td>24:甘○(山梔子○)<br>23:<strong>甘×/麻×</strong></td>
+          <td>女性の更年期障害・月経不順・冷え症<br><strong>【使い分け】</strong>イライラ・ホットフラッシュ（のぼせ）なら<strong>24番（加味逍遙散）</strong>。色白で冷え・むくみ・貧血傾向・妊娠中の安胎薬なら<strong>23番（当帰芍薬散）</strong>！</td>
+          <td>「24番は体にこもった余分な熱とイライラを逃がす薬、23番は血を補って余分な水を抜き、芯から温める薬です」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">29</span><strong>麦門冬湯</strong></td>
+          <td>甘○ / 麻×</td>
+          <td>風邪の後の長引く空咳（コンコンという乾いた咳）、気管支炎、声枯れ</td>
+          <td>「気道のカラカラに乾いた粘膜を潤して、咳のセンサーの過敏さを鎮める『喉の化粧水』のようなお薬です（※痰が大量に絡む咳には不向き）」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">41</span><strong>補中益気湯</strong><br><span class="num-badge">48</span><strong>十全大補湯</strong></td>
+          <td>両方：甘○ / 麻×</td>
+          <td>病後・術後の体力低下、夏バテ、食欲不振、抗がん薬治療中の倦怠感<br><strong>【使い分け】</strong>胃腸が弱く疲れやすいだけなら<strong>41番</strong>。さらに貧血・皮膚の乾燥（血虚）も伴うなら<strong>48番</strong>（さらに咳・不眠もあれば<strong>108番 人参養栄湯</strong>）！</td>
+          <td>「漢方の『飲むエナジードリンク』です！胃腸の働きを元気にして、食べ物からエネルギー（気）を作る力を底上げします」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">43</span><strong>六君子湯</strong></td>
+          <td>甘○ / 麻×</td>
+          <td>胃もたれ、食欲不振、機能性ディスペプシア（FD）、抗がん薬やSSRIの吐き気対策</td>
+          <td>「胃から出る<strong>『食欲ホルモン（グレリン）』を増やし、胃の袋をふわっと広げて食べ物を腸へ送り出す</strong>エビデンス抜群の胃薬です！」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">54</span><strong>抑肝散</strong></td>
+          <td>甘○ / 麻×</td>
+          <td>神経症、不眠症、小児の夜泣き<br><strong>【ウラ読み】</strong>高齢者に出ていたら<strong>「認知症のBPSD（イライラ・怒りっぽさ・昼夜逆転・幻視）」</strong>を抑える切り札！（胃腸が弱い人には<strong>83番 抑肝散加陳皮半夏</strong>）。</td>
+          <td>「脳の過剰な興奮（グルタミン酸やセロトニン）を穏やかに鎮めて、眠気をあまり出さずにイライラや心のトゲを丸くするお薬です（※低K血症による足のふらつきに注意！）」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">68</span><strong>芍薬甘草湯</strong></td>
+          <td><strong>甘◎（最大級）</strong></td>
+          <td>こむら返り（足のつり）、胃けいれん、尿路結石・生理痛などの急激な筋肉のけいれん痛</td>
+          <td>「筋肉の急なつりを5〜10分でスッと緩める即効薬です！ただし<strong>甘草が大量に入っているため、毎日1日3回漫然と飲むと血圧上昇や低K血症を起こします。『つった時（または寝る前1包）』の頓用</strong>を基本にしましょう！」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">100</span><strong>大建中湯</strong></td>
+          <td><strong>甘× / 麻×</strong></td>
+          <td>お腹の冷え・張り、術後の腸閉塞（イレウス）予防、便秘<br>（山椒・乾姜・人参・膠飴［麦芽糖］の4成分＝甘草なしで超安全！）</td>
+          <td>「山椒と生姜の力で<strong>腸の血流を2倍近く増やし、冷えて動きが止まった腸を温めて動かす</strong>お薬です。ピリッとした辛さと飴の甘みがあります」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">107</span><strong>牛車腎気丸</strong></td>
+          <td>甘× / 麻×<br>（<strong>附子○</strong>）</td>
+          <td>高齢者の下半身の冷え・しびれ、腰痛、夜間頻尿<br><strong>【ウラ読み】</strong>がん化学療法（パクリタキセルやオキサリプラチン）による<strong>「手足のしびれ（末梢神経障害）」</strong>対策！</td>
+          <td>「八味地黄丸に2つの生薬を足した、下半身の血流と神経の特効薬です（※附子［トリカブト加工品］が入っているので動悸やのぼせに注意）」</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+    <!-- ==========================================
+       2. 管理薬剤師ドットコム準拠 小児薬用量マスター事典 ＆ 体重即時計算機
+       ========================================== -->
+  <div class="topic-sec sec-peds" id="sec-peds">
+    <div class="sec-head" style="border-color: #059669;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <span class="badge" style="background:#059669; color:white;">Pediatric Dosage Benchmark & Calculators</span>
+          <h2 class="sec-title" style="color: #065f46; font-size:1.35rem; font-weight:800; margin-top:4px;">
+            👶 ② 管理薬剤師ドットコム準拠 小児薬用量マスター事典 ＆ 10kg換算早見表
+          </h2>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <input type="text" id="pedFilterInput" placeholder="🔍 薬名・一般名・適応で絞り込み (例: ワイドシリン, カロナール, 中耳炎)" onkeyup="filterPedsTable()" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; width:290px;">
+        </div>
+      </div>
+      <span class="sec-sub" style="color: #059669;">管理薬剤師.com完全準拠！小児処方頻出の全53品目を完全網羅。鑑査の黄金基準「体重10kg換算」・常用量・中耳炎増量・成人上限ストッパーを徹底収載</span>
+    </div>
+
+    <!-- PART A: 体重即時計算シミュレーター -->
+    <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:16px 18px; margin-bottom:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+        <h3 style="margin:0; font-size:1.1rem; color:#065f46; display:flex; align-items:center; gap:8px;">
+          <span>⚖️</span> 小児体重（kg）入力 ➔ 頻出小児薬「適正用量・細粒g数・10kg基準比・成人上限」即時自動判定
+        </h3>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <label for="pedWeightInput" style="font-weight:700; font-size:0.9rem; color:#065f46;">小児体重:</label>
+          <input type="number" id="pedWeightInput" value="10" min="1" max="80" step="0.5" style="width:80px; padding:6px 10px; font-size:1.1rem; font-weight:800; text-align:center; border:2px solid #059669; border-radius:6px; color:#065f46;" oninput="calcPediatricDose(this.value)">
+          <span style="font-weight:700; color:#065f46;">kg</span>
+          <div style="display:flex; gap:4px; margin-left:6px;">
+            <button onclick="document.getElementById('pedWeightInput').value=5; calcPediatricDose(5);" style="padding:4px 8px; font-size:0.75rem; background:white; border:1px solid #10b981; border-radius:4px; cursor:pointer;">5kg(乳児)</button>
+            <button onclick="document.getElementById('pedWeightInput').value=10; calcPediatricDose(10);" style="padding:4px 8px; font-size:0.75rem; background:#059669; color:white; border:1px solid #059669; border-radius:4px; font-weight:700; cursor:pointer;">10kg(標準)</button>
+            <button onclick="document.getElementById('pedWeightInput').value=15; calcPediatricDose(15);" style="padding:4px 8px; font-size:0.75rem; background:white; border:1px solid #10b981; border-radius:4px; cursor:pointer;">15kg(幼児)</button>
+            <button onclick="document.getElementById('pedWeightInput').value=20; calcPediatricDose(20);" style="padding:4px 8px; font-size:0.75rem; background:white; border:1px solid #10b981; border-radius:4px; cursor:pointer;">20kg(学童)</button>
+            <button onclick="document.getElementById('pedWeightInput').value=30; calcPediatricDose(30);" style="padding:4px 8px; font-size:0.75rem; background:white; border:1px solid #10b981; border-radius:4px; cursor:pointer;">30kg(高学年)</button>
+          </div>
+        </div>
+      </div>
+      <div id="pedCalcResultsGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px;">
+        <!-- JS動的レンダリング -->
+      </div>
+    </div>
+
+    <!-- PART B: カテゴリ切り替えボタン -->
+    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
+      <button class="peds-cat-btn active" onclick="filterPedsCategory('all', this)" style="padding:6px 12px; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid #cbd5e1; background:#0f172a; color:white; cursor:pointer;">すべて表示（全53品目）</button>
+      <button class="peds-cat-btn" onclick="filterPedsCategory('antibiotic', this)" style="padding:6px 12px; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid #059669; background:#ecfdf5; color:#065f46; cursor:pointer;">🦠 抗生物質・抗菌薬 (14)</button>
+      <button class="peds-cat-btn" onclick="filterPedsCategory('fever', this)" style="padding:6px 12px; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid #dc2626; background:#fef2f2; color:#991b1b; cursor:pointer;">🌡️ 解熱鎮痛・抗痙攣 (5)</button>
+      <button class="peds-cat-btn" onclick="filterPedsCategory('cough', this)" style="padding:6px 12px; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid #2563eb; background:#eff6ff; color:#1e40af; cursor:pointer;">🫁 鎮咳・去痰 (6)</button>
+      <button class="peds-cat-btn" onclick="filterPedsCategory('allergy', this)" style="padding:6px 12px; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid #db2777; background:#fdf2f8; color:#9d174d; cursor:pointer;">🌸 抗アレルギー・抗ヒスタミン (13)</button>
+      <button class="peds-cat-btn" onclick="filterPedsCategory('airway', this)" style="padding:6px 12px; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid #7c3aed; background:#f5f3ff; color:#5b21b6; cursor:pointer;">💨 気管支拡張・抗ウイルス (5)</button>
+      <button class="peds-cat-btn" onclick="filterPedsCategory('gi', this)" style="padding:6px 12px; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid #d97706; background:#fffbeb; color:#92400e; cursor:pointer;">💊 整腸・便秘・制吐・ステロイド (10)</button>
+    </div>
+
+    <!-- PART C: 管理薬剤師ドットコム準拠 全53品目マスターテーブル -->
+    <div style="overflow-x:auto; background:white; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05); margin-bottom:18px;">
+      <div style="background:#065f46; color:white; padding:10px 14px; font-weight:700; font-size:0.95rem; display:flex; justify-content:space-between; align-items:center;">
+        <span>📑 【管理薬剤師ドットコム準拠】小児薬用量マスター事典 ＆ 10kg換算早見表（全53品目）</span>
+        <span style="font-size:0.8rem; background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:4px;">🎯 10kg換算カラム完備</span>
+      </div>
+      <table class="styled-table" id="pedsMasterTable" style="width:100%; font-size:0.84rem; border-collapse:collapse;">
+        <thead>
+          <tr style="background:#ecfdf5; color:#065f46;">
+            <th style="width:18%;">分類・薬品名（商品名/一般名）</th>
+            <th style="width:12%;">剤形・規格・力価</th>
+            <th style="width:16%;">標準用量（常用量）</th>
+            <th style="width:16%;">増量基準（中耳炎・難治性等）</th>
+            <th style="width:14%; background:#d1fae5; color:#065f46; font-weight:800;">🎯 体重10kg換算<br>（1日量 / 1回量）</th>
+            <th style="width:10%;">成人上限</th>
+            <th style="width:14%;">鑑査急所・味・ピットフォール</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 1. ワイドシリン細粒20% -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">ペニシリン</span><br><strong>ワイドシリン細粒20%</strong><br><span style="color:#64748b; font-size:0.75rem;">サワシリン（アモキシシリン）</span></td>
+            <td>細粒20%<br>(200mg/g)</td>
+            <td><strong>20〜40 mg/kg/日</strong><br>(分3〜4 毎食後)<br><span style="color:#047857;">細粒: 0.1〜0.2 g/kg/日</span></td>
+            <td><strong style="color:#b45309;">中耳炎・PRSP・溶連菌：</strong><br><strong>73.3〜90 mg/kg/日</strong> (分2〜3)<br><span style="color:#b45309;">細粒: 0.366〜0.45 g/kg/日</span></td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">通常: 1〜2 g/日 (分3: 0.33〜0.67g)<br><span style="color:#b45309;">中耳炎: 3.66〜4.5 g/日 (分2: 1.83〜2.25g)</span></td>
+            <td>常用1000mg<br>重症2000mg<br>(細粒10g)</td>
+            <td>中耳炎高用量はガイドライン推奨（過量疑義不要）。甘みあり服用性良好。</td>
+          </tr>
+
+          <!-- 2. クラバモックス小児用配合DS -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">ペニシリン合剤</span><br><strong>クラバモックス配合DS</strong><br><span style="color:#64748b; font-size:0.75rem;">アモキシシリン＋クラブラン酸 (14:1)</span></td>
+            <td>配合DS<br>(1包1.01g中 AMPC400mg+CVA28.5mg)</td>
+            <td><strong>AMPCとして 90 mg/kg/日</strong><br>（製剤として <strong>96.4 mg/kg/日</strong> 分2 朝・夕食直前）</td>
+            <td>中耳炎等で高用量規格として最初から設計。必ず<strong>「食直前」</strong>服用！</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">1日 0.96 g<br><span style="color:#475569;">（1回 約0.48g 分2 朝夕食直前）</span></td>
+            <td>成人適応なし<br>(小児専用)</td>
+            <td><strong>⚠️ 下痢発症率極めて高い！</strong>食直前服用徹底で胃腸障害軽減。水に溶かしてすぐ飲む（懸濁後放置NG）。</td>
+          </tr>
+
+          <!-- 3. メイアクトMS小児用細粒10% -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">第3世代セフェム</span><br><strong>メイアクトMS細粒10%</strong><br><span style="color:#64748b; font-size:0.75rem;">セフジトレン ピボキシル</span></td>
+            <td>細粒10%<br>(100mg/g)</td>
+            <td><strong>9〜18 mg/kg/日</strong><br>(分3 毎食後)<br><span style="color:#047857;">細粒: 0.09〜0.18 g/kg/日</span></td>
+            <td>重症・難治性感染症：<br><strong>18 mg/kg/日</strong> (細粒 0.18 g/kg/日 分3)</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">通常: 0.9〜1.8 g/日<br><span style="color:#475569;">（1回 0.3〜0.6g 分3）</span></td>
+            <td>600mg/日<br>(細粒6g/日)</td>
+            <td>バナナ風味。<strong>ピボキシル基による低カルニチン血症・低血糖</strong>（長期・乳幼児・嘔吐時等注意）。</td>
+          </tr>
+
+          <!-- 4. フロモックス小児用細粒10% -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">第3世代セフェム</span><br><strong>フロモックス細粒100mg/g</strong><br><span style="color:#64748b; font-size:0.75rem;">セフカペン ピボキシル</span></td>
+            <td>細粒10%<br>(100mg/g)</td>
+            <td><strong>9〜18 mg/kg/日</strong><br>(分3 毎食後)<br><span style="color:#047857;">細粒: 0.09〜0.18 g/kg/日</span></td>
+            <td>難治・重症：<br>18 mg/kg/日 (分3)</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">通常: 0.9〜1.8 g/日<br><span style="color:#475569;">（1回 0.3〜0.6g 分3）</span></td>
+            <td>450mg/日<br>(細粒4.5g/日)</td>
+            <td>イチゴ風味。ピボキシル基含有のため低血糖注意。小児外来で最も頻出の経口セフェム。</td>
+          </tr>
+
+          <!-- 5. セフゾン細粒小児用10% -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">第3世代セフェム</span><br><strong>セフゾン細粒小児用10%</strong><br><span style="color:#64748b; font-size:0.75rem;">セフジニル</span></td>
+            <td>細粒10%<br>(100mg/g)</td>
+            <td><strong>9〜18 mg/kg/日</strong><br>(分3 毎食後)<br><span style="color:#047857;">細粒: 0.09〜0.18 g/kg/日</span></td>
+            <td>難治・重症：<br>18 mg/kg/日 (分3)</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">通常: 0.9〜1.8 g/日<br><span style="color:#475569;">（1回 0.3〜0.6g 分3）</span></td>
+            <td>600mg/日<br>(細粒6g/日)</td>
+            <td>イチゴ風味。<strong>ピボキシル基を含まないため低カルニチン低血糖の心配なし！</strong>鉄剤併用で赤色便・吸収低下。</td>
+          </tr>
+
+          <!-- 6. トミロン細粒小児用10% -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">第3世代セフェム</span><br><strong>トミロン細粒小児用10%</strong><br><span style="color:#64748b; font-size:0.75rem;">セフテラム ピボキシル</span></td>
+            <td>細粒10%<br>(100mg/g)</td>
+            <td><strong>9〜18 mg/kg/日</strong><br>(分3 毎食後)<br><span style="color:#047857;">細粒: 0.09〜0.18 g/kg/日</span></td>
+            <td>難治・重症：<br>18 mg/kg/日 (分3)</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">通常: 0.9〜1.8 g/日<br><span style="color:#475569;">（1回 0.3〜0.6g 分3）</span></td>
+            <td>600mg/日<br>(細粒6g/日)</td>
+            <td>オレンジ風味。ピボキシル基含有。食後投与で吸収良好（空腹時吸収低下）。</td>
+          </tr>
+
+          <!-- 7. バナン細粒小児用5% -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">第3世代セフェム</span><br><strong>バナン細粒小児用5%</strong><br><span style="color:#64748b; font-size:0.75rem;">セフポドキシム プロキセチル</span></td>
+            <td>細粒5%<br>(50mg/g) ⚠️規格注意</td>
+            <td><strong>9 mg/kg/日</strong><br>(分2〜3 食後)<br><span style="color:#b91c1c; font-weight:700;">細粒5%のため: 0.18 g/kg/日</span></td>
+            <td>重症時：<br>15 mg/kg/日 (細粒 0.3 g/kg/日)</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">通常: 1.8 g/日<br><span style="color:#475569;">（分2なら 0.9g×2回）</span></td>
+            <td>400mg/日<br>(細粒8g/日)</td>
+            <td><strong>⚠️ 規格が5%（50mg/g）なのでg数が10%製剤の2倍になる！鑑査注意。</strong>バナナ風味。</td>
+          </tr>
+
+          <!-- 8. ケフラール細粒小児用10% -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">第1世代セフェム</span><br><strong>ケフラール細粒小児用10%</strong><br><span style="color:#64748b; font-size:0.75rem;">セファクロル</span></td>
+            <td>細粒10%<br>(100mg/g)</td>
+            <td><strong>30 mg/kg/日</strong><br>(分3 毎食後)<br><span style="color:#047857;">細粒: 0.3 g/kg/日</span></td>
+            <td>重症時：<br><strong>50 mg/kg/日</strong> (細粒 0.5 g/kg/日 分3)</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">通常: 3.0 g/日<br><span style="color:#475569;">（1回 1.0g 分3）</span></td>
+            <td>1500mg/日<br>(細粒15g/日)</td>
+            <td>イチゴ味で非常に飲みやすい。第1世代セフェムのため黄色ブドウ球菌・溶連菌・皮膚感染症に強み。</td>
+          </tr>
+
+          <!-- 9. オラペネム小児用細粒10% -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">カルバペネム系</span><br><strong>オラペネム小児用細粒10%</strong><br><span style="color:#64748b; font-size:0.75rem;">テビペネム ピボキシル</span></td>
+            <td>細粒10%<br>(100mg/g)</td>
+            <td><strong>8 mg/kg/日</strong><br>(分2 朝・夕食後)<br><span style="color:#047857;">細粒: 0.08 g/kg/日</span></td>
+            <td>難治性・重症中耳炎：<br><strong>12 mg/kg/日</strong> (細粒 0.12 g/kg/日 分2)</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">通常: 0.8 g/日 (分2: 0.4g)<br><span style="color:#b45309;">難治中耳炎: 1.2 g/日 (分2: 0.6g)</span></td>
+            <td>成人適応なし<br>(小児専用)</td>
+            <td>唯一の経口カルバペネム。難治性中耳炎・肺炎の最終兵器。<strong>下痢高頻度。ピボキシル基含有。</strong></td>
+          </tr>
+
+          <!-- 10. クラリスDS10% / クラリシッド -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">マクロライド系</span><br><strong>クラリスDS10% / クラリシッド</strong><br><span style="color:#64748b; font-size:0.75rem;">クラリスロマイシン</span></td>
+            <td>DS10%<br>(100mg/g)</td>
+            <td><strong>10〜15 mg/kg/日</strong><br>(分2 朝・夕食後)<br><span style="color:#047857;">DS: 0.1〜0.15 g/kg/日</span></td>
+            <td>重症時：<br><strong>15 mg/kg/日</strong> (DS 0.15 g/kg/日 分2)</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">通常: 1.0〜1.5 g/日<br><span style="color:#475569;">（1回 0.5〜0.75g 分2）</span></td>
+            <td>400mg/日<br>(DS4g/日)</td>
+            <td><strong>⚠️ 酸性飲料（ジュース・ヨーグルト・スポドリ）で溶かすとコーティング破損して激苦！チョコアイス・ココア推奨。</strong></td>
+          </tr>
+
+          <!-- 11. ジスロマック細粒小児用10% -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">マクロライド系</span><br><strong>ジスロマック細粒小児用10%</strong><br><span style="color:#64748b; font-size:0.75rem;">アジスロマイシン水和物</span></td>
+            <td>細粒10%<br>(100mg/g)</td>
+            <td><strong>10 mg/kg/日</strong><br><strong>1日1回 3日間内服</strong><br><span style="color:#047857;">細粒: 0.1 g/kg/日</span></td>
+            <td>1日1回 3日間で組織内濃度が約7日間持続。増量不要。</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">1日 1.0 g (1日1回)<br><span style="color:#475569;">※3日間で計3.0g内服</span></td>
+            <td>500mg/日<br>(細粒5g/日)</td>
+            <td><strong>酸性飲料で苦味爆発！</strong>マイコプラズマ肺炎・百日咳に頻出。服薬コンプライアンス良好。</td>
+          </tr>
+
+          <!-- 12. エリスロシンDS20% -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">マクロライド系</span><br><strong>エリスロシンDS20%</strong><br><span style="color:#64748b; font-size:0.75rem;">エリスロマイシンエチルコハク酸エステル</span></td>
+            <td>DS20%<br>(200mg/g)</td>
+            <td><strong>25〜50 mg/kg/日</strong><br>(分4 毎食後・就寝前)<br><span style="color:#047857;">DS: 0.125〜0.25 g/kg/日</span></td>
+            <td>百日咳・クラミジア等重症時：50 mg/kg/日</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">通常: 1.25〜2.5 g/日<br><span style="color:#475569;">（1回 0.31〜0.63g 分4）</span></td>
+            <td>1200mg/日<br>(DS6g/日)</td>
+            <td>分4投与が必要。CYP3A4阻害が強力（テオフィリン併用時中毒注意）。消化管運動亢進による下痢・腹痛。</td>
+          </tr>
+
+          <!-- 13. オゼックス細粒小児用15% -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">キノロン系</span><br><strong>オゼックス細粒小児用15%</strong><br><span style="color:#64748b; font-size:0.75rem;">トスフロキサシントシル酸塩</span></td>
+            <td>細粒15%<br>(150mg/g) ⚠️規格15%</td>
+            <td><strong>12 mg/kg/日</strong><br>(分2 朝・夕食後)<br><span style="color:#b91c1c; font-weight:700;">細粒15%のため: 0.08 g/kg/日</span></td>
+            <td>難治性肺炎・中耳炎等の第二選択として使用（漫然投与厳禁）。</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">1日 0.80 g<br><span style="color:#475569;">（1回 0.40g 分2 朝夕）</span></td>
+            <td>成人適応なし<br>(成人用は錠剤)</td>
+            <td><strong>⚠️ アルミニウム・マグネシウム・鉄・カルシウムとキレート形成し吸収激減！ミルクや鉄シロップと時間空ける。</strong></td>
+          </tr>
+
+          <!-- 14. ホスミシンドライシロップ400 -->
+          <tr class="peds-row" data-cat="antibiotic">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">ホスホマイシン</span><br><strong>ホスミシンドライシロップ400</strong><br><span style="color:#64748b; font-size:0.75rem;">ホスホマイシンカルシウム水和物</span></td>
+            <td>DS40%<br>(400mg/g)</td>
+            <td><strong>40〜120 mg/kg/日</strong><br>(分3〜4 食後)<br><span style="color:#047857;">DS: 0.1〜0.3 g/kg/日</span></td>
+            <td>感染性腸炎・膀胱炎：<br>100〜120 mg/kg/日 (分3〜4)</td>
+            <td style="background:#f0fdf4; font-weight:800; color:#047857;">通常: 1.0〜3.0 g/日<br><span style="color:#475569;">（1回 0.33〜1.0g 分3）</span></td>
+            <td>2000mg〜3000mg<br>(DS5〜7.5g)</td>
+            <td>オレンジ風味。感染性腸炎（キャンピロバクター、サルモネラ等）によく使われる。水に溶かすと白濁。</td>
+          </tr>
+
+          <!-- 15. カロナール細粒20% / 原末 -->
+          <tr class="peds-row" data-cat="fever">
+            <td><span class="badge" style="background:#dc2626; color:white; font-size:0.68rem;">解熱鎮痛</span><br><strong>カロナール細粒20% / 原末</strong><br><span style="color:#64748b; font-size:0.75rem;">アセトアミノフェン</span></td>
+            <td>細粒20%(200mg/g)<br>原末(1000mg/g)</td>
+            <td><strong>10〜15 mg/kg/回</strong> 頓用<br>4〜6時間以上空ける<br><span style="color:#047857;">細粒: 0.05〜0.075 g/kg/回</span></td>
+            <td><strong>1日総量上限: 60 mg/kg/日</strong><br>（成人上限4000mg/日を超えないこと）</td>
+            <td style="background:#fef2f2; font-weight:800; color:#991b1b;">1回 細粒 0.50〜0.75 g<br><span style="color:#475569;">(原体 100〜150mg) / 1日最大3.0g</span></td>
+            <td>1回 500〜1000mg<br>1日 4000mg</td>
+            <td>小児解熱鎮痛の絶対的第一選択！アスピリン喘息児やインフルエンザ脳症リスクのあるNSAIDsは禁忌。</td>
+          </tr>
+
+          <!-- 16. カロナールシロップ2% -->
+          <tr class="peds-row" data-cat="fever">
+            <td><span class="badge" style="background:#dc2626; color:white; font-size:0.68rem;">解熱鎮痛</span><br><strong>カロナールシロップ2%</strong><br><span style="color:#64748b; font-size:0.75rem;">アセトアミノフェンシロップ</span></td>
+            <td>シロップ2%<br>(20mg/mL)</td>
+            <td><strong>10〜15 mg/kg/回</strong> 頓用<br><span style="color:#047857;">シロップ: 0.5〜0.75 mL/kg/回</span></td>
+            <td>1日最大総量: 60 mg/kg/日 (3 mL/kg/日)</td>
+            <td style="background:#fef2f2; font-weight:800; color:#991b1b;">1回 5.0 〜 7.5 mL<br><span style="color:#475569;">(原体 100〜150mg 頓用)</span></td>
+            <td>1回 25〜50mL<br>1日 200mL</td>
+            <td>オレンジ味。乳幼児で粉薬をどうしても飲めない場合の第一選択。開栓後は冷所保存・清潔保持。</td>
+          </tr>
+
+          <!-- 17. アンヒバ坐剤 / アルピニー -->
+          <tr class="peds-row" data-cat="fever">
+            <td><span class="badge" style="background:#dc2626; color:white; font-size:0.68rem;">解熱坐薬</span><br><strong>アンヒバ坐剤 / アルピニー</strong><br><span style="color:#64748b; font-size:0.75rem;">アセトアミノフェン坐剤 (50/100/200mg)</span></td>
+            <td>坐剤 50mg / 100mg / 200mg</td>
+            <td><strong>10〜15 mg/kg/回</strong> 頓用<br>（4〜6時間以上空ける）</td>
+            <td>体重別目安：<br>・〜8kg: 50mg<br>・8〜15kg: 100mg<br>・15〜25kg: 200mg</td>
+            <td style="background:#fef2f2; font-weight:800; color:#991b1b;">1回 100mg 1個<br><span style="color:#475569;">(10〜15mg/kg 頓用)</span></td>
+            <td>1回 500〜1000mg<br>1日 4000mg</td>
+            <td><strong>ダイアップ坐剤と併用時は「ダイアップを先、30分以上空けてアンヒバ」！同時に差すとダイアップ吸収阻害。</strong></td>
+          </tr>
+
+          <!-- 18. ダイアップ坐剤 4mg / 6mg / 10mg -->
+          <tr class="peds-row" data-cat="fever">
+            <td><span class="badge" style="background:#7c3aed; color:white; font-size:0.68rem;">抗痙攣・熱性痙攣予防</span><br><strong>ダイアップ坐剤 4mg / 6mg / 10mg</strong><br><span style="color:#64748b; font-size:0.75rem;">ジアゼパム坐剤</span></td>
+            <td>坐剤 4mg / 6mg / 10mg</td>
+            <td><strong>0.4〜0.5 mg/kg/回</strong><br>発熱時（37.5〜38.0℃）に1回目、<strong>8時間後に2回目挿入</strong></td>
+            <td>規格選択の黄金基準：<br>・〜10kg: 4mg<br>・10〜15kg: 4mgまたは6mg<br>・15〜20kg: 6mg<br>・20kg以上: 10mg</td>
+            <td style="background:#f5f3ff; font-weight:800; color:#5b21b6;">1回 4mg 1個<br><span style="color:#475569;">（8時間後に再発熱なら2回目4mg）</span></td>
+            <td>1回 10mg</td>
+            <td>水溶性基剤（マクロゴール）。<strong>油脂性坐剤（アンヒバ）と同時挿入厳禁！必ずダイアップ先で30分空ける。</strong></td>
+          </tr>
+
+          <!-- 19. テグレトール細粒50% -->
+          <tr class="peds-row" data-cat="fever">
+            <td><span class="badge" style="background:#7c3aed; color:white; font-size:0.68rem;">抗てんかん薬</span><br><strong>テグレトール細粒50%</strong><br><span style="color:#64748b; font-size:0.75rem;">カルバマゼピン</span></td>
+            <td>細粒50%<br>(500mg/g)</td>
+            <td><strong>開始量: 10〜15 mg/kg/日</strong> (分2〜3)<br><span style="color:#047857;">細粒: 0.02〜0.03 g/kg/日</span></td>
+            <td>維持量: <strong>10〜20 mg/kg/日</strong><br>血中濃度モニタリング（有効域4〜12μg/mL）必須</td>
+            <td style="background:#f5f3ff; font-weight:800; color:#5b21b6;">開始: 0.20〜0.30 g/日<br><span style="color:#475569;">維持: 0.20〜0.40 g/日 (分2〜3)</span></td>
+            <td>1200mg/日<br>(細粒2.4g/日)</td>
+            <td>重症薬疹（SJS/TEN）初期症状（発熱・発疹・粘膜びらん）の指導徹底。自己誘導により数週で代謝亢進。</td>
+          </tr>
+
+          <!-- 20. ムコダイン細粒50% -->
+          <tr class="peds-row" data-cat="cough">
+            <td><span class="badge" style="background:#2563eb; color:white; font-size:0.68rem;">粘液修復去痰薬</span><br><strong>ムコダイン細粒50%</strong><br><span style="color:#64748b; font-size:0.75rem;">カルボシステイン細粒</span></td>
+            <td>細粒50%<br>(500mg/g)</td>
+            <td><strong>30 mg/kg/日</strong><br>(分3 毎食後)<br><span style="color:#047857;">細粒: 0.06 g/kg/日</span></td>
+            <td>副鼻腔炎・滲出性中耳炎・気管支炎等で長期投与可能</td>
+            <td style="background:#eff6ff; font-weight:800; color:#1e40af;">1日 0.60 g<br><span style="color:#475569;">（1回 0.20g 分3）</span></td>
+            <td>1500mg/日<br>(細粒3g/日)</td>
+            <td>フルーツ風味で服用性極めて良好。気道粘膜の杯細胞を正常化し、粘稠な痰や鼻水をサラサラにする。</td>
+          </tr>
+
+          <!-- 21. ムコダインシロップ5% -->
+          <tr class="peds-row" data-cat="cough">
+            <td><span class="badge" style="background:#2563eb; color:white; font-size:0.68rem;">粘液修復去痰薬</span><br><strong>ムコダインシロップ5%</strong><br><span style="color:#64748b; font-size:0.75rem;">カルボシステインシロップ</span></td>
+            <td>シロップ5%<br>(50mg/mL)</td>
+            <td><strong>30 mg/kg/日</strong><br>(分3 毎食後)<br><span style="color:#047857;">シロップ: 0.6 mL/kg/日</span></td>
+            <td>症状・年齢により適宜増減</td>
+            <td style="background:#eff6ff; font-weight:800; color:#1e40af;">1日 6.0 mL<br><span style="color:#475569;">（1回 2.0mL 分3）</span></td>
+            <td>30mL/日<br>(1500mg/日)</td>
+            <td>甘みがあり乳幼児でも受容性高い。他の感冒シロップ（アスベリン等）と配合されることが多い。</td>
+          </tr>
+
+          <!-- 22. ムコソルバンDS3% -->
+          <tr class="peds-row" data-cat="cough">
+            <td><span class="badge" style="background:#2563eb; color:white; font-size:0.68rem;">肺サーファクタント去痰</span><br><strong>ムコソルバンDS3%</strong><br><span style="color:#64748b; font-size:0.75rem;">アンブロキソール塩酸塩</span></td>
+            <td>DS3%<br>(30mg/g)</td>
+            <td><strong>0.9 mg/kg/日</strong><br>(分3 毎食後)<br><span style="color:#047857;">DS: 0.03 g/kg/日</span></td>
+            <td>年齢別常用量目安：<br>・〜2歳: 0.25g/日<br>・2〜4歳: 0.35g/日<br>・5〜7歳: 0.5g/日</td>
+            <td style="background:#eff6ff; font-weight:800; color:#1e40af;">1日 0.30 g<br><span style="color:#475569;">（1回 0.10g 分3）</span></td>
+            <td>45mg/日<br>(DS1.5g/日)</td>
+            <td>サーファクタント分泌促進により線毛運動を活性化。ムコダインとの併用で相乗効果（喀痰排泄促進）。</td>
+          </tr>
+
+          <!-- 23. アスベリン散10% -->
+          <tr class="peds-row" data-cat="cough">
+            <td><span class="badge" style="background:#2563eb; color:white; font-size:0.68rem;">非麻薬性鎮咳去痰</span><br><strong>アスベリン散10%</strong><br><span style="color:#64748b; font-size:0.75rem;">チペピジンヒベンズ酸塩</span></td>
+            <td>散10%<br>(100mg/g)</td>
+            <td><strong>1〜2 mg/kg/日</strong><br>(分3 毎食後)<br><span style="color:#047857;">散: 0.01〜0.02 g/kg/日</span></td>
+            <td>症状により適宜増減（咳が激しい時は上限2mg/kg）</td>
+            <td style="background:#eff6ff; font-weight:800; color:#1e40af;">通常: 0.10〜0.20 g/日<br><span style="color:#475569;">（1回 0.033〜0.067g 分3）</span></td>
+            <td>60〜120mg/日<br>(散0.6〜1.2g)</td>
+            <td><strong>⚠️ 代謝物により尿が「赤色〜ピンク色」に着色することがある！パパママへ事前指導必須（血尿ではない）。</strong></td>
+          </tr>
+
+          <!-- 24. アスベリンシロップ0.5% -->
+          <tr class="peds-row" data-cat="cough">
+            <td><span class="badge" style="background:#2563eb; color:white; font-size:0.68rem;">非麻薬性鎮咳去痰</span><br><strong>アスベリンシロップ0.5%</strong><br><span style="color:#64748b; font-size:0.75rem;">チペピジンヒベンズ酸塩</span></td>
+            <td>シロップ0.5%<br>(5mg/mL)</td>
+            <td><strong>1〜2 mg/kg/日</strong><br>(分3 毎食後)<br><span style="color:#047857;">シロップ: 0.2〜0.4 mL/kg/日</span></td>
+            <td>1歳未満目安: 2.5〜5mL/日<br>1〜2歳: 5〜10mL/日</td>
+            <td style="background:#eff6ff; font-weight:800; color:#1e40af;">通常: 2.0 〜 4.0 mL/日<br><span style="color:#475569;">（1回 約0.7〜1.3mL 分3）</span></td>
+            <td>12〜24mL/日<br>(60〜120mg/日)</td>
+            <td>甘みがあり飲みやすい。赤色尿の事前指導徹底。中枢性鎮咳＋気管支分泌促進作用。</td>
+          </tr>
+
+          <!-- 25. メジコン散10% -->
+          <tr class="peds-row" data-cat="cough">
+            <td><span class="badge" style="background:#2563eb; color:white; font-size:0.68rem;">中枢性鎮咳薬</span><br><strong>メジコン散10%</strong><br><span style="color:#64748b; font-size:0.75rem;">デキストロメトルファン臭化水素酸塩</span></td>
+            <td>散10%<br>(100mg/g)</td>
+            <td><strong>1〜2 mg/kg/日</strong><br>(分3〜4 毎食後・就寝前)<br><span style="color:#047857;">散: 0.01〜0.02 g/kg/日</span></td>
+            <td>咳が夜間激しい時に頓用併用される場合あり</td>
+            <td style="background:#eff6ff; font-weight:800; color:#1e40af;">通常: 0.10〜0.20 g/日<br><span style="color:#475569;">（1回 約0.033〜0.067g 分3）</span></td>
+            <td>60mg/日<br>(散0.6g/日)</td>
+            <td>延髄の咳中枢抑制。痰が少ない空咳（コンコン咳）に有効。痰が多い時は喀痰困難に注意。苦味ややあり。</td>
+          </tr>
+
+          <!-- 26. オノンドライシロップ10% -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">LT受容体拮抗薬</span><br><strong>オノンドライシロップ10%</strong><br><span style="color:#64748b; font-size:0.75rem;">プランルカスト水和物</span></td>
+            <td>DS10%<br>(100mg/g)</td>
+            <td><strong>7 mg/kg/日</strong><br>(分2 朝・夕食後)<br><span style="color:#047857;">DS: 0.07 g/kg/日</span></td>
+            <td>症状により適宜増減（最大 10 mg/kg/日 まで）</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1日 0.70 g<br><span style="color:#475569;">（1回 0.35g 分2 朝夕）</span></td>
+            <td>450mg/日<br>(DS4.5g/日)</td>
+            <td>甘みがあり水に溶けやすい。小児気管支喘息およびアレルギー性鼻炎の基本予防薬。酸性飲料では沈殿しやすい。</td>
+          </tr>
+
+          <!-- 27. キプレス / シングレア -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">LT受容体拮抗薬</span><br><strong>キプレス / シングレア</strong><br><span style="color:#64748b; font-size:0.75rem;">モンテルカストナトリウム</span></td>
+            <td>細粒4mg<br>チュアブル5mg</td>
+            <td><strong>1〜5歳: 細粒4mg 1包 1日1回就寝前</strong><br><strong>6〜14歳: チュアブル5mg 1錠 就寝前</strong></td>
+            <td>年齢固定用量（体重換算不要で明快）</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">細粒4mg 1包<br><span style="color:#475569;">（1日1回 就寝前）</span></td>
+            <td>10mg/日<br>(15歳以上)</td>
+            <td><strong>1日1回就寝前の服薬遵守がカギ！</strong>チュアブルは噛み砕いて内服。細粒は水なしでも飲める。</td>
+          </tr>
+
+          <!-- 28. アレロック顆粒0.5% -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">第2世代抗ヒスタミン</span><br><strong>アレロック顆粒0.5%</strong><br><span style="color:#64748b; font-size:0.75rem;">オロパタジン塩酸塩</span></td>
+            <td>顆粒0.5%<br>(5mg/g)</td>
+            <td><strong>2〜6歳: 1回 2.5mg (0.5g) 1日2回</strong><br><strong>7歳以上: 1回 5mg (1.0g) 1日2回</strong></td>
+            <td>朝・就寝前 分2（食前食後問わず）</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1回 0.50 g (2.5mg)<br><span style="color:#475569;">（1日 1.0g 分2 朝・就寝前）</span></td>
+            <td>10mg/日<br>(顆粒2.0g/日)</td>
+            <td>キレが良く痒みに極めて強い。眠気が出る場合あり。顆粒はほのかに甘く口溶けが良い。</td>
+          </tr>
+
+          <!-- 29. ザイザルシロップ0.05% -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">第2世代抗ヒスタミン</span><br><strong>ザイザルシロップ0.05%</strong><br><span style="color:#64748b; font-size:0.75rem;">レボセチリジン塩酸塩</span></td>
+            <td>シロップ0.05%<br>(0.5mg/mL)</td>
+            <td><strong>6ヶ月〜1歳未満: 1回 1.25mg (2.5mL) 1日1回</strong><br><strong>1〜6歳: 1回 1.25mg (2.5mL) 1日2回</strong><br><strong>7〜14歳: 1回 2.5mg (5.0mL) 1日2回</strong></td>
+            <td>朝・就寝前 分2</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1回 2.5 mL (1.25mg)<br><span style="color:#475569;">（1日 5.0mL 分2 朝・就寝前）</span></td>
+            <td>5mg/日<br>(シロップ10mL)</td>
+            <td>6ヶ月以上の乳児から使える貴重な第2世代シロップ。ジルテックの活性光学異性体で効果シャープ。</td>
+          </tr>
+
+          <!-- 30. アレグラDS5% -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">第2世代抗ヒスタミン</span><br><strong>アレグラDS5%</strong><br><span style="color:#64748b; font-size:0.75rem;">フェキソフェナジン塩酸塩</span></td>
+            <td>DS5%<br>(50mg/g)</td>
+            <td><strong>6ヶ月〜2歳未満: 1回 15mg (0.3g) 1日2回</strong><br><strong>2〜11歳: 1回 30mg (0.6g) 1日2回</strong><br><strong>12歳以上: 1回 60mg (1.2g) 1日2回</strong></td>
+            <td>朝・夕食後 分2</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1回 0.30〜0.60 g<br><span style="color:#475569;">（1日 0.6〜1.2g 分2 朝夕）</span></td>
+            <td>120mg/日<br>(DS2.4g/日)</td>
+            <td><strong>眠気がほぼ出ない（脳内移行性ゼロ）！</strong>受験生・学童期・眠気を嫌う子どもに最適。味はバナナ風味。</td>
+          </tr>
+
+          <!-- 31. クラリチンDS1% -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">第2世代抗ヒスタミン</span><br><strong>クラリチンDS1%</strong><br><span style="color:#64748b; font-size:0.75rem;">ロラタジン</span></td>
+            <td>DS1%<br>(10mg/g)</td>
+            <td><strong>2〜6歳: 1回 5mg (0.5g) 1日1回食後</strong><br><strong>7歳以上: 1回 10mg (1.0g) 1日1回食後</strong></td>
+            <td>1日1回投与でコンプライアンス良好</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1日 0.50 g (5mg)<br><span style="color:#475569;">（1日1回 食後）</span></td>
+            <td>10mg/日<br>(DS1.0g/日)</td>
+            <td>1日1回で眠気も極めて少ない。水に溶かすと速やかに溶解。甘みあり飲みやすい。</td>
+          </tr>
+
+          <!-- 32. ポララミンシロップ0.04% -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">第1世代抗ヒスタミン</span><br><strong>ポララミンシロップ0.04%</strong><br><span style="color:#64748b; font-size:0.75rem;">d-クロルフェニラミンマレイン酸塩</span></td>
+            <td>シロップ0.04%<br>(0.4mg/mL)</td>
+            <td><strong>1日 0.06 mg/kg</strong><br>(分3〜4)<br><span style="color:#047857;">シロップ: 0.15 mL/kg/日</span></td>
+            <td>急性じんましん・強い掻痒感・鼻水に頓用併用</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1日 1.50 mL<br><span style="color:#475569;">（1回 約0.5mL 分3）</span></td>
+            <td>6mg/日<br>(シロップ15mL)</td>
+            <td>即効性抜群。<strong>強い眠気・口渇・ふらつきに注意。</strong>熱性けいれん既往児は痙攣誘発リスクに留意。</td>
+          </tr>
+
+          <!-- 33. ジルテックドライシロップ1.25% -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">第2世代抗ヒスタミン</span><br><strong>ジルテックドライシロップ1.25%</strong><br><span style="color:#64748b; font-size:0.75rem;">セチリジン塩酸塩</span></td>
+            <td>DS1.25%<br>(12.5mg/g)</td>
+            <td><strong>2〜7歳: 1回 2.5mg (0.2g)</strong> 1日2回<br><strong>7歳以上: 1回 5mg (0.4g)</strong> 1日2回<br><span style="color:#64748b; font-size:0.75rem;">※2歳未満は適応外</span></td>
+            <td>重症・難治性皮膚疾患時など適宜増減（ただし上限内）</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1日 0.40 g (5mg)<br><span style="color:#475569;">1回 0.20 g (朝・就寝前 分2)</span></td>
+            <td>10mg/日<br>(製剤0.8g/日)<br><span style="font-size:0.75rem; color:#64748b;">最大20mg</span></td>
+            <td>ストロベリー風味。ザイザルの前身（ラセミ体）。速やかに溶解。中枢抑制・眠気に注意。</td>
+          </tr>
+
+          <!-- 34. アレジオンDS1% -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">第2世代抗ヒスタミン</span><br><strong>アレジオンDS1%</strong><br><span style="color:#64748b; font-size:0.75rem;">エピナスチン塩酸塩</span></td>
+            <td>DS1%<br>(10mg/g)</td>
+            <td><strong>3〜7歳: 1回 2.5〜5mg (0.25〜0.5g)</strong> 1日2回<br><strong>7歳以上: 1回 5〜10mg (0.5〜1g)</strong> 1日2回</td>
+            <td>症状に応じ適宜増減</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1日 0.50〜1.00 g (5〜10mg)<br><span style="color:#475569;">1回 0.25〜0.50 g (分2)</span></td>
+            <td>20mg/日<br>(製剤2.0g/日)</td>
+            <td>甘みがあり服用性良好。眠気発現率比較的低い。喘息・鼻炎・皮膚そう痒症に適応。</td>
+          </tr>
+
+          <!-- 35. ザジテンドライシロップ0.1% -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">抗アレルギー</span><br><strong>ザジテンドライシロップ0.1%</strong><br><span style="color:#64748b; font-size:0.75rem;">ケトチフェンフマル酸塩</span></td>
+            <td>DS0.1%<br>(1mg/g)</td>
+            <td><strong>1回 0.03 g/kg (0.03mg/kg)</strong><br>1日2回 (朝食後・就寝前)<br><span style="color:#047857;">製剤: 0.06 g/kg/日</span></td>
+            <td>症状に応じ適宜増減 (0.02〜0.04g/kg/回)</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1日 0.60 g (0.6mg)<br><span style="color:#475569;">1回 0.30 g (分2)</span></td>
+            <td>2mg/日<br>(製剤2.0g/日)</td>
+            <td>バナナ味。眠気・体重増加に注意。熱性けいれん・てんかん既往児への投与慎重。</td>
+          </tr>
+
+          <!-- 36. ゼスラン小児用細粒0.6% / ニポラジン -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">第2世代抗ヒスタミン</span><br><strong>ゼスラン小児用細粒0.6%</strong><br><span style="color:#64748b; font-size:0.75rem;">ニポラジン（メキタジン）</span></td>
+            <td>細粒0.6%<br>(6mg/g)</td>
+            <td><strong>1日 0.12 mg/kg</strong> (分2 朝・夕食後)<br><span style="color:#047857;">製剤: 0.02 g/kg/日</span></td>
+            <td>年齢・症状に応じ適宜増減</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1日 0.20 g (1.2mg)<br><span style="color:#475569;">1回 0.10 g (分2)</span></td>
+            <td>6mg/日<br>(製剤1.0g/日)</td>
+            <td>苦味少なく服用しやすい。口渇・眠気等抗コリン作用が比較的少ない定番薬。</td>
+          </tr>
+
+          <!-- 37. セレスタミン配合シロップ -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#dc2626; color:white; font-size:0.68rem;">ステロイド配合</span><br><strong>セレスタミン配合シロップ</strong><br><span style="color:#64748b; font-size:0.75rem;">ベタメタゾン＋d-クロルフェニラミン</span></td>
+            <td>シロップ<br>(5mL中 ベタメタゾン0.25mg/マレイン酸d-クロルフェニラミン2mg)</td>
+            <td><strong>2〜6歳未満: 1回 1.25〜2.5 mL</strong> 1日3回<br><strong>6〜12歳未満: 1回 2.5〜5 mL</strong> 1日3回</td>
+            <td>重症時頓用（漫然連用禁止）</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1日 4.5 〜 7.5 mL<br><span style="color:#475569;">1回 1.5 〜 2.5 mL (分3)</span></td>
+            <td>1回 5〜10mL<br>1日1〜4回</td>
+            <td>急性増悪レスキュー用。ステロイド配合のため3〜7日以内の短期厳守！漫然投与禁止。</td>
+          </tr>
+
+          <!-- 38. ペリアクチン散1% / シロップ0.04% -->
+          <tr class="peds-row" data-cat="allergy">
+            <td><span class="badge" style="background:#db2777; color:white; font-size:0.68rem;">第1世代抗ヒスタミン</span><br><strong>ペリアクチン散1% / シロップ</strong><br><span style="color:#64748b; font-size:0.75rem;">シプロヘプタジン塩酸塩</span></td>
+            <td>散1%(10mg/g)<br>シロップ0.04%(0.4mg/mL)</td>
+            <td><strong>1日 0.25 mg/kg</strong> 1日2〜3回<br><span style="color:#047857;">散: 0.025 g/kg/日 / シロップ: 0.625 mL/kg/日</span></td>
+            <td>年齢・症状に応じ適宜増減</td>
+            <td style="background:#fdf2f8; font-weight:800; color:#9d174d;">1日 散 0.25 g / シロップ 6.25 mL<br><span style="color:#475569;">1回 約0.08g・2mL (分3)</span></td>
+            <td>12mg/日<br>(散1.2g / シロップ30mL)</td>
+            <td>強い眠気と食欲亢進作用。鼻汁・掻痒に即効。乳児の無呼吸・痙攣閾値低下に注意。</td>
+          </tr>
+
+          <!-- 39. ホクナリンテープ -->
+          <tr class="peds-row" data-cat="airway">
+            <td><span class="badge" style="background:#7c3aed; color:white; font-size:0.68rem;">気管支拡張貼付剤</span><br><strong>ホクナリンテープ</strong><br><span style="color:#64748b; font-size:0.75rem;">ツロブテロール貼付剤 (0.5/1/2mg)</span></td>
+            <td>貼付剤 0.5mg / 1mg / 2mg</td>
+            <td><strong>1日1回 胸・背中・上腕に貼付</strong><br>・6ヶ月〜3歳未満: <strong>0.5mg 1枚</strong><br>・3〜9歳未満: <strong>1mg 1枚</strong><br>・9歳以上: <strong>2mg 1枚</strong></td>
+            <td>体重換算目安：<br>・〜12kg: 0.5mg<br>・12〜25kg: 1mg<br>・25kg以上: 2mg</td>
+            <td style="background:#f5f3ff; font-weight:800; color:#5b21b6;">0.5 mg または 1 mg 1枚<br><span style="color:#475569;">（10kg前後は0.5mgが安全域）</span></td>
+            <td>1日 2mg 1枚</td>
+            <td>24時間効果持続。夜間〜早朝の発作予防。貼り忘れ・剥がれ・かぶれ確認。心悸亢進・振戦に注意。</td>
+          </tr>
+
+          <!-- 40. メプチン顆粒0.01% / シロップ -->
+          <tr class="peds-row" data-cat="airway">
+            <td><span class="badge" style="background:#7c3aed; color:white; font-size:0.68rem;">β2刺激気管支拡張</span><br><strong>メプチン顆粒0.01% / シロップ</strong><br><span style="color:#64748b; font-size:0.75rem;">プロカテロール塩酸塩水和物</span></td>
+            <td>顆粒0.01%(100μg/g)<br>シロップ5μg/mL</td>
+            <td><strong>1.25 μg/kg/回</strong><br>1日2回 (朝・就寝前)<br><span style="color:#047857;">顆粒: 0.0125 g/kg/回 / シロップ: 0.25 mL/kg/回</span></td>
+            <td>発作時頓用（過度な頻回使用厳禁）</td>
+            <td style="background:#f5f3ff; font-weight:800; color:#5b21b6;">1回 顆粒 0.125g / シロップ 2.5mL<br><span style="color:#475569;">（1日2回 朝・就寝前）</span></td>
+            <td>1回 50μg (0.5g)<br>1日 100μg</td>
+            <td>即効性のある気管支拡張。吸入や頓用で多用。過剰投与による頻脈・動悸・手指振戦に注意。</td>
+          </tr>
+
+          <!-- 41. タミフルドライシロップ3% -->
+          <tr class="peds-row" data-cat="airway">
+            <td><span class="badge" style="background:#2563eb; color:white; font-size:0.68rem;">抗インフルエンザ</span><br><strong>タミフルドライシロップ3%</strong><br><span style="color:#64748b; font-size:0.75rem;">オセルタミビルリン酸塩</span></td>
+            <td>DS3%<br>(30mg/g)</td>
+            <td><strong>治療: 2 mg/kg/回 1日2回 5日間</strong><br><span style="color:#047857;">DS: 0.0667 g/kg/回 (0.133g/kg/日)</span><br>予防: 2 mg/kg/回 1日1回 10日間</td>
+            <td>1回上限: 75mg (DS 2.5g)</td>
+            <td style="background:#eff6ff; font-weight:800; color:#1e40af;">治療: 1回 0.67 g (20mg)<br><span style="color:#475569;">1日 1.33 g 分2 (5日間内服)</span></td>
+            <td>1回 75mg<br>1日 150mg (DS5g)</td>
+            <td><strong>発症48時間以内の投与必須！独特の苦味・渋みあり（チョコアイス・ココアに混ぜるのが最強）。</strong></td>
+          </tr>
+
+          <!-- 42. ゾフルーザ錠 20mg / 顆粒2% -->
+          <tr class="peds-row" data-cat="airway">
+            <td><span class="badge" style="background:#2563eb; color:white; font-size:0.68rem;">抗インフルエンザ</span><br><strong>ゾフルーザ錠 20mg / 顆粒2%</strong><br><span style="color:#64748b; font-size:0.75rem;">バロキサビル マルボキシル</span></td>
+            <td>顆粒2%(20mg/g)<br>錠20mg</td>
+            <td><strong>単回投与（1回飲むだけで治療完了！）</strong><br>・10〜20kg未満: <strong>10mg 単回</strong> (顆粒0.5g)<br>・20〜40kg未満: <strong>20mg 単回</strong> (1錠/顆粒1g)<br>・40kg以上: <strong>40mg 単回</strong> (2錠/顆粒2g)</td>
+            <td>1回完結のためアドヒアランス100%</td>
+            <td style="background:#eff6ff; font-weight:800; color:#1e40af;">10 mg 単回投与<br><span style="color:#475569;">（顆粒2%なら 0.5g 単回）</span></td>
+            <td>40〜80mg 単回</td>
+            <td><strong>1回飲むだけ！</strong>キャップ核酸エンドヌクレアーゼ阻害。多価陽イオン（鉄・牛乳・Mg）併用で吸収阻害。</td>
+          </tr>
+
+          <!-- 43. ゾビラックスDS40% / バルトレックス -->
+          <tr class="peds-row" data-cat="airway">
+            <td><span class="badge" style="background:#2563eb; color:white; font-size:0.68rem;">抗ヘルペスウイルス</span><br><strong>ゾビラックスDS40% / バルトレックス</strong><br><span style="color:#64748b; font-size:0.75rem;">アシクロビル / バラシクロビル</span></td>
+            <td>DS40%(400mg/g)<br>バラシクロビル顆粒50%</td>
+            <td><strong>水痘: 20 mg/kg/回 1日4回 (計80mg/kg/日) 5日間</strong><br>単純ヘルペス: 20 mg/kg/回 1日4回</td>
+            <td>1回最大800mg (DS 2.0g)</td>
+            <td style="background:#eff6ff; font-weight:800; color:#1e40af;">水痘: 1回 0.50 g (200mg)<br><span style="color:#475569;">1日 2.0 g 分4 (5日間内服)</span></td>
+            <td>1回 800mg<br>1日 3200〜4000mg</td>
+            <td>腎排泄型。<strong>脱水時は急性腎障害リスク！十分な水分補給（補液）を徹底指導。</strong></td>
+          </tr>
+
+          <!-- 44. ビオフェルミンR散 / ラックビーR散 -->
+          <tr class="peds-row" data-cat="gi">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">耐性乳酸菌製剤</span><br><strong>ビオフェルミンR散 / ラックビーR散</strong><br><span style="color:#64748b; font-size:0.75rem;">耐性乳酸菌 / 耐性ビフィズス菌</span></td>
+            <td>散<br>(生菌数基準)</td>
+            <td><strong>小児: 1日 1〜3 g</strong> (分3 毎食後)<br><span style="color:#047857;">乳幼児: 1日 0.5〜1.5 g (分2〜3)</span></td>
+            <td>抗生物質投与時の腸内菌叢異常・下痢予防</td>
+            <td style="background:#ecfdf5; font-weight:800; color:#065f46;">1日 1.0 〜 1.5 g<br><span style="color:#475569;">（1回 0.33〜0.5g 分3）</span></td>
+            <td>1日 3〜6g<br>(分3)</td>
+            <td><strong>抗生物質内服中に必ず出す「R製剤」！</strong>通常ビオフェルミンは抗生剤で死滅するが、Rはペニシリン・セフェムに耐性。</td>
+          </tr>
+
+          <!-- 45. ナウゼリン坐剤 10mg / 30mg -->
+          <tr class="peds-row" data-cat="gi">
+            <td><span class="badge" style="background:#d97706; color:white; font-size:0.68rem;">制吐坐剤</span><br><strong>ナウゼリン坐剤 10mg / 30mg</strong><br><span style="color:#64748b; font-size:0.75rem;">ドンペリドン坐剤</span></td>
+            <td>坐剤 10mg / 30mg</td>
+            <td><strong>1 mg/kg/回 頓用</strong><br>（1日2〜3回まで。4〜6時間空ける）</td>
+            <td>体重別目安：<br>・〜10kg: 10mgの適宜カットまたは慎重投与<br>・10〜15kg: 10mg 1個<br>・25kg以上: 30mg 1個</td>
+            <td style="background:#fffbeb; font-weight:800; color:#92400e;">1回 10mg 1個<br><span style="color:#475569;">（1mg/kg 頓用）</span></td>
+            <td>1回 30mg<br>1日 60mg</td>
+            <td>CTZ抑制＋消化管運動改善。乳幼児は血液脳関門が未熟なため、<strong>錐体外路症状（眼球上転・頸部後屈）</strong>に厳重注意。</td>
+          </tr>
+
+          <!-- 46. モビコール配合内服剤 -->
+          <tr class="peds-row" data-cat="gi">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">慢性便秘治療薬</span><br><strong>モビコール配合内服剤</strong><br><span style="color:#64748b; font-size:0.75rem;">マクロゴール4000配合剤 (LD/HD)</span></td>
+            <td>配合散剤<br>(LD 1包6.85g / 水約60mLに溶解)</td>
+            <td><strong>2歳以上投与可能：</strong><br>・2〜6歳: <strong>初回 1包/日</strong> (増減幅1〜3包)<br>・7〜11歳: <strong>初回 2包/日</strong> (増減幅1〜4包)<br>・12歳以上: 初回 2包/日 (増減幅1〜6包)</td>
+            <td>便性状を見ながら1〜2日おきに漸増漸減</td>
+            <td style="background:#ecfdf5; font-weight:800; color:#065f46;">初回 1包 / 日<br><span style="color:#475569;">（水約60mLに完全に溶かして内服）</span></td>
+            <td>最大 6包/日<br>(42g/日)</td>
+            <td>浸透圧性下剤。大腸内で水分を保持して便を自然に柔らかくする。<strong>1包を水約60mLに溶かして飲む指導徹底。</strong></td>
+          </tr>
+
+          <!-- 47. 酸化マグネシウム細粒 / 原末 -->
+          <tr class="peds-row" data-cat="gi">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">浸透圧性下剤</span><br><strong>酸化マグネシウム細粒 / 原末</strong><br><span style="color:#64748b; font-size:0.75rem;">マグミット / カマグ</span></td>
+            <td>細粒83% / 原末100%</td>
+            <td><strong>1日 20〜40 mg/kg</strong><br>(分2〜3 食後または就寝前)<br><span style="color:#047857;">細粒: 0.024〜0.048 g/kg/日</span></td>
+            <td>年齢別目安：<br>・幼小児: 1日 0.5〜1.0g<br>・学童: 1日 1.0〜1.5g</td>
+            <td style="background:#ecfdf5; font-weight:800; color:#065f46;">1日 0.30 〜 0.50 g<br><span style="color:#475569;">（分2〜3で便性状に応じ調整）</span></td>
+            <td>2000mg/日<br>(原末2g)</td>
+            <td>腸管から吸収されず便に水分を引き寄せる安全な便秘薬。多めの水分と一緒に内服。多価陽イオンキレート注意。</td>
+          </tr>
+
+          <!-- 48. リンデロンシロップ0.01% -->
+          <tr class="peds-row" data-cat="gi">
+            <td><span class="badge" style="background:#dc2626; color:white; font-size:0.68rem;">副腎皮質ステロイド</span><br><strong>リンデロンシロップ0.01%</strong><br><span style="color:#64748b; font-size:0.75rem;">ベタメタゾンシロップ</span></td>
+            <td>シロップ0.01%<br>(0.1mg/mL)</td>
+            <td><strong>1日 0.015〜0.06 mg/kg</strong><br>(分1〜4)<br><span style="color:#047857;">シロップ: 0.15〜0.6 mL/kg/日</span></td>
+            <td>クループ症候群・喘息急性発作レスキュー時頓用</td>
+            <td style="background:#fef2f2; font-weight:800; color:#991b1b;">1日 1.5 〜 6.0 mL<br><span style="color:#475569;">（原体 0.15〜0.6mg 分1〜2 短期）</span></td>
+            <td>1日 4mg<br>(シロップ40mL)</td>
+            <td>力価が強い長時間作用型ステロイド。<strong>クループの犬吠様咳嗽・嗄声に著効。3〜5日程度の短期投与でスパッと切る。</strong></td>
+          </tr>
+
+          <!-- 49. ミヤBM細粒 -->
+          <tr class="peds-row" data-cat="gi">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">酪酸菌製剤</span><br><strong>ミヤBM細粒</strong><br><span style="color:#64748b; font-size:0.75rem;">宮入菌（有胞子性酪酸菌）</span></td>
+            <td>細粒<br>(20〜40mg/g)</td>
+            <td><strong>乳幼児: 1日 0.5〜1.5 g</strong> (分2〜3)<br><span style="color:#047857;">年齢・症状により適宜増減</span></td>
+            <td>抗菌薬投与時の下痢予防・治療</td>
+            <td style="background:#ecfdf5; font-weight:800; color:#065f46;">1日 1.00 g<br><span style="color:#475569;">1回 0.33〜0.50 g (分2〜3)</span></td>
+            <td>1日 1.5〜3.0g<br>(分3)</td>
+            <td>芽胞を形成しペニシリン・セフェム・キノロン等あらゆる抗菌薬や胃酸に耐性！下痢予防の定番。</td>
+          </tr>
+
+          <!-- 50. ナウゼリン細粒1% / シロップ0.1% -->
+          <tr class="peds-row" data-cat="gi">
+            <td><span class="badge" style="background:#d97706; color:white; font-size:0.68rem;">消化管運動促進・制吐</span><br><strong>ナウゼリン細粒1% / シロップ</strong><br><span style="color:#64748b; font-size:0.75rem;">ドンペリドン</span></td>
+            <td>細粒1%(10mg/g)<br>シロップ0.1%(1mg/mL)</td>
+            <td><strong>1日 1〜2 mg/kg</strong> 1日3回 <strong>食前</strong><br><span style="color:#047857;">細粒: 0.1〜0.2 g/kg/日 / シロップ: 1〜2 mL/kg/日</span></td>
+            <td>症状に応じ適宜増減（上限30mg/日）</td>
+            <td style="background:#fffbeb; font-weight:800; color:#92400e;">1日 細粒 1.0〜2.0g / シロップ 10〜20mL<br><span style="color:#475569;">1回 0.33〜0.66g (食前 分3)</span></td>
+            <td>30mg/日<br>(細粒3g / シロップ30mL)</td>
+            <td>必ず「食前」投与！乳幼児はBBB未熟のため錐体外路症状（眼球上転、頸部硬直）に注意。</td>
+          </tr>
+
+          <!-- 51. マルツエキス / マルツエキス・原末 -->
+          <tr class="peds-row" data-cat="gi">
+            <td><span class="badge" style="background:#059669; color:white; font-size:0.68rem;">乳幼児緩下薬</span><br><strong>マルツエキス / 原末</strong><br><span style="color:#64748b; font-size:0.75rem;">麦芽糖（マルトース）</span></td>
+            <td>水飴状エキス / 原末<br>(麦芽糖60%以上)</td>
+            <td><strong>乳児（1歳未満）: 1回 9〜15 g</strong> 1日2〜3回<br><span style="color:#047857;">授乳前または授乳間に白湯・ミルクに溶解</span></td>
+            <td>幼児（1歳以上）は適宜増量</td>
+            <td style="background:#ecfdf5; font-weight:800; color:#065f46;">1回 10 〜 15 g<br><span style="color:#475569;">1日 20〜30 g (分2〜3)</span></td>
+            <td>適宜増減<br>(安全域極めて広い)</td>
+            <td>腸内発酵による自然な蠕動亢進。習慣性がなく新生児・乳児の便秘の絶対的第一選択。</td>
+          </tr>
+
+          <!-- 52. プレドニン散1% -->
+          <tr class="peds-row" data-cat="gi">
+            <td><span class="badge" style="background:#dc2626; color:white; font-size:0.68rem;">副腎皮質ステロイド</span><br><strong>プレドニン散1%</strong><br><span style="color:#64748b; font-size:0.75rem;">プレドニゾロン</span></td>
+            <td>散1%<br>(10mg/g)</td>
+            <td><strong>通常: 1日 0.5〜1 mg/kg</strong> (分2〜3)<br><span style="color:#047857;">製剤: 0.05〜0.1 g/kg/日</span></td>
+            <td><strong>喘息発作時: 1〜2 mg/kg/日</strong> (製剤: 0.1〜0.2 g/kg/日) 分2〜3 3〜5日間短期間投与</td>
+            <td style="background:#fef2f2; font-weight:800; color:#991b1b;">通常: 1日 0.50〜1.00 g (分2: 0.25〜0.5g)<br><span style="color:#b45309;">発作時: 1日 1.00〜2.00 g</span></td>
+            <td>60mg/日<br>(製剤6.0g/日)</td>
+            <td>強烈な苦味！チョコクリームやシロップでマスキング必須。短期間でスパッと切る。</td>
+          </tr>
+
+          <!-- 53. ミニリンメルトOD錠 60μg / 120μg -->
+          <tr class="peds-row" data-cat="gi">
+            <td><span class="badge" style="background:#7c3aed; color:white; font-size:0.68rem;">夜尿症治療薬</span><br><strong>ミニリンメルトOD錠 60μg / 120μg</strong><br><span style="color:#64748b; font-size:0.75rem;">デスモプレシン酢酸塩水和物</span></td>
+            <td>口腔内崩壊錠<br>60μg / 120μg / 240μg</td>
+            <td><strong>6歳以上の夜尿症：</strong><br><strong>1日1回 就寝前 120μg</strong> より開始<br><span style="color:#b91c1c; font-weight:700;">（水なしで舌下投与）</span></td>
+            <td>効果不十分時: 240μgまで増量可能</td>
+            <td style="background:#f5f3ff; font-weight:800; color:#5b21b6;">初回 120 μg 1錠<br><span style="color:#475569;">（就寝前 舌下投与 / 水なし）</span></td>
+            <td>240μg/日</td>
+            <td><strong>⚠️ 服用前2〜3時間および服用後翌朝までは水分摂取を極力控える！水中毒（低Na血症・痙攣）の危険防止徹底。</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PART D: 小児換算公式集 ＆ 鑑査ピットフォール -->
+    <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:16px 18px; margin-bottom:18px;">
+      <h3 style="margin:0 0 12px 0; font-size:1.05rem; color:#0f172a; display:flex; align-items:center; gap:8px;">
+        <span>📐</span> 小児薬用量 換算の公式集 ＆ 鑑査ピットフォール（管理薬剤師ドットコム準拠）
+      </h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+        <div style="background:white; border-left:4px solid #059669; padding:10px 14px; border-radius:4px; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
+          <strong style="color:#065f46; font-size:0.92rem;">⚖️ フォン・ハルナック（von Harnack）の換算表</strong>
+          <p style="font-size:0.8rem; color:#475569; margin:4px 0 0 0; line-height:1.5;">
+            年齢別成人量に対する比率の黄金基準：<br>
+            ・新生児: 1/10〜1/8（成人量の約10%）<br>
+            ・1歳: 1/4（25%） / 3歳: 1/3（33%）<br>
+            ・7歳: 1/2（50%） / 12歳: 2/3（66%）
+          </p>
+        </div>
+        <div style="background:white; border-left:4px solid #2563eb; padding:10px 14px; border-radius:4px; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
+          <strong style="color:#1e40af; font-size:0.92rem;">📐 アウグスベルガー（Augsberger）式</strong>
+          <p style="font-size:0.8rem; color:#475569; margin:4px 0 0 0; line-height:1.5;">
+            体重・年齢から素早く暗算する臨床実用式：<br>
+            <strong>小児量 ＝ 成人量 × (4 × 年齢 ＋ 20) ÷ 100</strong><br>
+            体重基準: <strong>小児量 ＝ 成人量 × (体重kg × 1.5) ÷ 100</strong>
+          </p>
+        </div>
+        <div style="background:white; border-left:4px solid #dc2626; padding:10px 14px; border-radius:4px; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
+          <strong style="color:#991b1b; font-size:0.92rem;">🚨 成人上限ストッパー（鑑査の急所！）</strong>
+          <p style="font-size:0.8rem; color:#475569; margin:4px 0 0 0; line-height:1.5;">
+            体重計算（mg/kg）で算出された用量が、<strong>「成人常用量・上限量を超えてはならない」</strong>！<br>
+            高学年・肥満児（40〜50kg以上）では計算値が成人量を超えるため、成人量を上限として頭打ちにする。
+          </p>
+        </div>
+        <div style="background:white; border-left:4px solid #d97706; padding:10px 14px; border-radius:4px; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
+          <strong style="color:#92400e; font-size:0.92rem;">⚠️ 力価（mg）と製剤量（g）の混同防止</strong>
+          <p style="font-size:0.8rem; color:#475569; margin:4px 0 0 0; line-height:1.5;">
+            ・ワイドシリン20% ➔ 1g中に主薬200mg（0.2g）<br>
+            ・バナン5% ➔ 1g中に主薬50mg（0.05g）<br>
+            処方箋が「成分量(mg)」記載か「製剤量(g)」記載かを必ず鑑査台で指差し呼称確認！
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART E: 飲食物相性マトリクス ＆ 坐薬30分ルール ＆ 飲ませ方 -->
+    <div style="background:white; border-radius:8px; border:1px solid #cbd5e1; overflow:hidden; margin-bottom:18px;">
+      <div style="background:#1e293b; color:white; padding:10px 14px; font-weight:700; font-size:0.95rem;">
+        🥤 小児用抗生剤・頻出ドライシロップ 飲食物相性マトリクス
+      </div>
+      <table class="styled-table" style="width:100%; font-size:0.83rem; margin:0; border-collapse:collapse;">
+        <thead>
+          <tr style="background:#f1f5f9; color:#334155;">
+            <th style="width:20%;">系統・代表薬剤</th>
+            <th style="width:18%;">本来の味・特徴</th>
+            <th style="width:32%;">😭 絶対に混ぜてはいけないNG食品（地獄！）</th>
+            <th style="width:30%;">😋 相性抜群のおすすめ食品（天国！）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>マクロライド系</strong><br>・<strong>クラリスDS</strong><br>・<strong>ジスロマック細粒</strong></td>
+            <td>甘い（イチゴ味等）<br><span style="color:#64748b; font-size:0.75rem;">※アルカリ性コーティングで苦味を封印中</span></td>
+            <td><span class="badge" style="background:#ef4444; color:white; font-size:0.7rem;">酸性の飲料すべて絶対NG！</span><br><strong>オレンジ・リンゴ等の果汁ジュース、スポーツドリンク、乳酸菌飲料（ヤクルト・カルピス）、ヨーグルト</strong><br>➔ 酸でコーティングが瞬時に溶け、<strong>悶絶するほどの猛烈な苦味</strong>が出る！</td>
+            <td><span class="badge" style="background:#10b981; color:white; font-size:0.7rem;">中性〜アルカリ性・油脂系</span><br><strong>チョコレートアイス、バニラアイス、ココア、練乳、牛乳</strong>、お薬ゼリー（チョコ味・いちご味）</td>
+          </tr>
+          <tr>
+            <td><strong>セフェム系・ペニシリン系</strong><br>・ワイドシリン / サワシリン<br>・メイアクト / フロモックス<br>・セフゾン / トミロン</td>
+            <td>甘い（イチゴ・バナナ・オレンジ味等）</td>
+            <td>・<strong>牛乳・乳製品</strong>（苦味が出たり、風味が変わって嫌がることがある）<br>・<strong>熱いお湯</strong>（コーティングが溶けて苦くなる）</td>
+            <td><strong>アイスクリーム、プリン、ヨーグルト、リンゴすりおろし、ジュース類</strong>、お薬ゼリー</td>
+          </tr>
+          <tr>
+            <td><strong>抗インフルエンザ・その他</strong><br>・<strong>タミフルDS</strong><br>・<strong>オノンドライシロップ</strong></td>
+            <td>タミフルは独特の苦味・渋みあり<br>オノンは甘い</td>
+            <td>・<strong>タミフル ＋ 乳酸菌飲料・オレンジジュース</strong>（苦味が強調されることがある）<br>・<strong>オノン ＋ 酸性飲料</strong>（溶けにくくなりザラザラ感が出る）</td>
+            <td><strong>タミフルには「チョコアイス・ココア・ピーナッツバター」が最強！</strong>（油分とカカオが舌をコーティングして苦味を完全に遮断する！）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PART F: 坐薬30分ルール ＆ 飲ませ方3大鉄則 -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px; margin-bottom:14px;">
+      <div style="background:white; border-left:4px solid #7c3aed; border-radius:8px; padding:14px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <h4 style="margin:0 0 8px 0; color:#5b21b6; font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+          <span>🚀</span> 坐薬が2種類出た時の「差す順番とアンヒバ・ダイアップ30分ルール」
+        </h4>
+        <ul style="margin:0; padding-left:18px; font-size:0.82rem; color:#334155; line-height:1.6;">
+          <li><strong>処方例：</strong><strong>ダイアップ坐剤（ジアゼパム：熱性けいれん予防）</strong> ＋ <strong>アンヒバ / アルピニー坐剤（アセトアミノフェン：解熱薬）</strong></li>
+          <li><strong>❌ 同時に2個続けて差すと何が起きる？：</strong>アンヒバの基剤（油脂性：ハードファット）が、水溶性基剤であるダイアップの成分を取り込んでしまい、<strong>肝心のダイアップの吸収が大幅に遅れて熱性けいれんを防げなくなる！</strong></li>
+          <li><strong>⭕ 正解の指導：</strong>
+            <br>① 発熱（37.5〜38.0℃以上）に気づいたら、<strong>まず先に「ダイアップ坐剤」を差す！</strong>
+            <br>② それでも熱が高くてつらそうなら、<strong>必ず「30分以上」空けてから「アンヒバ（解熱坐剤）」を差す！</strong></li>
+          <li><strong>💡 坐薬がすぐ出てきちゃった時は？：</strong>差してすぐ（数分以内）にそのままの形でツルンと出てきたらもう1度差し直す。15〜30分以上経ってドロドロに溶けて出てきた場合は、すでに吸収されているので追加しない。</li>
+        </ul>
+      </div>
+      <div style="background:white; border-left:4px solid #059669; border-radius:8px; padding:14px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <h4 style="margin:0 0 8px 0; color:#065f46; font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+          <span>🍼</span> 保護者（パパ・ママ）を救う「粉薬の飲ませ方 3大鉄則」
+        </h4>
+        <ul style="margin:0; padding-left:18px; font-size:0.82rem; color:#334155; line-height:1.6;">
+          <li><strong>① 「ミルク（母乳・粉ミルク）の哺乳瓶」には絶対に混ぜない！：</strong>ミルクの味が変わると、赤ちゃんが<strong>「ミルクそのものを嫌いになって飲まなくなる（ミルク嫌い）」</strong>という大惨事になる！また飲み残すと薬の量が分からなくなる。</li>
+          <li><strong>② 乳児には「お団子ペースト法」を伝授：</strong>小皿に粉薬を出し、水を<strong>スポイトで1〜2滴だけ</strong>垂らして耳たぶくらいの固さのペースト（お団子）にする。それを<strong>上あごや頬の内側（舌の上は苦味を感じるからNG！）に塗りつけ</strong>、すぐにお茶やミルクを飲ませて流し込む！</li>
+          <li><strong>③ 作り置きは絶対NG：</strong>アイスやジュースに混ぜたら、苦味が出る前に<strong>「その場で一口でパクッと食べられる量（スプーン1杯分）」</strong>だけに混ぜてすぐ飲ませる。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       3. 在宅医療・経腸栄養剤・褥瘡（床ずれ）外用薬
+       ========================================== -->
+  <div class="topic-sec sec-home">
+    <div class="sec-head" style="border-color: var(--home);">
+      <h2 class="sec-title" style="color: var(--home);">🏠 ③ 在宅医療：「経腸栄養剤4大比較」と「褥瘡（床ずれ）の基剤マトリクス」</h2>
+      <span class="sec-sub">在宅訪問・高齢者施設で薬剤師が最も頼りにされる専門知識</span>
+    </div>
+
+    <div class="sub-bar bar-home">🥤 【経腸栄養剤（エンシュア・ラコール・エネーボ・イノラス）比較】なぜその栄養剤が選ばれているのか？</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">栄養剤名</th>
+          <th style="width:14%;">濃度・容量</th>
+          <th style="width:18%;">微量元素（亜鉛・銅等）</th>
+          <th style="width:50%;">キャラ立ち・選ばれる理由・現場のピットフォール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>エンシュア・H</strong><br>（エンシュア・リキッド）</td>
+          <td><strong>1.5 kcal/mL</strong><br>（リキッドは1.0）<br>250mL缶</td>
+          <td>少し少ない（長期単独使用時は欠乏注意）</td>
+          <td><span class="ok-tag">経口摂取（飲んで栄養補給）の大定番！</span> バニラ・ストロベリー・メロン・コーヒー・バナナ・黒糖など味が豊富で、食が細くなった高齢者がコップで飲むのに最適。（※Hは高濃度のため早く飲むと浸透圧性下痢をしやすい）。</td>
+        </tr>
+        <tr>
+          <td><strong>ラコールNF</strong><br>配合経腸用液 / 半固形</td>
+          <td>1.0 kcal/mL<br>200/400mLパウチ</td>
+          <td>セレン以外はほぼ充足</td>
+          <td><span class="ok-tag">ω-3系脂肪酸（EPA/DHA）配合＆パウチでゴミが捨てやすい！</span> 缶ではなくアルミパウチのため在宅でゴミがかさばらない。<strong>「ラコール半固形剤」</strong>は胃ろうから数分で注入でき、胃食道逆流（誤嚥性肺炎）や下痢を劇的に減らせる！<br><span class="warn-tag">重要</span> <strong>ワルファリンと相互作用あり！（ラコールはビタミンK含有量が多いためワルファリンの効果を弱める！）</strong></td>
+        </tr>
+        <tr>
+          <td><strong>エネーボ</strong><br>配合経腸用液</td>
+          <td>1.2 kcal/mL<br>250mL缶</td>
+          <td><strong>◎ 亜鉛・銅・セレン・クロムまで完全配合！</strong></td>
+          <td>エンシュア・ラコールで問題だった「長期経管栄養による微量元素欠乏（味覚障害・貧血・皮膚炎）」をこれ1本で防げるオールインワン設計。</td>
+        </tr>
+        <tr>
+          <td><strong>イノラス</strong><br>配合経腸用液</td>
+          <td><strong>1.6 kcal/mL（最高濃度！）</strong><br>187.5mLパウチ</td>
+          <td><strong>◎ 微量元素＆カルニチンまで完全配合！</strong></td>
+          <td><span class="ok-tag">現在の経管栄養（胃ろう）の最新トレンドNo.1！</span> わずか187.5mLという少量で300kcal摂れるため、<strong>水分制限がある心不全・腎不全患者や、1回の注入量を減らして嘔吐・逆流を防ぎたい高齢者に最強！</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-bar bar-home">🩹 【褥瘡（床ずれ）外用薬の選び方】薬効ではなく「傷の湿り気（基剤）」で選ぶのが薬剤師の真骨頂！</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:20%;">傷の状態（ステージ）</th>
+          <th style="width:22%;">選ぶべき「基剤」の性質</th>
+          <th style="width:26%;">代表的な外用薬</th>
+          <th style="width:32%;">もし逆の薬を塗ったらどうなる？（指導の勘所）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>① ジュクジュク期（黒〜黄期）</strong><br>滲出液（汁）が多く、壊死組織や感染がある状態</td>
+          <td><strong>【吸水性基剤（マクロゴール等）】</strong><br>余分な汁を吸い取り、感染を殺菌・洗浄する！</td>
+          <td>・<strong>ユーパスタ / イソジンシュガー</strong>（白糖＋ポビドンヨード）<br>・<strong>カデックス軟膏</strong><br>・<strong>ゲーベンクリーム</strong>（スルファジアジン銀：壊死組織を溶かす）</td>
+          <td>❌ ジュクジュクの傷に「プロスタンディン（油脂性）」を塗ると、<strong>汁が閉じ込められて傷がふやけ（浸軟）、細菌が大繁殖して褥瘡が一気に深くなる！</strong></td>
+        </tr>
+        <tr>
+          <td><strong>② カサカサ・肉芽形成期（赤〜白期）</strong><br>汁が減り、赤い肉芽を盛り上げて皮膚を張らせる時期</td>
+          <td><strong>【油脂性基剤（ワセリン等） / 乳剤性】</strong><br>乾燥を防いで適度な湿潤環境（モイストヒーリング）を保つ！</td>
+          <td>・<strong>プロスタンディン軟膏</strong>（血流促進）<br>・<strong>アクトシン軟膏</strong>（肉芽形成＋少し吸水）<br>・<strong>オルセノン軟膏 / アズノール軟膏</strong><br>・<strong>フィブラストスプレー</strong>（bFGF：最強の肉芽促進スプレー）</td>
+          <td>❌ 乾いた傷に「ユーパスタ（吸水性）」を塗り続けると、<strong>傷口の水分まで奪われてカラカラに干からび、肉芽細胞が死んでいつまでも治らない！</strong><br>（※フィブラストスプレーは塗った後30秒置いてから軟膏を重ねる！）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       4. 手術・内視鏡・抜歯前の「休薬期間タイムライン」
+       ========================================== -->
+  <div class="topic-sec sec-surg">
+    <div class="sec-head" style="border-color: var(--surg);">
+      <h2 class="sec-title" style="color: var(--surg);">✂️ ④ 手術・内視鏡（ポリープ切除）・検査前の「休薬期間タイムライン」早見表</h2>
+      <span class="sec-sub">「来週手術（カメラ）なんだけど、この薬いつから止めるの？」に即答・監査するための必須チャート</span>
+    </div>
+
+    <div class="sub-bar bar-surg">⏳ 【周術期・出血高リスク処置前の休薬目安】※最終決定は必ず執刀医・主治医の指示を確認すること！</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">休薬タイミング</th>
+          <th style="width:28%;">対象となる薬剤名</th>
+          <th style="width:24%;">なぜその日数が必要なのか？（理由）</th>
+          <th style="width:32%;">現場での超重要チェック＆例外ルール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>手術の 4週間前〜</strong></td>
+          <td>・<strong>低用量ピル（LEP：ルナベル、ヤーズ等）</strong><br>・<strong>女性ホルモン剤（HRT）</strong></td>
+          <td>エストロゲンによる血液凝固亢進作用で、術後のベッド安静時に<strong>致死的な肺塞栓症（エコノミークラス症候群）</strong>を起こすのを防ぐため！</td>
+          <td>若い女性の整形外科手術（骨折や靭帯手術）などで最も見落とされやすい！お薬手帳に載っていないことも多いため必ず口頭で聴取せよ！</td>
+        </tr>
+        <tr>
+          <td><strong>7日前〜14日前</strong></td>
+          <td>・<strong>パナルジン</strong>（チクロピジン）：10〜14日前<br>・<strong>バイアスピリン</strong>（アスピリン）：<strong>7日前</strong><br>・<strong>プラビックス</strong>（クロピドグレル）：<strong>5〜7日前</strong><br>・<strong>エフィエント</strong>（プラスグレル）：<strong>5〜7日前</strong></td>
+          <td>血小板の機能を<strong>「不可逆的（一度くっついたら血小板の寿命が尽きるまで離れない）」</strong>に阻害するため、新しい血小板が生まれ変わるまで約1週間かかる！</td>
+          <td><span class="warn-tag">重要</span> 心臓ステント留置後（DAPT中）など血栓リスクが極めて高い場合は、<strong>「アスピリンだけ継続して手術する」</strong>または入院してヘパリン点滴に置き換えることがある。絶対に患者の自己判断で止めさせない！</td>
+        </tr>
+        <tr>
+          <td><strong>3日前〜5日前</strong></td>
+          <td>・<strong>ワルファリン</strong>：<strong>3〜5日前</strong><br>・<strong>エビスタ / ビビアント（SERM：骨粗鬆症）</strong>：<strong>3日前〜1週間前</strong><br>・<strong>SGLT2阻害薬（フォシーガ・ジャディアンス等）</strong>：<strong>3日前（または前日）</strong></td>
+          <td>・ワルファリン：凝固因子が回復するまで数日。<br>・SERM：ピルと同じく<strong>静脈血栓塞栓症リスク</strong>！<br>・SGLT2阻害薬：周術期の絶食ストレスによる<strong>「正常血糖ケトアシドーシス」</strong>を防ぐため！</td>
+          <td><span class="warn-tag">盲点No.1</span> <strong>「骨粗鬆症のエビスタ」と「糖尿病・心不全のSGLT2阻害薬」が手術前に休薬対象になる</strong>ことを知らない患者・医療者は非常に多い！薬剤師が気づくと大感謝されるポイント！</td>
+        </tr>
+        <tr>
+          <td><strong>2日前〜3日前</strong></td>
+          <td>・<strong>プレタール</strong>（シロスタゾール）：<strong>2〜3日前</strong><br>・<strong>エパデール / ロトリガ</strong>（EPA）：1〜7日前（施設による）<br>・<strong>メトホルミン</strong>：<strong>造影CT検査の前後48時間（2日間）</strong></td>
+          <td>・シロスタゾールは「可逆的」に血小板を抑えるため、薬が体から抜ければ（約48時間）すぐに血小板機能が戻る！<br>・メトホルミンは造影剤腎症による乳酸アシドーシス防止。</td>
+          <td>脳梗塞後のプレタールは休薬期間が短くて済むのがメリット。</td>
+        </tr>
+        <tr>
+          <td><strong>前日〜当日（1〜2日前）</strong></td>
+          <td>・<strong>DOAC 4剤（エリキュース・リクシアナ・イグザレルト・プラザキサ）</strong>：<strong>手術の1〜2日前（24〜48時間前）または当日朝のみ休薬</strong></td>
+          <td>DOACは半減期が短く、<strong>飲んで数時間で効き、やめれば1〜2日でスッと効果が切れる</strong>ため、ワルファリンより休薬期間が圧倒的に短くて済む！（プラザキサで腎機能低下時は2〜4日前）。</td>
+          <td><span class="ok-tag">原則休薬しない処置</span> <strong>「通常の抜歯」「白内障手術」「胃・大腸カメラの観察のみ（生検なし）」</strong>では、脳梗塞リスクの方が高いため、<strong>抗血栓薬もビスホスホネートも原則として休薬しない（飲んでまま行う）</strong>のが現在の標準ガイドライン！</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       5. 一包化・粉砕NG薬 ＆ 食品・サプリ・OTC相互作用
+       ========================================== -->
+  <div class="topic-sec sec-ng">
+    <div class="sec-head" style="border-color: var(--ng);">
+      <h2 class="sec-title" style="color: var(--ng);">🚫 ⑤ 調剤室の地雷！「一包化NG薬リスト」＆「食品・サプリ・OTC相互作用」</h2>
+      <span class="sec-sub">調剤ミスを防ぎ、カウンターでの「これと一緒に飲んでいい？」に10秒で答える最終防衛ライン</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="info-card">
+        <h4 style="color:var(--ng);">💊 絶対に「一包化（PTPから出す）」してはいけない代表薬</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>理由</th>
+              <th>代表的な薬剤名</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>① 湿気でドロドロに溶ける・潮解・失活する</strong><br>（吸湿性極めて大）</td>
+              <td>・<strong>プラザキサカプセル</strong>（湿気でカプセルが変質）<br>・<strong>リベルサス錠</strong>（湿気と光に極めて弱い）<br>・<strong>デパケンR / セレニカR（バルプロ酸）</strong>（普通錠は潮解、徐放錠も原則アルミピロー保管）<br>・<strong>ミカルディス（テルミサルタン）</strong>（一部ジェネリックは改善されているが吸湿性大）<br>・<strong>グルコバイ（アカルボース）</strong>、<strong>ホスレノールチュアブル</strong></td>
+            </tr>
+            <tr>
+              <td><strong>② 他の薬に色が移る・匂いが移る・揮発する</strong></td>
+              <td>・<strong>アドナ（カルバゾクロム）</strong>、<strong>リファンピシン</strong>（鮮やかなオレンジ色が他剤に移る）<br>・<strong>ニトロペン舌下錠</strong>（揮発して効かなくなるため絶対一包化NG！）</td>
+            </tr>
+            <tr>
+              <td><strong>③ 毎日飲むと死亡事故になる（用法特殊）</strong></td>
+              <td>・<strong>リウマトレックス（MTX：週1〜2日）</strong><br>・<strong>ボナロン / アクトネル（週1回・月1回BP製剤）</strong><br>・<strong>経口抗がん薬（休薬期間があるもの）</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-card">
+        <h4 style="color:var(--ng);">🍊 食品・サプリ・嗜好品との「リアルな相互作用」</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>食品・嗜好品</th>
+              <th>ダメな薬と理由（代替案）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>グレープフルーツ<br>（フラノクマリン類）</strong><br>※スウィーティー、文旦、晩白柚、夏みかん、だいだいもNG！</td>
+              <td>小腸のCYP3A4を不可逆的に壊すため、<strong>3〜4日間空けても影響が消えない！</strong><br>・<strong>併用禁忌：</strong><strong>ベルソムラ、イバブラジン（コララン）</strong>等<br>・<strong>作用増強（注意）：</strong>Ca拮抗薬（ニフェジピン、アゼルニジピン等 ※<strong>アムロジピンはほぼ影響なし</strong>）、リピトール、イグザレルト、ケレンディア、タクロリムス、カルバマゼピン等。<br>（⭕ <strong>温州みかん、バレンシアオレンジ、レモン、りんごは食べても完全OK！</strong>）</td>
+            </tr>
+            <tr>
+              <td><strong>納豆・クロレラ・青汁</strong><br>（ビタミンK）</td>
+              <td>・<strong>ワルファリンのみ絶対NG！</strong>（納豆菌は腸内で数日間ビタミンKを作り続けるため少量でもダメ。緑黄色野菜は常識的な量を毎日一定に食べるならOK）。<br>・<strong>⭕ DOAC（エリキュース等）やバイアスピリンは納豆も青汁も完全OK！</strong></td>
+            </tr>
+            <tr>
+              <td><strong>セントジョーンズワート<br>（セイヨウオトギリソウ）</strong></td>
+              <td>CYP3A4やP糖蛋白を強力に<strong>「誘導（増産）」</strong>し、薬を全部燃やして効果を消す！<br>・<strong>抗がん薬、免疫抑制薬、抗HIV薬、DOAC、強心薬、低用量ピル、気管支拡張薬</strong>など多数の薬が効かなくなるため全面回避！</td>
+            </tr>
+            <tr>
+              <td><strong>タバコ（喫煙）</strong></td>
+              <td>・煙（多環芳香族炭化水素）が<strong>CYP1A2を誘導</strong> ➔ <strong>テオフィリン、ジプレキサ（オランザピン）、クロザピン</strong>の血中濃度が下がる（<strong>逆に禁煙すると急に血中濃度が跳ね上がって中毒を起こす！</strong>）。<br>・<strong>低用量ピル（LEP）＋ 喫煙（35歳以上15本/日）は血栓症リスク激増のため絶対禁忌！</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  
+  <!-- ==========================================
+       6. 妊娠中・授乳中の薬物治療 ＆ 安全性マトリクス
+       ========================================== -->
+    <!-- ==========================================
+       3. 処方医を怒らせない！疑義照会の神フレーズ ＆ 診療科別交渉術
+       ========================================== -->
+  <div class="topic-sec sec-inquiry" id="sec-inquiry">
+    <div class="sec-head" style="border-color: #f59e0b;">
+      <span class="badge" style="background:#b45309; color:white;">Doctor Communication & Prescription Inquiry Mastery</span>
+      <h2 class="sec-title" style="color: #78350f; font-size:1.35rem; font-weight:800; margin-top:4px;">
+        📞 ③ 処方医を怒らせない！「疑義照会」の神フレーズ ＆ 診療科別交渉術マニュアル
+      </h2>
+      <span class="sec-sub" style="color: #b45309;">「間違いを指摘する」から「先生に花を持たせて選んでもらう」へ！電話口でそのまま読める実戦スクリプト集</span>
+    </div>
+
+    <!-- 疑義照会の3大鉄則 -->
+    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:12px 14px; margin-bottom:16px;">
+      <h4 style="margin:0 0 6px 0; color:#92400e; font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+        <span>🎯 医師との信頼を深める「疑義照会 3大鉄則」</span>
+      </h4>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:10px; font-size:0.83rem; color:#78350f;">
+        <div style="background:white; border-left:3px solid #f59e0b; padding:8px 10px; border-radius:4px;">
+          <strong>① 決して医師の間違い・過失を責めない</strong><br>
+          「先生のお見立ての通り…」「私の確認不足でしたら大変恐縮なのですが…」と前置きし、医師のプライドを死守する。
+        </div>
+        <div style="background:white; border-left:3px solid #f59e0b; padding:8px 10px; border-radius:4px;">
+          <strong>② 客観的「事実（検査値・患者発言）」を主語にする</strong><br>
+          「薬剤師がダメと言っている」のではなく、「直近の採血でCrが〇〇でした」「患者様から妊娠の申告がありまして」と客観事実を提示。
+        </div>
+        <div style="background:white; border-left:3px solid #f59e0b; padding:8px 10px; border-radius:4px;">
+          <strong>③ 必ず「代替案を2〜3択」提示する</strong><br>
+          「どうしますか？」と医師に丸投げせず、「減量して〇〇mgにするか、または腎排泄を受けない〇〇へのご変更はいかがでしょうか？」と選んでもらうだけにする。
+        </div>
+      </div>
+    </div>
+
+    <!-- 状況別・そのまま読める神トークスクリプト6選 -->
+    <div class="grid-2" style="margin-bottom:16px;">
+      <!-- Case 1 -->
+      <div class="info-card" style="border-left:4px solid #ef4444;">
+        <h4 style="color:#b91c1c;">Case 1：腎機能低下による過量投与（減量・変更提案）</h4>
+        <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:6px; padding:10px; font-size:0.85rem; line-height:1.6; color:#991b1b; margin-bottom:8px;">
+          🗣️ <strong>【そのまま読めるセリフ】：</strong><br>
+          「お忙しいところ恐れ入ります。〇〇薬局の薬剤師の〇〇です。〇〇様の処方につきまして、1点先生にお知恵をお借りしたくお電話いたしました。<br>
+          当薬局のお薬手帳（または検査値）を確認いたしましたところ、直近の<strong>eGFRが28（CCr〇〇）</strong>と低下傾向にございました。<br>
+          今回処方いただいております<strong>〇〇錠（現在〇〇mg）</strong>ですが、添付文書上の腎機能減量基準に該当しております。<br>
+          つきましては、今回は<strong>【A案: 〇〇mgへ減量】</strong>いただくか、あるいは腎機能に左右されない<strong>【B案: 〇〇へのご変更】</strong>はいかがでしょうか？」
+        </div>
+        <div style="font-size:0.78rem; color:#64748b;">
+          💡 <strong>ポイント：</strong>「eGFRが低いので薬を減らしてください」と指示口調にならず、「お知恵をお借りしたく」で入り、A案（減量）とB案（肝代謝薬変更）を即答できるように用意しておく。
+        </div>
+      </div>
+
+      <!-- Case 2 -->
+      <div class="info-card" style="border-left:4px solid #f59e0b;">
+        <h4 style="color:#b45309;">Case 2：他院併用薬との「併用禁忌・重大な相互作用」</h4>
+        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:6px; padding:10px; font-size:0.85rem; line-height:1.6; color:#92400e; margin-bottom:8px;">
+          🗣️ <strong>【そのまま読めるセリフ】：</strong><br>
+          「〇〇先生、いつもお世話になっております。〇〇薬局の〇〇です。<br>
+          本日処方いただきました〇〇様ですが、他院の受診歴を確認いたしましたところ、〇〇内科より<strong>〇〇（禁忌薬）</strong>が処方されておりました。<br>
+          本日先生から処方いただきました<strong>〇〇錠</strong>と併用禁忌（または重大な相互作用）となっております。<br>
+          先生の処方意図をお伺いしたく存じますが、今回は相互作用のない<strong>【〇〇錠】への代替</strong>はいかがでございましょうか？」
+        </div>
+        <div style="font-size:0.78rem; color:#64748b;">
+          💡 <strong>ポイント：</strong>「先生、禁忌薬が出てますよ！」は絶対NG。医師は他院処方を知らないだけなので、「他院で〇〇が出ていることが分かりまして」と他院情報を主語にする。
+        </div>
+      </div>
+
+      <!-- Case 3 -->
+      <div class="info-card" style="border-left:4px solid #8b5cf6;">
+        <h4 style="color:#6d28d9;">Case 3：新薬14日制限 ＆ 湿布上限（63枚超）オーバー</h4>
+        <div style="background:#f5f3ff; border:1px solid #ddd6fe; border-radius:6px; padding:10px; font-size:0.85rem; line-height:1.6; color:#5b21b6; margin-bottom:8px;">
+          🗣️ <strong>【そのまま読めるセリフ】：</strong><br>
+          「いつも大変お世話になっております。〇〇様の処方箋について確認のお願いでございます。<br>
+          今回処方の<strong>〇〇錠</strong>ですが、保険請求上の新薬投与期間制限（14日分）に該当しており、今回〇〇日分となっております。<br>
+          （※湿布の場合：『湿布薬が計70枚となっており、保険上限の63枚を超過しております』）<br>
+          大変恐縮ながら、今回は<strong>【上限の14日分（湿布は63枚）】へ日数を短縮</strong>させていただいてもよろしいでしょうか？」
+        </div>
+        <div style="font-size:0.78rem; color:#64748b;">
+          💡 <strong>ポイント：</strong>事務的ルールは「保険請求上・審査上の規定でして…」と審査機関を悪者にすることで医師の機嫌を損ねずスムーズに承認をもらえる。
+        </div>
+      </div>
+
+      <!-- Case 4 -->
+      <div class="info-card" style="border-left:4px solid #ec4899;">
+        <h4 style="color:#be185d;">Case 4：問診で「妊婦・授乳中」が発覚した時</h4>
+        <div style="background:#fdf2f8; border:1px solid #fbcfe8; border-radius:6px; padding:10px; font-size:0.85rem; line-height:1.6; color:#9d174d; margin-bottom:8px;">
+          🗣️ <strong>【そのまま読めるセリフ】：</strong><br>
+          「処方箋受付時の問診にて、患者様より<strong>『現在妊娠〇週目（または完全母乳で授乳中）』</strong>とのご申告がございました。<br>
+          今回処方いただいております<strong>〇〇錠</strong>は、胎児（乳児）への安全性情報から慎重投与（または禁忌）とされております。<br>
+          もし差し支えなければ、国立成育医療研究センター等で妊娠中（授乳中）の安全性が確立している<strong>【〇〇錠】へのご変更</strong>をご検討いただけますでしょうか？」
+        </div>
+        <div style="font-size:0.78rem; color:#64748b;">
+          💡 <strong>ポイント：</strong>「成育医療研究センターの基準」をエビデンスとして添えると、産婦人科以外の医師も極めて安心して代替薬を採用してくれる。
+        </div>
+      </div>
+
+      <!-- Case 5 -->
+      <div class="info-card" style="border-left:4px solid #059669;">
+        <h4 style="color:#047857;">Case 5：重大副作用を防ぐ「お供の薬」処方漏れ提案</h4>
+        <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:6px; padding:10px; font-size:0.85rem; line-height:1.6; color:#065f46; margin-bottom:8px;">
+          🗣️ <strong>【そのまま読めるセリフ】：</strong><br>
+          「今回プレドニンが長期（〇〇mg）で増量処方となっておりますが、胃粘膜保護のPPIや骨粗鬆症予防薬（ビスホスホネート）の併用がございませんでした。<br>
+          患者様より過去に強い胃もたれの訴えもございましたため、念のため<strong>【タケキャブ10mg】等の胃薬の追加処方</strong>はいかがでしょうか？」
+        </div>
+        <div style="font-size:0.78rem; color:#64748b;">
+          💡 <strong>ポイント：</strong>「処方を忘れてますよ」ではなく、「念のため胃薬を追加した方が安心かと思いますが」と医師をサポートするスタンスをとる。
+        </div>
+      </div>
+
+      <!-- Case 6 -->
+      <div class="info-card" style="border-left:4px solid #0284c7;">
+        <h4 style="color:#0369a1;">Case 6：患者宅の「残薬過多」による日数調整</h4>
+        <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:6px; padding:10px; font-size:0.85rem; line-height:1.6; color:#0c4a6e; margin-bottom:8px;">
+          🗣️ <strong>【そのまま読めるセリフ】：</strong><br>
+          「患者様へ服薬状況を確認いたしましたところ、ご自宅に前回処方分の<strong>〇〇錠が28日分余っている（飲み忘れ）</strong>ことが判明いたしました。<br>
+          患者様ご本人も残薬の調整をご希望されておりますので、大変恐れ入りますが、今回は<strong>【処方日数を〇〇日から〇〇日へ短縮】</strong>させていただくご指示をいただけますでしょうか？」
+        </div>
+        <div style="font-size:0.78rem; color:#64748b;">
+          💡 <strong>ポイント：</strong>「患者様ご本人が希望されている」と伝えることで、医師も快く日数短縮に同意してくれる。残薬調整加算の算定にも直結。
+        </div>
+      </div>
+    </div>
+
+    <!-- 診療科別・医師タイプ別 コミュニケーションのツボ -->
+    <div style="background:white; border:1px solid #cbd5e1; border-radius:8px; padding:14px;">
+      <h4 style="margin:0 0 8px 0; color:#0f172a; font-size:0.95rem;">🏥 診療科別・医師の「重視するツボ」と攻略法</h4>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; font-size:0.82rem;">
+        <div style="background:#f8fafc; padding:8px 10px; border-radius:6px; border-left:3px solid #3b82f6;">
+          <strong>🫀 内科・循環器科の医師</strong><br>
+          「ガイドライン」「直近の検査値（Cr, K, HbA1c）」「大規模エビデンス」を最も重視。数字と根拠を明瞭に伝える。
+        </div>
+        <div style="background:#f8fafc; padding:8px 10px; border-radius:6px; border-left:3px solid #10b981;">
+          <strong>🦴 整形外科の医師</strong><br>
+          NSAIDs長期連用時の「胃潰瘍・腎機能低下」や「湿布枚数上限」が頻出。高齢者のふらつき・転倒リスクへの配慮を好む。
+        </div>
+        <div style="background:#f8fafc; padding:8px 10px; border-radius:6px; border-left:3px solid #8b5cf6;">
+          <strong>🧠 精神科・心療内科の医師</strong><br>
+          「患者の精神的不安」「自己中断による離脱症状」「等価換算比率」を重視。急激な変更を嫌うため、段階的減量案を提示。
+        </div>
+        <div style="background:#f8fafc; padding:8px 10px; border-radius:6px; border-left:3px solid #f59e0b;">
+          <strong>⚡ 忙しくて早口・威圧的な医師</strong><br>
+          前置きを最小限にし「結論（変更内容）➔ 理由（検査値等）」を20秒以内に端的に伝える。「〇〇様、Cr2.8のため〇〇mgへ減量でよろしいでしょうか？」
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="topic-sec sec-pregnancy" id="sec-pregnancy">
+    <div class="sec-head" style="border-color: #ec4899;">
+      <h2 class="sec-title" style="color: #ec4899;">🤰 ⑥ 妊娠中・授乳中の薬物治療 ＆ 安全性マトリクス（催奇形性・授乳可否・第一選択完全マスター）</h2>
+      <span class="sec-sub">添付文書の画一的な「有益性投与・授乳中止」に惑わされず、最新の疫学エビデンス（成育医療研究センター・豪州分類等）で母子の安心を支える！</span>
+    </div>
+
+    <div class="special-card-body" style="padding:20px;">
+      
+      <!-- 1. 妊娠タイムラインと薬剤感受性 -->
+      <div style="margin-bottom:25px;">
+        <h3 style="font-size:1.1rem; color:#0f172a; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+          <span>🗓️</span> <strong>1. 妊娠時期別の薬剤感受性タイムライン（時期ごとのリスク判定）</strong>
+        </h3>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+          <div style="background:white; border:1.5px solid #cbd5e1; border-radius:8px; padding:12px; border-top:4px solid #64748b;">
+            <div style="font-weight:700; color:#334155; font-size:0.92rem; margin-bottom:4px;">① 無影響期<br><span style="font-size:0.78rem; color:#64748b;">受胎前〜妊娠3週末（妊娠0〜3週）</span></div>
+            <div style="font-size:0.82rem; color:#475569; line-height:1.4;">
+              <strong>「All or Noneの法則」</strong><br>
+              受精卵がダメージを受ければ着床せず流産、生存すれば完全に修復されるため、<strong>形態異常（奇形）は残らない</strong>。「妊娠に気づかず薬を飲んだ」患者を最も安心させられる医学的事実。
+            </div>
+          </div>
+
+          <div style="background:white; border:2px solid #ef4444; border-radius:8px; padding:12px; border-top:4px solid #dc2626; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+            <div style="font-weight:700; color:#b91c1c; font-size:0.92rem; margin-bottom:4px;">② 絶対過敏期<br><span style="font-size:0.78rem; color:#dc2626;">妊娠4週〜妊娠7週末（妊娠初頭）</span></div>
+            <div style="font-size:0.82rem; color:#475569; line-height:1.4;">
+              <strong style="color:#b91c1c;">催奇形性リスク最大！</strong><br>
+              心臓、四肢、中枢神経、眼、耳などの主要臓器が急速に形成される時期。催奇形性薬物の曝露で大奇形（形態異常）が起こり得る最厳戒期間。
+            </div>
+          </div>
+
+          <div style="background:white; border:1.5px solid #f59e0b; border-radius:8px; padding:12px; border-top:4px solid #d97706;">
+            <div style="font-weight:700; color:#b45309; font-size:0.92rem; margin-bottom:4px;">③ 相対過敏期<br><span style="font-size:0.78rem; color:#b45309;">妊娠8週〜妊娠15週末</span></div>
+            <div style="font-size:0.82rem; color:#475569; line-height:1.4;">
+              主要臓器の形成は終了し、口蓋や外性器が完成に向かう。催奇形性リスクは激減するが、性腺分化や小奇形、機能的異常に配慮。
+            </div>
+          </div>
+
+          <div style="background:white; border:2px solid #7c3aed; border-radius:8px; padding:12px; border-top:4px solid #6d28d9;">
+            <div style="font-weight:700; color:#6d28d9; font-size:0.92rem; margin-bottom:4px;">④ 胎児期<br><span style="font-size:0.78rem; color:#6d28d9;">妊娠16週〜分娩まで（中期・後期）</span></div>
+            <div style="font-size:0.82rem; color:#475569; line-height:1.4;">
+              <strong style="color:#6d28d9;">胎児毒性（機能障害）に警戒！</strong><br>
+              奇形は生じないが、胎児の臓器機能に直接影響。<br>
+              ・<strong>NSAIDs：</strong>胎児動脈管早期閉鎖・羊水過少（28週以降禁忌）<br>
+              ・<strong>ACE阻害/ARB：</strong>胎児腎不全・無尿
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 妊娠中「絶対禁忌」の代表的危険薬剤 10選 -->
+      <div style="margin-bottom:25px; background:#fef2f2; border:1.5px solid #fecaca; border-radius:8px; padding:15px;">
+        <h3 style="font-size:1.05rem; color:#991b1b; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+          <span>🚨</span> <strong>妊娠中「絶対禁忌」の代表的危険薬剤 10選（調剤鑑査の超重要地雷）</strong>
+        </h3>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; font-size:0.83rem; line-height:1.45; color:#7f1d1d;">
+          <div style="background:white; padding:8px 10px; border-radius:6px; border:1px solid #fee2e2;">
+            <strong>1. RAS阻害薬（ACE阻害薬 / ARB / ARNI）：</strong><br>胎児腎不全、羊水過少症、頭蓋骨低形成、胎児死亡（全期禁忌）。
+          </div>
+          <div style="background:white; padding:8px 10px; border-radius:6px; border:1px solid #fee2e2;">
+            <strong>2. スタチン系（HMG-CoA還元酵素阻害薬）：</strong><br>胎児細胞膜・ホルモン合成に必要なコレステロール枯渇、催奇形性。
+          </div>
+          <div style="background:white; padding:8px 10px; border-radius:6px; border:1px solid #fee2e2;">
+            <strong>3. ワルファリン：</strong><br>ワルファリン胎児症候群（鼻低形成、骨端点状化、知能障害）、胎児頭蓋内出血。
+          </div>
+          <div style="background:white; padding:8px 10px; border-radius:6px; border:1px solid #fee2e2;">
+            <strong>4. バルプロ酸ナトリウム（デパケン）：</strong><br>神経管閉鎖障害（二分脊椎）、IQ低下、自閉スペクトラム症リスク。
+          </div>
+          <div style="background:white; padding:8px 10px; border-radius:6px; border:1px solid #fee2e2;">
+            <strong>5. チガソン（エトレチナート）：</strong><br>重篤な催奇形性。体内に長期蓄積するため<strong>【服用中止後2年間の避妊が法的に義務】</strong>。
+          </div>
+          <div style="background:white; padding:8px 10px; border-radius:6px; border:1px solid #fee2e2;">
+            <strong>6. メトトレキサート（MTX / リウマトレックス）：</strong><br>葉酸代謝拮抗による流産、頭蓋顔面骨奇形。
+          </div>
+          <div style="background:white; padding:8px 10px; border-radius:6px; border:1px solid #fee2e2;">
+            <strong>7. NSAIDs（ロキソニン・ボルタレン等）：</strong><br>特に<strong>妊娠後期（28週以降）禁忌！</strong>動脈管早期閉鎖、新生児遷延性肺高血圧（PPHN）。
+          </div>
+          <div style="background:white; padding:8px 10px; border-radius:6px; border:1px solid #fee2e2;">
+            <strong>8. テトラサイクリン系（ミノマイシン等）：</strong><br>胎児骨発育不全、乳児歯牙黄染（永久歯着色・エナメル質低形成）。
+          </div>
+          <div style="background:white; padding:8px 10px; border-radius:6px; border:1px solid #fee2e2;">
+            <strong>9. ルビプロストン（アミティーザ）：</strong><br>プロスタグランジン様作用による子宮収縮、流早産リスク（禁忌）。
+          </div>
+          <div style="background:white; padding:8px 10px; border-radius:6px; border:1px solid #fee2e2;">
+            <strong>10. ニューキノロン系抗菌薬（クラビット等）：</strong><br>胎児の関節軟骨障害の懸念（有益性投与だが実質避ける）。
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 妊娠中の症状別 第一選択薬マトリクス表 -->
+      <div style="margin-bottom:25px;">
+        <h3 style="font-size:1.1rem; color:#0f172a; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+          <span>🛡️</span> <strong>3. 妊娠中の頻出疾患・症状別「第一選択薬 vs 避けるべき薬」完全対比表</strong>
+        </h3>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:0.85rem; background:white; border-radius:8px; overflow:hidden; border:1px solid #cbd5e1;">
+            <thead>
+              <tr style="background:#0f172a; color:white; text-align:left;">
+                <th style="padding:9px 10px; width:16%;">症状・疾患</th>
+                <th style="padding:9px 10px; width:26%;">妊娠中の第一選択薬（安全性が高い）</th>
+                <th style="padding:9px 10px; width:22%;">避けるべき禁忌・要注意薬</th>
+                <th style="padding:9px 10px; width:36%;">服薬指導・処方鑑査の勘所（Clinical Pearls）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:10px;"><strong>頭痛・発熱・疼痛</strong></td>
+                <td style="padding:10px;"><strong style="color:#0369a1;">アセトアミノフェン</strong><br>（カロナール 300〜500mg）</td>
+                <td style="padding:10px;"><strong style="color:#b91c1c;">NSAIDs全般</strong><br>（ロキソニン、イブ、ボルタレン等）</td>
+                <td style="padding:10px; font-size:0.82rem; color:#475569;">
+                  カロナールが全期間で安全な第一選択。NSAIDsは妊娠28週以降は<strong>動脈管早期閉鎖で完全禁忌</strong>！湿布薬（モーラステープ等）も大量貼付で胎児移行するため避ける。
+                </td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0; background:#fffbeb;">
+                <td style="padding:10px;"><strong>妊娠高血圧症候群</strong></td>
+                <td style="padding:10px;">
+                  <strong style="color:#b45309;">メチルドパ（アルドメット）</strong><br>
+                  <strong style="color:#b45309;">ラベタロール（トランデート）</strong><br>
+                  ヒドララジン（アプレゾリン）<br>
+                  ニフェジピン徐放（アダラートCR）
+                </td>
+                <td style="padding:10px;"><strong style="color:#b91c1c;">ACE阻害薬 / ARB / ARNI</strong><br>（レニベース、オルメテック、エンレスト等）</td>
+                <td style="padding:10px; font-size:0.82rem; color:#475569;">
+                  妊娠前からRAS阻害薬を飲んでいた女性が妊娠判明した場合は<strong>直ちにメチルドパやラベタロールへ切り替え疑義照会！</strong>アダラートCRは妊娠20週以降で使用可能。
+                </td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:10px;"><strong>糖尿病（妊娠糖尿病）</strong></td>
+                <td style="padding:10px;"><strong style="color:#15803d;">インスリン製剤 自己注射</strong><br>（ヒューマログ、ノボラピッド、ランタス等）</td>
+                <td style="padding:10px;"><strong style="color:#b91c1c;">経口血糖降下薬全般</strong><br>（メトホルミン、SU薬、SGLT2、DPP-4）</td>
+                <td style="padding:10px; font-size:0.82rem; color:#475569;">
+                  <strong>胎盤を通過しないインスリンが絶対標準</strong>。経口薬は胎児へ移行し重篤な胎児低血糖や奇形リスクがあるため妊娠中は原則不可。厳格な食前・食後血糖管理が胎児巨大化を防ぐ。
+                </td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0; background:#f0fdf4;">
+                <td style="padding:10px;"><strong>つわり・妊娠悪阻</strong></td>
+                <td style="padding:10px;">
+                  <strong style="color:#15803d;">小半夏加茯苓湯</strong>（ツムラ11）<br>
+                  <strong>ビタミンB6</strong>（ピリドキシン）<br>
+                  五苓散（ツムラ17：むくみ・水毒）<br>
+                  プリンペラン（メトクロプラミド）
+                </td>
+                <td style="padding:10px;">催奇形性懸念薬<br>自己判断での市販胃腸薬</td>
+                <td style="padding:10px; font-size:0.82rem; color:#475569;">
+                  <strong>小半夏加茯苓湯（しょうはんげかぶくりょうとう）</strong>がつわりの神処方！生姜と半夏が胃の逆流を抑え、茯苓が水分代謝を是正。ビタミンB6併用で吐き気が劇的改善。脱水時は点滴。
+                </td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:10px;"><strong>便秘症</strong></td>
+                <td style="padding:10px;">
+                  <strong style="color:#0369a1;">酸化マグネシウム（マグミット）</strong><br>
+                  <strong>ラクツロース（ラグノスNF）</strong>
+                </td>
+                <td style="padding:10px;"><strong style="color:#b91c1c;">アミティーザ（流早産禁忌）</strong><br>センナ・大黄（子宮収縮刺激）</td>
+                <td style="padding:10px; font-size:0.82rem; color:#475569;">
+                  腸管から吸収されない浸透圧性下剤が安全の基本。刺激性下剤（センノシド・大黄）は骨盤内充血・子宮収縮を誘発しやすいため頓用に限定。アミティーザ処方は直ちに差し止め。
+                </td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0; background:#f8fafc;">
+                <td style="padding:10px;"><strong>気管支喘息</strong></td>
+                <td style="padding:10px;">
+                  <strong style="color:#0369a1;">吸入ステロイド（ブデソニド等）</strong><br>
+                  発作時：メプチン / サルタノール吸入
+                </td>
+                <td style="padding:10px;">喘息の自己中断・放置<br>（胎児低酸素症のリスク！）</td>
+                <td style="padding:10px; font-size:0.82rem; color:#475569;">
+                  <span style="color:#b91c1c; font-weight:700;">「薬が怖いから吸入をやめる」妊婦への指導が最重要！</span>「お母さんが息苦しいと赤ちゃんは酸欠になります。吸入薬は肺局所に留まり胎児には届きません」と安心させる。
+                </td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:10px;"><strong>細菌感染症</strong></td>
+                <td style="padding:10px;">
+                  <strong style="color:#15803d;">ペニシリン系</strong>（サワシリン等）<br>
+                  <strong style="color:#15803d;">セフェム系</strong>（ケフラール等）<br>
+                  マクロライド系（ジスロマック等）
+                </td>
+                <td style="padding:10px;">
+                  <strong style="color:#b91c1c;">ニューキノロン系</strong>（関節軟骨障害）<br>
+                  <strong style="color:#b91c1c;">テトラサイクリン系</strong>（歯牙着色・骨）<br>
+                  アミノグリコシド（聴神経障害）
+                </td>
+                <td style="padding:10px; font-size:0.82rem; color:#475569;">
+                  細胞壁合成阻害のβ-ラクタム系（ペニシリン・セフェム）はヒト細胞に影響せず最も安全。クラミジアにはアジスロマイシン1g単回投与が第一選択。
+                </td>
+              </tr>
+              <tr style="background:#fff7ed;">
+                <td style="padding:10px;"><strong>アレルギー性鼻炎</strong></td>
+                <td style="padding:10px;">
+                  <strong>点鼻ステロイド</strong>（アラミスト等）<br>
+                  <strong>第2世代抗ヒスタミン内服：</strong><br>
+                  セチリジン、ロラタジン、フェキソフェナジン
+                </td>
+                <td style="padding:10px;">プソイドエフェドリン配合剤<br>（血管収縮による子宮血流低下）</td>
+                <td style="padding:10px; font-size:0.82rem; color:#475569;">
+                  局所点鼻が最も安全。内服する場合は世界的に安全データの蓄積が最も多い<strong>「B・L・F（ビラノアではなくジルテック・クラリチン・アレグラ）」</strong>を選択する。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4. 授乳中の薬物治療 ＆ 母乳移行性の科学 -->
+      <div style="background:white; border:1.5px solid #0284c7; border-radius:8px; padding:15px; margin-bottom:20px;">
+        <h3 style="font-size:1.05rem; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+          <span>🍼</span> <strong>4. 授乳中の母乳移行性の科学 ＆ 添付文書のウラ読み（脱・安易な断乳指導！）</strong>
+        </h3>
+        <p style="font-size:0.84rem; color:#475569; margin:0 0 10px 0; line-height:1.5;">
+          日本の添付文書の約7割には「授乳を避けさせること」と記載されていますが、これは製薬企業の法的な防衛記載であることが多く、<strong>最新の医学基準（成育医療研究センター・LactMed）ではほとんどの日常治療薬が授乳継続可能</strong>です。安易な断乳指導は乳腺炎や母子の精神的苦痛を招きます！
+        </p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:0.83rem; line-height:1.5;">
+          <div style="background:#f8fafc; border-left:3px solid #0284c7; padding:8px 10px; border-radius:0 6px 6px 0;">
+            <strong style="color:#0284c7;">📊 母乳移行性の国際基準「RID < 10%」：</strong><br>
+            RID（Relative Infant Dose：乳児相対摂取量）が<strong>10%未満であれば、原則として授乳を継続してよい（安全）</strong>と判断されます。カロナール、ロキソニン、抗生剤、抗アレルギー薬の多くはRID 1〜2%未満であり、乳児への影響は無視できるレベルです。
+          </div>
+          <div style="background:#f8fafc; border-left:3px solid #10b981; padding:8px 10px; border-radius:0 6px 6px 0;">
+            <strong style="color:#10b981;">⏰ 授乳と内服のタイミングの工夫：</strong><br>
+            少しでも乳児への移行を減らしたい場合、<strong>「授乳の直後に薬を飲む」</strong>のが黄金律！次の授乳時間（2〜3時間後）には母親の血中濃度ピークが過ぎているため、母乳中への移行量を最小限に抑えられます。
+          </div>
+          <div style="background:#f8fafc; border-left:3px solid #ef4444; padding:8px 10px; border-radius:0 6px 6px 0;">
+            <strong style="color:#b91c1c;">🚨 授乳中に「本当に避けるべき」絶対禁忌・高リスク薬：</strong><br>
+            ・<strong>コデイン・トラマドール：</strong>母親がCYP2D6超代謝能（UM）の場合、高濃度のモルヒネが母乳へ移行し<strong>乳児が呼吸停止・死亡</strong>した事例あり（FDA警告・禁忌）。<br>
+            ・<strong>ヨード製剤（イソジンうがい連用等）：</strong>母乳中にヨウ素が濃縮移行し、乳児の甲状腺機能低下症を招く。<br>
+            ・<strong>抗がん薬・免疫抑制薬：</strong>細胞毒性のため禁忌。
+          </div>
+        </div>
+      </div>
+
+      <!-- 先輩からの現場の勘所 -->
+      <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:12px 14px; font-size:0.84rem; line-height:1.5; color:#1e3a8a;">
+        💡 <strong>先輩薬剤師からの Clinical Pearls（相談対応の極意）：</strong><br>
+        「妊娠に気づかず薬を飲んでしまった」と青ざめて来局された患者さんには、まず<strong>「妊娠週数を正確に確認」</strong>します。受胎後2週間（妊娠3週末まで）なら「All or Noneの法則」で奇形リスクはゼロであることを説明し、不安でパニックになっているお母さんの心を優しく受け止めるのが薬剤師の最高の職能です。
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       ⑦ 疾患別・症状別「実戦生活指導・非薬物療法」完全マニュアル
+       ========================================== -->
+  <div class="topic-sec sec-lifestyle" style="display:none;">
+    <div class="sec-head" style="border-color: #059669;">
+      <h2 class="sec-title" style="color: #059669;">🥗 ⑦ 薬局・病棟で患者にそのまま話せる！疾患別「実戦生活指導」完全マニュアル（全15大領域）</h2>
+      <span class="sec-sub">薬を渡すだけでなく「患者が今日から即実践できる」食事・運動・入浴・睡眠・禁忌行動の指導カンペ集</span>
+    </div>
+
+    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:12px 16px; margin-bottom:16px; font-size:0.86rem; color:#166534; line-height:1.55;">
+      💡 <strong>生活習慣指導の極意：</strong>「塩分を控えてください」「運動してください」という抽象的な禁止令は患者の耳に届きません。<strong>「ラーメンのスープを残すだけで3g減塩」「食後30分〜1時間の散歩が一番効く」「左を下にして寝ると胃酸が上がらない」</strong>など、具体的でポジティブな行動提案を行うのがプロ薬剤師の腕の見せ所です。
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:16px;">
+
+      <!-- 1. 高血圧症 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #ef4444; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#b91c1c; font-size:1.05rem; font-weight:800; margin:0 0 8px;">🫀 1. 高血圧症の生活指導（減塩・DASH食・入浴）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>減塩のリアルな実践法（目標：6g/日未満）：</strong><br>
+            ・麺類のスープを全部残すだけで<strong>約3gの減塩</strong>！<br>
+            ・醤油やソースは「かける」のではなく<strong>「小皿につけて食べる」</strong>。<br>
+            ・レモン、すだち、酢の酸味や、カレー粉、一味、出汁（昆布・かつお）を効かせると塩分が少なくても旨味で満足できる。</li>
+          <li><strong>DASH食（カリウム・食物繊維）：</strong>野菜、海藻、大豆、バナナ（カリウムが余分なNaを尿へ排出）。※腎機能低下・CKD合併時は高K血症に注意。</li>
+          <li><strong>家庭血圧測定の黄金ルール：</strong>「朝起床後1時間以内・排尿後・朝食前・服薬前」に、椅子に座って1〜2分安静にして測定（原則2回測って平均）。</li>
+          <li><strong>冬のヒートショック防止：</strong>脱衣所やトイレを小型ヒーターで温める。湯温は40℃以下、長湯しない。急激な温度差が脳出血・心筋梗塞の引き金。</li>
+        </ul>
+        <div style="background:#fef2f2; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#991b1b;">
+          💬 <strong>キラーフレーズ：</strong>「まず汁物を1日1杯までにすることと、麺類のスープを残すことから始めてみませんか？それだけで減塩目標の半分が達成できますよ！」
+        </div>
+      </div>
+
+      <!-- 2. 2型糖尿病 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #f59e0b; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#b45309; font-size:1.05rem; font-weight:800; margin:0 0 8px;">🍬 2. 2型糖尿病の生活指導（ベジファースト・運動・間食）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>ベジタブルファースト（食べる順番）：</strong><br>
+            <strong>① 野菜・海藻・キノコ（食物繊維） ➔ ② 肉・魚・卵（タンパク質・脂質） ➔ ③ ご飯・パン・麺（炭水化物）</strong>の順で食べる。小腸での糖吸収が遅延し、食後血糖スパイクを劇的に抑える。</li>
+          <li><strong>食後運動のゴールデンタイム：</strong><br>
+            食前ではなく<strong>「食後30分〜1時間後」</strong>に運動するのがベスト！食後血糖がピークに達するタイミングで筋肉を動かすと、インスリンなしでGLUT4が糖を細胞内に取り込む（ウォーキング15〜20分でOK）。</li>
+          <li><strong>間食・おやつのルール：</strong>1日200kcal以内。空腹時や寝る前の間食は厳禁。どうしても食べたいなら無塩ナッツや高カカオチョコ（70%以上）を選択。</li>
+          <li><strong>フットケア：</strong>毎日足の裏・指の間を観察。深爪・靴擦れ・タコを放置すると閉塞性動脈硬化症と重なって糖尿病性足壊疽・切断に至るため絶対に放置しない。</li>
+        </ul>
+        <div style="background:#fffbeb; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#92400e;">
+          💬 <strong>キラーフレーズ：</strong>「ご飯を食べる前に、まず小鉢の野菜をゆっくりよく噛んで食べる。これだけで食後の血糖値の跳ね上がりが全然違ってきますよ！」
+        </div>
+      </div>
+
+      <!-- 3. 脂質異常症 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #0284c7; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#0369a1; font-size:1.05rem; font-weight:800; margin:0 0 8px;">🧪 3. 脂質異常症の生活指導（コレステロール vs 中性脂肪）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>高LDLコレステロール（悪玉）の食事対策：</strong><br>
+            ・最大の敵はコレステロールそのものより<strong>「飽和脂肪酸（動物性脂身、バター、ラード、洋菓子、パーム油）」</strong>！<br>
+            ・水溶性食物繊維（大麦、海藻、納豆、オクラ）が小腸で胆汁酸を吸着・排泄し、肝臓のコレステロール消費を促す。</li>
+          <li><strong>高中性脂肪（TG）の食事対策：</strong><br>
+            ・<strong style="color:#b91c1c;">中性脂肪の主犯は「油」ではなく「糖質とアルコール」！</strong><br>
+            ・ご飯の大盛り、ラーメン大盛り、菓子パン、甘い清涼飲料水、果物の食べ過ぎ（果糖は肝臓で直ちに中性脂肪へ変換）を控える。<br>
+            ・青魚（サバ・サンマ・イワシ）のEPA/DHAは中性脂肪合成を抑制。</li>
+        </ul>
+        <div style="background:#eff6ff; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#1e40af;">
+          💬 <strong>キラーフレーズ：</strong>「中性脂肪が高いと言われたら、揚げ物を減らすよりも、まず夜の炭水化物・甘いジュース・お酒を控えるのが一番の近道です！」
+        </div>
+      </div>
+
+      <!-- 4. 慢性心不全 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #dc2626; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#991b1b; font-size:1.05rem; font-weight:800; margin:0 0 8px;">❤️ 4. 慢性心不全の生活指導（毎朝の体重・水分・入浴）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>毎朝の体重測定（最も命を救う指導！）：</strong><br>
+            ・「毎朝、排尿後・朝食前」に体重を測り記録する。<br>
+            ・🚨 <strong style="color:#b91c1c;">「3日間で2kg以上増えたら、脂肪ではなく水（体液うっ滞）！」</strong>息切れが出る前に即座にかかりつけ医へ連絡させる。</li>
+          <li><strong>塩分・水分管理：</strong>塩分は1日3〜6g未満。水分は「喉が渇くから飲む」ではなく医師指示量を厳守。夏場でもガブ飲み厳禁。</li>
+          <li><strong>安全な入浴法：</strong>湯温は40℃以下。肩まで浸からず<strong>「みぞおちまでの半身浴」</strong>（水圧で心臓への静脈還流が増えて心不全が悪化するのを防ぐ）。入浴時間は10分以内。</li>
+          <li><strong>ワクチン接種：</strong>インフルエンザ・肺炎球菌ワクチン接種を徹底（風邪・肺炎が心不全急性増悪の最大の引き金）。</li>
+        </ul>
+        <div style="background:#fef2f2; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#991b1b;">
+          💬 <strong>キラーフレーズ：</strong>「心不全では体重計が最大の命綱です。3日で2kg増えたら心臓が悲鳴をあげているサインですので、息苦しくなる前にすぐ病院へ電話してくださいね。」
+        </div>
+      </div>
+
+      <!-- 5. 胃食道逆流症（GERD） -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #10b981; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#047857; font-size:1.05rem; font-weight:800; margin:0 0 8px;">🔥 5. 逆流性食道炎（GERD）の生活指導（食後姿勢・睡眠・腹圧）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>食後すぐに横にならない：</strong>食後2〜3時間は胃の中に食べたものと胃酸が充満。座位または立位を保つ。どうしても横になるならソファーで上体を起こす。</li>
+          <li><strong>就寝時の工夫（左側臥位 ＆ 頭部拳上）：</strong><br>
+            ・<strong>「左を下にして横になる（左側臥位）」</strong>と、胃の構造（大弯が下になる）上、胃酸が食道へ逆流しにくい！<br>
+            ・枕を高くするだけでなく、背中から緩やかに上体を15〜20cm高くする傾斜をつける。</li>
+          <li><strong>下部食道括約筋（LES）を緩める食品を避ける：</strong>高脂肪食（天ぷら・肉）、チョコレート、コーヒー、アルコール、柑橘類、炭酸水、ミント。</li>
+          <li><strong>腹圧を上げない：</strong>ベルト・帯・ガードルをきつく締めない。前屈み姿勢や重いものを持ち上げる動作を避ける。肥満（内臓脂肪）の解消。</li>
+        </ul>
+        <div style="background:#ecfdf5; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#065f46;">
+          💬 <strong>キラーフレーズ：</strong>「夜寝るときに胸焼けや咳が出る方は、左側を下にして寝てみてください。胃のカーブの向きのおかげで胃酸が逆流しにくくなりますよ！」
+        </div>
+      </div>
+
+      <!-- 6. 高尿酸血症・痛風 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #8b5cf6; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#6d28d9; font-size:1.05rem; font-weight:800; margin:0 0 8px;">🦶 6. 痛風・高尿酸血症の生活指導（アルコール・水分・尿アルカリ化）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>アルコールのウラ真実：</strong><br>
+            ・「プリン体ゼロビールだから安心」は大間違い！<br>
+            ・<strong>アルコールそのものが分解される過程でATPが消費され尿酸が産生され、さらに乳酸が腎臓からの尿酸排泄を強力に阻害する！</strong>種類に関わらず総飲酒量を減らす。</li>
+          <li><strong>水分摂取の徹底（1日2L以上）：</strong>尿量を増やすことで尿酸をどんどん体外へ洗い流す（※心不全・腎不全合併時は医師指示優先）。甘い清涼飲料水（果糖）は尿酸を上げるため水かお茶。</li>
+          <li><strong>プリン体の多い食品：</strong>レバー、白子、干物（アジ・イワシ）、カツオ、エビ。1日400mg以内。</li>
+          <li><strong>尿アルカリ化：</strong>海藻（ひじき・わかめ）、野菜の摂取で酸性尿を改善し尿路結石を防ぐ。</li>
+        </ul>
+        <div style="background:#f5f3ff; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#5b21b6;">
+          💬 <strong>キラーフレーズ：</strong>「プリン体カットのお酒でも、アルコール自体が体の中で尿酸を増やしてしまうんです。まずは週に2日、休肝日を作ってみませんか？」
+        </div>
+      </div>
+
+      <!-- 7. 骨粗鬆症 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #059669; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#047857; font-size:1.05rem; font-weight:800; margin:0 0 8px;">🦴 7. 骨粗鬆症の生活指導（骨栄養トリオ・日光浴・転倒予防）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>骨を作る「栄養の黄金トリオ」：</strong><br>
+            ・<strong>カルシウム（1日700〜800mg）：</strong>乳製品、小魚、小松菜、豆腐。<br>
+            ・<strong>ビタミンD（吸収促進）：</strong>鮭、サンマ、しいたけ、きくらげ。<br>
+            ・<strong>ビタミンK（骨沈着）：</strong>納豆、モロヘイヤ、ブロッコリー（※ワーファリン服用時は納豆禁忌）。</li>
+          <li><strong>日光浴（ビタミンD合成）：</strong>皮膚でビタミンDを作るため、木陰や日傘でも夏は30分、冬は1時間程度外に出る。手や顔に少し日光を当てるだけで十分。</li>
+          <li><strong>骨に刺激を与える運動：</strong>骨は衝撃（重力負荷）を受けると強くなる。ウォーキング、かかと落とし運動、片足立ち。</li>
+          <li><strong>転倒予防（生活環境改善）：</strong>カーペットのめくれ・電気コードの整理、スリッパではなく踵のある靴、夜間の足元灯、風呂場・トイレの手すり。</li>
+        </ul>
+        <div style="background:#ecfdf5; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#065f46;">
+          💬 <strong>キラーフレーズ：</strong>「骨はお薬だけでなく『食事＋日光＋適度な刺激』の3つが揃って初めて強くなります。お散歩のついでに日光を浴びて骨を鍛えましょう！」
+        </div>
+      </div>
+
+      <!-- 8. 便秘症 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #d97706; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#b45309; font-size:1.05rem; font-weight:800; margin:0 0 8px;">💩 8. 便秘症の生活指導（水溶性繊維・排便姿勢・朝の習慣）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>朝起きたらコップ1杯の水：</strong>胃に重みが加わることで「胃・結腸反射」がスイッチオンになり、大腸が大きく動いて便意が促される。</li>
+          <li><strong>朝食を抜かない：</strong>腸管を動かす最強の刺激は朝食。バナナやヨーグルトだけでも口にする。</li>
+          <li><strong>水溶性食物繊維 vs 不溶性食物繊維の使い分け：</strong><br>
+            ・<strong>水溶性（便をやわらかくする）：</strong>海藻、大麦、納豆、オクラ、長芋。コロコロ便・痙攣性便秘にはこちらを増やす！<br>
+            ・<strong>不溶性（便のカサを増やす）：</strong>ごぼう、玄米、豆類。※痙攣性便秘で摂りすぎるとお腹が張って激痛悪化するので注意。</li>
+          <li><strong>排便姿勢「ロダンの考える人ポーズ」：</strong>前かがみになり、足元に15〜20cmの踏み台を置く。直腸と肛門が一直線になり、力まなくてもスルッと出る！</li>
+        </ul>
+        <div style="background:#fffbeb; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#92400e;">
+          💬 <strong>キラーフレーズ：</strong>「便座に座ったら少し前かがみになって、足元にお風呂の椅子や台を置いて足を乗せてみてください。肛門の角度がまっすぐになって楽に出ますよ！」
+        </div>
+      </div>
+
+      <!-- 9. 不眠症 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #6366f1; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#4338ca; font-size:1.05rem; font-weight:800; margin:0 0 8px;">🌙 9. 不眠症の生活指導（睡眠衛生・光・入浴タイミング）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>朝起きたらカーテンを開けて朝日を浴びる：</strong>目から入る光で体内時計がリセットされ、<strong>約14〜16時間後に眠気ホルモン「メラトニン」が分泌</strong>される。</li>
+          <li><strong>入浴は「就寝90分前」に40℃のぬるま湯：</strong>お風呂で上がった深部体温が、約90分かけて下がっていくタイミングで最も強力な自然な眠気が誘発される。</li>
+          <li><strong>就寝前のブルーライト遮断：</strong>スマホ・PC・テレビの光は脳に「昼だ」と誤認させメラトニン分泌をストップさせる。寝床へのスマホ持ち込み禁止。</li>
+          <li><strong>寝酒（アルコール）の完全禁止：</strong>お酒は寝つきを良くするが、アルコールが抜ける夜中に覚醒し<strong>浅い睡眠・早朝覚醒・利尿による中途覚醒</strong>の元凶になる！</li>
+          <li><strong>「眠れないならベッドから出る」：</strong>眠れないままベッドで悶々としていると、脳が「ベッド＝眠れなくて苦しい場所」と記憶してしまう。薄暗い部屋で本を読むなどして眠気が来るまで待つ。</li>
+        </ul>
+        <div style="background:#f5f3ff; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#5b21b6;">
+          💬 <strong>キラーフレーズ：</strong>「眠れない時は無理にベッドに入っていなくて大丈夫です。一度起きて薄暗い部屋でリラックスし、眠くなったらベッドに戻りましょう。」
+        </div>
+      </div>
+
+      <!-- 10. 片頭痛 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #ec4899; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#be185d; font-size:1.05rem; font-weight:800; margin:0 0 8px;">💆 10. 片頭痛の生活指導（誘発因子回避・冷やす・寝だめ禁止）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>「休日の寝だめ」を避ける：</strong>寝不足だけでなく、<strong>寝過ぎ（血管弛緩）も激しい片頭痛の引き金</strong>！休日も平日と同じ時刻に起きる。</li>
+          <li><strong>空腹を避ける：</strong>低血糖は片頭痛の強力な誘発因子。朝食を抜かない、食事間隔を空けすぎない。</li>
+          <li><strong>誘発食品（チラミン・亜硝酸塩）：</strong>赤ワイン、熟成チーズ、チョコレート、ハム・サラミ（防腐剤）、人工甘味料。</li>
+          <li><strong>発作時の対処「暗い静かな部屋で冷やす」：</strong>入浴、マッサージ、運動は血管を広げて悪化させるため絶対厳禁！冷却シートや氷枕で痛む血管を冷やす。</li>
+        </ul>
+        <div style="background:#fdf2f8; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#9d174d;">
+          💬 <strong>キラーフレーズ：</strong>「片頭痛の時はお風呂に入ったり肩をもんだりすると血管が広がって悪化します。痛い場所を冷やして、暗い静かな部屋で安静にしてくださいね。」
+        </div>
+      </div>
+
+      <!-- 11. 気管支喘息 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #14b8a6; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#0f766e; font-size:1.05rem; font-weight:800; margin:0 0 8px;">🫁 11. 気管支喘息の生活指導（アレルゲン・冷気マスク・気圧）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>ダニ・ハウスダスト対策：</strong>寝具に防ダニシーツ、週1回以上の布団掃除機がけ。ぬいぐるみ・布製カーペットを避ける。</li>
+          <li><strong>冷気吸入防止（冬のマスク）：</strong>冬の朝の冷たく乾燥した空気は気道平滑筋を直接刺激して発作を起こす。外出時はマスクを着用して吸気を加温・加湿する。</li>
+          <li><strong>受動喫煙も含めた完全禁煙：</strong>タバコの煙は気道粘膜の線毛運動を麻痺させ気道炎症を直撃。家族の喫煙も厳禁。</li>
+          <li><strong>気圧・天候変化（台風・低気圧）：</strong>低気圧の接近時や寒暖差の激しい季節の変わり目は発作が増加。症状がなくても吸入ステロイドを絶対にサボらない。</li>
+        </ul>
+        <div style="background:#f0fdfa; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#115e59;">
+          💬 <strong>キラーフレーズ：</strong>「冬の冷たい空気はそれだけで発作の引き金になります。外出時はマスクをするだけで吸い込む空気が温まって予防になりますよ！」
+        </div>
+      </div>
+
+      <!-- 12. アトピー性皮膚炎・皮膚乾燥 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #f43f5e; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#be123c; font-size:1.05rem; font-weight:800; margin:0 0 8px;">🧴 12. アトピー・皮膚乾燥の生活指導（入浴後5分以内・洗い方）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>入浴後「5分以内」の保湿剤塗布：</strong>お風呂上がりは角層が水分を含んでいるが、10分を過ぎると入浴前より乾燥する。水分が残っているうちにヒルドイドやプロペトでフタをする。</li>
+          <li><strong>身体の洗い方「手で泡洗い」：</strong>ナイロンタオルでゴシゴシこすると角質バリアが全滅する！石鹸・ボディソープをたっぷり泡立て、手のひらで優しく洗う。</li>
+          <li><strong>お湯の温度は40℃以下：</strong>熱いお湯は皮脂を奪い、かゆみ受容体（C線維）を直接刺激して痒みを悪化させる。長湯を避ける。</li>
+          <li><strong>衣類の素材：</strong>直接肌に触れる下着は綿100%推奨。ウール、化繊（ヒートテック等）は刺激やかゆみの原因になりやすい。</li>
+        </ul>
+        <div style="background:#fff1f2; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#9f1239;">
+          💬 <strong>キラーフレーズ：</strong>「保湿剤はお風呂から上がったら脱衣所で5分以内に塗りましょう！肌に潤いが残っているうちに塗るのが一番効きますよ。」
+        </div>
+      </div>
+
+      <!-- 13. 小児の服薬・発熱 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #3b82f6; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#1d4ed8; font-size:1.05rem; font-weight:800; margin:0 0 8px;">👶 13. 小児の服薬・発熱時の生活指導（飲ませ方・クーリング）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>抗生剤（クラリス等）を酸味飲料に混ぜない！：</strong><br>
+            クラリスやエリスロマイシンはコーティング粒。<strong>ヨーグルト、スポーツドリンク、オレンジジュースなどの酸性食品に混ぜるとコーティングが溶けて地獄の激苦</strong>になる！<br>
+            👉 チョコアイス、練乳、服薬ゼリー（チョコ味）がベスト相性。</li>
+          <li><strong>解熱薬（カロナール）を使う基準：</strong><br>
+            「38.5℃以上」という数字だけで使わない。<strong>「機嫌が悪くて眠れない」「ぐったりして水分が摂れない」時に使って楽にさせる</strong>のが目的。元気で眠れているなら無理に解熱させない。</li>
+          <li><strong>効果的なクーリング部位：</strong><br>
+            おでこに冷えピタを貼っても脳の温度や体温は下がらない（気持ちいいだけ）。<strong>太い血管が通る「首の両脇」「脇の下」「太ももの付け根（鼠径部）」</strong>を冷やす。</li>
+        </ul>
+        <div style="background:#eff6ff; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#1e40af;">
+          💬 <strong>キラーフレーズ：</strong>「熱の数字に驚かなくて大丈夫です。水分が飲めて眠れているなら解熱薬は不要ですし、ぐったりして辛そうなら使って休ませてあげましょう。」
+        </div>
+      </div>
+
+      <!-- 14. 慢性腎臓病（CKD） -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #64748b; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#334155; font-size:1.05rem; font-weight:800; margin:0 0 8px;">🧪 14. 慢性腎臓病（CKD）の生活指導（減塩・K管理・脱水AKI防止）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>徹底した減塩（3〜6g/日未満）：</strong>腎臓の糸球体内圧を下げ、蛋白尿の漏出を止める最強の非薬物療法。</li>
+          <li><strong>カリウム制限の工夫（ステージG3b〜G5）：</strong>野菜は小さく切って<strong>「水にさらす」または「茹でこぼす」</strong>ことでカリウムが水に溶け出し30〜50%減らせる。バナナ、メロン、キウイ、ドライフルーツ、野菜ジュース・青汁を控える。</li>
+          <li><strong>脱水による急性増悪（AKI on CKD）の警戒：</strong>RAS阻害薬やSGLT2阻害薬、利尿薬を飲んでいる患者が、夏場の脱水や胃腸炎下痢で脱水になると腎血流が途絶して透析導入リスク。夏場の適切な水分補給。</li>
+          <li><strong>市販鎮痛薬（ロキソニン等）の勝手な連用禁止：</strong>腰痛などで市販NSAIDsを乱用すると一発で腎不全が悪化する。アセトアミノフェンへの変更を指導。</li>
+        </ul>
+        <div style="background:#f8fafc; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#475569;">
+          💬 <strong>キラーフレーズ：</strong>「生野菜は一度お湯でサッと茹でてから食べると、カリウムだけをお湯に逃がして美味しく召し上がれますよ！」
+        </div>
+      </div>
+
+      <!-- 15. 禁煙・節酒 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #475569; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+        <h3 style="color:#1e293b; font-size:1.05rem; font-weight:800; margin:0 0 8px;">🚭 15. 禁煙 ＆ 節酒の生活指導（ニコチン離脱対策・適正飲酒）</h3>
+        <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#334155; line-height:1.6;">
+          <li><strong>吸いたくなった時の「魔の3分間」の乗り切り方：</strong><br>
+            ニコチンの強い渇望は通常3〜5分で波が引く。冷水を一気飲みする、氷を口に含む、深呼吸を5回繰り返す、歯を磨く、ガムを噛むなど「代償行動」で気を紛らわせる。</li>
+          <li><strong>喫煙環境・行動パターンの遮断：</strong>灰皿・ライターを全破棄。食後の一服の習慣をなくすため食後すぐに席を立って歯磨き。喫煙所やタバコ自販機に近づかない。</li>
+          <li><strong>適正飲酒量（純アルコール20g/日）：</strong>ビール中瓶1本（500mL）、日本酒1合、チュウハイ（7%）350mL缶1本、ワイン2杯（200mL）。女性や高齢者はこの半分。</li>
+          <li><strong>週に2日以上の休肝日：</strong>肝臓の脂肪蓄積を防ぐため、連続して2日以上の禁酒日を設ける。</li>
+        </ul>
+        <div style="background:#f1f5f9; padding:6px 10px; border-radius:6px; margin-top:10px; font-size:0.78rem; color:#334155;">
+          💬 <strong>キラーフレーズ：</strong>「タバコを吸いたい衝動は、実は3分間我慢するとスッと引いていきます。吸いたくなったら冷たいお水をゴクッと飲んで深呼吸してみましょう！」
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  
+  <!-- ==========================================
+       6. 頻出漢方薬 ＆ 婦人科三大処方（気血水・虚実）完全鑑別マスター
+       ========================================== -->
+  <div class="topic-sec sec-kampo" id="sec-kampo" style="margin-top:25px;">
+    <div class="sec-head" style="border-color: #059669;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <span class="badge" style="background:#059669; color:white;">Kampo Medicine Intelligence</span>
+          <h2 class="sec-title" style="color: #065f46; font-size:1.35rem; font-weight:800; margin-top:4px;">
+            🌿 ⑥ 頻出漢方薬 ＆ 婦人科三大処方・気血水・証の使い分けマスター
+          </h2>
+        </div>
+        <div>
+          <button onclick="switchTab('tab-comparison'); setTimeout(()=>{filterCompSec('sec-kampo-women', null); document.getElementById('sec-kampo-women')?.scrollIntoView({behavior:'smooth'});}, 100);" style="padding:6px 12px; background:#fdf2f8; color:#9d174d; border:1px solid #f472b6; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+            🌸 同効薬比較タブ「漢方婦人薬ガチンコ比較」へ飛ぶ ➔
+          </button>
+        </div>
+      </div>
+      <span class="sec-sub" style="color: #059669;">当帰芍薬散・加味逍遙散・桂枝茯苓丸の婦人科三大処方から、芍薬甘草湯・麦門冬湯・補中益気湯・抑肝散・大建中湯まで！気血水・甘草重複を完全鑑別</span>
+    </div>
+
+    <!-- 婦人科三大処方 比較カード -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(310px, 1fr)); gap:14px; margin-bottom:18px;">
+      
+      <!-- 当帰芍薬散 -->
+      <div style="background:white; border-left:5px solid #3b82f6; border-radius:8px; padding:14px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h4 style="margin:0; font-size:1.02rem; color:#1e40af; font-weight:800;">🌸 23. 当帰芍薬散</h4>
+          <span style="font-size:0.75rem; background:#dbeafe; color:#1e40af; padding:2px 8px; border-radius:4px; font-weight:700;">虚証・強い冷え</span>
+        </div>
+        <div style="font-size:0.84rem; font-weight:800; color:#2563eb; margin:6px 0 2px 0;">
+          【血虚 ＋ 水滞】 血を補い、余分な水を出す
+        </div>
+        <ul style="margin:4px 0 0 0; padding-left:18px; font-size:0.8rem; color:#334155; line-height:1.55;">
+          <li><strong>典型像：</strong>色白・やせ型・貧血気味。足腰が冷え、夕方に下肢がむくむ。</li>
+          <li><strong>鑑査の急所：</strong><strong style="color:#059669;">地黄なし！</strong>（胃もたれしにくく胃弱でも安心）。甘草なし。大黄なし。</li>
+          <li><strong>服薬指導：</strong>「体を芯から温めて血を補い、余分な水分を尿として出してむくみを取るお薬です」</li>
+          <li><strong>安全性の強み：</strong>古来からの<strong>「安胎薬」</strong>として、妊娠中の流産予防・妊娠中毒症にも広く安全に使用可能。</li>
+        </ul>
+      </div>
+
+      <!-- 加味逍遙散 -->
+      <div style="background:white; border-left:5px solid #db2777; border-radius:8px; padding:14px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h4 style="margin:0; font-size:1.02rem; color:#9d174d; font-weight:800;">🌸 24. 加味逍遙散</h4>
+          <span style="font-size:0.75rem; background:#fce7f3; color:#9d174d; padding:2px 8px; border-radius:4px; font-weight:700;">虚〜中間証・冷えのぼせ</span>
+        </div>
+        <div style="font-size:0.84rem; font-weight:800; color:#db2777; margin:6px 0 2px 0;">
+          【気鬱 ＋ 気逆 ＋ 瘀血】 上熱下寒・更年期の第一選択
+        </div>
+        <ul style="margin:4px 0 0 0; padding-left:18px; font-size:0.8rem; color:#334155; line-height:1.55;">
+          <li><strong>典型像：</strong>イライラ、怒りっぽい、不安、不眠、ホットフラッシュ、肩こり、頭痛。</li>
+          <li><strong>鑑査の急所：</strong>牡丹皮・山梔子（熱を冷ます）＋柴胡・薄荷（気を通す）。<strong style="color:#b45309;">甘草1.5g含有</strong>。</li>
+          <li><strong>服薬指導：</strong>「『カッカとのぼせてイライラするのに足元は冷える』という更年期の心と体のゆらぎを穏やかに整えます」</li>
+          <li><strong>使い分け：</strong>精神神経症状（感情の波、不定愁訴）が前景に出ている時の絶対的エース。</li>
+        </ul>
+      </div>
+
+      <!-- 桂枝茯苓丸 -->
+      <div style="background:white; border-left:5px solid #ef4444; border-radius:8px; padding:14px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h4 style="margin:0; font-size:1.02rem; color:#991b1b; font-weight:800;">🌸 25. 桂枝茯苓丸</h4>
+          <span style="font-size:0.75rem; background:#fee2e2; color:#991b1b; padding:2px 8px; border-radius:4px; font-weight:700;">実〜中間証・のぼせ熱</span>
+        </div>
+        <div style="font-size:0.84rem; font-weight:800; color:#dc2626; margin:6px 0 2px 0;">
+          【瘀血（血行不良）】 ドロドロ血を一掃する駆瘀血剤
+        </div>
+        <ul style="margin:4px 0 0 0; padding-left:18px; font-size:0.8rem; color:#334155; line-height:1.55;">
+          <li><strong>典型像：</strong>体格しっかり、赤ら顔。下腹部痛（圧痛）、激しい生理痛、子宮筋腫、肩こり、頭重、しみ。</li>
+          <li><strong>鑑査の急所：</strong>桃仁＋牡丹皮（最強駆瘀血）。<strong style="color:#059669;">甘草なし！</strong>（他漢方と併用しやすい）。大黄なし。</li>
+          <li><strong>服薬指導：</strong>「血の巡りの悪さ（瘀血）を改善し、頑固な生理痛や肩こり、のぼせを根本から散らすお薬です」</li>
+          <li><strong>ポイント：</strong>左下腹部などを押した時に抵抗・圧痛（小腹急結）がある患者に著効。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- その他頻出処方（桃核承気湯・温経湯・温清飲・芎帰膠艾湯・女神散）クイックチートシート -->
+    <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px 16px; margin-bottom:18px;">
+      <h4 style="margin:0 0 10px 0; font-size:0.95rem; color:#0f172a; font-weight:800;">
+        📑 迷ったらここを見る！「頻出婦人薬 5処方の決定打」
+      </h4>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:10px; font-size:0.8rem;">
+        <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; padding:8px 12px;">
+          <strong style="color:#881337;">61. 桃核承気湯：</strong>
+          <span style="color:#b91c1c; font-weight:700;">【便秘 ＋ 激しいのぼせ・狂躁】</span> 実証・体力充実。大黄・芒硝配合。<strong style="color:#dc2626;">※妊婦絶対禁忌！</strong>
+        </div>
+        <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; padding:8px 12px;">
+          <strong style="color:#92400e;">106. 温経湯：</strong>
+          <span style="color:#b45309; font-weight:700;">【高度虚証 ＋ カサカサ乾燥 ＋ 手足ほてり】</span> 阿膠・麦門冬で潤し、呉茱萸で温める。不妊症・月経不順・しもやけ。
+        </div>
+        <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; padding:8px 12px;">
+          <strong style="color:#166534;">57. 温清飲：</strong>
+          <span style="color:#15803d; font-weight:700;">【四物湯 ＋ 黄連解毒湯】</span> 皮膚が赤く熱を持って痒い湿疹・アトピー・更年期のイライラ。地黄による胃もたれ注意。
+        </div>
+        <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; padding:8px 12px;">
+          <strong style="color:#0369a1;">77. 芎帰膠艾湯：</strong>
+          <span style="color:#0284c7; font-weight:700;">【漢方の止血剤 ＋ 阿膠・艾葉】</span> 不正性器出血・過多月経・痔出血・切迫流産。<strong style="color:#dc2626;">※甘草3g大量含有注意！</strong>
+        </div>
+        <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; padding:8px 12px;">
+          <strong style="color:#6d28d9;">67. 女神散：</strong>
+          <span style="color:#7c3aed; font-weight:700;">【血の道症 ＋ 激しいめまい・動悸・のぼせ】</span> 13生薬の芳香理気。加味逍遙散でめまい・動悸が残る時の切り札。
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  </div><!-- /.special-container -->
+</div><!-- /#tab-special -->

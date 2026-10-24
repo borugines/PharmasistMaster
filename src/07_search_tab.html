@@ -1,0 +1,665 @@
+<!-- ホーム＆全薬剤検索ダッシュボード タブペイン -->
+<div id="tab-search" class="tab-pane active">
+  
+  <!-- 選択された薬剤のクイック表示カード（検索結果がここに展開） -->
+  <div id="drug-detail-display" style="display:none; margin-bottom:24px;">
+    <div style="background:white; border:2px solid var(--accent); border-radius:12px; padding:20px; box-shadow:0 10px 25px -5px rgba(0,0,0,0.1);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; border-bottom:2px solid #f1f5f9; padding-bottom:10px;">
+        <div>
+          <span id="detail-badge" class="suggest-tag" style="font-size:0.85rem; padding:3px 10px;">分類名</span>
+          <h2 id="detail-brand-name" style="font-size:1.6rem; color:var(--primary); margin-top:6px; font-weight:800;">先発医薬品名</h2>
+          <div id="detail-generic-name" style="font-size:0.95rem; color:var(--text-muted); font-weight:600;">一般名（成分名）</div>
+        </div>
+        <button onclick="closeDrugDetail()" style="background:#f1f5f9; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:700; color:#64748b;">✕ 閉じる</button>
+      </div>
+
+      <div class="grid-2col" style="margin-bottom:12px;">
+        <div class="section-box">
+          <h3 style="color:#0284c7; font-size:1rem; margin-bottom:6px;">🎯 主な適応と作用機序</h3>
+          <p id="detail-indication" style="font-size:0.92rem; line-height:1.55; margin:0;"></p>
+        </div>
+        <div class="offlabel-box" style="margin-bottom:0;">
+          <h3 style="font-size:1rem; margin-bottom:6px;">🕵️‍♂️ 処方箋のウラ読み・リアルな処方意図</h3>
+          <p id="detail-offlabel" style="font-size:0.92rem; line-height:1.55; margin:0;"></p>
+        </div>
+      </div>
+
+      <div class="pearl-box" style="margin-bottom:14px;">
+        <h3 style="font-size:1rem; margin-bottom:6px;">💡 現場の勘所（監査・相互作用・禁忌・Clinical Pearls）</h3>
+        <p id="detail-pearl" style="font-size:0.92rem; line-height:1.55; margin:0;"></p>
+      </div>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button id="detail-jump-disease-btn" class="header-print-btn" style="background:#059669; font-weight:800; box-shadow:0 2px 4px rgba(5,150,105,0.3);" onclick="">🩺 処方鑑別 ＆ 症状・薬剤確認を見る</button>
+        <button id="detail-jump-guide-btn" class="header-print-btn" style="background:var(--accent);" onclick="">📖 疾患ガイドで詳しく見る</button>
+        <button id="detail-jump-comp-btn" class="header-print-btn" style="background:#0284c7;" onclick="">⚔️ 同効薬ガチンコ比較で見る</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ポータルダッシュボード・ウェルカムバナー -->
+  <div class="portal-welcome-card">
+    <div class="portal-welcome-header">
+      <div>
+        <div class="portal-welcome-title">
+          <span>💊 臨床薬学実務OS ポータルダッシュボード</span>
+        </div>
+        <p style="font-size:0.86rem; color:#94a3b8; margin:6px 0 0 0; line-height:1.45;">
+          臨床現場で知りたい情報に1秒で直行。150疾患・ガイドライン・同効薬比較・処方鑑別・安全監査を完全統合。
+        </p>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button onclick="document.querySelector('.app-footer').scrollIntoView({behavior:'smooth'})" style="background:#475569; color:#fef08a; border:1px solid #64748b; padding:6px 12px; border-radius:6px; font-weight:700; font-size:0.8rem; cursor:pointer;" title="AI作成に関する法的免責事項を確認">⚠️ 免責事項（AI作成）</button>
+        <button onclick="document.getElementById('pitfall-section').scrollIntoView({behavior:'smooth'})" style="background:#ef4444; color:white; border:none; padding:6px 12px; border-radius:6px; font-weight:700; font-size:0.8rem; cursor:pointer;">⚠️ 重大禁忌TOP20</button>
+      </div>
+    </div>
+    
+    <!-- AI作成に関する重要免責アナウンス -->
+    <div style="background:rgba(245, 158, 11, 0.12); border:1px solid rgba(245, 158, 11, 0.35); border-radius:8px; padding:8px 12px; margin-top:12px; font-size:0.78rem; color:#fef3c7; line-height:1.45; display:flex; align-items:flex-start; gap:8px;">
+      <span style="font-size:1rem; line-height:1;">⚠️</span>
+      <div>
+        <strong>【免責事項・重要告知】</strong>本サイトの全コンテンツ（解説・比較表・用量・相互作用等）は<strong>AI（人工知能）を活用して作成</strong>されているため、事実誤認や最新添付文書との乖離等の<strong>誤りが含まれる可能性があります</strong>。臨床での最終判断は、必ず最新の添付文書や公式ガイドライン等をご自身で直接確認の上、自己責任で行ってください。
+      </div>
+    </div>
+
+    <div class="portal-stat-pills">
+      <span class="portal-stat-pill" onclick="jumpToDiseaseCheck('all')" style="cursor:pointer; background:linear-gradient(135deg, #059669 0%, #10b981 100%); color:white; border-color:#047857; font-weight:800; box-shadow:0 2px 4px rgba(5,150,105,0.3);">🩺 全46疾患 症状確認＆薬剤モニタリング</span>
+      <span class="portal-stat-pill" onclick="jumpToDiseaseCheck('cat-rare')" style="cursor:pointer; background:rgba(239, 68, 68, 0.25); color:#fca5a5; border-color:#f87171; font-weight:700;">🧬 指定難病・神経筋 15疾患</span>
+      <span class="portal-stat-pill" onclick="jumpToContra()" style="cursor:pointer; background:rgba(239, 68, 68, 0.25); color:#fca5a5; border-color:#f87171;">⚡ 一発アウト併用禁忌＆CYP</span>
+      <span class="portal-stat-pill" onclick="jumpToCrush()" style="cursor:pointer; background:rgba(99, 102, 241, 0.25); color:#a5b4fc; border-color:#818cf8;">💊 粉砕・簡易懸濁・一包化</span>
+      <span class="portal-stat-pill" onclick="jumpToPediatric()" style="cursor:pointer; background:rgba(16, 185, 129, 0.25); color:#6ee7b7; border-color:#34d399;">👶 小児体重換算＆飲ませ方</span>
+      <span class="portal-stat-pill" onclick="jumpToInquiry()" style="cursor:pointer; background:rgba(245, 158, 11, 0.25); color:#fde68a; border-color:#f59e0b;">📞 疑義照会の神フレーズ</span>
+      <span class="portal-stat-pill" onclick="jumpToMonitoring()" style="cursor:pointer; background:rgba(217, 70, 239, 0.25); color:#f5d0fe; border-color:#e879f9;">🔍 全疾患・薬剤 確認事項＆副作用</span>
+      <span class="portal-stat-pill" onclick="jumpToFirstLine()" style="cursor:pointer; background:rgba(99, 102, 241, 0.25); color:#a5b4fc; border-color:#818cf8;">🎯 病型別 第一選択マスター</span>
+      <span class="portal-stat-pill" onclick="jumpToLifestyle()" style="cursor:pointer; background:rgba(16, 185, 129, 0.25); color:#6ee7b7; border-color:#34d399;">🥗 疾患別 実戦生活指導集</span>
+      <span class="portal-stat-pill" onclick="jumpToPatho()" style="cursor:pointer; background:rgba(2, 132, 199, 0.25); color:#7dd3fc; border-color:#38bdf8;">🩺 10大病態ガチンコ比較</span>
+      <span class="portal-stat-pill" onclick="switchTab('tab-top100')" style="cursor:pointer;">🏆 頻出TOP150疾患</span>
+      <span class="portal-stat-pill" onclick="switchTab('tab-guide')" style="cursor:pointer;">📖 Core 29領域ガイド</span>
+      <span class="portal-stat-pill" onclick="switchTab('tab-comparison')" style="cursor:pointer;">⚔️ 同効薬9大ガチンコ比較</span>
+      <span class="portal-stat-pill" onclick="switchTab('tab-profiling')" style="cursor:pointer;">🕵️‍♂️ 病態鑑別決定木＆カメレオン薬</span>
+      <span class="portal-stat-pill" onclick="jumpToRenalSimulator()" style="cursor:pointer; background:#e0f2fe; color:#0369a1; border:1px solid #38bdf8; font-weight:800;">⚡ 腎機能・減量シミュレーター</span>
+      <span class="portal-stat-pill" onclick="switchTab('tab-lab')" style="cursor:pointer;">🧪 検査値・CCr・肝機能評価</span>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       📢 今週の薬局最前線インテリジェンス ＆ 週刊トピックス（Weekly Pharma Updates）
+       ========================================================================== -->
+  <!-- ==========================================================================
+       📢 今週の薬局最前線インテリジェンス ＆ 週刊トピックス（Weekly Pharma Updates）
+       ※ WEEKLY_TOPICS_DB から renderWeeklyTopics() により動的レンダリングされます。
+          配信から3ヶ月（90日）以上経過した過去記事は自動的に長期アーカイブへ格納されます。
+       ========================================================================== -->
+  <div class="weekly-topics-section" id="weeklyTopicsSec">
+    <div id="weeklyTopicsContainer"></div>
+  </div>
+
+  <!-- ⚡ 現場で今すぐ引く！超頻出ショートカット24選（スマホワンタップ直行） -->
+  <div class="portal-shortcut-section">
+    <div class="portal-section-title">
+      <span>⚡ 現場で今すぐ引く！超頻出ショートカット 24選</span>
+    </div>
+    <div class="portal-section-desc">
+      投薬カウンターや監査台で即座に確認したい重要トピックにワンタップでダイレクト直行できます。
+    </div>
+
+    <div class="portal-shortcut-grid">
+      <!-- ★最優先トップ項目: 全46疾患 症状確認（病態由来）＆薬剤別確認事項マスター -->
+      <div class="portal-shortcut-pill" onclick="jumpToDiseaseCheck('all')" style="border-left: 5px solid #10b981; background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%); grid-column: 1 / -1; box-shadow:0 2px 6px rgba(16,185,129,0.2); cursor:pointer; padding:14px 16px;">
+        <div class="portal-shortcut-icon" style="font-size:1.8rem;">🩺</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title" style="color:#065f46; font-size:1.08rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+            <span>【最重要・必携マスター】全46疾患 症状確認（病態由来） ＆ 薬剤別確認事項</span>
+            <span style="background:#10b981; color:white; font-size:0.7rem; padding:2px 8px; border-radius:10px; font-weight:700;">NEW・全46疾患</span>
+          </div>
+          <div class="portal-shortcut-sub" style="color:#047857; font-size:0.86rem; margin-top:3px; font-weight:600;">
+            「薬の副作用だけでなく、病態そのものはコントロールできているか？」— 生活習慣病から指定難病・マイナー疾患まで、自覚症状・薬剤監視・問いかけ・TR基準を完全対比！
+          </div>
+        </div>
+      </div>
+
+      <!-- 0. 一発アウト併用禁忌 ＆ CYP代謝早見表 -->
+      <div class="portal-shortcut-pill" onclick="jumpToContra()" style="border-left: 4px solid #ef4444; background: #fef2f2;">
+        <div class="portal-shortcut-icon">⚡</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title" style="color:#991b1b;">一発アウト併用禁忌＆CYP</div>
+          <div class="portal-shortcut-sub">12大危険ペア・CYP3A4/2D6/2C9阻害誘導マップ</div>
+        </div>
+      </div>
+
+      <!-- 1. 粉砕・簡易懸濁可否 ＆ 一包化適否マスター -->
+      <div class="portal-shortcut-pill" onclick="jumpToCrush()" style="border-left: 4px solid #6366f1; background: #eef2ff;">
+        <div class="portal-shortcut-icon">💊</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title" style="color:#312e81;">粉砕・簡易懸濁・一包化</div>
+          <div class="portal-shortcut-sub">主要80薬・徐放/腸溶/吸湿不可理由・温湯崩壊通過</div>
+        </div>
+      </div>
+
+      <!-- 2. 小児体重換算 ＆ 飲ませ方完全図鑑 -->
+      <div class="portal-shortcut-pill" onclick="jumpToPediatric()" style="border-left: 4px solid #10b981; background: #ecfdf5;">
+        <div class="portal-shortcut-icon">👶</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title" style="color:#065f46;">小児体重換算＆飲ませ方</div>
+          <div class="portal-shortcut-sub">体重入力でカロナール/抗生剤即時計算＋苦味相性</div>
+        </div>
+      </div>
+
+      <!-- 3. 疑義照会の神フレーズ ＆ 交渉術 -->
+      <div class="portal-shortcut-pill" onclick="jumpToInquiry()" style="border-left: 4px solid #f59e0b; background: #fffbeb;">
+        <div class="portal-shortcut-icon">📞</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title" style="color:#78350f;">疑義照会の神フレーズ</div>
+          <div class="portal-shortcut-sub">腎低下/禁忌/残薬・怒らせない電話文面スクリプト</div>
+        </div>
+      </div>
+
+      <!-- 4. 全疾患・全薬剤 確認事項＆副作用マスター -->
+      <div class="portal-shortcut-pill" onclick="jumpToMonitoring()" style="border-left: 4px solid #d946ef; background: #fdf4ff;">
+        <div class="portal-shortcut-icon">🔍</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title" style="color:#86198f;">全疾患・薬剤 確認事項＆副作用</div>
+          <div class="portal-shortcut-sub">40領域・併用禁忌/検査値/初期症状レッドフラッグ</div>
+        </div>
+      </div>
+
+      <!-- 0. 病型別 第一選択薬マスター -->
+      <div class="portal-shortcut-pill" onclick="jumpToFirstLine()" style="border-left: 4px solid #6366f1; background: #eef2ff;">
+        <div class="portal-shortcut-icon">🎯</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title" style="color:#312e81;">病型別 第一選択薬マスター</div>
+          <div class="portal-shortcut-sub">主要20大疾患・合併症/重症度別の第一選択と推奨根拠</div>
+        </div>
+      </div>
+
+      <!-- 1. 疾患別 実戦生活指導集 -->
+      <div class="portal-shortcut-pill" onclick="jumpToLifestyle()">
+        <div class="portal-shortcut-icon">🥗</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">疾患別 実戦生活指導集</div>
+          <div class="portal-shortcut-sub">全15領域・減塩/ベジファースト/睡眠/運動</div>
+        </div>
+      </div>
+
+      <!-- 2. インスリン処方・出され方 -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-dm', 'インスリン')">
+        <div class="portal-shortcut-icon">💉</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">インスリン処方・出され方</div>
+          <div class="portal-shortcut-sub">5大レジメン（BOT/強化等）・単位計算・空打ち</div>
+        </div>
+      </div>
+
+      <!-- 2. DOAC減量 -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-cv', 'DOAC')">
+        <div class="portal-shortcut-icon">🔴</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">DOAC 4兄弟 減量・禁忌早見</div>
+          <div class="portal-shortcut-sub">エリキュース・リクシアナ・イグザレルト・プラザキサ</div>
+        </div>
+      </div>
+
+      <!-- 2. スタチン4強 -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-ckd', 'アトルバスタチン')">
+        <div class="portal-shortcut-icon">🔵</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">スタチン 4強 ガチンコ比較</div>
+          <div class="portal-shortcut-sub">リピトール vs クレストール vs リバロ vs メバロチン</div>
+        </div>
+      </div>
+
+      <!-- 3. めまい5大製剤 -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-extra', 'メリスロン')">
+        <div class="portal-shortcut-icon">🌀</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">めまい 5大製剤・鑑別比較</div>
+          <div class="portal-shortcut-sub">メリスロン vs セファドール vs トラベルミン vs メイロン</div>
+        </div>
+      </div>
+
+      <!-- 4. 便秘薬4銃士・モビコール -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-extra', 'モビコール')">
+        <div class="portal-shortcut-icon">💩</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">便秘薬 4銃士・モビコール比較</div>
+          <div class="portal-shortcut-sub">モビコール vs リンゼス vs アミティーザ vs グーフィス vs 酸化Mg</div>
+        </div>
+      </div>
+
+      <!-- 5. 吸入三剤合剤・レルベア・テリルジー -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-imm', 'レルベア')">
+        <div class="portal-shortcut-icon">🫁</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">吸入ステロイド・配合剤比較</div>
+          <div class="portal-shortcut-sub">レルベア vs テリルジー vs ビレーズ vs エナシア</div>
+        </div>
+      </div>
+
+      <!-- 6. 内視鏡・抜歯休薬マトリクス -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-cv', '周術期')">
+        <div class="portal-shortcut-icon">🩸</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">内視鏡・抜歯 休薬マトリクス</div>
+          <div class="portal-shortcut-sub">DOAC当日朝のみ休薬・抜歯原則継続・バイアスピリン</div>
+        </div>
+      </div>
+
+      <!-- 7. 抗てんかん薬 ガチンコ比較 -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-psy', 'イーケプラ')">
+        <div class="portal-shortcut-icon">⚡</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">抗てんかん薬 5大製剤比較</div>
+          <div class="portal-shortcut-sub">イーケプラ vs ビムパット vs ラミクタール vs デパケン</div>
+        </div>
+      </div>
+
+      <!-- 8. 授乳中安全薬（成育基準） -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-pregnancy', '授乳婦')">
+        <div class="portal-shortcut-icon">🍼</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">授乳中安全薬（国立成育基準）</div>
+          <div class="portal-shortcut-sub">添付文書に惑わされない解熱鎮痛・抗生剤・胃腸薬</div>
+        </div>
+      </div>
+
+      <!-- 9. 睡眠薬・BZD 減量・離脱 -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-psy', 'デパス')">
+        <div class="portal-shortcut-icon">🧘</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">脱ベンゾ・BZD減量プロトコル</div>
+          <div class="portal-shortcut-sub">ジアゼパム等価換算表・デパス/ハルシオン置換法</div>
+        </div>
+      </div>
+
+      <!-- 10. オグサワ処方 -->
+      <div class="portal-shortcut-pill" onclick="quickSearch('オグサワ処方')">
+        <div class="portal-shortcut-icon">💊</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">オグサワ処方・黄金比率</div>
+          <div class="portal-shortcut-sub">オーグメンチン＋サワシリン 1:2比率の処方ウラ意図</div>
+        </div>
+      </div>
+
+      <!-- 11. 突発性難聴・耳鼻科処方 -->
+      <div class="portal-shortcut-pill" onclick="jumpToGuide('c29')">
+        <div class="portal-shortcut-icon">👂</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">突発性難聴・急性低音難聴</div>
+          <div class="portal-shortcut-sub">プレドニン漸減法・イソバイド・アデホス</div>
+        </div>
+      </div>
+
+      <!-- 12. 眼科点眼薬・順番と5分則 -->
+      <div class="portal-shortcut-pill" onclick="jumpToGuide('c14')">
+        <div class="portal-shortcut-icon">👁️</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">眼科点眼薬・順番＆5分則</div>
+          <div class="portal-shortcut-sub">緑内障多剤併用・ドライアイ3大点眼・点眼順序</div>
+        </div>
+      </div>
+
+      <!-- 13. 妊婦・胎児動脈管収縮地雷薬 -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-pregnancy')">
+        <div class="portal-shortcut-icon">🤰</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">妊婦・胎児の地雷薬・安全薬</div>
+          <div class="portal-shortcut-sub">ARB禁忌・NSAIDs動脈管収縮・安全な解熱鎮痛薬</div>
+        </div>
+      </div>
+
+      <!-- 14. 小児10kg刻み早見表 -->
+      <div class="portal-shortcut-pill" onclick="jumpToSpecialTab('tab-special', 'pediatric')">
+        <div class="portal-shortcut-icon">👶</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">小児抗生剤・解熱薬早見表</div>
+          <div class="portal-shortcut-sub">ワイドシリン・カロナール体重10kg刻み用量換算</div>
+        </div>
+      </div>
+
+      <!-- 15. 心不全 Fantastic 4 -->
+      <div class="portal-shortcut-pill" onclick="jumpToGuide('c05')">
+        <div class="portal-shortcut-icon">🫀</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">心不全 Fantastic 4 導入・用量</div>
+          <div class="portal-shortcut-sub">SGLT2i + ARNI + β遮断薬 + MRA（ケレンディア）</div>
+        </div>
+      </div>
+
+      <!-- 16. 高K血症改善薬 -->
+      <div class="portal-shortcut-pill" onclick="jumpToComp('sec-ckd', 'ロケルマ')">
+        <div class="portal-shortcut-icon">🧪</div>
+        <div class="portal-shortcut-info">
+          <div class="portal-shortcut-title">高カリウム改善薬（ロケルマ等）</div>
+          <div class="portal-shortcut-sub">新薬ロケルマ vs カリメート vs アーガメイト使い分け</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🎯 目的から探す！6大メインハブ -->
+  <div style="margin-bottom:28px;">
+    <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+      🎯 目的から探す！6大メインハブ
+    </h3>
+    
+    <div class="portal-main-grid">
+
+      <!-- 1. 同効薬ガチンコ比較 -->
+      <div class="portal-main-card" style="--card-accent:#d97706;" onclick="switchTab('tab-comparison')">
+        <div>
+          <div class="portal-card-top">
+            <div class="portal-card-icon" style="color:#d97706;">⚔️</div>
+            <div class="portal-card-body">
+              <h4>同効薬ガチンコ比較図鑑</h4>
+              <p>「なぜこの薬なのか？他剤と何が違うのか？」DOAC、降圧薬、スタチン、吸入薬、新世代便秘薬、抗不安薬BZD、めまい製剤など全9大領域の使い分け・PK/PD。</p>
+            </div>
+          </div>
+        </div>
+        <div class="portal-card-footer">
+          <span class="portal-card-tag">全9領域・60クラス以上</span>
+          <span class="portal-card-jump" style="color:#d97706;">比較図鑑を開く ➔</span>
+        </div>
+      </div>
+
+      <!-- 2. 処方箋プロファイリング ＆ 10大病態比較 -->
+      <div class="portal-main-card" style="--card-accent:#0284c7;" onclick="switchTab('tab-profiling')">
+        <div>
+          <div class="portal-card-top">
+            <div class="portal-card-icon" style="color:#0284c7;">🕵️‍♂️</div>
+            <div class="portal-card-body">
+              <h4>病態鑑別 ＆ 10大病態ガチンコ比較図鑑</h4>
+              <p>似て非なる「10大病態ガチンコ比較（めまい・咳・頭痛・胸痛・浮腫・便秘・下痢・関節痛・皮疹・貧血）」＋逆引き病態特定デシジョンツリー＆カメレオン薬13選。</p>
+            </div>
+          </div>
+        </div>
+        <div class="portal-card-footer">
+          <span class="portal-card-tag">10大病態比較＆逆引き決定木</span>
+          <span class="portal-card-jump" style="color:#0284c7;">鑑別チャートを開く ➔</span>
+        </div>
+      </div>
+
+      <!-- 3. Core 29大疾患ガイド -->
+      <div class="portal-main-card" style="--card-accent:var(--accent);" onclick="switchTab('tab-guide')">
+        <div>
+          <div class="portal-card-top">
+            <div class="portal-card-icon" style="color:var(--accent);">📖</div>
+            <div class="portal-card-body">
+              <h4>Core 29大疾患 現場の脳内翻訳ガイド</h4>
+              <p>高血圧・糖尿病・心不全・喘息・COPD・感染症・眼科（緑内障/白内障）・耳鼻咽喉科（めまい/突発難聴）など全29疾患。ガイドラインの型とリアルな処方。</p>
+            </div>
+          </div>
+        </div>
+        <div class="portal-card-footer">
+          <span class="portal-card-tag">全29大疾患・副作用暦</span>
+          <span class="portal-card-jump" style="color:var(--accent);">ガイドを開く ➔</span>
+        </div>
+      </div>
+
+      <!-- 4. 重大禁忌・落とし穴 TOP 20 -->
+      <div class="portal-main-card" style="--card-accent:#ef4444;" onclick="document.getElementById('pitfall-section').scrollIntoView({behavior:'smooth'})">
+        <div>
+          <div class="portal-card-top">
+            <div class="portal-card-icon" style="color:#ef4444;">⚠️</div>
+            <div class="portal-card-body">
+              <h4>重大禁忌・処方監査の落とし穴 TOP 20</h4>
+              <p>エンレスト休薬、キノロン＋NSAIDs痙攣、ワーファリン＋フロリード、メトホルミン造影剤、MTX連日誤投与など実臨床で絶対に防ぐべき20大事故防止チェック。</p>
+            </div>
+          </div>
+        </div>
+        <div class="portal-card-footer">
+          <span class="portal-card-tag" style="background:#fee2e2; color:#b91c1c;">Must-Know TOP 20</span>
+          <span class="portal-card-jump" style="color:#ef4444;">安全チェックを見る ➔</span>
+        </div>
+      </div>
+
+      <!-- 5. 臨床検査値・臓器機能評価 -->
+      <div class="portal-main-card" style="--card-accent:#10b981;" onclick="switchTab('tab-lab')">
+        <div>
+          <div class="portal-card-top">
+            <div class="portal-card-icon" style="color:#10b981;">🧪</div>
+            <div class="portal-card-body">
+              <h4>臨床検査値・臓器機能評価</h4>
+              <p>推算eGFRとCockcroft-Gault式CCrの乖離補正、肝不全Child-Pugh分類、電解質・脱水評価、心機能BNPなど処方監査に不可欠な臓器機能評価。</p>
+            </div>
+          </div>
+        </div>
+        <div class="portal-card-footer">
+          <span class="portal-card-tag">腎機能・肝機能・電解質</span>
+          <span class="portal-card-jump" style="color:#10b981;">検査値評価を開く ➔</span>
+        </div>
+      </div>
+
+      <!-- 6. 頻出疾患 TOP 150 事典 -->
+      <div class="portal-main-card" style="--card-accent:#6366f1;" onclick="switchTab('tab-top100')">
+        <div>
+          <div class="portal-card-top">
+            <div class="portal-card-icon" style="color:#6366f1;">🏆</div>
+            <div class="portal-card-body">
+              <h4>薬局対応・頻出疾患 TOP 150 事典</h4>
+              <p>調剤薬局・病院で遭遇する処方箋頻出疾患ランキングTOP150。主病態・第一選択薬・服薬指導ポイントを全科（内科・小児・耳鼻・眼科・皮膚科）網羅。</p>
+            </div>
+          </div>
+        </div>
+        <div class="portal-card-footer">
+          <span class="portal-card-tag">受付頻出ランキング 1〜150位</span>
+          <span class="portal-card-jump" style="color:#6366f1;">事典を開く ➔</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 🛠️ 実務支援ツール＆実戦トピック -->
+  <div style="margin-bottom:30px;">
+    <h3 style="font-size:1.1rem; color:var(--primary); font-weight:800; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+      🛠️ 実務支援ツール＆実戦トピック
+    </h3>
+    <div class="portal-tools-grid">
+      
+      <div class="portal-tool-card" onclick="switchTab('tab-answers')">
+        <div class="portal-tool-card-head">
+          <span class="portal-tool-card-icon">🎓</span>
+          <span class="portal-tool-card-title">指導Answer Book</span>
+        </div>
+        <p class="portal-tool-card-desc">新人・実習生への問いかけ全15問「30秒結論」「先輩の比喩」模範解答集。</p>
+      </div>
+
+      <div class="portal-tool-card" onclick="switchTab('tab-newdrugs')">
+        <div class="portal-tool-card-head">
+          <span class="portal-tool-card-icon">🚀</span>
+          <span class="portal-tool-card-title">新薬トレンド図鑑</span>
+        </div>
+        <p class="portal-tool-card-desc">マンジャロ、ウゴービ、クービビック、エンレストなど注目新薬の作用機序。</p>
+      </div>
+
+      <div class="portal-tool-card" onclick="switchTab('tab-special')">
+        <div class="portal-tool-card-head">
+          <span class="portal-tool-card-icon">🛠️</span>
+          <span class="portal-tool-card-title">実戦トピック ＆ 生活指導集</span>
+        </div>
+        <p class="portal-tool-card-desc">全15領域の実戦生活指導マニュアル、漢方の証、小児服薬、周術期休薬集。</p>
+      </div>
+
+      <div class="portal-tool-card" onclick="switchTab('tab-otc')">
+        <div class="portal-tool-card-head">
+          <span class="portal-tool-card-icon">🛒</span>
+          <span class="portal-tool-card-title">シンプルOTC推奨＆禁忌</span>
+        </div>
+        <p class="portal-tool-card-desc">単一成分OTCの指名買いリストと高血圧・前立腺・緑内障・妊婦の地雷薬。</p>
+      </div>
+
+      <div class="portal-tool-card" onclick="switchTab('tab-followup')">
+        <div class="portal-tool-card-head">
+          <span class="portal-tool-card-icon">📋</span>
+          <span class="portal-tool-card-title">服薬フォロー＆TR実践</span>
+        </div>
+        <p class="portal-tool-card-desc">服薬期間中フォロー具体例と医師に感謝されるトレーシングレポート文面集。</p>
+      </div>
+
+      <div class="portal-tool-card" onclick="switchTab('tab-print')">
+        <div class="portal-tool-card-head">
+          <span class="portal-tool-card-icon">🖨️</span>
+          <span class="portal-tool-card-title">A4印刷出力ハブ</span>
+        </div>
+        <p class="portal-tool-card-desc">実務見開きシート・学習プリント・指導用シートのA4出力専用ハブ。</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ⚠️ 重大ピットフォール＆警告 TOP 20 ガイド（アンカーリンク先） -->
+  <div id="pitfall-section" style="background:white; border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:30px; box-shadow:0 2px 4px rgba(0,0,0,0.03);">
+    <div style="border-bottom:2px solid #f1f5f9; padding-bottom:12px; margin-bottom:18px;">
+      <span class="hero-tag" style="background:#fee2e2; border-color:#f87171; color:#b91c1c;">Must-Know Clinical Safety</span>
+      <h3 style="font-size:1.3rem; color:var(--primary); font-weight:800; margin-top:4px;">
+        ⚠️ 実臨床で絶対に見落としてはいけない「重大禁忌・処方監査の落とし穴 TOP 20」
+      </h3>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin:0;">薬局・病棟で重大事故を防ぎ、指導薬剤師としての存在感を発揮する20大チェックポイント（併用禁忌・用法誤認・病態地雷を完全網羅）</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
+      
+      <div style="border-left:4px solid #ef4444; background:#fff1f2; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#991b1b; font-size:0.95rem;">① エンレスト（ARNI）切り替えウォッシュアウト</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          ACE阻害薬（レニベース等）からエンレストへ変更時は<strong>36時間の休薬（ウォッシュアウト）</strong>が必須！ブラジキニン分解阻害の重複による致死的な血管浮腫を防ぐ。（※ARBからの切り替えは休薬不要）
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #ef4444; background:#fff1f2; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#991b1b; font-size:0.95rem;">② Triple Whammy（トリプル・ワーミー）による急性腎障害</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          <strong>RAS阻害薬 ＋ 利尿薬 ＋ NSAIDs（ロキソニン等）</strong>の3剤併用で糸球体濾過圧が崩壊し一発でAKI発症！高齢者の腰痛・関節痛にはアセトアミノフェンへの変更を即座に提案。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #f59e0b; background:#fffbeb; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#92400e; font-size:0.95rem;">③ SGLT2阻害薬「正常血糖ケトアシドーシス（eDKA）」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          極端な糖質制限、脱水、手術・大腸内視鏡前の絶食時に、血糖値が200mg/dL未満でも致死的なアシドーシスを起こす。手術前は必ず休薬（国内1日前、海外3日前）させる。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #f59e0b; background:#fffbeb; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#92400e; font-size:0.95rem;">④ メトホルミンとヨード造影剤の前後48時間休薬</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          造影剤による一過性の腎機能低下でメトホルミンが体内に蓄積し、乳酸アシドーシスを引き起こす危険。特にeGFR 30〜60の患者は検査前後48時間の休薬を徹底監査。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #3b82f6; background:#eff6ff; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#1e40af; font-size:0.95rem;">⑤ DOACの減量基準（CCr vs eGFRの罠）</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          リバーロキサバン・エドキサバンの減量基準は「推算eGFR」ではなく<strong>Cockcroft-Gault式のCCr</strong>で判定！体格の小さな高齢者でeGFRだけで見ると過量投与になるリスク大。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #3b82f6; background:#eff6ff; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#1e40af; font-size:0.95rem;">⑥ プラリア（デノスマブ）中断時の多発椎体骨折リバウンド</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          半年に1回の注射を自己中断（受診忘れ）すると破骨細胞が反動で暴走し、背骨が次々と潰れる（オーバーシュート骨折）。中止時は必ずビスホスホネート製剤等へ後療法を繋ぐ。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #8b5cf6; background:#f5f3ff; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#5b21b6; font-size:0.95rem;">⑦ クエチアピン・オランザピンの「糖尿病患者禁忌」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          高齢者のせん妄・不眠やがん化学療法の制吐で少量処方される際、糖尿病の合併を見落とすと著しい高血糖・ケトアシドーシス昏睡を誘発する。お薬手帳の併用薬監査が命！
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #8b5cf6; background:#f5f3ff; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#5b21b6; font-size:0.95rem;">⑧ メルカゾール服用初期2〜3ヶ月の「無顆粒球症」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          バセドウ病治療開始後2〜3ヶ月以内に「突然の38℃以上の発熱、激しい喉の痛み」が出たら絶対に服薬を中断して即座に血液検査！放置すると敗血症で致命的になる。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #10b981; background:#ecfdf5; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#065f46; font-size:0.95rem;">⑨ トラムセット配合錠とアセトアミノフェンの重複過量投与</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          トラムセット1錠中にアセトアミノフェン325mg含有。別科からカロナールや市販風邪薬が追加されると1日4000mg上限を超過し重篤な肝障害を起こす。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #10b981; background:#ecfdf5; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#065f46; font-size:0.95rem;">⑩ 緑内障配合点眼薬中の「β遮断薬」による気管支喘息誘発</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          コソプト、ザラカム等の配合点眼薬にはチモロール（β遮断薬）が含まれる。鼻涙管から全身へ吸収され気管支痙攣や心不全増悪を起こすため、喘息既往の確認が必須。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #ef4444; background:#fff1f2; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#991b1b; font-size:0.95rem;">⑪ ニューキノロン系抗菌薬 ＋ NSAIDs の「中枢性痙攣誘発」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          クラビット等とロキソニン・フルルビプロフェン併用でGABA受容体拮抗が増強。てんかん既往のない患者でも突然の全身痙攣を起こす重大禁忌・注意（フルルビプロフェン等は併用禁忌）。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #ef4444; background:#fff1f2; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#991b1b; font-size:0.95rem;">⑫ ワーファリン ＋ アゾール系抗真菌薬（フロリードゲル等）の「致死的大出血」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          CYP2C9/3A4強力阻害によりワーファリンの代謝が完全停止しINRが測定不能レベルへ急騰。口腔用フロリードゲルは局所に見えて全身吸収されるため極めて危険な絶対併用禁忌！
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #f59e0b; background:#fffbeb; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#92400e; font-size:0.95rem;">⑬ PDE5阻害薬（シアリス・バイアグラ等） ＋ 硝酸薬の「ショック死」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          NO供与とPDE5阻害の相乗作用で血管内cGMPが爆発的増大。不可逆的な急激血圧低下（ショック死）を招く絶対併用禁忌。狭心症患者のED薬・肺高血圧症薬（レバチオ）服用歴監査が必須。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #f59e0b; background:#fffbeb; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#92400e; font-size:0.95rem;">⑭ MAO-B阻害薬（パーキンソン病薬） ＋ 抗うつ薬・トラマドールの「セロトニン症候群」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          エフピー、アジレクト等とSSRI/SNRI/トラマドール併用でセロトニン濃度が暴走。40℃超高熱・ミオクローヌス・横紋筋融解症を惹起。他剤切り替え時も2〜3週間の休薬が絶対条件。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #3b82f6; background:#eff6ff; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#1e40af; font-size:0.95rem;">⑮ タクロリムス（プログラフ） ＋ クラリスロマイシン等の「急性腎不全・TMA」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          強力なCYP3A4・P-gp阻害によりタクロリムス血中濃度が数倍〜十倍に跳ね上がり、重篤な急性腎障害、高血圧、中枢神経障害を誘発。マクロライド・アゾール併用時は即座に疑義照会。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #3b82f6; background:#eff6ff; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#1e40af; font-size:0.95rem;">⑯ テガフール（TS-1等） ＋ ソリブジン/ソブホスビルの「致死的骨髄抑制」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          医療安全史の原点「ソリブジン事件」。DPDの不可逆的阻害により5-FU代謝が完全停止し白血球ゼロ・敗血症死。抗ウイルス薬・C型肝炎薬との併用禁忌・休薬期間遵守は薬剤師の生命線。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #8b5cf6; background:#f5f3ff; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#5b21b6; font-size:0.95rem;">⑰ メトトレキサート（MTX：リウマトレックス）の「連日（毎日）服用誤投与事故」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          「週1回（週1〜2日）」服用のところ「1日1回連日」で誤交付し汎血球減少・敗血症で患者が死亡する重大事故が後を絶たない。カレンダーシートの曜日指定・休薬日数の確認は絶対防衛ライン。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #8b5cf6; background:#f5f3ff; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#5b21b6; font-size:0.95rem;">⑱ ビスホスホネート製剤（ボナロン等）の「水なし・横臥」による「食道穿孔」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          起床時コップ1杯の水で飲まなかったり、服用後すぐに横になると、強烈な局所刺激で食道潰瘍・食道穿孔を起こす。「多量の水で服用」「服用後30分は絶対に横にならない」徹底指導が命。
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #10b981; background:#ecfdf5; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#065f46; font-size:0.95rem;">⑲ アスピリン喘息（NSAIDs過敏喘息）への「解熱鎮痛薬・湿布」誤投与</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          COX-1阻害によりロイコトリエンが爆発的に産生され、内服・貼付後数分〜1時間で窒息レベルの致死性重積喘息発作。ロキソニン・ボルタレンだけでなくモーラステープ等の湿布も完全禁忌！
+        </p>
+      </div>
+
+      <div style="border-left:4px solid #10b981; background:#ecfdf5; padding:12px 14px; border-radius:0 8px 8px 0;">
+        <strong style="color:#065f46; font-size:0.95rem;">⑳ 低用量ピル（LEP） ＋「35歳以上かつ1日15本以上の喫煙」による「心筋梗塞・血栓症」</strong>
+        <p style="font-size:0.85rem; color:#475569; margin:4px 0 0 0;">
+          エストロゲン凝固亢進と喫煙血管障害が重複し心筋梗塞・脳卒中・肺塞栓症リスクが10〜20倍に跳ね上がる絶対禁忌。生理痛・PMS処方時の喫煙本数過小申告・お薬手帳チェックを徹底せよ。
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+</div>

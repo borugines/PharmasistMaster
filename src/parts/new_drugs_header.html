@@ -1,0 +1,23 @@
+<!-- 新薬トレンド図鑑 タブペイン -->
+<div id="tab-newdrugs" class="tab-pane">
+  <div class="card" style="margin-bottom:20px; background:linear-gradient(135deg, #0f172a 0%, #312e81 100%); color:white; border-left:4px solid #38bdf8;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h2 style="font-size:1.35rem; color:#38bdf8; font-weight:800; margin-bottom:4px;">🚀 薬局で押さえるべき「ここ数年の新薬トレンド＆現場の勘所」図鑑</h2>
+        <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+          「これまでの薬と何が違う？」「患者にどう説明する？」ガイドラインを塗り替えたモンスター級新薬のパラダイムシフトを完全網羅。
+        </p>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <button class="header-print-btn" onclick="window.print()" style="padding:7px 14px; font-size:0.85rem; background:#10b981;">🖨️ A4横で印刷</button>
+      </div>
+    </div>
+    <div class="filter-group" style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
+      <button class="f-btn active" onclick="filterTrend('all', this)">すべて表示</button>
+      <button class="f-btn" onclick="filterTrend('t-meta', this)">① 糖尿病・肥満・心腎</button>
+      <button class="f-btn" onclick="filterTrend('t-neuro', this)">② 不眠・片頭痛・神経</button>
+      <button class="f-btn" onclick="filterTrend('t-derm', this)">③ 皮膚・アレルギー・呼吸器</button>
+      <button class="f-btn" onclick="filterTrend('t-other', this)">④ 感染症・婦人科・消化器</button>
+    </div>
+  </div>
+  <div class="newdrugs-container">

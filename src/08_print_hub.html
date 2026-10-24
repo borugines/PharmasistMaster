@@ -1,0 +1,174 @@
+<!-- A4印刷設定・出力ハブ タブペイン -->
+<div id="tab-print" class="tab-pane">
+  <div style="background:white; border:1px solid var(--border); border-radius:12px; padding:30px; box-shadow:0 4px 6px -1px rgba(0,0,0,0.05); max-width:1000px; margin:0 auto;">
+    
+    <div style="border-bottom:2px solid var(--primary); padding-bottom:15px; margin-bottom:25px;">
+      <span class="hero-tag" style="background:#e0f2fe; color:#0369a1; border-color:#7dd3fc;">Professional Print Engine</span>
+      <h2 style="font-size:1.6rem; color:var(--primary); font-weight:800; margin-top:6px;">🖨️ A4ハンドアウト印刷・配布資料出力ハブ</h2>
+      <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.6; margin-top:4px;">
+        実習生への配布ハンドアウトや、病棟・調剤室のデスクに置く臨床マニュアルとして、A4複数枚にわたって情報が途切れず、読みやすいフォントと適切な余白で美しく出力（美整形レイアウト）できるように最適化されています。
+      </p>
+    </div>
+
+    <!-- 印刷モード選択カード -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; margin-bottom:30px;">
+      
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#dbeafe; color:#1d4ed8; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4縦 / 複数枚・美整形</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">全25大疾患 一括ハンドアウト</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">全25大疾患の脳内翻訳ガイドを、各疾患ごとに新しいページから開始し、自然な複数ページレイアウト（1疾患あたり2〜3ページ）で美しく一括印刷します。</p>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px;" onclick="printMode('all-guide')">🖨️ 全25大疾患を一括印刷（複数枚対応）</button>
+      </div>
+
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#fef3c7; color:#b45309; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4縦 / 選択疾患・高品位複数枚</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">特定疾患のハンドアウト印刷</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:10px;">今日の実習テーマや担当症例に合わせて、1疾患だけを選んで高精細な複数枚ハンドアウト（病態・第1選択フロー・副作用・ウラ読み・パール・手書きメモ欄）を出力します。</p>
+          <select id="single-disease-select" style="width:100%; padding:8px 12px; border:1px solid var(--border); border-radius:6px; font-size:0.9rem;">
+            <option value="c1">1. 悪性腫瘍（がん）</option>
+            <option value="c2">2. 高血圧症</option>
+            <option value="c3">3. 糖尿病</option>
+            <option value="c4">4. 心疾患（心不全・虚血）</option>
+            <option value="c5">5. 脳血管障害</option>
+            <option value="c6">6. 精神神経疾患</option>
+            <option value="c7">7. 免疫・アレルギー</option>
+            <option value="c8">8. 感染症</option>
+            <option value="c9">9. 腎・泌尿器疾患</option>
+            <option value="c10">10. 脂質異常・骨粗鬆症</option>
+            <option value="c11">11. 消化器疾患</option>
+            <option value="c12">12. 整形外科・疼痛</option>
+            <option value="c13">13. 甲状腺・婦人科</option>
+            <option value="c14">14. 眼科疾患</option>
+            <option value="c15">15. 肝胆膵疾患</option>
+            <option value="c16">16. 皮膚科・アレルギー</option>
+            <option value="c17">17. 高尿酸血症・痛風</option>
+            <option value="c18">18. 小児科頻出疾患</option>
+            <option value="c19">19. 貧血（鉄欠乏/腎性）</option>
+            <option value="c20">20. 睡眠障害・不眠症</option>
+            <option value="c21">21. ピロリ除菌・胃腸炎</option>
+            <option value="c22">22. 不妊治療（生殖補助）</option>
+            <option value="c23">23. 褥瘡・創傷外用療法</option>
+            <option value="c24">24. 肺炎・呼吸器感染症</option>
+            <option value="c25">25. 気管支喘息・咳喘息</option>
+            <option value="c26">26. 慢性便秘症・便秘治療</option>
+            <option value="c27">27. かぜ症候群・インフル</option>
+            <option value="c28">28. 花粉症・アレルギー鼻炎</option>
+            <option value="c29">29. 耳鼻咽喉科（めまい・中耳）</option>
+          </select>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px; background:#f59e0b;" onclick="printSingleDiseaseFromSelect()">🖨️ 選択した疾患を印刷（A4複数枚）</button>
+      </div>
+
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#e0e7ff; color:#4338ca; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4横（推奨） / 一覧表</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">同効薬ガチンコ比較図鑑</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">全9大セクションのマトリクス表を印刷します。ブラウザの印刷設定で「横向き」を選ぶと見やすく収まります。</p>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px; background:#6366f1;" onclick="printTab('tab-comparison')">🖨️ 比較図鑑を印刷</button>
+      </div>
+
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#fce7f3; color:#be185d; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4縦 / カンペ集</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">指導Answer Book（全16問）</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">実習生への問いかけ全16問と、その模範解答・比喩解説・ドヤ顔深掘りポイントを一覧印刷します。</p>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px; background:#ec4899;" onclick="printTab('tab-answers')">🖨️ Answer Bookを印刷（解答付き）</button>
+      </div>
+
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#ccfbf1; color:#0f766e; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4縦 / 学生配布用</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">学生用 問いかけワークシート</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">解答を非表示にし、実習生が手書きで考察や比喩を書き込めるテスト形式のワークシートとして印刷します。</p>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px; background:#0f766e;" onclick="printStudentWorksheet()">🖨️ 学生用シートを印刷（解答なし）</button>
+      </div>
+
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#dcfce7; color:#15803d; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4縦 / 症例推理</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">処方箋プロファイリング</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">カメレオン薬剤鑑別表＋15疾患の典型処方病態推理チャートを印刷します。</p>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px; background:#10b981;" onclick="printTab('tab-profiling')">🖨️ プロファイリング印刷</button>
+      </div>
+
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4横（推奨） / 最新トレンド</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">新薬トレンド図鑑</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">マンジャロ、ウゴービ、ケレンディア、クービビック、エンレスト等のパラダイムシフト新薬群と指導ポイントを印刷します。</p>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px; background:#0284c7;" onclick="printTab('tab-newdrugs')">🖨️ 新薬トレンド図鑑を印刷</button>
+      </div>
+
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#d1fae5; color:#065f46; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4横（推奨） / 臨床チートシート</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">実戦スペシャルトピック</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">頻出漢方ウラ読み、小児の飲ませ方・坐薬、在宅栄養剤・褥瘡、周術期休薬タイムライン、相互作用NG集を印刷します。</p>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px; background:#059669;" onclick="printTab('tab-special')">🖨️ スペシャルトピックを印刷</button>
+      </div>
+
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#e0f2fe; color:#0284c7; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4横（推奨） / 店頭カウンター</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">シンプルOTC推奨 ＆ アンチ・ドーピング</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">症状別の単一成分指名買いリスト、基礎疾患別の地雷市販薬、およびアンチ・ドーピング（禁止物質・安全OTC・漢方判定）マトリクスを印刷します。</p>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px; background:#0284c7;" onclick="printTab('tab-otc')">🖨️ OTC ＆ ドーピングマトリクスを印刷</button>
+      </div>
+
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#ede9fe; color:#6d28d9; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4横（推奨） / 薬機法・情報提供書</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">薬剤師業務加算 ＆ フォロー・TR</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">服薬フォローチェックリスト、トレーシングレポート（TR）文面テンプレ、および主要調剤加算の算定要件・薬歴記載・個別指導対策マニュアルを印刷します。</p>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px; background:#7c3aed;" onclick="printTab('tab-followup')">🖨️ 業務加算 ＆ TRマニュアルを印刷</button>
+      </div>
+
+
+    
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#fef3c7; color:#92400e; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4縦 / 臨床事典リスト</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">臨床総合インデックス辞書</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">全16疾患・主要100品目超の薬品・臨床現場キーワードの総合インデックスを、製本・ファイリングしやすい一覧形式で印刷します。</p>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px; background:#d97706;" onclick="printTab('tab-dict')">🖨️ インデックス辞書を印刷</button>
+      </div>
+    </div>
+
+    
+      <div style="border:1px solid var(--border); border-radius:10px; padding:20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px;">A4縦 / 白衣ポケット</span>
+          <h3 style="font-size:1.15rem; color:var(--primary); font-weight:800; margin:8px 0 6px;">処方監査 臨床検査値チートシート</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">腎機能（eGFR/Ccr）、肝機能、電解質、心不全、リウマチ活動性マーカーの基準値・パニック値・疑義照会基準をA4複数枚で美しく印刷します。</p>
+        </div>
+        <button class="header-print-btn" style="width:100%; justify-content:center; margin-top:15px; background:#0284c7;" onclick="printTab('tab-lab')">🖨️ 検査値チートシートを印刷</button>
+      </div>
+
+    <!-- 印刷時の推奨ブラウザ設定 -->
+    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:18px;">
+      <h4 style="font-size:0.95rem; color:#92400e; font-weight:800; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+        💡 綺麗にA4用紙へ収めるための印刷ダイアログ設定のコツ
+      </h4>
+      <ul style="padding-left:20px; font-size:0.88rem; color:#78350f; line-height:1.6;">
+        <li><strong>用紙サイズ：</strong>「A4」を選択してください。複数枚にまたがる場合も綺麗に自動改ページされます。</li>
+        <li><strong>余白：</strong>「最小」または「カスタム（上下左右 10mm）」が最も綺麗に収まります。</li>
+        <li><strong>オプション（重要）：</strong><span style="background:#fef08a; font-weight:700; padding:1px 4px;">「背景のグラフィック」に必ずチェックを入れてください</span>（枠線や色のメリハリが印刷されます）。</li>
+        <li><strong>ヘッダーとフッター：</strong>日付やURLを消したい場合はチェックを外してください。</li>
+        <li><strong>同効薬比較表の印刷時：</strong>表の列数が多いため、レイアウトを「横」に設定すると全体が見渡せます。</li>
+      </ul>
+    </div>
+
+  </div>
+</div>

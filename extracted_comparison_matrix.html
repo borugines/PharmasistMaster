@@ -1,0 +1,917 @@
+﻿```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10疾患「分類間＆同効薬内」ガチンコ比較・使い分けマトリクス</title>
+<style>
+  :root {
+    --primary: #0f172a;
+    --secondary: #1d4ed8;
+    --accent: #0369a1;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --text: #1e293b;
+    --border: #cbd5e1;
+    --class-bg: #eff6ff;
+    --within-bg: #fefce8;
+    --char-badge: #dbeafe;
+    --char-text: #1e40af;
+    --warn-badge: #fee2e2;
+    --warn-text: #991b1b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding-bottom: 50px;
+  }
+
+  /* 上部ナビゲーション */
+  .top-nav {
+    background: var(--primary);
+    color: white;
+    padding: 14px 25px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  .top-nav h1 { font-size: 1.2rem; color: #38bdf8; }
+  .filter-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .filter-btn {
+    background: #334155;
+    color: #e2e8f0;
+    border: none;
+    padding: 6px 11px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.2s;
+  }
+  .filter-btn.active, .filter-btn:hover { background: #38bdf8; color: #0f172a; font-weight: bold; }
+  .search-box {
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.85rem;
+    width: 220px;
+  }
+  .print-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+
+  .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
+
+  /* 疾患ごとの大枠 */
+  .comp-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  }
+  .sec-header {
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .sec-title { font-size: 1.35rem; font-weight: 800; color: var(--primary); }
+  .sec-subtitle { font-size: 0.85rem; color: #64748b; font-weight: bold; }
+
+  /* サブ見出し（分類間 vs 分類内） */
+  .sub-banner {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin: 14px 0 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .banner-class { background: var(--class-bg); color: #1e3a8a; border-left: 5px solid #2563eb; }
+  .banner-within { background: var(--within-bg); color: #854d0e; border-left: 5px solid #eab308; }
+
+  /* 比較テーブル */
+  table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 0.86rem; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #f8fafc; color: var(--primary); font-weight: bold; white-space: nowrap; }
+  
+  /* キャラクターバッジ */
+  .char {
+    display: inline-block;
+    background: var(--char-badge);
+    color: var(--char-text);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.75rem;
+    margin-bottom: 3px;
+  }
+  .warn {
+    display: inline-block;
+    background: var(--warn-badge);
+    color: var(--warn-text);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.75rem;
+    margin-bottom: 3px;
+  }
+  .highlight { background: linear-gradient(transparent 60%, #fef08a 60%); font-weight: bold; }
+
+  /* 印刷用レイアウト（A4横で一覧比較表として出力） */
+  @media print {
+    body { background: white; font-size: 8pt; padding: 0; }
+    .top-nav { display: none !important; }
+    .container { max-width: 100%; margin: 0; padding: 0; }
+    .comp-section {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+      margin-bottom: 10px;
+      page-break-after: always;
+    }
+    .sub-banner { padding: 4px 10px; margin: 8px 0 6px 0; font-size: 8.5pt; }
+    th, td { padding: 5px 6px; font-size: 7.8pt; }
+    @page { size: A4 landscape; margin: 8mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <h1>⚔️ 10疾患「分類間 ＆ 分類内（同効薬）」ガチンコ比較・使い分け図鑑</h1>
+  <div class="filter-bar">
+    <input type="text" id="searchBox" class="search-box" placeholder="🔍 薬名・特徴で検索 (例: 胆汁, むくみ)" onkeyup="searchTables()">
+    <button class="filter-btn active" onclick="filterSec('all', this)">全領域</button>
+    <button class="filter-btn" onclick="filterSec('sec-ht', this)">高血圧</button>
+    <button class="filter-btn" onclick="filterSec('sec-dm', this)">糖尿病</button>
+    <button class="filter-btn" onclick="filterSec('sec-cv', this)">心・脳・抗血栓</button>
+    <button class="filter-btn" onclick="filterSec('sec-psy', this)">精神・不眠・神経</button>
+    <button class="filter-btn" onclick="filterSec('sec-imm', this)">喘息・アレルギー</button>
+    <button class="filter-btn" onclick="filterSec('sec-inf', this)">感染症・抗菌薬</button>
+    <button class="filter-btn" onclick="filterSec('sec-ckd', this)">腎・泌尿器・骨・脂質</button>
+    <button class="filter-btn" onclick="filterSec('sec-onc', this)">がん・緩和</button>
+    <button class="print-btn" onclick="window.print()">🖨️ A4横で印刷</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ==========================================
+       1. 高血圧症（降圧薬の比較）
+       ========================================== -->
+  <div class="comp-section sec-ht">
+    <div class="sec-header">
+      <h2 class="sec-title">① 高血圧症：降圧薬の「4大クラス比較」と「ARB・Ca拮抗薬・β遮断薬のキャラ立ち」</h2>
+      <span class="sec-subtitle">「とりあえずアムロジピン」から卒業するための処方意図解析</span>
+    </div>
+
+    <div class="sub-banner banner-class">
+      <span>🧭 【分類間の比較】第一選択4クラス＋MRA・β遮断薬はどう使い分ける？</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">分類（クラス）</th>
+          <th style="width:20%;">一言キャラ設定</th>
+          <th style="width:28%;">こういう患者にベスト！（積極的適応）</th>
+          <th style="width:36%;">弱点・禁忌・現場の注意点</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Ca拮抗薬（CCB）</strong></td>
+          <td><span class="char">とにかく下げる剛腕エース</span></td>
+          <td>高齢者、狭心症合併、とにかく早く確実に血圧を下げたい時、腎機能が悪い時のベース薬。</td>
+          <td><strong>弱点：</strong>細動脈だけ広げるため<strong>「足首のむくみ」「歯肉肥厚」「ほてり・反射性頻脈」</strong>。心不全（HFrEF）の予後は改善しない。</td>
+        </tr>
+        <tr>
+          <td><strong>ARB / ACE阻害薬</strong></td>
+          <td><span class="char">臓器を守る守護神</span></td>
+          <td><strong>蛋白尿のあるCKD、糖尿病、心不全、心筋梗塞後。</strong>（ACE阻害薬はさらに<strong>誤嚥性肺炎予防</strong>の武器あり！）</td>
+          <td><strong>絶対禁忌：妊婦</strong>。<strong>注意：</strong>開始初期のCr上昇（30%以内なら耐える）、<strong>高K血症</strong>、両側腎動脈狭窄。ACE-Iは空咳。</td>
+        </tr>
+        <tr>
+          <td><strong>利尿薬（サイアザイド系）</strong></td>
+          <td><span class="char">塩分過多を流すスイーパー</span></td>
+          <td><strong>食塩感受性高血圧（塩分過多の日本人・高齢者）</strong>、心不全のうっ血、ARBとの配合剤で切れ味倍増。</td>
+          <td><strong>弱点：</strong><strong>「尿酸値上昇（痛風）」「低K血症」「耐糖能悪化」「夏場の脱水」</strong>。またフルイトラン等は<strong>光線過敏症</strong>に注意！</td>
+        </tr>
+        <tr>
+          <td><strong>MRA（抗アルドステロン）</strong></td>
+          <td><span class="char">難治性を砕く第4の切り札</span></td>
+          <td>3剤併用でも下がらない<strong>治療抵抗性高血圧</strong>、心不全合併、原発性アルドステロン症。</td>
+          <td><strong>最大リスク：高K血症！</strong>（特にARB併用時やeGFR 30未満）。スピロノラクトンは女性化乳房（エサキセレノン・エプレレノンは少ない）。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-banner banner-within">
+      <span>🔬 【分類内の比較】同じクラスの中で「なぜその薬を選んだのか？」ガチンコ比較</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:14%;">クラス</th>
+          <th style="width:22%;">薬剤名（先発/一般名）</th>
+          <th style="width:22%;">クラス内でのキャラ立ち</th>
+          <th style="width:42%;">医師がこれを選ぶ決定的な理由（他剤との差別化ポイント）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="3"><strong>ARB<br>（7兄弟の頂上決戦）</strong></td>
+          <td><strong>アジルバ</strong>（アジルサルタン）</td>
+          <td><span class="char">降圧パワー最強の横綱</span></td>
+          <td>ARBの中で受容体結合力が最も強く、<strong>とにかく血圧を下げる力がNo.1</strong>。ただし下がりすぎ・ふらつきに注意。</td>
+        </tr>
+        <tr>
+          <td><strong>ミカルディス</strong>（テルミサルタン）</td>
+          <td><span class="char">腎不全＆メタボの味方</span></td>
+          <td>ほぼ<strong>100%胆汁排泄（肝代謝）</strong>のため腎機能低下時でも使いやすい。さらに<strong>PPAR-γ活性化作用</strong>を持ちインスリン抵抗性を改善！半減期も約20〜24時間と最長クラス。</td>
+        </tr>
+        <tr>
+          <td><strong>ニューロタン</strong>（ロサルタン）</td>
+          <td><span class="char">尿酸値を下げる異端児</span></td>
+          <td>降圧作用はマイルドだが、腎尿細管の<strong>URAT1を阻害して尿酸排泄を促進する唯一のARB</strong>！痛風・高尿酸血症合併のメタボ男性や、利尿薬併用時の尿酸上昇打ち消しに選ばれる。</td>
+        </tr>
+        <tr>
+          <td rowspan="3"><strong>Ca拮抗薬<br>（チャネルの違い）</strong></td>
+          <td><strong>ノルバスク</strong>（アムロジピン）</td>
+          <td><span class="char">半減期36時間の絶対王者</span></td>
+          <td>血中濃度が極めてゆっくり上下するため、<strong>1日1回飲み忘れても血圧が跳ね上がらない（T/P比が高い）</strong>。グレープフルーツの影響もほぼ受けない。</td>
+        </tr>
+        <tr>
+          <td><strong>アテレック</strong>（シルニジピン）<br><strong>カルブロック</strong>（アゼルニジピン）</td>
+          <td><span class="char">むくまない・腎を守る技巧派</span></td>
+          <td>通常のL型だけでなく<strong>N型（交感神経抑制・輸出細動脈拡張）やT型チャネルもブロック</strong>する。そのためアムロジピンで起きた<strong>「足のむくみ」や「頻脈」が劇的に減り、蛋白尿も減らす</strong>！</td>
+        </tr>
+        <tr>
+          <td><strong>アダラートCR</strong>（ニフェジピン）</td>
+          <td><span class="char">1日2回（最大80mg）の重砲</span></td>
+          <td>アムロジピン10mgでも下がらない重症高血圧に対し、<strong>朝・夕の1日2回に分けて最大80mgまで増量できる</strong>圧倒的パワー。妊娠20週以降の妊婦にも使用可能。</td>
+        </tr>
+        <tr>
+          <td rowspan="2"><strong>β遮断薬<br>（心不全の2強）</strong></td>
+          <td><strong>メインテート</strong>（ビソプロロール）</td>
+          <td><span class="char">β1選択性No.1のスナイパー</span></td>
+          <td>心臓（β1）だけを狙い撃ちし、気管支（β2）をほとんど刺激しないため、<strong>軽度の喘息やCOPD合併でも比較的使いやすい</strong>。頻脈を抑える力が強い。</td>
+        </tr>
+        <tr>
+          <td><strong>アーチスト</strong>（カルベジロール）</td>
+          <td><span class="char">α1遮断も併せ持つ守護盾</span></td>
+          <td>非選択的（β1＋β2）だが、<strong>α1遮断作用（末梢血管を広げる）と抗酸化作用</strong>を持つため、心不全の心臓の後負荷を下げ、インスリン抵抗性も悪化させにくい。（※喘息には禁忌！）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       2. 糖尿病（経口血糖降下薬・注射薬の比較）
+       ========================================== -->
+  <div class="comp-section sec-dm">
+    <div class="sec-header">
+      <h2 class="sec-title">② 糖尿病：血糖降下薬の「クラス別ポジショニング」と「DPP-4・SGLT2・GLP-1の内部比較」</h2>
+      <span class="sec-subtitle">体重が増える薬 vs 減る薬、腎機能が落ちた時に生き残る薬を見極める</span>
+    </div>
+
+    <div class="sub-banner banner-class">
+      <span>🧭 【分類間の比較】7大クラスの「体重・低血糖・心腎保護」一発整理表</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">分類</th>
+          <th style="width:15%;">体重変化</th>
+          <th style="width:15%;">単剤での低血糖</th>
+          <th style="width:24%;">クラス最大の強み</th>
+          <th style="width:28%;">クラス最大の弱点・ピットフォール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ビグアナイド（メトホルミン）</strong></td>
+          <td>不変〜やや減</td>
+          <td>なし</td>
+          <td>インスリン抵抗性改善の王道。安価でエビデンス豊富。</td>
+          <td><strong>乳酸アシドーシス</strong>（eGFR 30未満禁忌、造影剤前後48h休薬、脱水・過度の飲酒NG）、下痢。</td>
+        </tr>
+        <tr>
+          <td><strong>SGLT2阻害薬</strong></td>
+          <td><strong>減少（-2〜3kg）</strong></td>
+          <td>なし</td>
+          <td><strong>心不全・CKDの予後を劇的に改善！</strong>尿から糖を捨てる。</td>
+          <td>尿路・性器感染症（陰部のかゆみ）、脱水、<strong>正常血糖ケトアシドーシス</strong>（絶食・手術前は休薬）、高齢者のサルコペニア。</td>
+        </tr>
+        <tr>
+          <td><strong>GLP-1受容体作動薬<br>（GIP/GLP-1含む）</strong></td>
+          <td><strong>著明に減少</strong></td>
+          <td>なし</td>
+          <td><strong>最強の血糖降下＆食欲抑制・体重減少！</strong>心血管イベント抑制。</td>
+          <td>飲み始めの<strong>悪心・嘔吐・下痢・便秘</strong>、急性膵炎、胆石症。高価。</td>
+        </tr>
+        <tr>
+          <td><strong>DPP-4阻害薬</strong></td>
+          <td>不変</td>
+          <td>なし</td>
+          <td>インスリン分泌が弱い日本人に抜群に効く。安全性が高い。</td>
+          <td>心不全・腎保護のエビデンスはSGLT2/GLP-1に譲る。まれに<strong>水疱性類天疱瘡（皮膚の水ぶくれ）</strong>。</td>
+        </tr>
+        <tr>
+          <td><strong>SU薬 / グリニド薬</strong></td>
+          <td><strong>増加しやすい</strong></td>
+          <td><span class="warn">あり（要注意）</span></td>
+          <td>膵臓を直接叩いてインスリンを出させる確実なパワー（グリニドは食後のみ）。</td>
+          <td><strong>重症・遷延性低血糖</strong>（特に高齢者のSU薬）、空腹感による体重増加。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-banner banner-within">
+      <span>🔬 【分類内の比較】DPP-4阻害薬・SGLT2阻害薬・GLP-1製剤の使い分け</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:15%;">クラス</th>
+          <th style="width:22%;">薬剤名</th>
+          <th style="width:23%;">キャラ設定・排泄経路</th>
+          <th style="width:40%;">同効薬内での決定的な使い分けポイント</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="3"><strong>DPP-4阻害薬<br>（腎機能で真っ二つ！）</strong></td>
+          <td><strong>トラゼンタ</strong>（リナグリプチン）<br><strong>テネリア</strong>（テネリグリプチン）</td>
+          <td><span class="char">腎機能フリーの胆汁排泄組</span></td>
+          <td><strong>透析患者まで一切の減量不要！</strong>腎機能が悪い高齢者や、検査値がすぐ分からない在宅患者にはこの2剤が圧倒的に選ばれる。</td>
+        </tr>
+        <tr>
+          <td><strong>ジャヌビア/グラクティブ</strong><br><strong>エクア / ネシーナ</strong></td>
+          <td><span class="char">腎排泄型のスタンダード組</span></td>
+          <td>切れ味は良いが腎排泄のため、<strong>eGFR（またはCCr）に応じて半量〜1/4量へきっちり減量監査が必要</strong>。エクアは1日2回投与で夜間〜朝まで手厚く抑える。</td>
+        </tr>
+        <tr>
+          <td><strong>スイニー</strong>（アナグリプチン）</td>
+          <td><span class="char">LDLコレステロールも下げる</span></td>
+          <td>1日2回型だが、小腸や肝臓でのコレステロール合成を抑え、<strong>悪玉（LDL-C）を少し下げるユニークな付加価値</strong>を持つ。</td>
+        </tr>
+        <tr>
+          <td rowspan="2"><strong>SGLT2阻害薬<br>（適応症の広さ勝負）</strong></td>
+          <td><strong>フォシーガ</strong>（ダパグリフロジン）<br><strong>ジャディアンス</strong>（エンパグリフロジン）</td>
+          <td><span class="char">糖尿病・心不全・CKDの三冠王</span></td>
+          <td><strong>「2型糖尿病（フォシーガは1型も）」「慢性心不全」「慢性腎臓病」の3つすべてに保険適用を持つ2大巨頭！</strong>心腎保護目的なら10mg固定で使われる。</td>
+        </tr>
+        <tr>
+          <td><strong>カナグル</strong>（カナグリフロジン）</td>
+          <td><span class="char">SGLT1も少し抑える腎保護薬</span></td>
+          <td>2型糖尿病に加え「2型糖尿病を合併するCKD」の適応あり。腸管のSGLT1もわずかに阻害するため食後高血糖抑制に優れる。</td>
+        </tr>
+        <tr>
+          <td rowspan="3"><strong>GLP-1 / GIP製剤<br>（経口 vs 週1注射）</strong></td>
+          <td><strong>リベルサス錠</strong>（経口セマグルチド）</td>
+          <td><span class="char">注射嫌いを救う唯一の飲み薬</span></td>
+          <td>注射がどうしても嫌な患者の救世主。ただし<strong>「起床時・水約120mL以下・服用後30分は水を含め絶飲食」</strong>を守らないと吸収率がゼロになる気難しさがある。</td>
+        </tr>
+        <tr>
+          <td><strong>オゼンピック / トルリシティ</strong></td>
+          <td><span class="char">週1回注射の主力コンビ</span></td>
+          <td>トルリシティは<strong>「針が最初から内蔵されていて見えない・1回使い切り」</strong>のため、高齢者の自己注射導入で圧倒的にミスが少ない！オゼンピックは減量・血糖降下パワーが強め。</td>
+        </tr>
+        <tr>
+          <td><strong>マンジャロ</strong>（チルゼパチド）</td>
+          <td><span class="char">GIP＋GLP-1の超新星モンスター</span></td>
+          <td>GLP-1だけでなく<strong>GIP受容体も同時に刺激するデュアルアゴニスト</strong>。既存のあらゆる薬を凌駕する圧倒的なHbA1c低下＆体重減少パワーを持つ。（※痩せすぎ・胆道疾患に注意）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       3. 心疾患・脳血管障害（抗血栓薬・利尿薬の比較）
+       ========================================== -->
+  <div class="comp-section sec-cv">
+    <div class="sec-header">
+      <h2 class="sec-title">③ 心・脳血管障害：「DOAC 4兄弟」と「抗血小板薬 4銃士」の完全使い分け</h2>
+      <span class="sec-subtitle">出血リスク・腎機能・飲む回数・脳梗塞の病型でここまで変わる！</span>
+    </div>
+
+    <div class="sub-banner banner-within">
+      <span>🩸 【DOAC 4兄弟のガチンコ比較】なぜワルファリンではなく、そしてなぜそのDOACなのか？</span>
+      <span style="font-size:0.8rem;">※機械弁置換後・重度僧帽弁狭窄症・透析（CCr 15未満）はDOAC禁忌＝ワルファリン一択！</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">薬剤名</th>
+          <th style="width:12%;">標的・回数</th>
+          <th style="width:14%;">腎排泄率・禁忌</th>
+          <th style="width:26%;">減量基準（ここが監査の急所！）</th>
+          <th style="width:32%;">クラス内でのキャラ立ち・選ばれる理由</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>プラザキサ</strong><br>（ダビガトラン）</td>
+          <td>トロンビン阻害<br><strong>1日2回</strong></td>
+          <td>腎排泄 <strong>80%</strong><br><span class="warn">CCr 30未満禁忌</span></td>
+          <td>①70歳以上、②CCr 30〜50、③P糖蛋白阻害薬併用、④消化管出血既往 等で150mg×2 ➔ 110mg×2へ。</td>
+          <td><span class="char">脳梗塞予防パワー最強＆特異的中和薬（プリズバインド）あり</span><br>ただし<strong>腎排泄率が80%と極めて高く</strong>、カプセルが大きく湿気に弱い（一包化NG）。胃部不快感が出やすい。</td>
+        </tr>
+        <tr>
+          <td><strong>イグザレルト</strong><br>（リバーロキサバン）</td>
+          <td>Xa因子阻害<br><strong>1日1回</strong></td>
+          <td>腎排泄 33%<br><span class="warn">CCr 15未満禁忌</span></td>
+          <td><strong>CCr 15〜49 で減量</strong>（15mg ➔ 10mg）。<br>※年齢や体重ではなくCCr一本勝負！</td>
+          <td><span class="char">1日1回・小さなOD錠・粉砕や簡易懸濁もOK</span><br><strong>食後に飲まないと吸収率が落ちる</strong>（特に15mg錠）点だけ注意。嚥下障害患者の経管栄養にも使いやすい。</td>
+        </tr>
+        <tr>
+          <td><strong>エリキュース</strong><br>（アピキサバン）</td>
+          <td>Xa因子阻害<br><strong>1日2回</strong></td>
+          <td>腎排泄 <strong>27%（最小）</strong><br><span class="warn">CCr 15未満禁忌</span></td>
+          <td><strong>「80歳以上」「体重60kg以下」「血清Cr 1.5以上」のうち2つ以上</strong>該当で半量（5mg×2 ➔ 2.5mg×2）。</td>
+          <td><span class="char">大出血・消化管出血が最も少ない優等生</span><br>1日2回に分けることで血中濃度の山と谷が小さく、<strong>高齢者や腎機能低下気味の患者で安全性が最も高い</strong>として処方数トップクラス！</td>
+        </tr>
+        <tr>
+          <td><strong>リクシアナ</strong><br>（エドキサバン）</td>
+          <td>Xa因子阻害<br><strong>1日1回</strong></td>
+          <td>腎排泄 50%<br><span class="warn">CCr 15未満禁忌</span></td>
+          <td><strong>「体重60kg以下」「CCr 15〜50」「P糖蛋白阻害薬」の1つでも</strong>該当で半量（60mg ➔ 30mg）。<strong>さらに超高齢・高出血リスクには15mg設定あり！</strong></td>
+          <td><span class="char">1日1回・食事の影響なし・超高齢者（15mg）までカバー</span><br>小柄な日本人女性（60kg以下）では自動的に30mgになる分かりやすさ。<strong>80歳以上の超高齢・低体重患者には15mg</strong>という選択肢がある唯一のDOAC！</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-banner banner-within">
+      <span>🛡️ 【抗血小板薬 4銃士のガチンコ比較】心臓（ステント）と脳梗塞で主役が入れ替わる！</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">薬剤名</th>
+          <th style="width:18%;">作用機序</th>
+          <th style="width:24%;">主戦場（心臓 vs 脳）</th>
+          <th style="width:40%;">他剤との決定的な違い・ピットフォール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>バイアスピリン</strong><br>（アスピリン）</td>
+          <td>COX-1不可逆的阻害</td>
+          <td>狭心症・心筋梗塞・脳梗塞のベース薬（DAPTの相棒）</td>
+          <td>安価で歴史があるが、<strong>胃粘膜障害（消化管出血）</strong>を起こしやすいためPPI併用が多い。また<strong>ロキソニン等のNSAIDsを先に飲むとアスピリンの結合が邪魔されて血栓予防効果が消える</strong>！</td>
+        </tr>
+        <tr>
+          <td><strong>プラビックス</strong><br>（クロピドグレル）</td>
+          <td>P2Y12受容体不可逆的阻害（プロドラッグ）</td>
+          <td><strong>非心原性脳梗塞の第一選択</strong>＆PCI後の主力</td>
+          <td>胃障害が少なく使いやすいが、肝臓の<strong>CYP2C19で活性化されるプロドラッグ</strong>。実は<strong>日本人の約20%は遺伝的にCYP2C19が働かず（PM：Poor Metabolizer）、薬が十分に効かない</strong>弱点がある！</td>
+        </tr>
+        <tr>
+          <td><strong>エフィエント</strong><br>（プラスグレル）</td>
+          <td>P2Y12受容体不可逆的阻害（次世代型）</td>
+          <td><strong>PCI（心臓カテーテル）後の絶対エース</strong>（※大血管アテローム脳梗塞等にも適応拡大）</td>
+          <td>クロピドグレルと違い、<strong>CYP2C19の遺伝子多型の影響を全く受けず、誰にでも速く確実に効く！</strong>そのため現在の心臓ステント治療ではプラビックスを抜いて主流になっている。</td>
+        </tr>
+        <tr>
+          <td><strong>プレタール</strong><br>（シロスタゾール）</td>
+          <td>PDE3阻害（cAMP増加）</td>
+          <td><strong>ラクナ梗塞・末梢動脈疾患（PAD・間欠性跛行）</strong></td>
+          <td>血小板を抑えるだけでなく<strong>「血管拡張作用」と「血管内皮保護作用」</strong>を持つため、出血リスクが圧倒的に少なく、誤嚥性肺炎予防効果もある。ただし<strong>「頭痛」と「頻脈（動悸）」</strong>が必発（うっ血性心不全には禁忌！）。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       4. 精神神経疾患（睡眠薬・抗うつ薬・抗精神病薬の比較）
+       ========================================== -->
+  <div class="comp-section sec-psy">
+    <div class="sec-header">
+      <h2 class="sec-title">④ 精神神経疾患：「睡眠薬の新旧対決」と「抗うつ薬・認知症薬のマトリクス」</h2>
+      <span class="sec-subtitle">受容体プロファイルから「眠気・体重・吐き気・転倒リスク」を完全に予測する</span>
+    </div>
+
+    <div class="sub-banner banner-class">
+      <span>🌙 【睡眠薬の分類間＆同効薬比較】「寝つきの悪さ（入眠障害）」か「夜中に目が覚める（中途覚醒）」か？</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">分類</th>
+          <th style="width:20%;">薬剤名</th>
+          <th style="width:18%;">得意な不眠タイプ</th>
+          <th style="width:16%;">転倒・依存リスク</th>
+          <th style="width:30%;">キャラ立ち・現場での使い分け</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="3"><strong>オレキシン受容体拮抗薬（DORA）</strong><br>【現在の第一選択】</td>
+          <td><strong>デエビゴ</strong>（レンボレキサント）</td>
+          <td><strong>入眠障害 ＆ 中途覚醒</strong>（万能型）</td>
+          <td>極めて低い（筋弛緩なし）</td>
+          <td><span class="char">現在の不眠症治療のトップランナー</span> 寝つきにも途中覚醒にもシャープに効く。まれに<strong>「悪夢（リアルな夢を見る）」</strong>の訴えあり。</td>
+        </tr>
+        <tr>
+          <td><strong>ベルソムラ</strong>（スボレキサント）</td>
+          <td><strong>中途覚醒・早朝覚醒</strong></td>
+          <td>極めて低い</td>
+          <td>夜中に何度も目が覚めるタイプに強い。クラリスロマイシン等の<strong>CYP3A阻害薬と併用禁忌</strong>な点に注意。</td>
+        </tr>
+        <tr>
+          <td><strong>クービビック</strong>（ダリドレキサント）</td>
+          <td>入眠 ＆ 睡眠維持</td>
+          <td>極めて低い</td>
+          <td><span class="char">半減期が約8時間と絶妙！</span> 朝までぐっすり眠れるのに<strong>翌朝の持ち越し（眠気・だるさ）が最も出にくい</strong>よう設計された最新型。</td>
+        </tr>
+        <tr>
+          <td><strong>メラトニン作動薬</strong></td>
+          <td><strong>ロゼレム</strong>（ラメルテオン）</td>
+          <td>体内時計のズレ・<strong>せん妄予防</strong></td>
+          <td><strong>ゼロ（最も安全）</strong></td>
+          <td>「睡眠薬」というより「夜だと脳に教える時計合わせの薬」。即効性は弱いが、高齢者の入院時せん妄予防には最強。（※フルボキサミン併用禁忌）</td>
+        </tr>
+        <tr>
+          <td><strong>非BZD系（Z-drug）</strong></td>
+          <td><strong>マイスリー</strong>（ゾルピデム）<br><strong>ルネスタ</strong>（エスゾピクロン）</td>
+          <td><strong>入眠障害（キレ味鋭い）</strong></td>
+          <td>中（高齢者はふらつき・健忘注意）</td>
+          <td>「飲んだら30分でスコーンと寝落ちしたい」患者に根強い人気。ルネスタは翌朝<strong>「口の中が苦くなる（金属味）」</strong>特有の副作用あり。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-banner banner-within">
+      <span>🧠 【抗うつ薬（SSRI / SNRI / NaSSA）＆ 抗認知症薬】のキャラ別使い分け</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">分類・薬剤名</th>
+          <th style="width:20%;">ターゲット神経伝達物質</th>
+          <th style="width:28%;">こういう患者に選ばれる！（強み）</th>
+          <th style="width:36%;">特有の副作用・注意点</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>SSRI</strong><br>・<strong>レクサプロ</strong>（エスシタロプラム）<br>・<strong>ジェイゾロフト</strong>（セルトラリン）</td>
+          <td>セロトニンのみ（選択性極めて高い）</td>
+          <td><strong>不安感が強い、パニック障害や強迫性障害を伴ううつ病の第一選択。</strong>レクサプロは1日1回で効果発現が比較的早く最も使いやすい。</td>
+          <td>飲み始め1〜2週間の<strong>「吐き気・下痢」</strong>。レクサプロは高用量で<strong>QT延長</strong>に注意。パキシル（パロキセチン）は離脱症状と相互作用が強いため現在は減少傾向。</td>
+        </tr>
+        <tr>
+          <td><strong>SNRI</strong><br>・<strong>サインバルタ</strong>（デュロキセチン）<br>・<strong>イフェクサー</strong>（ベンラファキシン）</td>
+          <td>セロトニン ＋ <strong>ノルアドレナリン（意欲・痛み抑制）</strong></td>
+          <td><strong>「やる気が出ない・体が鉛のように重い・慢性的な痛み（腰痛や神経痛）がある」</strong>タイプに抜群！</td>
+          <td>ノルアドレナリン作用による<strong>「血圧上昇・頻脈」「尿閉（前立腺肥大の高齢男性は要注意！）」「口渇・便秘」</strong>。閉塞隅角緑内障は禁忌。</td>
+        </tr>
+        <tr>
+          <td><strong>NaSSA</strong><br>・<strong>リフレックス / レメロン</strong><br>（ミルタザピン）</td>
+          <td>α2自己受容体遮断 ＋ <strong>5-HT2/3遮断 ＆ H1遮断</strong></td>
+          <td><strong>「全く眠れない・ご飯が食べられず痩せてしまった」うつ病患者の救世主！</strong>5-HT3を最初からブロックするため<strong>吐き気が全く出ない（むしろ制吐作用）</strong>＆効果発現が1週目からと最速！</td>
+          <td>抗ヒスタミン作用が超強力なため、<strong>「猛烈な眠気（必ず寝る前に飲む・運転禁止）」</strong>と<strong>「食欲亢進・体重増加」</strong>が必発。</td>
+        </tr>
+        <tr>
+          <td><strong>抗認知症薬 4剤の使い分け</strong><br>・ドネペジル / ガランタミン / リバスチグミン / メマンチン</td>
+          <td>AChE阻害（前3剤） vs NMDA受容体拮抗（メマンチン）</td>
+          <td colspan="2">
+            ・<strong>元気がない・アパシー（無気力）型 ➔ ドネペジル（アリセプト）</strong>：脳を賦活化する力が強い（逆に怒りっぽい人に使うと暴れることがある！）。<br>
+            ・<strong>イライラ・怒りっぽい・興奮（BPSD）型 ➔ メマンチン（メマリー）</strong>：過剰なグルタミン酸を抑えて穏やかにする（腎排泄なので高度腎障害は半量！）。<br>
+            ・<strong>飲み込みが悪い・内服拒否・独居 ➔ リバスチグミンテープ（イクセロン/リバスタッチ）</strong>：貼るだけで家族が管理でき、胃腸障害も少ない（皮膚かぶれ予防に保湿＆毎日貼る場所を変える！）。
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       5. 免疫・アレルギー（吸入薬・抗ヒスタミン薬）
+       ========================================== -->
+  <div class="comp-section sec-imm">
+    <div class="sec-header">
+      <h2 class="sec-title">⑤ 免疫・アレルギー：「吸入デバイス＆配合剤マトリクス」と「抗ヒスタミン薬の眠気・効果マップ」</h2>
+      <span class="sec-subtitle">患者の「吸う力・器用さ」と「運転の有無・食事タイミング」で最適解を選ぶ</span>
+    </div>
+
+    <div class="sub-banner banner-within">
+      <span>🌬️ 【喘息・COPD 吸入薬（ICS/LABA ＆ LAMA）比較】デバイスと成分の個性を見抜く！</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">製剤名（デバイス名）</th>
+          <th style="width:16%;">分類・回数</th>
+          <th style="width:18%;">デバイスの特徴</th>
+          <th style="width:48%;">なぜ医師はこの吸入薬を選んだのか？（決定的な差別化ポイント）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>レルベア</strong><br>（エリプタ）</td>
+          <td>ICS/LABA<br><strong>1日1回</strong></td>
+          <td>DPI（カバーを開けて吸うだけの1アクション）</td>
+          <td><span class="char">アドヒアランス最強の1日1回製剤</span> 操作が「蓋を開けて吸うだけ」と最も簡単。さらに同じ「エリプタ」デバイスでLAMA単剤（エンクラッセ）、LABA/LAMA（アノーロ）、3剤配合（<strong>テリルジー</strong>）まで揃っているため、<strong>ステップアップしても患者が新しい器具の使い方を覚え直さなくて済む！</strong></td>
+        </tr>
+        <tr>
+          <td><strong>シムビコート / ブデホル</strong><br>（タービュヘイラー）</td>
+          <td>ICS/LABA<br>1日2回（＋頓用）</td>
+          <td>DPI（底をクルカチッと回して吸う）</td>
+          <td><span class="char">即効性LABA（ホルモテロール）配合＝SMART療法が可能！</span> 気管支拡張薬のホルモテロールは数分で効き始めるため、<strong>「毎日の定期吸入」と「発作が出た時の頓用吸入」をこれ1本で兼用できる！</strong>粒子が細かく末梢気道まで届きやすい。</td>
+        </tr>
+        <tr>
+          <td><strong>フルティフォーム</strong><br>（pMDI：エアゾール）</td>
+          <td>ICS/LABA<br>1日2回</td>
+          <td><strong>pMDI（ガス噴霧式）</strong></td>
+          <td><span class="char">吸う力が弱い高齢者・重症患者の救世主</span> ドライパウダー（DPI）を強く吸い込めない患者でも、プシュッと霧が出るため楽に吸える（スペーサー併用も可）。</td>
+        </tr>
+        <tr>
+          <td><strong>スピリーバ / スピオルト</strong><br>（レスピマット）</td>
+          <td>LAMA / LABA+LAMA<br><strong>1日1回 2吸入</strong></td>
+          <td><strong>SMI（ソフトミスト）</strong></td>
+          <td><span class="char">COPDの第一選択・ゆっくり出る霧</span> ガスを使わずバネの力で非常にゆっくりとした細かい霧を出すため、むせにくく肺の奥まで届く。（※抗コリン薬なので<strong>閉塞隅角緑内障・前立腺肥大症の排尿障害は禁忌！</strong>）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-banner banner-within">
+      <span>🤧 【第2世代抗ヒスタミン薬 ガチンコ比較】「絶対に眠くならない組」vs「効果重視組」＆「空腹時トラップ」</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">グループ</th>
+          <th style="width:24%;">薬剤名</th>
+          <th style="width:16%;">自動車運転の記載</th>
+          <th style="width:42%;">現場で必ず指導すべき「用法・食事の影響・腎機能」の急所</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>【非鎮静性・絶対運転OK組】</strong><br>脳内ヒスタミン受容体占拠率がほぼゼロ！</td>
+          <td>・<strong>ビラノア</strong>（ビラスチン）<br>・<strong>アレグラ</strong>（フェキソフェナジン）<br>・<strong>デザレックス</strong>（デスロラタジン）<br>・<strong>クラリチン</strong>（ロラタジン）</td>
+          <td><strong>制限記載なし<br>（運転完全OK！）</strong></td>
+          <td>・<strong>ビラノア：</strong>この組の中で<strong>効果（切れ味）が最強クラス</strong>！ただし食事と一緒だと吸収率が6割に激減するため<strong>「空腹時（食前1時間または食後2時間以上空けて）1日1回」が絶対条件！</strong><br>・<strong>デザレックス・クラリチン：</strong>1日1回で食事の影響を受けないため、不規則な生活の受験生やドライバーに最適！</td>
+        </tr>
+        <tr>
+          <td><strong>【中間のバランス組】</strong></td>
+          <td>・<strong>アレジオン</strong>（エピナスチン）<br>・<strong>タリオン</strong>（ベポタスチン）<br>・<strong>ルパフィン</strong>（ルパタジン）</td>
+          <td><strong>注意記載あり</strong><br>（眠気が出たら運転控える）</td>
+          <td>・<strong>ルパフィン：</strong>抗ヒスタミン作用に加え<strong>「抗PAF（血小板活性化因子）作用」</strong>を持つため、通常の薬では治らない<strong>「鼻づまり」や「難治性じんましん」</strong>に抜群の威力を発揮する！</td>
+        </tr>
+        <tr>
+          <td><strong>【効果最強・やや眠気組】</strong><br>じんましん・強いかゆみに！</td>
+          <td>・<strong>ザイザル</strong>（レボセチリジン）<br>・<strong>アレロック</strong>（オロパタジン）</td>
+          <td><strong>運転禁止記載あり！</strong></td>
+          <td>かゆみを止めるパワーは最強クラスだが、眠気が出やすいため<strong>「寝る前1回（ザイザル）」</strong>などの工夫が必要。さらに<strong>この2剤は腎排泄型のため、腎機能低下（高齢者）では減量必須（ザイザルはCCr 10未満禁忌）！</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       6. 感染症（抗菌薬の比較）
+       ========================================== -->
+  <div class="comp-section sec-inf">
+    <div class="sec-header">
+      <h2 class="sec-title">⑥ 感染症：経口抗菌薬の「スペクトラム比較」と「セフェム・キノロン・マクロライドの内部事情」</h2>
+      <span class="sec-subtitle">「バイオアベイラビリティ（吸収率）」と「狙っている菌」から処方の妥当性を評価する</span>
+    </div>
+
+    <div class="sub-banner banner-class">
+      <span>🦠 【分類間の比較】4大経口抗菌薬クラスの「得意な菌」と「PK/PD（飲み方）」</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">クラス</th>
+          <th style="width:18%;">PK/PD（正解の飲み方）</th>
+          <th style="width:30%;">メインターゲット（得意な菌・感染症）</th>
+          <th style="width:36%;">全く効かない菌（穴）＆ 現場のピットフォール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ペニシリン系</strong><br>（サワシリン）<br>（オーグメンチン）</td>
+          <td><strong>時間依存性</strong><br>（1日3〜4回 分割）</td>
+          <td>肺炎球菌、溶連菌、梅毒、歯性感染、副鼻腔炎の<strong>絶対的第一選択！</strong>オーグメンチンはβラクタマーゼ産生菌・嫌気性菌もカバー。</td>
+          <td><strong>穴：</strong>マイコプラズマ等の非定型菌には無効（細胞壁がないため）。<br><strong>注意：</strong>EBウイルス（伝染性単核球症）に使うと高率に薬疹が出る！</td>
+        </tr>
+        <tr>
+          <td><strong>第3世代経口セフェム</strong><br>（メイアクト・フロモックス・セフゾン等）</td>
+          <td><strong>時間依存性</strong><br>（1日3回 分割）</td>
+          <td>大腸菌やクレブシエラなどのグラム陰性桿菌（尿路感染等）まで幅広くカバーする…とされているが<strong>実は腸からの吸収率が約20〜30%と極めて低い！</strong></td>
+          <td><strong>ピットフォール：</strong>吸収されずに腸に残った薬が腸内細菌を荒らし下痢を起こす。さらにピボキシル基を持つ製剤（メイアクト・フロモックス・トミロン）を小児に長期投与すると<strong>低カルニチン血症による低血糖・痙攣</strong>を起こす！</td>
+        </tr>
+        <tr>
+          <td><strong>マクロライド系</strong><br>（クラリス・ジスロマック）</td>
+          <td>AUC/MIC依存性</td>
+          <td><strong>マイコプラズマ、百日咳、クラミジア、非結核性抗酸菌（NTM）</strong>、キャンピロバクター腸炎。</td>
+          <td><strong>穴：</strong>肺炎球菌の多くはすでにマクロライド耐性！<br><strong>注意：</strong>クラリスは<strong>強力なCYP3A4阻害＆P糖蛋白阻害</strong>を持つ相互作用のデパート！QT延長にも注意。</td>
+        </tr>
+        <tr>
+          <td><strong>ニューキノロン系</strong><br>（クラビット・グレースビット・ジェニナック・ラスビック）</td>
+          <td><strong>濃度依存性</strong><br>（1日1回 一括高用量）</td>
+          <td>グラム陽性・陰性・非定型菌・緑膿菌（クラビット）までほぼ全てを薙ぎ倒す<strong>最終兵器（温存すべき切り札）</strong>！</td>
+          <td><strong>絶対注意：</strong><strong>Mg/Al/Fe/Ca製剤とのキレート形成</strong>（吸収がゼロになる）、<strong>NSAIDs併用による痙攣リスク</strong>、アキレス腱炎・断裂、大動脈瘤リスク、<strong>結核菌を中途半端に抑えて診断を遅らせるリスク</strong>。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-banner banner-within">
+      <span>🔬 【分類内の比較】セフェム系（第1世代 vs 第3世代）＆ ニューキノロン系の使い分け</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">比較テーマ</th>
+          <th style="width:25%;">薬剤名</th>
+          <th style="width:57%;">なぜ玄人の医師はこっちを選ぶのか？（吸収率とターゲットの差）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="2"><strong>経口セフェム系の真実</strong></td>
+          <td><strong>第1世代：ケフレックス（セファレキシン）</strong></td>
+          <td><span class="char">吸収率（バイオアベイラビリティ）90%以上の超優秀薬！</span> 黄色ブドウ球菌やレンサ球菌による<strong>「皮膚感染症（蜂窩織炎・とびひ・傷口の化膿）」や「単純性膀胱炎」</strong>には、吸収の悪い第3世代セフェムではなく、しっかり血中に乗る第1世代のケフレックス（またはバナン等のエステル型）を選ぶのが感染症専門医のセオリー！</td>
+        </tr>
+        <tr>
+          <td><strong>第3世代：メイアクト / フロモックス</strong></td>
+          <td>日本の外来で長年処方されてきたが、AMR（薬剤耐性）対策の手引きでは「漫然と使わない」対象。処方されていたら「下痢対策」と小児の「低カルニチン血症（元気がない・ふらつき）」をフォロー。</td>
+        </tr>
+        <tr>
+          <td rowspan="2"><strong>ニューキノロン系の個性</strong></td>
+          <td><strong>クラビット（レボフロキサシン）500mg</strong></td>
+          <td><span class="char">尿路感染症・緑膿菌・呼吸器までこなす万能王</span> ほぼ<strong>100%が未変化体のまま尿中へ排泄</strong>されるため、腎盂腎炎や複雑性膀胱炎、前立腺炎には圧倒的No.1！その代わり<strong>腎機能（CCr）に応じた減量・投与間隔延長（2日に1回など）が絶対に必要！</strong></td>
+        </tr>
+        <tr>
+          <td><strong>ジェニナック / グレースビット / ラスビック</strong></td>
+          <td><span class="char">肺炎球菌への殺菌力を極限まで高めた「レスピラトリー・キノロン」</span> 呼吸器感染症（肺炎・副鼻腔炎）に特化。特にジェニナックやラスビックは肝代謝の割合も高く、<strong>腎機能低下時でもクラビットより減量調整がシンプル（ラスビックは減量不要）</strong>というメリットがある。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       7. 腎・泌尿器・脂質・骨・消化器（頻出同効薬比較）
+       ========================================== -->
+  <div class="comp-section sec-ckd">
+    <div class="sec-header">
+      <h2 class="sec-title">⑦ 腎・泌尿器・代謝・消化器：「スタチン」「尿酸薬」「泌尿器薬」「胃酸分泌抑制薬」の比較</h2>
+      <span class="sec-subtitle">ポリファーマシー領域で処方提案するための必須知識</span>
+    </div>
+
+    <div class="sub-banner banner-within">
+      <span>⚡ 【頻出4領域の同効薬ガチンコ比較】違いを一言で言えるようにしよう！</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">領域・クラス</th>
+          <th style="width:24%;">比較する薬剤グループ</th>
+          <th style="width:60%;">決定的な違い・使い分けの鉄則</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>脂質異常症<br>（スタチン6兄弟）</strong></td>
+          <td><strong>【ストロングスタチン】</strong><br>・クレストール（ロスバスタチン）<br>・リピトール（アトルバスタチン）<br>・リバロ（ピタバスタチン）<br>vs <strong>【スタンダード】</strong>メバロチン等</td>
+          <td>・<strong>LDL-C低下パワー（約40〜50%減）：</strong>ストロング3剤が圧倒的（心筋梗塞後の二次予防やハイリスクはストロング一択！）。<br>・<strong>リピトール：</strong>胆汁排泄型で腎不全でも使いやすいが、<strong>CYP3A4で代謝されるためグレープフルーツやクラリスとの相互作用あり</strong>。<br>・<strong>リバロ ＆ クレストール ＆ メバロチン：</strong>水溶性（またはCYPをほぼ使わない）ため、<strong>多剤併用患者でも薬物相互作用が極めて少ない！</strong>さらにリバロは糖尿病（耐糖能悪化）を起こしにくい。</td>
+        </tr>
+        <tr>
+          <td><strong>高尿酸血症<br>（キサンチンオキシダーゼ阻害薬 vs 排泄促進）</strong></td>
+          <td>・<strong>ザイロリック</strong>（アロプリノール）<br>・<strong>フェブリク</strong>（フェブキソスタット）<br>・<strong>ユリス</strong>（ドチヌラド：URAT1阻害）</td>
+          <td>・<strong>ザイロリック：</strong>活性代謝物（オキシプリノール）が100%腎排泄のため、<strong>腎機能低下時に減量しないと重篤な中毒性表皮壊死融解症（TEN）や骨髄抑制を起こす！</strong><br>・<strong>フェブリク：</strong>肝と腎の両方から排泄されるため、<strong>軽度〜中等度の腎機能低下（CKD）でも減量せず1日1回で安全に使える現在の主力！</strong><br>・<strong>ユリス：</strong>日本人の多くが該当する「尿酸排泄低下型」のピンポイント治療薬（尿路結石を防ぐため水分摂取と尿アルカリ化に注意）。</td>
+        </tr>
+        <tr>
+          <td><strong>前立腺肥大症（α1遮断薬）<br>＆ 過活動膀胱（OAB）</strong></td>
+          <td>・<strong>ハルナール</strong>（タムスロシン）<br>・<strong>ユリーフ</strong>（シロドシン）<br>・<strong>フリバス</strong>（ナフトピジル）<br>・<strong>ベタニス / ベオーバ</strong>（β3作動薬）</td>
+          <td>・<strong>ユリーフ（α1A超選択的）：</strong>前立腺の筋肉を緩める切れ味（尿の出やすさ）は最強！ただし1日2回服用で、男性特有の副作用<strong>「射精障害（逆行性射精）」</strong>が高率に出る。<br>・<strong>フリバス（α1D優位）：</strong>膀胱の知覚神経に関わるα1Dを抑えるため、<strong>「夜間頻尿（蓄尿症状）」が強いタイプ</strong>に選ばれる。<br>・<strong>OAB治療薬：</strong>昔は抗コリン薬（ベシケア等）が主流だったが、口渇・便秘・尿閉・認知症悪化リスクがあるため、現在は<strong>副作用の少ないβ3作動薬（ベオーバ・ベタニス）が完全な第一選択！</strong>（※ベタニスは生殖可能年齢への投与回避とCYP2D6阻害に注意、ベオーバは相互作用が少なく使いやすい）。</td>
+        </tr>
+        <tr>
+          <td><strong>胃酸分泌抑制薬<br>（P-CAB vs PPI）</strong></td>
+          <td>・<strong>タケキャブ</strong>（ボノプラザン：P-CAB）<br>・<strong>ネキシウム</strong>（エソメプラゾール）<br>・<strong>タケプロン / オメプラール / パリエット</strong></td>
+          <td>・<strong>タケキャブ（P-CAB）：</strong>胃酸による活性化が不要で、カリウムイオンに競合して<strong>初回服用から数時間で胃酸を完全にストップさせる最強の切れ味！</strong>CYP2C19の遺伝子多型の影響も受けないため、重症逆流性食道炎やピロリ除菌の絶対王者。<br>・<strong>PPI同士の相互作用の違い：</strong>オメプラゾールやランソプラゾールはCYP2C19で代謝されるためクロピドグレル等との相互作用が議論されるが、<strong>パリエット（ラベプラゾール）は非酵素的還元が主体のため相互作用が最も少ない！</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       8. 悪性腫瘍・緩和ケア（オピオイド・制吐薬の比較）
+       ========================================== -->
+  <div class="comp-section sec-onc">
+    <div class="sec-header">
+      <h2 class="sec-title">⑧ 悪性腫瘍・緩和ケア：「強オピオイド 5大製剤」のガチンコ使い分けマトリクス</h2>
+      <span class="sec-subtitle">「腎機能」「便秘の強さ」「神経障害性疼痛の有無」「内服の可否」でベストな麻薬を選ぶ！</span>
+    </div>
+
+    <div class="sub-banner banner-within">
+      <span>🎗️ 【強オピオイド比較】なぜモルヒネではなくオキシコドンやフェンタニル、タペンタドールなのか？</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">オピオイド名</th>
+          <th style="width:18%;">選べる剤形</th>
+          <th style="width:16%;">腎機能低下時</th>
+          <th style="width:14%;">便秘・吐き気</th>
+          <th style="width:36%;">この薬が選ばれる決定的な場面（キャラ立ち）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>モルヒネ</strong><br>（MSコンチン、オプソ等）</td>
+          <td>内服・坐剤・注射（全剤形あり）</td>
+          <td><span class="warn">原則回避（M6G蓄積で傾眠・呼吸抑制）</span></td>
+          <td>強い</td>
+          <td><span class="char">がんによる「息苦しさ（呼吸困難感）」を和らげる唯一無二のエビデンスあり！</span> 肺がん終末期などの呼吸苦緩和にはモルヒネが選ばれる。</td>
+        </tr>
+        <tr>
+          <td><strong>オキシコドン</strong><br>（オキシコンチン、オキノーム）</td>
+          <td>内服（徐放・速放散）・注射</td>
+          <td>注意（減量して使用可）</td>
+          <td>モルヒネよりややマイルド</td>
+          <td><span class="char">内服オピオイド導入の絶対的スタンダード</span> 活性代謝物の影響がモルヒネより少なく、微量からの用量調節（タイトレーション）が最もやりやすい。</td>
+        </tr>
+        <tr>
+          <td><strong>フェンタニル</strong><br>（フェントス・デュロテップMTパッチ等）</td>
+          <td><strong>貼付剤（1日型・3日型）</strong>・舌下/バッカル・注射</td>
+          <td><strong>◎ 最も安全！（肝代謝・活性代謝物なし）</strong></td>
+          <td><strong>◎ 便秘が圧倒的に少ない！</strong></td>
+          <td><span class="char">「腎不全患者」「内服できない患者」「頑固な便秘患者」の救世主！</span> ただし<strong>他のオピオイドから切り替える（オピオイドスイッチング）のが原則</strong>で、発熱時やカイロを貼ると皮膚から吸収されすぎて過量投与になる点に注意！</td>
+        </tr>
+        <tr>
+          <td><strong>ヒドロモルフォン</strong><br>（ナルサス、ナルラピド）</td>
+          <td><strong>1日1回内服</strong>・速放錠・注射</td>
+          <td>比較的使いやすい</td>
+          <td>標準的</td>
+          <td><span class="char">1日1回で済む＆少量で強力な鎮痛効果</span> オキシコドンが1日2回なのに対し、ナルサスは1日1回。高用量になっても錠数が少なくて済む。</td>
+        </tr>
+        <tr>
+          <td><strong>タペンタドール</strong><br>（タペンタ）</td>
+          <td>内服（徐放錠）</td>
+          <td>◎ 使いやすい（グルクロン酸抱合）</td>
+          <td>少ない</td>
+          <td><span class="char">オピオイド作用 ＋ ノルアドレナリン再取り込み阻害（NRI）の二刀流！</span> がんが骨や神経に浸潤して起きる<strong>「ビリビリする神経障害性疼痛」</strong>を伴う痛みに抜群の威力を発揮する！CYPを介さないため相互作用も極めて少ない。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+  function filterSec(cls, btn) {
+    const btns = document.querySelectorAll('.filter-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const secs = document.querySelectorAll('.comp-section');
+    secs.forEach(s => {
+      if (cls === 'all' || s.classList.contains(cls)) {
+        s.style.display = 'block';
+      } else {
+        s.style.display = 'none';
+      }
+    });
+  }
+
+  function searchTables() {
+    const q = document.getElementById('searchBox').value.toLowerCase();
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(r => {
+      if (r.innerText.toLowerCase().includes(q)) {
+        r.style.display = '';
+      } else {
+        r.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>

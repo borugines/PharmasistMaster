@@ -1,0 +1,1634 @@
+﻿<!-- 処方・病態鑑別チャート タブペイン -->
+<div id="tab-profiling" class="tab-pane">
+  <div class="card" style="margin-bottom:20px; background:linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-left:4px solid #0284c7;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h2 style="font-size:1.35rem; color:var(--primary); font-weight:800; margin-bottom:4px;">🕵️‍♂️ 処方・病態鑑別チャート（カメレオン薬剤＆16大疾患プロファイリング）</h2>
+        <p style="font-size:0.88rem; color:#64748b; margin:0;">
+          「この薬が出ている本当の理由は何か？」処方箋の行間から患者の隠れた病態・重症度を瞬時に見抜く実践鑑別ツールです。
+        </p>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        <input type="text" id="profSearchInput" class="search-input" placeholder="🔍 薬名・病態で絞り込み (例: フォシーガ, 寝る前)" onkeyup="filterProfilingContent()" style="padding:8px 14px; border:1px solid #cbd5e1; border-radius:6px; font-size:0.88rem; width:250px;">
+        <button class="tab-btn active" onclick="switchProfilingView('all', this)" style="padding:7px 12px; border-radius:6px; border:1px solid #cbd5e1; background:var(--primary); color:white; font-size:0.85rem; cursor:pointer; font-weight:700;">すべて表示</button>
+        <button class="tab-btn" onclick="switchProfilingView('firstline-sec', this)" style="padding:7px 12px; border-radius:6px; border:1px solid #cbd5e1; background:#f1f5f9; color:#334155; font-size:0.85rem; cursor:pointer; font-weight:700;">🎯 病型別 第一選択マスター</button>
+        <button class="tab-btn" onclick="switchProfilingView('patho-sec', this)" style="padding:7px 12px; border-radius:6px; border:1px solid #cbd5e1; background:#f1f5f9; color:#334155; font-size:0.85rem; cursor:pointer; font-weight:700;">🩺 10大病態比較</button>
+        <button class="tab-btn" onclick="switchProfilingView('detect-sec', this)" style="padding:7px 12px; border-radius:6px; border:1px solid #cbd5e1; background:#f1f5f9; color:#334155; font-size:0.85rem; cursor:pointer; font-weight:700;">🎯 逆引き病態特定</button>
+        <button class="tab-btn" onclick="switchProfilingView('chameleon-sec', this)" style="padding:7px 12px; border-radius:6px; border:1px solid #cbd5e1; background:#f1f5f9; color:#334155; font-size:0.85rem; cursor:pointer; font-weight:700;">🦎 カメレオン薬</button>
+        <button class="tab-btn" onclick="switchProfilingView('disease-sec', this)" style="padding:7px 12px; border-radius:6px; border:1px solid #cbd5e1; background:#f1f5f9; color:#334155; font-size:0.85rem; cursor:pointer; font-weight:700;">📊 疾患別処方チャート</button>
+      </div>
+    </div>
+  </div>
+  <div class="profiling-container">
+
+  <!-- ==========================================
+       PART -1: 主要20大疾患「病型・ステージ・合併症別」第一選択薬マスター早見マトリクス
+       ========================================== -->
+  <div id="firstline-master-section" class="section-block firstline-sec page-break" style="margin-bottom:30px;">
+    <div class="section-header" style="border-bottom:2px solid #6366f1; padding-bottom:10px; margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <span class="badge" style="background:#4338ca; color:white;">First-Line Clinical Matrix</span>
+          <h2 class="section-title" style="color:#312e81; font-size:1.35rem; font-weight:800; margin-top:4px;">
+            🎯 主要20大疾患「病型・ステージ・合併症別」第一選択薬マスター早見マトリクス
+          </h2>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="firstlineFilterInput" placeholder="🔍 疾患名・病型・薬名で絞り込み (例: 心不全, 妊婦, 緑内障, 腎)" onkeyup="filterFirstlineTable()" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; width:280px;">
+        </div>
+      </div>
+      <span class="section-sub" style="color:#4f46e5;">「病名」だけで薬を選ばない！患者の合併症・重症度・患者背景（型）に応じた最新ガイドライン第一選択薬と推奨根拠を1枚で横断検索</span>
+    </div>
+
+    <div style="overflow-x:auto; background:white; border-radius:10px; border:1px solid var(--border); box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+      <table id="firstlineTable" style="margin:0; width:100%;">
+        <thead>
+          <tr style="background:#f8fafc;">
+            <th style="width:13%;">対象疾患</th>
+            <th style="width:22%;">患者の病型・合併症・ステージ（型）</th>
+            <th style="width:25%;">🎯 ガイドライン第一選択薬（First-Line）</th>
+            <th style="width:26%;">推奨の医学的根拠（なぜその薬なのか？）</th>
+            <th style="width:14%;">⚠️ 避けるべき禁忌・注意</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 1. 高血圧症 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#fff1f2; color:#991b1b; font-weight:700;">🫀 高血圧症</span></td>
+            <td><strong>糖尿病 または 蛋白尿CKD合併型</strong></td>
+            <td><strong style="color:#0284c7;">ARB</strong>（アジルバ/オルメテック等）<br>または <strong>ACE阻害薬</strong></td>
+            <td>輸出細動脈を強力に拡張し、糸球体内圧を低下させて蛋白尿漏出を阻止。心血管・腎イベントを有意に抑制。</td>
+            <td>妊婦（絶対禁忌）、両側腎動脈狭窄、高K血症</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fff1f2; color:#991b1b; font-weight:700;">🫀 高血圧症</span></td>
+            <td><strong>虚血性心疾患 / 心筋梗塞後</strong></td>
+            <td><strong style="color:#0284c7;">β遮断薬</strong>（ビソプロロール/カルベジロール）<br>＋ ARB/ACE-I</td>
+            <td>過剰な交感神経緊張を抑制し、心筋酸素消費量を削減。不整脈死・突然死を防ぎ予後を劇的に改善。</td>
+            <td>気管支喘息（β1選択性でも注意）、高度徐脈</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fff1f2; color:#991b1b; font-weight:700;">🫀 高血圧症</span></td>
+            <td><strong>心不全合併型（HFrEF）</strong></td>
+            <td><strong style="color:#0284c7;">ARNI（エンレスト）</strong><br>＋ β遮断薬 ＋ MRA ＋ SGLT2i</td>
+            <td>Fantastic 4の黄金中核。ネプリライシン阻害によるNP増強とARB作用で心臓のリモデリングを強力逆転。</td>
+            <td>ACE阻害薬との36時間休薬なし併用（血管浮腫死）</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fff1f2; color:#991b1b; font-weight:700;">🫀 高血圧症</span></td>
+            <td><strong>高齢者・孤立性収縮期高血圧</strong></td>
+            <td><strong style="color:#0284c7;">長時間作用型CCB</strong>（アムロジピン）</td>
+            <td>動脈硬化が進んだ高齢者の血管平滑筋を確実に弛緩させ、脳血流を保ちながら脳卒中リスクを最低化。</td>
+            <td>足首のむくみ、過度な降圧によるふらつき・転倒</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fff1f2; color:#991b1b; font-weight:700;">🫀 高血圧症</span></td>
+            <td><strong>妊娠高血圧症候群</strong></td>
+            <td><strong style="color:#15803d;">メチルドパ（アルドメット）</strong><br>または ラベタロール、ニフェジピンCR（20週〜）</td>
+            <td>胎児奇形・胎児腎血流障害を起こさない長年の安全性確立薬。中枢性α2刺激またはαβ遮断。</td>
+            <td><strong style="color:#b91c1c;">ACE-I / ARB / ARNI（全期間絶対禁忌！）</strong></td>
+          </tr>
+
+          <!-- 2. 2型糖尿病 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#fffbeb; color:#92400e; font-weight:700;">🍬 2型糖尿病</span></td>
+            <td><strong>肥満 ＆ インスリン抵抗性型</strong></td>
+            <td><strong style="color:#0284c7;">メトホルミン</strong>（メトグルコ）</td>
+            <td>肝糖新生を抑制しインスリン感受性を改善。体重増加を起こさず心血管死亡リスクを低下させる世界標準の第一選択。</td>
+            <td>重度腎機能障害（eGFR<30）、造影剤前後48時間</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fffbeb; color:#92400e; font-weight:700;">🍬 2型糖尿病</span></td>
+            <td><strong>心不全合併 または 蛋白尿CKD合併型</strong></td>
+            <td><strong style="color:#0284c7;">SGLT2阻害薬</strong>（フォシーガ / ジャディアンス）</td>
+            <td>近位尿細管で糖・Na再吸収を抑制し心腎保護。血糖値に関わらず心不全入院・腎機能悪化を3〜4割劇的阻止。</td>
+            <td>極端な糖質制限・脱水時の正常血糖ケトアシドーシス</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fffbeb; color:#92400e; font-weight:700;">🍬 2型糖尿病</span></td>
+            <td><strong>動脈硬化性疾患（ASCVD）既往 / 高度肥満型</strong></td>
+            <td><strong style="color:#0284c7;">GLP-1受容体作動薬</strong>（マンジャロ/オゼンピック）</td>
+            <td>中枢性食欲抑制と内臓脂肪減少、抗動脈硬化作用。脳心血管イベント・心筋梗塞再発を有意に抑制。</td>
+            <td>重症胃腸障害、甲状腺髄様癌既往、インスリン離脱</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fffbeb; color:#92400e; font-weight:700;">🍬 2型糖尿病</span></td>
+            <td><strong>非肥満・高齢者・低血糖絶対回避型</strong></td>
+            <td><strong style="color:#0284c7;">DPP-4阻害薬</strong>（トラゼンタ/ジャヌビア等）</td>
+            <td>血糖依存的にインスリン分泌を促すため単独で低血糖が極めて稀。体重変化もなく高齢者に最も安全。</td>
+            <td>SU薬併用時の重篤低血糖（SU薬減量必須）</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fffbeb; color:#92400e; font-weight:700;">🍬 2型糖尿病</span></td>
+            <td><strong>重症高血糖（HbA1c>10%）・糖毒性・ケトーシス型</strong></td>
+            <td><strong style="color:#0284c7;">インスリン療法</strong>（強化療法 または BOT）</td>
+            <td>疲弊した膵β細胞を外因性インスリンで急速に休ませ、高血糖毒性を解除して内因性分泌を蘇らせる。</td>
+            <td>自己判断での中断（シックデイ時DKA昏睡死）</td>
+          </tr>
+
+          <!-- 3. 脂質異常症 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#eff6ff; color:#1e40af; font-weight:700;">🧪 脂質異常症</span></td>
+            <td><strong>高LDL-C単独（一次予防・高リスク）</strong></td>
+            <td><strong style="color:#0284c7;">ストロングスタチン</strong>（アトルバスタチン/ロスバスタチン）</td>
+            <td>肝HMG-CoA還元酵素を阻害し肝LDL受容体を上方調節。プラークを安定化させ冠動脈疾患を強力予防。</td>
+            <td>妊婦（禁忌）、活動性肝疾患、横紋筋融解症</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#eff6ff; color:#1e40af; font-weight:700;">🧪 脂質異常症</span></td>
+            <td><strong>冠動脈疾患既往（二次予防・超ハイリスク）</strong></td>
+            <td><strong style="color:#0284c7;">スタチン最大用量 ＋ エゼチミブ（ゼチーア）</strong></td>
+            <td>「The Lower, The Better」。肝臓での合成抑制（スタチン）＋ 小腸での吸収阻害（エゼチミブ）でLDL<70mg/dLを達成。</td>
+            <td>筋肉痛・CK上昇時の鑑査、定期肝機能チェック</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#eff6ff; color:#1e40af; font-weight:700;">🧪 脂質異常症</span></td>
+            <td><strong>高中性脂肪型（TG ≥ 500mg/dL・急性膵炎警戒）</strong></td>
+            <td><strong style="color:#0284c7;">ペマフィブラート</strong>（パルモディア）</td>
+            <td>選択的PPARα調節薬（SPPARMα）。スタチン併用でも横紋筋融解症リスクが極めて低く、TGを半減。</td>
+            <td>重症肝障害、シクロスポリン・クラリス併用禁忌</td>
+          </tr>
+
+          <!-- 4. 慢性心不全 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#fdf2f8; color:#9d174d; font-weight:700;">❤️ 慢性心不全</span></td>
+            <td><strong>HFrEF（左室収縮不全・EF ≤ 40%型）</strong></td>
+            <td><strong style="color:#0284c7;">Fantastic 4</strong><br>① SGLT2i ＋ ② ARNI ＋ ③ β遮断薬 ＋ ④ MRA</td>
+            <td>4つの異なる経路から心臓リモデリング（拡大・線維化）を停止・逆転させる死亡率改善の必須4剤。</td>
+            <td>導入初期の血圧低下、高K血症、Cr上昇の見守り</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fdf2f8; color:#9d174d; font-weight:700;">❤️ 慢性心不全</span></td>
+            <td><strong>HFpEF（左室拡張不全・EF ≥ 50%型）</strong></td>
+            <td><strong style="color:#0284c7;">SGLT2阻害薬</strong>（フォシーガ / ジャディアンス）<br>＋ 浮腫時ループ利尿薬</td>
+            <td>EMPEROR-Preserved・DELIVER試験でHFpEFの心不全入院を有意に減らした唯一無二のエビデンス薬剤。</td>
+            <td>過度な脱水・起立性低血圧（利尿薬適正用量管理）</td>
+          </tr>
+
+          <!-- 5. 気管支喘息 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#f0fdf4; color:#166534; font-weight:700;">🫁 気管支喘息</span></td>
+            <td><strong>間欠型 〜 軽症持続型</strong></td>
+            <td><strong style="color:#0284c7;">低用量吸入ステロイド（ICS）単剤</strong><br>または ICS/ホルモテロール頓用（SMART療法）</td>
+            <td>気道粘膜の好酸球性炎症を根元から鎮火。「発作がない時も毎日吸う」ことで気道リモデリングを永久阻止。</td>
+            <td>吸入後うがい不徹底による口腔カンジダ・嗄声</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#f0fdf4; color:#166534; font-weight:700;">🫁 気管支喘息</span></td>
+            <td><strong>中等症持続型（日常的に症状あり）</strong></td>
+            <td><strong style="color:#0284c7;">中用量ICS / LABA配合剤</strong>（レルベア、シムビコート等）</td>
+            <td>抗炎症（ICS）と24時間気管支拡張（LABA）の相乗効果。アドヒアランス向上のため1日1回型（エリプタ）等。</td>
+            <td>LABA単剤投与の禁止（喘息死リスク増加）</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#f0fdf4; color:#166534; font-weight:700;">🫁 気管支喘息</span></td>
+            <td><strong>重症難治型（好酸球性 / アレルギー型）</strong></td>
+            <td><strong style="color:#0284c7;">3剤合剤（テリルジー） ＋ 抗体製剤（デュピクセント等）</strong></td>
+            <td>LAMA（抗コリン）追加で末梢気道を最大拡張。IL-4/13/5等の標的生物学的製剤で経口ステロイドを離脱。</td>
+            <td>緑内障・前立腺肥大（LAMA含有時）、高額医療費</td>
+          </tr>
+
+          <!-- 6. COPD（慢性閉塞性肺疾患） -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#f8fafc; color:#334155; font-weight:700;">💨 COPD (肺気腫)</span></td>
+            <td><strong>労作時呼吸困難優位型（増悪歴なし）</strong></td>
+            <td><strong style="color:#0284c7;">LAMA（長時間作用型抗コリン薬）</strong>（スピリーバ等）<br>または LABA（オンブレス等）</td>
+            <td>閉塞した気道を長時間拡張し、肺の過膨張（エアトラッピング）を改善。息切れを緩和し運動耐容能を向上。</td>
+            <td>前立腺肥大症による尿閉、閉塞隅角緑内障（禁忌）</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#f8fafc; color:#334155; font-weight:700;">💨 COPD (肺気腫)</span></td>
+            <td><strong>頻回増悪型（年間2回以上の増悪 または 好酸球増多）</strong></td>
+            <td><strong style="color:#0284c7;">LAMA / LABA / ICS 3剤配合剤</strong>（テリルジー / エナジア）</td>
+            <td>気道好酸球炎症をICSで抑制しつつ最大気管支拡張。急性増悪による再入院・死亡リスクを有意に低下。</td>
+            <td>COPDへのICS漫然投与による肺炎発症リスク増加</td>
+          </tr>
+
+          <!-- 7. 慢性腎臓病（CKD） -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#f1f5f9; color:#0f172a; font-weight:700;">🧬 慢性腎臓病 (CKD)</span></td>
+            <td><strong>蛋白尿（尿中アルブミン）陽性型（糖尿病/非糖尿病）</strong></td>
+            <td><strong style="color:#0284c7;">SGLT2阻害薬</strong>（フォシーガ）<br>＋ ARB（アジルバ等）または ACE阻害薬</td>
+            <td>輸入細動脈を収縮（SGLT2i）＋ 輸出細動脈を拡張（ARB）させ糸球体過剰濾過を根底改善。透析導入を強力遅延。</td>
+            <td>脱水時の急性腎障害（AKI）、投与初期の一過性eGFR低下（許容）</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#f1f5f9; color:#0f172a; font-weight:700;">🧬 慢性腎臓病 (CKD)</span></td>
+            <td><strong>糖尿病性腎臓病（DKD）・蛋白尿残存高リスク型</strong></td>
+            <td><strong style="color:#0284c7;">非ステロイド型選択的MRA</strong>（ケレンディア）<br>＋ SGLT2阻害薬 ＋ ARB</td>
+            <td>腎臓の過剰なミネラルコルチコイド受容体活性化を遮断。炎症・線維化を阻止し腎イベントを抑制。</td>
+            <td>高カリウム血症（血清K値定期測定必須、K>5.5で減量・中止）</td>
+          </tr>
+
+          <!-- 8. 骨粗鬆症 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#fff7ed; color:#c2410c; font-weight:700;">🦴 骨粗鬆症</span></td>
+            <td><strong>原発性（閉経後女性・骨密度低下・骨折予防）</strong></td>
+            <td><strong style="color:#0284c7;">経口ビスホスホネート</strong>（フォサマック/ボナロン、ベネット等）<br>または SERM（エビスタ/ビビアント）</td>
+            <td>破骨細胞を不活性化し骨吸収（骨の破壊）を強力にストップ。骨密度を増加させ椎体・大腿骨骨折を半減。</td>
+            <td>起床時空腹時にコップ1杯の水で服用・30分横にならない、顎骨壊死</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fff7ed; color:#c2410c; font-weight:700;">🦴 骨粗鬆症</span></td>
+            <td><strong>重症・超高リスク型（椎体多発骨折・大腿骨近位部骨折既往）</strong></td>
+            <td><strong style="color:#0284c7;">骨形成促進薬</strong>（イベニティ または フォルテオ/テリボン）</td>
+            <td>骨芽細胞を刺激し新生骨を急速に構築。イベニティは骨形成促進＋骨吸収抑制のデュアルアクションで骨密度急増。</td>
+            <td>投与期間制限（イベニティ12ヶ月、テリパラチド24ヶ月）、心血管疾患既往</td>
+          </tr>
+
+          <!-- 9. 逆流性食道炎 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#f0fdfa; color:#115e59; font-weight:700;">🔥 逆流性食道炎</span></td>
+            <td><strong>重症（Grade C/D） または 難治性GERD</strong></td>
+            <td><strong style="color:#0284c7;">P-CAB</strong>（タケキャブ 20mg 1日1回）</td>
+            <td>酸による活性化不要、初回服用から数時間で胃酸分泌を完全停止。CYP2C19遺伝子型に左右されない最強の切れ味。</td>
+            <td>長期連用による低Mg血症、腸管感染症、骨折リスク</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#f0fdfa; color:#115e59; font-weight:700;">🔥 逆流性食道炎</span></td>
+            <td><strong>軽症（Grade A/B）初期 〜 寛解維持療法</strong></td>
+            <td><strong style="color:#0284c7;">PPI</strong>（ネキシウム等）または タケキャブ10mg維持</td>
+            <td>食道粘膜の治癒確認後、最小有効量へステップダウン。オンデマンド療法（症状時のみ頓用）への移行。</td>
+            <td>漫然とした年単位の投与（定期休薬トライアル）</td>
+          </tr>
+
+          <!-- 10. めまい疾患 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#eff6ff; color:#1e40af; font-weight:700;">🌀 めまい疾患</span></td>
+            <td><strong>良性発作性頭位めまい症（BPPV）</strong></td>
+            <td><strong style="color:#15803d;">Epley法（頭位理学療法）</strong> ＋ トラベルミン/メリスロン</td>
+            <td>後半規管の耳石を元の前庭へ戻す理学療法が根治療法！薬はめまい発作時の対症療法に留める。</td>
+            <td>「動くとめまいがするから」と寝たきりで安静を続けること</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#eff6ff; color:#1e40af; font-weight:700;">🌀 めまい疾患</span></td>
+            <td><strong>メニエール病（間歇期・水腫消退）</strong></td>
+            <td><strong style="color:#0284c7;">イソバイド</strong>（浸透圧利尿） ＋ メリスロン ＋ 五苓散</td>
+            <td>内耳の内リンパ腔の水ぶくれ（内リンパ水腫）を血中へ引き抜き、内耳微小循環を改善して聴力を温存。</td>
+            <td>不味さによる服薬脱落（冷水・柑橘類で割る工夫）</td>
+          </tr>
+
+          <!-- 11. 突発性難聴 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#fff1f2; color:#991b1b; font-weight:700;">👂 突発性難聴</span></td>
+            <td><strong>急性発症（発症2週間以内）</strong></td>
+            <td><strong style="color:#b91c1c;">高用量経口プレドニン漸減療法</strong>（60mg➔40➔20完遂）<br>＋ メコバラミン ＋ アデホスコーワ</td>
+            <td>有毛細胞壊死を食い止める時間との勝負！発症48時間以内の治療開始で聴力回復率最大。2週間放置で不可逆固定。</td>
+            <td>糖尿病患者の血糖急上昇、胃潰瘍（PPI併用必須）</td>
+          </tr>
+
+          <!-- 12. 頭痛 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#fefce8; color:#854d0e; font-weight:700;">💥 頭痛</span></td>
+            <td><strong>片頭痛（急性期発作時）</strong></td>
+            <td><strong style="color:#0284c7;">トリプタン</strong>（レルパックス/ゾーミッグ等）<br>または <strong>レイボー</strong> / NSAIDs</td>
+            <td>5-HT1B/1D受容体刺激により拡張した頭蓋内外血管を収縮させ、三叉神経からのCGRP放出を遮断。</td>
+            <td>虚血性心疾患・脳卒中既往（トリプタン禁忌）、頭痛薬乱用</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fefce8; color:#854d0e; font-weight:700;">💥 頭痛</span></td>
+            <td><strong>片頭痛（予防・月数回以上頻発型）</strong></td>
+            <td><strong style="color:#0284c7;">抗CGRP抗体</strong>（エムガルティ/アジョビ/アイモビーグ）<br>または バルプロ酸（セレニカ）/ ロペレニア</td>
+            <td>片頭痛発症の根源物質CGRPを先制中和。頭痛発作日数を半減〜ゼロにし薬物乱用頭痛（MOH）を脱却。</td>
+            <td>妊娠可能年齢の女性へのバルプロ酸（催奇形性禁忌）</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fefce8; color:#854d0e; font-weight:700;">💥 頭痛</span></td>
+            <td><strong>緊張型頭痛（肩こり・圧迫感）</strong></td>
+            <td><strong style="color:#0284c7;">アセトアミノフェン</strong> / NSAIDs ＋ テルネリン ＋ 葛根湯</td>
+            <td>頸部・肩の筋緊張を和らげ血流を改善。入浴やストレッチなど非薬物療法を併用。</td>
+            <td>トリプタンの誤投与（緊張型頭痛には無効）</td>
+          </tr>
+
+          <!-- 13. 不眠症 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#f5f3ff; color:#5b21b6; font-weight:700;">🌙 不眠症</span></td>
+            <td><strong>入眠困難型（寝つきが悪い）</strong></td>
+            <td><strong style="color:#0284c7;">オレキシン受容体拮抗薬</strong>（クービビック / デエビゴ）<br>または 超短時間型非BZD（ルネスタ / マイスリー）</td>
+            <td>覚醒物質オレキシンを遮断し自然な眠気へ導く。筋弛緩・ふらつき・認知障害リスクがBZDより圧倒的に低い。</td>
+            <td>CYP3A阻害薬併用（クービビック/デエビゴ禁忌/減量）</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#f5f3ff; color:#5b21b6; font-weight:700;">🌙 不眠症</span></td>
+            <td><strong>中途覚醒・早朝覚醒型（途中で起きる）</strong></td>
+            <td><strong style="color:#0284c7;">オレキシン受容体拮抗薬</strong>（デエビゴ / ベルソムラ）</td>
+            <td>夜間の覚醒システムを安定抑制し、睡眠後半まで深い眠りを維持。翌朝への持ち越し眠気に注意。</td>
+            <td>漫然連用による転倒骨折、寝酒（アルコール）併用</td>
+          </tr>
+
+          <!-- 14. うつ病・不安障害 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#faf5ff; color:#6b21a8; font-weight:700;">🧠 うつ病・不安症</span></td>
+            <td><strong>大うつ病性障害（初発・軽症〜中等症）</strong></td>
+            <td><strong style="color:#0284c7;">SSRI</strong>（エスシタロプラム/レクサプロ、セルトラリン）</td>
+            <td>セロトニントランスポーターを選択的阻害。抗コリン作用が少なく忍容性に優れ、第一選択の国際標準。</td>
+            <td>開始初期の賦活症候群（不安・焦燥・希死念慮）、急な自己中断</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#faf5ff; color:#6b21a8; font-weight:700;">🧠 うつ病・不安症</span></td>
+            <td><strong>全般不安症（GAD）/ パニック障害</strong></td>
+            <td><strong style="color:#0284c7;">SSRI</strong> ＋ 初期短期間のBZD頓用併用（早期離脱前提）</td>
+            <td>脳内セロトニン神経の過敏性を根本から鎮静。ベンゾは初期のパニック発作抑止のみに留め早期中止。</td>
+            <td>ベンゾジアゼピンの漫然連用（身体的依存・離脱症状の形成）</td>
+          </tr>
+
+          <!-- 15. 便秘症 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#fffbeb; color:#92400e; font-weight:700;">💩 便秘症</span></td>
+            <td><strong>弛緩性便秘（高齢者・大腸運動低下）</strong></td>
+            <td><strong style="color:#0284c7;">浸透圧性下剤</strong>（モビコール / 酸化マグネシウム）<br>または グーフィス / アミティーザ</td>
+            <td>腸管内へ水分を引き込み便を軟化。耐性や依存性がなく、長期間安全に排便リズムを再構築。</td>
+            <td>高齢者・CKDでの酸化Mg高Mg血症、刺激性下剤連用</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fffbeb; color:#92400e; font-weight:700;">💩 便秘症</span></td>
+            <td><strong>痙攣性便秘（過敏性腸症候群IBS-C・コロコロ便）</strong></td>
+            <td><strong style="color:#0284c7;">モビコール</strong> または <strong>リンゼス</strong> / ポリフル</td>
+            <td>腸管の過緊張を刺激せず便をゼリー状に保つ。リンゼスは粘膜水分分泌促進＋大腸痛覚過敏改善。</td>
+            <td><strong style="color:#b91c1c;">刺激性下剤（センナ等）禁忌！腸管痙攣で激痛悪化！</strong></td>
+          </tr>
+
+          <!-- 16. 感染症 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#ecfdf5; color:#065f46; font-weight:700;">🦠 感染症</span></td>
+            <td><strong>急性咽頭炎（溶連菌感染・成人/小児）</strong></td>
+            <td><strong style="color:#0284c7;">アモキシシリン</strong>（サワシリン 10日間完遂）</td>
+            <td>溶連菌に対して耐性菌が存在しない黄金ペニシリン。急性リウマチ熱・糸球体腎炎予防のため10日間内服。</td>
+            <td>ペニシリンアレルギー、勝手な早期自己中断</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#ecfdf5; color:#065f46; font-weight:700;">🦠 感染症</span></td>
+            <td><strong>急性単純性膀胱炎（閉経前女性）</strong></td>
+            <td><strong style="color:#0284c7;">セフカペンピボキシル</strong>（フロモックス）3〜5日間<br>または レボフロキサシン</td>
+            <td>大腸菌を主標的とし、尿中移行濃度が極めて高い経口抗菌薬を短期間集中投与。</td>
+            <td>多剤耐性菌（ESBL産生菌）の警戒、不十分な水分摂取</td>
+          </tr>
+
+          <!-- 17. アレルギー性鼻炎・花粉症 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#fef2f2; color:#991b1b; font-weight:700;">🌸 アレルギー性鼻炎</span></td>
+            <td><strong>鼻閉（鼻づまり）優位型</strong></td>
+            <td><strong style="color:#0284c7;">鼻噴霧用ステロイド</strong>（アラミスト/モメタゾン）<br>＋ <strong>ロイコトリエン受容体拮抗薬</strong>（シングレア/キプレス）</td>
+            <td>局所ステロイドで好酸球炎症を消火し、LT受容体拮抗薬で鼻腔粘膜の血管拡張・浮腫を強力に解除。</td>
+            <td>市販血管収縮薬点鼻の連用（薬剤性肥厚性鼻炎）</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#fef2f2; color:#991b1b; font-weight:700;">🌸 アレルギー性鼻炎</span></td>
+            <td><strong>くしゃみ・水様性鼻汁（サラサラ鼻水）優位型</strong></td>
+            <td><strong style="color:#0284c7;">第2世代抗ヒスタミン薬</strong>（ビラノア/デザレックス/アレグラ等）</td>
+            <td>脳内ヒスタミン受容体占拠率がほぼゼロ（非鎮静性）で、眠気やインペアード・パフォーマンスを起こさずアレルギー症状を抑制。</td>
+            <td>ビラノアの食後服用（食事によりバイオアベイラビリティ劇減・空腹時厳守）</td>
+          </tr>
+
+          <!-- 18. 緑内障 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#f0fdf4; color:#14532d; font-weight:700;">👁️ 緑内障</span></td>
+            <td><strong>正常眼圧緑内障 / 開放隅角緑内障（単剤初期）</strong></td>
+            <td><strong style="color:#0284c7;">プロスタグランジン（PG）関連点眼薬</strong><br>（キサラタン/ラタノプロスト、タプロス、ルミガン 1日1回夜）</td>
+            <td>ぶどう膜強膜流出路からの房水排出を促進。24時間安定した強力な眼圧下降を示し視野欠損進行を阻止。</td>
+            <td>点眼後のまぶた拭き取り・洗眼（色素沈着・まつ毛伸長・DUES防止）</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#f0fdf4; color:#14532d; font-weight:700;">👁️ 緑内障</span></td>
+            <td><strong>閉塞隅角緑内障（狭隅角・急性発作リスク警戒）</strong></td>
+            <td><strong style="color:#15803d;">レーザー虹彩切開術（LI）</strong> または 白内障手術（水晶体再建）</td>
+            <td>房水循環ブロックを物理的に解消する外科的手法が根本。薬物療法単独に頼らない。</td>
+            <td><strong style="color:#b91c1c;">抗コリン薬・交感神経刺激薬など散瞳惹起薬（急性発作緑内障発作・失明禁忌）</strong></td>
+          </tr>
+
+          <!-- 19. 心房細動（抗血栓） -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">🩸 心房細動 (抗血栓)</span></td>
+            <td><strong>非弁膜症性心房細動（NVAF・塞栓リスク保有）</strong></td>
+            <td><strong style="color:#0284c7;">DOAC</strong>（直接経口抗凝固薬：エリキュース / リクシアナ / イグザレルト / プラザキサ）</td>
+            <td>Xa因子またはトロンビンを直接阻害。頭蓋内出血リスクがワーファリンの約半分。納豆制限なし、採血モニタリング不要。</td>
+            <td>腎機能に応じた適正減量基準の遵守、強力なP-gp/CYP3A阻害薬併用</td>
+          </tr>
+          <tr class="firstline-row">
+            <td><span class="badge" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">🩸 心房細動 (抗血栓)</span></td>
+            <td><strong>機械弁置換術後 または リウマチ性僧帽弁狭窄症</strong></td>
+            <td><strong style="color:#b91c1c;">ワーファリン（DOACは絶対禁忌！）</strong></td>
+            <td>異物表面での強力な血液凝固を抑制する唯一のエビデンス。DOACは血栓・出血死が増加し使用不可。</td>
+            <td>PT-INR管理（2.0〜3.0 / 高齢者1.6〜2.6）、納豆・青汁・クロレラ絶対禁止</td>
+          </tr>
+
+          <!-- 20. 小児発熱・有痛 -->
+          <tr class="firstline-row" style="border-top:2px solid #cbd5e1;">
+            <td><span class="badge" style="background:#fef2f2; color:#b91c1c; font-weight:700;">👶 小児解熱鎮痛</span></td>
+            <td><strong>小児の急性発熱・有痛性疾患（感冒・中耳炎等）</strong></td>
+            <td><strong style="color:#0284c7;">アセトアミノフェン</strong>（アンヒバ坐剤 / カロナール細粒）<br>1回 10〜15 mg/kg 頓用（間隔4〜6時間以上）</td>
+            <td>中枢性に作用し解熱鎮痛。胃粘膜・腎血流への悪影響が極めて少なく、小児でのライ症候群リスクゼロ。</td>
+            <td><strong style="color:#b91c1c;">アスピリン・ロキソニン・ボルタレン等NSAIDs（インフルエンザ脳症・ライ症候群禁忌！）</strong></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PART 00: 臨床現場の超頻出！似て非なる「10大病態ガチンコ比較図鑑」
+       ========================================== -->
+  <div id="patho-compare-section" class="section-block patho-sec page-break" style="margin-bottom:30px;">
+    <div class="section-header" style="border-bottom:2px solid #bae6fd; padding-bottom:10px; margin-bottom:16px;">
+      <div>
+        <span class="badge" style="background:#0284c7; color:white;">Differential Diagnosis</span>
+        <h2 class="section-title" style="color:#0369a1; font-size:1.35rem; font-weight:800; margin-top:4px;">
+          🩺 臨床現場の超頻出！似て非なる「10大病態ガチンコ比較図鑑」
+        </h2>
+      </div>
+      <span class="section-sub" style="color:#0284c7;">「似た症状・紛らわしい訴え」の背後にある根本病態を見極め、誤診・地雷処方を完全回避する鑑別マトリクス</span>
+    </div>
+
+    <!-- 1. めまいの病態比較 -->
+    <div class="card" style="margin-bottom:18px; border-left:4px solid #0284c7; padding:16px;">
+      <h3 style="color:#0369a1; font-size:1.1rem; font-weight:800; margin:0 0 8px;">🌀 ① めまいの病態比較：「グルグル（回転性）」vs「フワフワ（浮動性）」vs「クラッと（起立性）」</h3>
+      <p style="font-size:0.85rem; color:#64748b; margin:0 0 10px;">「めまいがする」という訴えは、耳鼻科・脳外科・循環器で病態が180度異なります。眼振とRed Flagsで見分ける！</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%;">病態・疾患名</th>
+              <th style="width:16%;">めまいの質・持続時間</th>
+              <th style="width:20%;">随伴症状・誘因</th>
+              <th style="width:22%;">決定的な見分けポイント</th>
+              <th style="width:24%;">第一選択薬 ＆ 禁忌・注意</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>BPPV<br>（良性発作性頭位めまい）</strong></td>
+              <td><strong>回転性（グルグル）</strong><br>数十秒〜1分未満で治まる</td>
+              <td>寝返り、起き上がり、上を向くなどの<strong>頭の向きを変えた瞬間</strong>。耳鳴り・難聴なし。</td>
+              <td>後半規管に入り込んだ耳石が原因。<br><strong>頭を静止させると速やかに消失する</strong>。</td>
+              <td>・頭位理学療法（Epley法）が特効！<br>・薬物治療：トラベルミン、メリスロン（対症療法）</td>
+            </tr>
+            <tr>
+              <td><strong>メニエール病</strong></td>
+              <td><strong>激しい回転性</strong><br>20分〜数時間続く</td>
+              <td><strong>片側の難聴・耳鳴り・耳閉感</strong>（低音域低下）。吐き気・冷汗。反復する。</td>
+              <td>内リンパ水腫（水ぶくれ）。<br><strong>めまい発作と聴覚症状が完全に連動する</strong>。</td>
+              <td>・発作期：メイロン点滴、トラベルミン<br>・間歇期：<strong>イソバイド（浸透圧利尿）</strong>、メリスロン、アデホス</td>
+            </tr>
+            <tr>
+              <td><strong>前庭神経炎</strong></td>
+              <td><strong>激しい回転性</strong><br><strong>数日間ぶっ通し</strong>で持続</td>
+              <td>風邪（上気道炎）の1〜2週間後に突然発症。嘔吐を伴う。<strong>難聴・耳鳴りなし</strong>。</td>
+              <td>前庭神経の一過性炎症。<br>聴覚症状を伴わずに<strong>数日間寝たきりになる激しいめまい</strong>。</td>
+              <td>・急性期：ステロイド漸減投与、制吐薬（プリンペラン）、抗めまい薬<br>・発症早期から離床リハビリ推奨</td>
+            </tr>
+            <tr>
+              <td><strong>脳血管障害<br>（小脳・脳幹梗塞）</strong></td>
+              <td><strong>浮動性（フワフワ）</strong><br>または激しい回転性</td>
+              <td><strong style="color:#b91c1c;">【Red Flags】ろれつが回らない、手の麻痺、物が二重に見える（複視）、立てない</strong></td>
+              <td><strong style="color:#b91c1c;">中枢性めまい！垂直性眼振、注視方向性眼振、小脳失調歩行。</strong></td>
+              <td><strong style="color:#b91c1c;">一刻を争う救急要請！抗めまい薬で様子を見ては絶対にいけない！</strong>t-PA / 血管内血栓回収。</td>
+            </tr>
+            <tr>
+              <td><strong>起立性低血圧（OD）<br>自律神経失調</strong></td>
+              <td><strong>立ちくらみ（クラッと）</strong><br>目の前が暗くなる</td>
+              <td>急に立ち上がった瞬間、長時間の起立。動悸、倦怠感、朝起きられない。</td>
+              <td>起立時に<strong>収縮期血圧20mmHg以上低下</strong>。脳血流の一過性不足。</td>
+              <td>・α1作動薬（メドドリン、リズミック）<br>・漢方（苓桂朮甘湯）<br>・弾性ストッキング、水分・塩分摂取</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 2. 止まらない咳の病態比較 -->
+    <div class="card" style="margin-bottom:18px; border-left:4px solid #10b981; padding:16px;">
+      <h3 style="color:#047857; font-size:1.1rem; font-weight:800; margin:0 0 8px;">🫁 ② 止まらない咳の病態比較：「咳喘息」vs「アトピー咳嗽」vs「感染後咳嗽」vs「GERD」vs「ACE阻害薬」</h3>
+      <p style="font-size:0.85rem; color:#64748b; margin:0 0 10px;">「風邪の後に咳だけが3週間以上続く」患者の鑑別。気管支拡張薬（メプチン）が効くかどうかが最大の分岐点！</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%;">病態・疾患名</th>
+              <th style="width:20%;">咳の性状・悪化時間帯</th>
+              <th style="width:20%;">気管支拡張薬の反応</th>
+              <th style="width:20%;">決定的な見分けポイント</th>
+              <th style="width:22%;">第一選択薬 ＆ 現場の急所</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>咳喘息（CVA）</strong></td>
+              <td>乾性咳嗽（コンコン）。<br><strong>夜間〜早朝、冷気、運動、会話、煙</strong>で悪化。</td>
+              <td><strong style="color:#15803d;">劇的に効く！（診断根拠）</strong><br>（メプチン吸入で咳が止まる）</td>
+              <td>喘鳴（ヒューヒュー）はないが、<strong>放置すると3〜4割が本格的な気管支喘息へ移行</strong>する！呼気NO（FeNO）高値。</td>
+              <td><strong>吸入ステロイド/LABA合剤</strong>（シムビコート、レルベア等）。<br>咳が止まっても最低数ヶ月は吸入継続！</td>
+            </tr>
+            <tr>
+              <td><strong>アトピー咳嗽</strong></td>
+              <td>乾性咳嗽。<br><strong>喉のイガイガ感・掻痒感</strong>に伴う激しい咳。</td>
+              <td><strong style="color:#b91c1c;">全く効かない！（無効）</strong><br>気管支平滑筋攣縮ではないため。</td>
+              <td>喉頭・気管の表層アレルギー。アレルギー素因（アトピー体質）あり。FeNO正常。喘息へは移行しない。</td>
+              <td><strong>第2世代抗ヒスタミン薬（アレグラ等） ＋ 吸入ステロイド</strong>。<br>気管支拡張薬は無効なので出さない。</td>
+            </tr>
+            <tr>
+              <td><strong>感染後咳嗽</strong></td>
+              <td>かぜ症候群の後に気道過敏性が残り、数週間続く咳。</td>
+              <td>効果乏しい〜無効</td>
+              <td>時間の経過とともに<strong>徐々に自然軽快していく傾向</strong>がある。喀痰検査・X線正常。</td>
+              <td><strong>麦門冬湯（気道潤滑）</strong>、メジコン、アスベリン。<br>咳喘息が否定できない場合はICS短期トライアル。</td>
+            </tr>
+            <tr>
+              <td><strong>逆流性食道炎（GERD）<br>に伴う慢性咳嗽</strong></td>
+              <td><strong>食後、前屈み、就寝時（横になった時）</strong>に悪化する咳。</td>
+              <td>全く無効</td>
+              <td>胃酸の逆流が食道下部迷走神経を刺激して咳反射を惹起。<strong>胸焼け、呑酸、ゲップ</strong>あり。</td>
+              <td><strong>P-CAB（タケキャブ） / PPI（ネキシウム等）</strong>。<br>強酸を抑えると1〜2週間で劇的に咳が消失！</td>
+            </tr>
+            <tr>
+              <td><strong>ACE阻害薬誘発性咳嗽</strong></td>
+              <td>一日中続く乾性咳嗽（空咳）。夜間に多い。</td>
+              <td>全く無効</td>
+              <td>レニベース等の内服開始後、数日から数週間で出現。<strong>ブラジキニン・P物質の気道内蓄積</strong>が原因。</td>
+              <td><strong>原因ACE阻害薬の中止</strong>。<br>ARB（オルメテック等）へ切り替えると数日〜数週で完全に咳が消失する。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3. 頭痛の病態比較 -->
+    <div class="card" style="margin-bottom:18px; border-left:4px solid #f59e0b; padding:16px;">
+      <h3 style="color:#b45309; font-size:1.1rem; font-weight:800; margin:0 0 8px;">💥 ③ 頭痛の病態比較：「片頭痛」vs「緊張型頭痛」vs「群発頭痛」vs「危険なくも膜下出血」</h3>
+      <p style="font-size:0.85rem; color:#64748b; margin:0 0 10px;">「温めるべきか？冷やすべきか？」「トリプタンを飲むべきか？」頭痛のタイプで対処法が正反対になります。</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%;">病態・疾患名</th>
+              <th style="width:18%;">痛みの性質・部位</th>
+              <th style="width:20%;">動いた時・体動の影響</th>
+              <th style="width:22%;">随伴症状・対処の原則</th>
+              <th style="width:22%;">第一選択薬 ＆ 鑑査急所</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>片頭痛</strong></td>
+              <td><strong>ズキズキ拍動性</strong>。<br>片側（4割は両側）。<br>4〜72時間持続。</td>
+              <td><strong style="color:#b91c1c;">動くとガンガン悪化！</strong><br>階段や歩行で増悪、寝込む。</td>
+              <td><strong>吐き気、光過敏、音過敏</strong>。予兆・前兆（閃輝暗点）。<br>👉 <strong style="color:#0284c7;">暗い静かな部屋で「冷やす」！</strong>（入浴厳禁）</td>
+              <td>・急性期：<strong>トリプタン、レイボー</strong>、ロキソニン<br>・予防：<strong>CGRP関連抗体（エムガルティ等）</strong>、セレニカ、ミグシス</td>
+            </tr>
+            <tr>
+              <td><strong>緊張型頭痛</strong></td>
+              <td><strong>ギューッと締め付けられる圧迫感</strong>（非拍動性）。後頭部〜首筋、両側。</td>
+              <td><strong>動いても悪化しない</strong>。<br>（むしろ動くと楽になる）</td>
+              <td>肩こり、首こり、長時間のデスクワーク、ストレス。吐き気や光過敏なし。<br>👉 <strong style="color:#b91c1c;">肩や首を「温める」！入浴・運動が有効！</strong></td>
+              <td>・<strong>アセトアミノフェン、NSAIDs</strong><br>・筋弛緩薬（テルネリン）<br>・漢方（葛根湯）</td>
+            </tr>
+            <tr>
+              <td><strong>群発頭痛</strong></td>
+              <td><strong>目の奥をえぐられるような耐え難い激痛</strong>。<br>必ず片側。15〜180分。</td>
+              <td>痛すぎてじっとしていられず<strong>転げ回る・動き回る</strong>。</td>
+              <td>20〜40代男性に好発。群発期に<strong>毎日夜間〜明け方の決まった時間</strong>に発症。同側の流涙、結膜充血、鼻閉。飲酒で必発。</td>
+              <td>・急性期：<strong>純酸素吸入（7〜10L/分）、イミグラン点鼻/皮下注</strong>（※内服は吸収が間に合わない！）<br>・予防：ワソラン大量</td>
+            </tr>
+            <tr>
+              <td><strong>薬物乱用頭痛（MOH）</strong></td>
+              <td>ほぼ毎日続く鈍痛・頭痛。朝起きた時から痛い。</td>
+              <td>薬が切れると悪化する</td>
+              <td>ロキソニン、市販イブ、トリプタンなどを<strong>月10〜15日以上、3ヶ月以上連用</strong>して中枢感作が起きた状態。</td>
+              <td>・<strong>原因薬剤の即時完全中止！</strong>（離脱頭痛を乗り越える）<br>・CGRP製剤等の予防薬を先行導入。</td>
+            </tr>
+            <tr>
+              <td><strong>くも膜下出血（SAH）<br>【二次性危険頭痛】</strong></td>
+              <td><strong style="color:#b91c1c;">「突然、バットで殴られたような人生最大の激痛！」</strong></td>
+              <td>動けない、意識レベル低下</td>
+              <td><strong style="color:#b91c1c;">【Red Flags】突発完成、嘔吐、項部硬直、麻痺。</strong>脳動脈瘤破裂による頭蓋内出血。</td>
+              <td><strong style="color:#b91c1c;">一刻の猶予もなく救急要請！頭痛薬を飲ませて寝かせるのは絶対禁止！</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 4. 胸痛の病態比較 -->
+    <div class="card" style="margin-bottom:18px; border-left:4px solid #ef4444; padding:16px;">
+      <h3 style="color:#b91c1c; font-size:1.1rem; font-weight:800; margin:0 0 8px;">🫀 ④ 胸痛・胸部不快感の病態比較：「狭心症」vs「急性心筋梗塞」vs「GERD」vs「肋間神経痛」vs「パニック」</h3>
+      <p style="font-size:0.85rem; color:#64748b; margin:0 0 10px;">「胸が痛い・苦しい」時の鑑別。持続時間とニトログリセリンの反応が命を分けます。</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%;">病態・疾患名</th>
+              <th style="width:18%;">胸痛の性質・部位</th>
+              <th style="width:18%;">持続時間・誘因</th>
+              <th style="width:22%;">ニトロの反応・決定打</th>
+              <th style="width:24%;">初期対応 ＆ 治療方針</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>労作性狭心症</strong></td>
+              <td>胸骨後部の圧迫感・絞扼感（締め付けられる・重い）。左肩・下顎への放散痛。</td>
+              <td><strong>数分〜15分以内</strong>。<br>階段昇降、坂道、運動、寒冷時に発症。安静で軽快。</td>
+              <td><strong style="color:#15803d;">ニトロ舌下で1〜2分で劇的軽快！</strong>（診断的治療）</td>
+              <td>・発作時：ニトロール舌下 / ミオコールスプレー<br>・予防：β遮断薬、Ca拮抗薬、スタチン、バイアスピリン</td>
+            </tr>
+            <tr>
+              <td><strong>急性心筋梗塞（AMI）</strong></td>
+              <td>前胸部の耐え難い激痛、冷汗、嘔吐、死の恐怖、呼吸困難。</td>
+              <td><strong style="color:#b91c1c;">30分以上持続</strong>。<br>安静にしていても治まらない。</td>
+              <td><strong style="color:#b91c1c;">ニトログリセリン舌下が無効！</strong>冠動脈が完全閉塞している。</td>
+              <td><strong style="color:#b91c1c;">即座に救急車要請！</strong>発症から90分以内の緊急カテーテルPCI（ステント留置）。</td>
+            </tr>
+            <tr>
+              <td><strong>逆流性食道炎（GERD）</strong></td>
+              <td>前胸部・みぞおちの灼熱感（胸焼け）、チクチク痛。</td>
+              <td>数十分〜数時間。<br>食後、前屈み、就寝時（臥位）に悪化。</td>
+              <td>ニトロで軽快することもあり紛らわしいが、<strong>制酸薬（タケキャブ）で劇的軽快</strong>。</td>
+              <td>P-CAB（タケキャブ）、PPI。<br>食後すぐに横にならない生活指導。</td>
+            </tr>
+            <tr>
+              <td><strong>肋間神経痛</strong></td>
+              <td>肋骨に沿った鋭い痛み、チクチク・ピリピリ。</td>
+              <td>数秒〜数分。<br><strong>深呼吸、咳、体動、姿勢変換</strong>で誘発。</td>
+              <td><strong style="color:#15803d;">圧痛点（押すと痛い場所）が指でピンポイントで示せる！</strong></td>
+              <td>NSAIDs、湿布、メコバラミン、プレガバリン。<br>※帯状疱疹の初期皮疹出現前にも注意。</td>
+            </tr>
+            <tr>
+              <td><strong>パニック発作</strong></td>
+              <td>急激な動悸、胸苦しさ、過呼吸、手足のしびれ、めまい。</td>
+              <td>10〜30分でピークを過ぎて自然軽快する。</td>
+              <td>心電図・心エコー・心筋マーカー完全正常。予期不安あり。</td>
+              <td>ゆっくり息を吐かせる安心感の提供。<br>頓用：抗不安薬（ソラナックス等）、SSRI維持。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 5. むくみ・浮腫の病態比較 -->
+    <div class="card" style="margin-bottom:18px; border-left:4px solid #8b5cf6; padding:16px;">
+      <h3 style="color:#6d28d9; font-size:1.1rem; font-weight:800; margin:0 0 8px;">🦵 ⑤ むくみ（浮腫）の病態比較：「心不全」vs「腎不全」vs「肝硬変」vs「CCB副作用」vs「DVT」</h3>
+      <p style="font-size:0.85rem; color:#64748b; margin:0 0 10px;">「足がむくむ」患者に安易に利尿薬を出すのは危険！両側か片側か、薬剤性かを見極める。</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%;">病態・疾患名</th>
+              <th style="width:16%;">むくみの部位・左右差</th>
+              <th style="width:20%;">随伴症状・身体所見</th>
+              <th style="width:22%;">発生メカニズム ＆ 検査値</th>
+              <th style="width:24%;">治療方針 ＆ 鑑査急所</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>心不全性浮腫</strong></td>
+              <td>両側下肢、足背〜脛骨前面。<br><strong>夕方に悪化</strong>。</td>
+              <td><strong>労作時息切れ、体重急増</strong>（1週間に2kg以上）、夜間起座呼吸、頸静脈怒張。</td>
+              <td>静脈圧上昇・体液貯留。<br><strong>BNP / NT-proBNP高値</strong>、胸部X線心拡大・肺うっ血。</td>
+              <td><strong>ループ利尿薬（ラシックス等）、ARNI、SGLT2i、MRA</strong>。<br>塩分・水分制限。</td>
+            </tr>
+            <tr>
+              <td><strong>腎不全・ネフローゼ</strong></td>
+              <td><strong>全身性</strong>。<br>朝の<strong>眼瞼浮腫（まぶた）</strong>から始まり下肢へ。</td>
+              <td>尿量減少、全身倦怠感、高血圧。</td>
+              <td>水・Na排泄障害、低アルブミン血症（膠質浸透圧低下）。<br><strong>Cr上昇、尿蛋白（+++）</strong>。</td>
+              <td>・腎不全：ループ利尿薬大量<br>・ネフローゼ：ステロイド大量導入、ACE-I/ARB、SGLT2i</td>
+            </tr>
+            <tr>
+              <td><strong>肝硬変性浮腫</strong></td>
+              <td>両側下肢浮腫 ＋<br><strong>著明な腹水（お腹ぽっこり）</strong></td>
+              <td><strong>黄疸、クモ状血管腫、手掌紅斑</strong>、女性化乳房、こむら返り。</td>
+              <td>肝アルブミン合成低下＋門脈圧亢進。<br><strong>血清Alb低下（<3.0）、PT延長</strong>。</td>
+              <td><strong>アルダクトンA（抗アルドステロン）第一選択</strong>、サムスカ、アルブミン製剤点滴。</td>
+            </tr>
+            <tr>
+              <td><strong>薬剤性浮腫<br>（Ca拮抗薬：アムロジピン等）</strong></td>
+              <td><strong style="color:#b91c1c;">両側足首から下だけがパンパン</strong>（靴が履けない）</td>
+              <td><strong style="color:#15803d;">息切れや心不全症状は一切なく、患者本人は極めて元気！</strong></td>
+              <td>細動脈だけが拡張し毛細血管圧が上昇して間質へ水分漏出。<br><strong>BNP正常、Alb正常、尿蛋白陰性！</strong></td>
+              <td><strong style="color:#b91c1c;">利尿薬を出しても全く効かない！</strong><br>細静脈も広げる<strong>ARB/ACE-Iを併用するか、CCB減量・中止</strong>で消失！</td>
+            </tr>
+            <tr>
+              <td><strong>深部静脈血栓症（DVT）<br>エコノミークラス症候群</strong></td>
+              <td><strong style="color:#b91c1c;">明らかな片側だけ！</strong><br>（左右差が著明）</td>
+              <td><strong>片側のふくらはぎの腫脹・熱感・自発痛・把握痛</strong>。</td>
+              <td>深部静脈の血栓閉塞による静脈うっ滞。<br><strong>D-ダイマー高値</strong>、下肢静脈エコー血栓。</td>
+              <td><strong style="color:#b91c1c;">肺塞栓症（突然死）のリスク！下肢マッサージ絶対禁止！</strong><br>直ちにDOACまたはヘパリン抗凝固療法。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 6. 便秘症の病態比較 -->
+    <div class="card" style="margin-bottom:18px; border-left:4px solid #d97706; padding:16px;">
+      <h3 style="color:#b45309; font-size:1.1rem; font-weight:800; margin:0 0 8px;">💩 ⑥ 便秘症の病態比較：「弛緩性」vs「痙攣性（IBS-C）」vs「直腸性」vs「薬剤性」</h3>
+      <p style="font-size:0.85rem; color:#64748b; margin:0 0 10px;">「便秘＝センナ・プルゼニド」は絶対NG！痙攣性に刺激性下剤を使うと激痛で悪化します。</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%;">病態分類</th>
+              <th style="width:20%;">便の性状・腹部症状</th>
+              <th style="width:20%;">原因・主な好発患者</th>
+              <th style="width:20%;">⚠️ やってはいけない地雷処方</th>
+              <th style="width:22%;">推奨される第一選択薬</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>弛緩性便秘<br>（大腸運動低下型）</strong></td>
+              <td>便が太く硬い。排便回数減少。<br>お腹の張り、残便感。腹痛は軽い。</td>
+              <td>加齢、運動不足、筋力低下、水分・食物繊維不足。<strong>高齢者・寝たきりに最多</strong>。</td>
+              <td>長期連用による刺激性下剤依存（大腸メラノーシス・難治化）</td>
+              <td>・浸透圧性下剤：<strong>酸化Mg、モビコール</strong><br>・上皮機能変容薬：アミティーザ、リンゼス、グーフィス</td>
+            </tr>
+            <tr>
+              <td><strong>痙攣性便秘<br>（IBS-C：過敏性腸症候群）</strong></td>
+              <td><strong style="color:#b91c1c;">ウサギの糞のようなコロコロ便</strong>。<br>排便前の激しい腹痛・不快感。</td>
+              <td>精神的ストレス、自律神経失調、環境変化。<strong>若年〜中年女性に多い</strong>。</td>
+              <td><strong style="color:#b91c1c;">大腸刺激性下剤（センノシド・プルゼニド）！腸管痙攣を増悪させ激痛に！</strong></td>
+              <td>・高分子浸透圧：<strong>モビコール</strong><br>・粘膜水分分泌促進：<strong>リンゼス</strong><br>・膨張性下剤：<strong>コロネル/ポリフル</strong></td>
+            </tr>
+            <tr>
+              <td><strong>直腸性便秘<br>（排便反射低下型）</strong></td>
+              <td>直腸・肛門の出口でカチカチに詰まって出ない。便意そのものが消失。</td>
+              <td>便意の我慢の繰り返し、浣腸の乱用、骨盤底筋協調運動障害。</td>
+              <td>口から飲む下剤だけで何とかしようとすること（出口が詰まって腹痛に）</td>
+              <td>・坐剤・浣腸：<strong>新レシカルボン坐薬、グリセリン浣腸</strong><br>・排便習慣の再構築（毎朝トイレに座る）</td>
+            </tr>
+            <tr>
+              <td><strong>薬剤性便秘</strong></td>
+              <td>頑固な便秘、排便停止、腹部膨満。</td>
+              <td><strong>オピオイド鎮痛薬、抗コリン薬、三環系抗うつ薬、Ca拮抗薬、抗ヒスタミン薬</strong>。</td>
+              <td>オピオイド誘発性便秘（OIC）に通常の酸化Mg単剤で放置すること</td>
+              <td>・オピオイド誘発：<strong>スインプロイク（末梢性μ拮抗特効薬）</strong><br>・他剤：モビコール、アミティーザ</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 7. 下痢症の病態比較 -->
+    <div class="card" style="margin-bottom:18px; border-left:4px solid #065f46; padding:16px;">
+      <h3 style="color:#065f46; font-size:1.1rem; font-weight:800; margin:0 0 8px;">🚽 ⑦ 下痢症の病態比較：「感染性腸炎」vs「過敏性腸症候群（IBS-D）」vs「潰瘍性大腸炎（UC）」vs「CD腸炎」</h3>
+      <p style="font-size:0.85rem; color:#64748b; margin:0 0 10px;">「下痢止め（ロペミン）」を安易に出すと命に関わる感染性腸炎と、慢性の下痢を見極める。</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%;">病態分類</th>
+              <th style="width:18%;">下痢の性状・経過</th>
+              <th style="width:20%;">随伴症状・誘因</th>
+              <th style="width:22%;">⚠️ やってはいけない絶対禁忌</th>
+              <th style="width:22%;">正しい治療方針 ＆ 推奨薬</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>急性感染性腸炎<br>（細菌・ウイルス性）</strong></td>
+              <td>急激な発症。<br>激しい水様便、下痢便が1日数回〜十数回。</td>
+              <td><strong>発熱（38℃以上）、嘔吐、激しい腹痛</strong>。生肉・牡蠣・海外渡航・家族内集団発生。</td>
+              <td><strong style="color:#b91c1c;">止瀉薬（ロペミン等の下痢止め）は原則禁忌！</strong>腸管内に病原菌・毒素が停滞し敗血症・重症化を招く。</td>
+              <td>・<strong>経口補水療法（OS-1）による脱水補正が最優先！</strong><br>・整腸剤（ビオフェルミンR、ミヤBM）<br>・高熱・血便時はニューキノロン/マクロライド</td>
+            </tr>
+            <tr>
+              <td><strong>過敏性腸症候群<br>（IBS-D：下痢型）</strong></td>
+              <td>慢性的な泥状便・水様便。<br><strong>排便すると腹痛が楽になる</strong>。</td>
+              <td>精神的ストレス、通勤・試験前などの緊張。<br><strong>夜間睡眠中には下痢が起きないのが最大の特徴！</strong></td>
+              <td>感染症と決めつけて抗菌薬を漫然投与すること</td>
+              <td>・5-HT3拮抗薬：<strong>イリボー（男性・女性）</strong><br>・高分子重合体：<strong>コロネル / ポリフル</strong><br>・漢方：半夏瀉心湯、桂枝加芍薬湯</td>
+            </tr>
+            <tr>
+              <td><strong>潰瘍性大腸炎（UC）<br>炎症性腸疾患</strong></td>
+              <td>慢性・持続性の下痢。<br><strong style="color:#b91c1c;">粘血便（血液・粘液混じり）</strong>。</td>
+              <td>発熱、体重減少、貧血、裏急後重（しぶり腹：便が出ないのに出したい）。大腸内視鏡で多発びらん。</td>
+              <td>一次性の感染症として市販下痢止めで長期間様子を見ること</td>
+              <td>・基本薬：<strong>5-ASA製剤（リアルダ、アサコール、ペンタサ）</strong><br>・活動期：ステロイド、JAK阻害薬、生物学的製剤</td>
+            </tr>
+            <tr>
+              <td><strong>CD腸炎<br>（偽膜性大腸炎）</strong></td>
+              <td>大量の水様便、悪臭を伴う頻回の下痢。</td>
+              <td><strong>抗菌薬（セフェム系・キノロン系等）やPPI投与中〜終了後数週間</strong>に発症。菌交代現象。</td>
+              <td>止瀉薬の使用（毒素メガコロン・腸穿孔のリスク増大）</td>
+              <td>・原因抗菌薬の即座中止<br>・<strong>メトロニダゾール（フラジール）経口<br>・バンコマイシン散 経口投与</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 8. 関節痛の病態比較 -->
+    <div class="card" style="margin-bottom:18px; border-left:4px solid #1e40af; padding:16px;">
+      <h3 style="color:#1e40af; font-size:1.1rem; font-weight:800; margin:0 0 8px;">🦴 ⑧ 関節痛の病態比較：「変形性関節症（OA）」vs「関節リウマチ（RA）」vs「痛風」vs「偽痛風」</h3>
+      <p style="font-size:0.85rem; color:#64748b; margin:0 0 10px;">「関節が痛い」時の鑑別。好発部位、朝のこわばり時間、左右対称性で綺麗に分かれます。</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%;">病態・疾患名</th>
+              <th style="width:18%;">好発部位・左右差</th>
+              <th style="width:18%;">痛みのタイミング</th>
+              <th style="width:22%;">特徴的身体所見・検査値</th>
+              <th style="width:24%;">第一選択薬 ＆ 鑑査急所</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>変形性関節症（OA）</strong></td>
+              <td><strong>膝関節、股関節</strong>、手指DIP関節（ヘバーデン結節）。左右差あり。</td>
+              <td><strong>荷重時痛（立ち上がり・歩き始め）</strong>。<br>夕方〜夜間に悪化。安静で軽快。</td>
+              <td>加齢による軟骨変性・摩耗。<br><strong>朝のこわばりは数分〜15分以内と短い</strong>。炎症反応（CRP）陰性。</td>
+              <td>・外用・内服NSAIDs（ロキソニン等）<br>・ヒアルロン酸関節内注射<br>・減量・大腿四頭筋訓練</td>
+            </tr>
+            <tr>
+              <td><strong>関節リウマチ（RA）</strong></td>
+              <td><strong>手指PIP・MCP関節、手関節、足趾</strong>。<br><strong style="color:#b91c1c;">左右対称性！</strong>大関節にも波及。</td>
+              <td><strong style="color:#b91c1c;">朝のこわばりが30分〜1時間以上持続！</strong>動かすうちに徐々に軽快。</td>
+              <td>自己免疫による滑膜炎。<br><strong>抗CCP抗体陽性、RF陽性、CRP/MMP-3高値</strong>。放置すると骨破壊。</td>
+              <td>アンカードラッグ：<strong>メトトレキサート（MTX：リウマトレックス）週1回投与</strong>！<br>難治例：生物学的製剤（TNF阻害等）、JAK阻害薬</td>
+            </tr>
+            <tr>
+              <td><strong>痛風（高尿酸血症）</strong></td>
+              <td><strong style="color:#b91c1c;">足の親指の付け根（第1中足趾節関節）が約7割！</strong>必ず片側。</td>
+              <td><strong style="color:#b91c1c;">突然の激痛！</strong><br>風が吹いても痛い。24時間以内にピーク。</td>
+              <td>尿酸ナトリウム結晶の関節内析出。<br>局所の発赤・腫脹・熱感。発作時は尿酸値がむしろ正常に下がることも。</td>
+              <td>・発作極期：<strong>NSAIDs大量投与（ナイキサン/ボルタレン）</strong><br>・前兆期：<strong>コルヒチン</strong><br>🚨 <strong>発作中にアロプリノール等の尿酸降下薬を開始/増量しない！</strong></td>
+            </tr>
+            <tr>
+              <td><strong>偽痛風（CPPD）</strong></td>
+              <td><strong>膝関節が最多</strong>、手関節、肩、足関節。<br>大関節に多い。</td>
+              <td>急激な関節痛、発赤、腫熱感。<br>（痛風に酷似するが痛風よりマイルド）</td>
+              <td>ピロリン酸カルシウム（CPPD）結晶。<br><strong>70歳以上高齢者好発</strong>。X線で関節軟骨の石灰化像（線状石灰化）。</td>
+              <td>・NSAIDs内服、関節穿刺（関節液排液）<br>・ステロイド関節内注射<br>（※尿酸降下薬は全く無効）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 9. 皮疹の病態比較 -->
+    <div class="card" style="margin-bottom:18px; border-left:4px solid #ec4899; padding:16px;">
+      <h3 style="color:#be185d; font-size:1.1rem; font-weight:800; margin:0 0 8px;">🌡️ ⑨ 発疹・かゆみの病態比較：「湿疹」vs「蕁麻疹」vs「帯状疱疹」vs「重症薬疹」</h3>
+      <p style="font-size:0.85rem; color:#64748b; margin:0 0 10px;">「かゆい・湿疹が出た」時の鑑別。ステロイド軟膏が特効薬になるか無効になるかを見極める。</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%;">病態・疾患名</th>
+              <th style="width:20%;">皮疹の形態・性状</th>
+              <th style="width:20%;">消退・持続時間</th>
+              <th style="width:20%;">分布・左右差</th>
+              <th style="width:22%;">第一選択薬 ＆ 鑑査急所</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>湿疹・接触皮膚炎<br>（アトピー等）</strong></td>
+              <td>紅斑、小丘疹、小水疱。<br>カサカサ（乾燥）またはジュクジュク（浸出液）。</td>
+              <td>数日から数週間持続。<br>（自然には消えない）</td>
+              <td>接触部位、屈曲部（肘の内側・膝裏）、顔面など。左右差まちまち。</td>
+              <td><strong style="color:#15803d;">ステロイド外用薬（5段階ランクから部位別に選択）が第一選択！</strong><br>保湿剤（ヒルドイド等）の併用。</td>
+            </tr>
+            <tr>
+              <td><strong>蕁麻疹</strong></td>
+              <td><strong>蚊に刺されたような境界明瞭な皮膚の盛り上がり（膨疹）</strong>。激しい痒み。</td>
+              <td><strong style="color:#b91c1c;">数時間〜24時間以内に「跡形もなく完全に消失」する！</strong>場所を変えて出没。</td>
+              <td>全身どこにでも神出鬼没に出現。左右差なし。</td>
+              <td><strong style="color:#b91c1c;">ステロイド外用薬は全く無効！</strong><br>真皮浅層の肥満細胞からのヒスタミン遊離が原因のため、<strong>第2世代抗ヒスタミン内服（アレグラ等）が絶対の主役</strong>！</td>
+            </tr>
+            <tr>
+              <td><strong>帯状疱疹</strong></td>
+              <td>神経痛（ピリピリ・ズキズキ痛）が先行し、数日後に<strong>紅斑の上に小水疱が集簇</strong>。</td>
+              <td>皮疹は2〜3週間で痂皮化（かさぶた）して治癒。</td>
+              <td><strong style="color:#b91c1c;">体の左右どちらか片側だけ！</strong>特定の神経支配領域（デルマトーム）に沿って帯状。</td>
+              <td><strong>発症72時間以内の抗ウイルス薬（アメナリーフ、バルトレックス）開始が必須！</strong><br>遅れると帯状疱疹後神経痛（PHN）が年単位で残る。</td>
+            </tr>
+            <tr>
+              <td><strong>重症薬疹<br>（SJS / TEN / DIHS）</strong></td>
+              <td>多形紅斑様皮疹が急速に全身拡大。水疱、表皮剥脱。<br><strong>高熱、倦怠感</strong>。</td>
+              <td>被疑薬投与後1〜3週間で発症。急速進行。</td>
+              <td>全身性。<br><strong style="color:#b91c1c;">【超危険サイン】口唇・口腔粘膜のびらん、眼球結膜の充血！</strong></td>
+              <td><strong style="color:#b91c1c;">即座に全被疑薬を中止し皮膚科専門病院へ救急搬送！</strong>放置すると失明・敗血症死。ステロイドパルス、IVIg療法。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 10. 貧血の病態比較 -->
+    <div class="card" style="margin-bottom:18px; border-left:4px solid #dc2626; padding:16px;">
+      <h3 style="color:#991b1b; font-size:1.1rem; font-weight:800; margin:0 0 8px;">🩸 ⑩ 貧血の病態比較：「鉄欠乏性（小球性）」vs「腎性（正球性）」vs「巨赤芽球性（大球性）」vs「慢性炎症（ACD）」</h3>
+      <p style="font-size:0.85rem; color:#64748b; margin:0 0 10px;">「貧血＝鉄剤（フェロミア）」の盲目的処方を防ぐ。赤血球の大きさ（MCV）で3つに分類して見抜く！</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%;">貧血の病態分類</th>
+              <th style="width:18%;">赤血球指数（MCV）</th>
+              <th style="width:20%;">発生メカニズム ＆ 特徴的検査値</th>
+              <th style="width:22%;">主な原因・好発患者</th>
+              <th style="width:22%;">第一選択薬 ＆ 鑑査急所</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>鉄欠乏性貧血</strong></td>
+              <td><strong style="color:#b91c1c;">小球性低色素性<br>（MCV < 80）</strong></td>
+              <td>ヘモグロビン合成原料の鉄不足。<br><strong>血清鉄低下、フェリチン（貯蔵鉄）低下（<12）、TIBC上昇</strong>。</td>
+              <td>月経過多（若年女性）、消化管出血（胃癌・大腸癌・潰瘍：高齢男性/閉経後女性）。</td>
+              <td><strong>経口鉄剤（フェロミア等）</strong>。<br>🚨 <strong>高齢男性の鉄欠乏は胃カメラ・大腸カメラが必須（癌の出血）！</strong>Hb正常化後もフェリチン回復まで数ヶ月継続。</td>
+            </tr>
+            <tr>
+              <td><strong>腎性貧血</strong></td>
+              <td><strong>正球性正色素性<br>（MCV 80〜100）</strong></td>
+              <td>腎臓の<strong>エリスロポエチン（EPO）産生低下</strong>。<br><strong>eGFR低下（CKD G3b〜5）、血清EPO低値</strong>。</td>
+              <td>慢性腎臓病（CKD）、糖尿病性腎症、透析患者。</td>
+              <td>・<strong>HIF-PH阻害薬（エベレンゾ、ダーブロック等）</strong><br>・<strong>ESA製剤（ネスプ等）</strong><br>※鉄欠乏（TSAT<20%, フェリチン<100）があれば鉄補充併用。</td>
+            </tr>
+            <tr>
+              <td><strong>巨赤芽球性貧血<br>（悪性貧血）</strong></td>
+              <td><strong style="color:#0284c7;">大球性正色素性<br>（MCV > 100）</strong></td>
+              <td>DNA合成障害により赤芽球が巨大化。<br><strong>ビタミンB12低下、葉酸低下</strong>、不完全赤血球の破壊（間接ビリルビン/LDH上昇）。</td>
+              <td><strong>胃全摘術後（内因子欠乏）</strong>、過度のアルコール多飲、偏食、<strong>メトホルミン長期連用（B12吸収阻害）</strong>。</td>
+              <td>・ビタミンB12欠乏：<strong>メコバラミン（メチコバール）筋注/内服</strong><br>・葉酸欠乏：フォリアミン<br>※しびれ等の神経症状が先行することがある。</td>
+            </tr>
+            <tr>
+              <td><strong>慢性疾患に伴う貧血<br>（ACD）</strong></td>
+              <td>正球性正色素性<br>（一部小球性）</td>
+              <td>炎症性サイトカイン（IL-6等）によりヘプシジンが増加し、<strong>鉄がマクロファージ内に閉じ込められて利用不能</strong>になる。<br><strong>血清鉄低下だがフェリチンは正常〜高値！</strong></td>
+              <td>関節リウマチ等の膠原病、慢性感染症、悪性腫瘍。</td>
+              <td><strong>原疾患の治療が最優先！</strong><br>鉄は体内にあるため、鉄剤を投与しても効果がなくヘモジデローシス（鉄過剰沈着）を招く危険。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==========================================
+       PART 0: 処方から病態を逆引き特定する決定木
+       ========================================== -->
+  <div class="section-block detect-sec page-break">
+    <div class="section-header" style="border-bottom:2px solid #e0e7ff; padding-bottom:10px; margin-bottom:15px;">
+      <div>
+        <span class="badge" style="background:#4338ca; color:white;">Diagnostic Logic</span>
+        <h2 class="section-title" style="color:#312e81; font-size:1.35rem; font-weight:800; margin-top:4px;">
+          🎯 処方から病態を逆引き特定する「病態鑑別決定木（デシジョンツリー）」
+        </h2>
+      </div>
+      <span class="section-sub" style="color:#6366f1;">「同じ薬・似た薬」が出ている時、患者の真の病態・ステージをどこで判別・特定するか？</span>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px;">
+      
+      <!-- ① ステロイド内服の病態特定 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #ef4444; border-radius:8px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <h4 style="color:#b91c1c; font-size:1rem; font-weight:800; margin:0 0 8px;">💊 ① プレドニン（ステロイド）の病態特定</h4>
+        <div style="font-size:0.85rem; color:#334155; line-height:1.6;">
+          ・<strong>30〜40mg/日 ➔ 3〜4日毎に漸減（計2週間完遂）：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#fee2e2; color:#991b1b; font-weight:bold;">突発性難聴 ／ 顔面神経麻痺（Bell/Hunt）</span><br>
+          　相棒にメコバラミン、アデホス、PPI。有毛細胞壊死を救う超緊急漸減！<br>
+          ・<strong>30〜40mg/日 ➔ 5〜7日間飲んでスパッと中止：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#fee2e2; color:#991b1b; font-weight:bold;">気管支喘息の急性増悪（発作時短期パルス）</span><br>
+          　相棒に吸入ステロイド、メプチン吸入。短期間なら副腎抑制なし。<br>
+          ・<strong>5〜10mg/日（低用量長期維持）：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#fee2e2; color:#991b1b; font-weight:bold;">関節リウマチ ／ 膠原病の寛解維持</span><br>
+          　相棒にMTX、フォリアミン、骨粗鬆症予防薬（ボナロン等）。<br>
+          ・<strong>40〜60mg/日（高用量初期導入）：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#fee2e2; color:#991b1b; font-weight:bold;">ネフローゼ症候群 ／ 重症自己免疫疾患</span><br>
+          　相棒にバクタ（PCP予防）、ランソプラゾール、ダイアモックス。
+        </div>
+      </div>
+
+      <!-- ② 利尿薬の病態特定 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #0284c7; border-radius:8px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <h4 style="color:#0369a1; font-size:1rem; font-weight:800; margin:0 0 8px;">💧 ② ループ利尿薬（ラシックス/ルプラック）の病態特定</h4>
+        <div style="font-size:0.85rem; color:#334155; line-height:1.6;">
+          ・<strong>＋ スピロノラクトン少量（12.5〜25mg） ＋ エンレスト：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#e0f2fe; color:#0369a1; font-weight:bold;">慢性心不全（HFrEF）</span><br>
+          　MRAは利尿目的ではなく「心筋線維化防止・生命予後改善」用量！<br>
+          ・<strong>＋ スピロノラクトン高用量（50〜100mg） ＋ リーバクト：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#e0f2fe; color:#0369a1; font-weight:bold;">非代償性肝硬変（難治性腹水）</span><br>
+          　肝機能低下による二次性アルドステロン症を打破するためMRAが高用量！<br>
+          ・<strong>＋ サムスカ（トルバプタン 7.5〜15mg） ＋ 球形吸着炭：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#e0f2fe; color:#0369a1; font-weight:bold;">ADPKD（多発性嚢胞腎） または 心不全低Na血症</span><br>
+          　V2受容体遮断で水分のみ排泄（水利尿）。電解質K・Naを乱さない。
+        </div>
+      </div>
+
+      <!-- ③ ウルソ（UDCA）の病態特定 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #f59e0b; border-radius:8px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <h4 style="color:#b45309; font-size:1rem; font-weight:800; margin:0 0 8px;">🧪 ③ ウルソ（ウルソデオキシコール酸）の病態特定</h4>
+        <div style="font-size:0.85rem; color:#334155; line-height:1.6;">
+          ・<strong>1回100mg 1日3回（計300mg/日 常用量）：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#fef3c7; color:#92400e; font-weight:bold;">コレステロール系胆石溶解 ／ 消化不良改善</span><br>
+          　胆汁酸分泌を促進し胆汁中コレステロールを可溶化。<br>
+          ・<strong>1回200mg 1日3回（計600mg/日 倍量処方）：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#fef3c7; color:#92400e; font-weight:bold;">原発性胆汁性胆管炎（PBC：自己免疫性）</span><br>
+          　中年女性に好発。胆汁酸うっ滞毒性を中和し肝硬変進展を食い止める！<br>
+          ・<strong>1回200〜300mg 1日3回（計600〜900mg/日）＋ グリチロン：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#fef3c7; color:#92400e; font-weight:bold;">C型慢性肝炎 ／ NASH（非アルコール性脂肪肝炎）</span><br>
+          　抗炎症作用・肝細胞保護作用によるALT/ASTトランスアミナーゼ改善。
+        </div>
+      </div>
+
+      <!-- ④ めまい治療薬の組み合わせ病態特定 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #14b8a6; border-radius:8px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <h4 style="color:#0f766e; font-size:1rem; font-weight:800; margin:0 0 8px;">🌀 ④ めまい治療薬の組み合わせから病態特定</h4>
+        <div style="font-size:0.85rem; color:#334155; line-height:1.6;">
+          ・<strong>イソバイドシロップ ＋ メリスロン ＋ アデホス ＋ 五苓散：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#ccfbf1; color:#0f766e; font-weight:bold;">メニエール病（内リンパ水腫・回転性めまい）</span><br>
+          　低音障害難聴・耳閉塞感を伴う。「水抜き＋血流＋ATP＋漢方」の黄金カルテット！<br>
+          ・<strong>セファドール単剤 または トラベルミン配合錠（頓用）：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#ccfbf1; color:#0f766e; font-weight:bold;">BPPV（良性発作性頭位めまい症）／ 椎骨動脈循環不全</span><br>
+          　前庭神経の異常興奮遮断。安静ではなく「エプリー法（頭を動かす）」が根本治療。<br>
+          ・<strong>苓桂朮甘湯 ＋ リズミック（アメジニウム）：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#ccfbf1; color:#0f766e; font-weight:bold;">起立性低血圧 ／ 起立性調節障害（OD）・立ちくらみ</span><br>
+          　立ち上がった瞬間にクラッとする血圧低下。水毒をさばき交感神経を刺激。
+        </div>
+      </div>
+
+      <!-- ⑤ 神経痛・抗てんかん薬の病態特定 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #8b5cf6; border-radius:8px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <h4 style="color:#6d28d9; font-size:1rem; font-weight:800; margin:0 0 8px;">⚡ ⑤ Caチャネルα2δリガンド（タリージェ/リリカ）の病態特定</h4>
+        <div style="font-size:0.85rem; color:#334155; line-height:1.6;">
+          ・<strong>タリージェ 5〜15mg bid ＋ セレコックス ＋ ロキソニンテープ：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#ede9fe; color:#5b21b6; font-weight:bold;">腰椎脊柱管狭窄症 ／ 坐骨神経痛（侵害＋神経障害）</span><br>
+          　下肢のピリピリしびれと局所腰痛のハイブリッド治療。<br>
+          ・<strong>リリカ 25〜75mg bid ＋ メキシレチン ＋ メコバラミン：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#ede9fe; color:#5b21b6; font-weight:bold;">糖尿病性末梢神経障害性疼痛（DPNP：足裏のジンジン）</span><br>
+          　血糖コントロール不良による末梢神経障害。足先の灼熱感や知覚鈍麻。<br>
+          ・<strong>リリカ 75〜150mg bid ＋ サインバルタ ＋ ノイロトロピン：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#ede9fe; color:#5b21b6; font-weight:bold;">線維筋痛症（全身の広範な原因不明痛）</span><br>
+          　中枢性感作（痛みのボリュームノブ異常）。下行性疼痛抑制系をダブル賦活！
+        </div>
+      </div>
+
+      <!-- ⑥ 抗菌薬・ST合剤の期間・用量による病態特定 -->
+      <div style="background:#fff; border:1px solid #cbd5e1; border-top:4px solid #10b981; border-radius:8px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <h4 style="color:#047857; font-size:1rem; font-weight:800; margin:0 0 8px;">🔬 ⑥ 抗菌薬の「少量長期投与」から病態特定</h4>
+        <div style="font-size:0.85rem; color:#334155; line-height:1.6;">
+          ・<strong>クラリス200mg 1日1回（1日1錠）が30〜90日分：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#d1fae5; color:#065f46; font-weight:bold;">慢性副鼻腔炎（蓄膿症）／ びまん性汎細気管支炎（DPB）</span><br>
+          　殺菌目的ではなく「マクロライド少量長期療法の免疫修飾・バイオフィルム抑制」！<br>
+          ・<strong>バクタ配合錠 1日1錠 または 週3回（月・水・金）：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#d1fae5; color:#065f46; font-weight:bold;">ニューモシスチス肺炎（PCP）発症予防</span><br>
+          　高用量ステロイド（PSL 20mg/日以上）や免疫抑制薬服用患者の命綱！<br>
+          ・<strong>バクタ配合錠 1回2錠 1日2回（計4錠/日）を3〜5日間：</strong><br>
+          　➔ 🎯 <span class="badge" style="background:#d1fae5; color:#065f46; font-weight:bold;">急性単純性膀胱炎 ／ 腎盂腎炎（治療用量）</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<div class="section-block chameleon-sec page-break">
+    <div class="section-header">
+      <div>
+        <span class="badge b-cham">Step 0：まず単独の薬からウラを読む</span>
+        <h2 class="section-title">🦎 複数の顔を持つ「カメレオン薬剤」鑑別マトリクス</h2>
+      </div>
+      <span class="section-sub">「用量」「飲むタイミング」「相棒（併用薬）」の3点で真の適応を見抜く！</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">薬剤名</th>
+          <th style="width:28%;">パターンA（王道の適応）</th>
+          <th style="width:28%;">パターンB（第2の顔・臓器保護等）</th>
+          <th style="width:28%;">パターンC（適応外・特殊な現場意図）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="searchable">
+          <td><strong>SGLT2阻害薬</strong><br>（フォシーガ）<br>（ジャディアンス）</td>
+          <td><span class="badge b-step1">糖尿病</span><br><strong>手がかり：</strong>DPP-4阻害薬やメトホルミンと併用。5mgから開始し効果不十分なら10mgへ増量される。</td>
+          <td><span class="badge b-step2">慢性心不全</span><br><strong>手がかり：</strong>最初から<strong>10mg固定</strong>。相棒にエンレスト、β遮断薬、スピロノラクトンがいる。</td>
+          <td><span class="badge b-step3">慢性腎臓病（CKD）</span><br><strong>手がかり：</strong>10mg固定。相棒にARB（アジルバ等）や重曹、フェブキソスタットがいる。血糖値は正常！</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>β遮断薬</strong><br>（ビソプロロール）<br>（カルベジロール）<br>（プロプラノロール）<br>（アロチノロール）<br>（ラベタロール）</td>
+          <td><span class="badge b-step1">高血圧・狭心症・頻脈性心房細動</span><br><strong>手がかり：</strong>ビソプロロール2.5〜5mg、アテノロール25〜50mg等。<br>💡<strong>妊婦高血圧：</strong>ラベタロール（トランデート）は催奇形性なく胎児安全性が高い第一選択！</td>
+          <td><span class="badge b-step2">慢性心不全（HFrEF）</span><br><strong>手がかり：</strong>日本で適応があるのは<strong>ビソプロロール（0.625mg〜）</strong>と<strong>カルベジロール（1.25mg〜）</strong>の2強のみ！「超少量」から開始し数週ごとに倍増（※他薬は心不全適応外またはISA保有で予後悪化）。</td>
+          <td><span class="badge b-cham">振戦・片頭痛・甲状腺・あがり症</span><br><strong>手がかり：</strong><br>・<strong>本態性振戦：</strong>アロチノロール（アルマール）が手の震えに保険適応！<br>・<strong>片頭痛予防：</strong>プロプラノロール（インデラル）第一選択。<br>・<strong>甲状腺中毒症：</strong>インデラルで頻脈・手指振戦・交感神経抑制！</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>MRA（抗アルドステロン）</strong><br>（スピロノラクトン）<br>（エplerenone）<br>（エサキセレノン）</td>
+          <td><span class="badge b-step1">治療抵抗性高血圧</span><br><strong>手がかり：</strong>ARB＋Ca拮抗薬＋利尿薬でも下がらない時の「4剤目（ミネブロ等）」として追加。</td>
+          <td><span class="badge b-step2">慢性心不全の予後改善</span><br><strong>手がかり：</strong>スピロノラクトン<strong>12.5〜25mg/日</strong>の少量。利尿ではなく「心筋の線維化防止」が目的！</td>
+          <td><span class="badge b-step3">肝硬変の腹水・浮腫</span><br><strong>手がかり：</strong>スピロノラクトン<strong>50〜100mg/日</strong>の高用量＋フロセミド併用。相棒に分岐鎖アミノ酸（リーバクト）。</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>α1遮断薬</strong><br>（タムスロシン）<br>（ドキサゾシン）</td>
+          <td><span class="badge b-step1">男性の前立腺肥大症</span><br><strong>手がかり：</strong>男性患者にタムスロシン0.2mg 1日1回。相棒にベオーバやデュタステリド。</td>
+          <td><span class="badge b-step2">早朝高血圧（モーニングサージ）</span><br><strong>手がかり：</strong>ドキサゾシン（カルデナリン）が<strong>「1日1回 就寝前」</strong>に処方されている。</td>
+          <td><span class="badge b-cham">女性の排尿困難・尿管結石排出</span><br><strong>手がかり：</strong><strong>女性患者</strong>にタムスロシン！神経因性膀胱の排尿補助か、ロキソニン・ウロカルンと一緒に「尿管結石を落とすため」の処方。</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>クエチアピン（セロクエル）<br>アリピプラゾール（エビリファイ）</strong></td>
+          <td><span class="badge b-step1">統合失調症・双極性障害</span><br><strong>手がかり：</strong>クエチアピン200〜600mg/日、エビリファイ12〜24mg/日の高用量。</td>
+          <td><span class="badge b-step2">うつ病の増強療法（Augmentation）</span><br><strong>手がかり：</strong>SSRI/SNRI（レクサプロやサインバルタ）の相棒として、エビリファイ<strong>1〜3mg</strong>が追加されている。</td>
+          <td><span class="badge b-cham">高齢者の夜間せん妄・不眠・BPSD</span><br><strong>手がかり：</strong>クエチアピン<strong>12.5〜25mg「寝る前」</strong>の超少量！（※糖尿病禁忌チェックは絶対忘れるな！）</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>デュロキセチン<br>（サインバルタ）</strong></td>
+          <td><span class="badge b-step1">うつ病・うつ状態</span><br><strong>手がかり：</strong>精神科・心療内科から処方。睡眠薬や抗不安薬が併用されている。</td>
+          <td><span class="badge b-step2">慢性腰痛・変形性関節症・糖尿病性神経障害</span><br><strong>手がかり：</strong>整形外科や内科から処方。ロキソニンやリリカ・タリージェ、貼付剤が相棒にいる。</td>
+          <td><span class="badge b-cham">抗がん薬によるしびれ（CIPN）</span><br><strong>手がかり：</strong>腫瘍内科・外科から、オキサリプラチンやパクリタキセル治療中の患者に処方（ガイドライン推奨度No.1）。</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>マクロライド・ST合剤</strong><br>（クラリスロマイシン）<br>（バクタ配合錠）</td>
+          <td><span class="badge b-step1">急性細菌感染症（肺炎・膀胱炎等）</span><br><strong>手がかり：</strong>クラリス<strong>400mg/日（分2）を7日間</strong>。バクタ<strong>4錠/日（分2）を3〜7日間</strong>。</td>
+          <td><span class="badge b-step2">ピロリ菌除菌</span><br><strong>手がかり：</strong>ボノサップ（ボノプラザン＋アモキシシリン＋クラリス400〜800mg）の7日間パック処方。</td>
+          <td><span class="badge b-cham">慢性気道炎症抑制 ／ PCP肺炎予防</span><br><strong>手がかり：</strong>クラリス<strong>200mg（1錠）が30〜90日分</strong>（副鼻腔炎・DPBの免疫修飾）。バクタ<strong>1日1錠または週3回</strong>（ステロイド服用中のPCP予防）。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       PART 2: 10疾患別「処方レシピ ➔ 病態・ガイドライン段階」逆引きチャート
+       ========================================== -->
+  
+  <!-- 疾患 1 & 2 -->
+  <div class="section-block disease-sec page-break">
+    <div class="section-header">
+      <div>
+        <span class="badge b-step1">Chart 01 - 02</span>
+        <h2 class="section-title">📊 【1. 悪性腫瘍】＆【2. 高血圧症】処方プロファイリング</h2>
+      </div>
+      <span class="section-sub">処方の組み合わせ（レシピ）から、患者の現在のステージと声をかけるべきポイントを特定する</span>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">① 悪性腫瘍（がん：外来化学療法・緩和ケア）</h3>
+    <div class="flow-grid" style="margin-bottom:20px;">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">パターンA：経口抗がん薬＋支持療法</span>
+        <h4>大腸がん・胃がん・肺がん等の外来通院</h4>
+        <div class="rx-box">Rp1) カペシタビン（ゼローダ） 14日分<br>Rp2) ヘパリン類似物質＋ステロイド軟膏<br>Rp3) デュロキセチン＋ミロガバリン</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>点滴（オキサリプラチン）と内服を組み合わせたXELOX療法中。すでに「手足症候群（皮膚のひび割れ）」予防と「末梢神経障害（冷感・しびれ）」の対策が入っている中盤以降のステージ。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「休薬期間のカレンダー確認」と「冷たいものを触った時のビリビリ感、足の裏の赤みは大丈夫ですか？」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">パターンB：分子標的薬の先制治療</span>
+        <h4>EGFR遺伝子変異陽性 肺がん／大腸がん</h4>
+        <div class="rx-box">Rp1) オシメルチニブ（タグリッソ）<br>Rp2) ミノサイクリン100mg<br>Rp3) ロコイド軟膏＋ヒルドイド</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>EGFR阻害薬による「ざ瘡様皮疹（ニキビのような湿疹）」「爪囲炎」を防ぐため、治療初日から抗生剤と外用薬をセットにした<strong>先制治療（Pre-emptive）</strong>。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「まだ湿疹が出ていなくても、予防のために今日から保湿と飲み薬を始める大事なセットですよ」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">パターンC：がん疼痛のオピオイド導入</span>
+        <h4>中等度〜高度のがん疼痛コントロール</h4>
+        <div class="rx-box">Rp1) オキシコドン徐放錠（オキシコンチン）<br>Rp2) オキシコドン速放散（オキノーム）頓用<br>Rp3) ナルデメジン（スインプロイク）＋プロクロルペラジン</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>定時薬で痛みのベースを抑え、突出痛にレスキューを使う王道処方。麻薬特有の便秘（スインプロイク）と初期の吐き気（ノバミン）に対する防御陣形も完璧。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「痛み止めを我慢せず使えていますか？レスキューを1日に何回使ったか教えてくださいね」</div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">② 高血圧症（JSHガイドライン準拠）</h3>
+    <div class="flow-grid">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">Step 1〜2：王道の併用療法</span>
+        <h4>合併症のない本態性高血圧</h4>
+        <div class="rx-box">Rp1) アジルサルタン・アムロジピン配合錠（ザクラス） 1錠 分1 朝食後</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>単剤では目標（130/80未満）に届かず、ARB＋Ca拮抗薬の2剤併用へ進み、アドヒアランス向上のため配合剤にまとめた安定期。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「お家で測る朝の血圧は125/75を切っていますか？足のむくみや立ちくらみはないですか？」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">合併症あり：蛋白尿を伴うCKD・糖尿病</span>
+        <h4>臓器保護（腎保護）を最優先する高血圧</h4>
+        <div class="rx-box">Rp1) オルメサルタン 20mg<br>Rp2) シルニジピン（アテレック） 10mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>輸出細動脈を広げて糸球体内圧を下げるため<strong>RAS阻害薬（ARB）が絶対の主役</strong>。さらにCa拮抗薬もN型チャネル阻害作用を持ち腎保護・むくみ軽減に優れるシルニジピンが選ばれている玄人処方！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「血圧を下げるだけでなく、腎臓のフィルターを守る組み合わせが出ていますよ」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">Step 3〜4：治療抵抗性高血圧</span>
+        <h4>3剤でも下がらない難治性高血圧</h4>
+        <div class="rx-box">Rp1) テルミサルタン・アムロジピン・ヒドロクロロチアジド配合錠（ミカトリオ）<br>Rp2) エサキセレノン（ミネブロ） 2.5mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>ARB＋Ca拮抗薬＋利尿薬の3剤（ミカトリオ）でも目標未達のため、ガイドラインStep 4の切り札である<strong>MRA（ミネブロ）</strong>が投入された状態。高K血症リスク大！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「しっかり血圧を下げる4つ目の成分が入っています。最近の血液検査でカリウム（K）の値は大丈夫でしたか？」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 疾患 3 & 4 -->
+  <div class="section-block disease-sec page-break">
+    <div class="section-header">
+      <div>
+        <span class="badge b-step1">Chart 03 - 04</span>
+        <h2 class="section-title">📊 【3. 糖尿病】＆【4. 心疾患】処方プロファイリング</h2>
+      </div>
+      <span class="section-sub">インスリン抵抗性か分泌不全か？心不全か虚血か不整脈か？を一瞬で見抜く</span>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">③ 2型糖尿病（日本糖尿病学会アルゴリズム準拠）</h3>
+    <div class="flow-grid" style="margin-bottom:20px;">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">プロファイルA：肥満・インスリン抵抗性型</span>
+        <h4>内臓脂肪型肥満・メタボを伴う2型糖尿病</h4>
+        <div class="rx-box">Rp1) メトホルミン 1000mg〜1500mg<br>Rp2) ダパグリフロジン 5mg<br>Rp3) セマグルチド（リベルサス錠 or オゼンピック注）</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>インスリンは出ているが効きが悪い（抵抗性）タイプ。体重を増やさず、むしろ<strong>減量効果と心腎保護がある「ビグアナイド＋SGLT2阻害薬＋GLP-1受容体作動薬」</strong>の最強トリオ。この単独・併用なら低血糖リスクは極めて低い！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「リベルサスは『起床時・約120mL以下の水・服用後30分絶飲食』のルールで飲めていますか？脱水を防ぐため水分はしっかり摂りましょう」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">プロファイルB：非肥満・インスリン分泌不全型</span>
+        <h4>やせ型・高齢者に多い日本人の典型例</h4>
+        <div class="rx-box">Rp1) シタグリプチン（ジャヌビア） 50mg<br>Rp2) グリメピリド（アマリール） 0.5mg<br>Rp3) ミグリトール（セイブル） 150mg 食直前</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>膵臓からのインスリン分泌自体が弱っているタイプ。DPP-4阻害薬と少量のSU薬で分泌を促し、食後高血糖をα-GIで抑えている。<strong>SU薬が入っているため「低血糖」に厳戒態勢が必要！</strong>さらにα-GI併用なので低血糖時は砂糖不可（ブドウ糖必須）！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「冷や汗や手の震えなどの低血糖症状はないですか？セイブルを飲んでいるので、万が一の時はお砂糖ではなく必ず『ブドウ糖』を摂ってくださいね」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">プロファイルC：インスリン強化療法（BOT含む）</span>
+        <h4>経口薬だけでは膵臓が疲弊したステージ</h4>
+        <div class="rx-box">Rp1) インスリン グラルギン（ランタスXR） 1日1回<br>Rp2) インスリン リスプロ（ヒューマログ） 毎食直前</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>持効型（グラルギン）で24時間の基礎分泌を補い、超速効型（リスプロ）で毎食後のスパイクを抑える<strong>Basal-Bolus療法（強化インスリン療法）</strong>。1型糖尿病、またはインスリン分泌が枯渇した2型糖尿病・周術期・シックデイ後。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「お腹の打つ場所は毎回2〜3cmずつずらしていますか？針を刺す場所が硬くなっていないか触ってみましょう」</div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">④ 心疾患（慢性心不全・虚血性心疾患・心房細動）</h3>
+    <div class="flow-grid">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">レシピA：HFrEF（収縮機能が落ちた心不全）</span>
+        <h4>ガイドライン推奨「ファンタスティック・フォー」</h4>
+        <div class="rx-box">Rp1) エンレスト（ARNI）<br>Rp2) ビソプロロール（β遮断薬）<br>Rp3) スピロノラクトン（MRA）<br>Rp4) フォシーガ（SGLT2阻害薬）＋フロセミド</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>心臓のポンプ機能（LVEF 40%以下）が低下した<strong>HFrEFの完全標準治療</strong>。Rp1〜4は「心臓を休ませて予後（寿命）を延ばす4銃士」、フロセミドは「今あるむくみ（うっ血）を抜く薬」。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「毎朝の体重測定で、数日で2kg以上増えていませんか？夜寝ると苦しくて起き上がる（起座呼吸）ことはないですか？」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">レシピB：PCI（冠動脈ステント留置）後</span>
+        <h4>心筋梗塞・狭心症のカテーテル治療後</h4>
+        <div class="rx-box">Rp1) バイアスピリン 100mg<br>Rp2) プラスグレル（エフィエント） 3.75mg<br>Rp3) ロスバスタチン 10mg ＋ エゼチミブ 10mg<br>Rp4) ボノプラザン（タケキャブ） 10mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>ステント血栓症を防ぐ<strong>DAPT（抗血小板薬2剤併用）</strong>中＝<strong>カテーテル治療から1ヶ月〜1年以内のハイリスク期</strong>！二次予防のためLDL-Cを70未満に叩き落とすストロングスタチン＋エゼチミブ、さらにDAPTの胃出血を防ぐタケキャブが揃った完璧な布陣。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「ステントが馴染むまでの絶対に血サラサラ薬を止められない大切な時期です。青あざや黒い便は出ていませんか？」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">レシピC：心房細動＋冠動脈疾患の合併</span>
+        <h4>出血リスクと血栓リスクの究極のバランス</h4>
+        <div class="rx-box">Rp1) エドキサバン（リクシアナ） 30mg または 60mg<br>Rp2) クロピドグレル 75mg（または単剤でRp1のみ）<br>Rp3) ビソプロロール 2.5mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>心房細動の脳塞栓予防（DOAC）とステント保護（抗血小板薬）の両立。最新ガイドライン（AFIRE試験等）では、<strong>PCIから1年経過した安定冠動脈疾患なら「抗血小板薬を外してDOAC単剤にする」</strong>のが推奨！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「カテーテル治療から何年経ちましたか？（もし1年以上経っていて2剤併用なら、医師へ単剤化の検討が可能か情報提供のチャンス！）」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 疾患 5 & 6 -->
+  <div class="section-block disease-sec page-break">
+    <div class="section-header">
+      <div>
+        <span class="badge b-step1">Chart 05 - 06</span>
+        <h2 class="section-title">📊 【5. 脳血管障害】＆【6. 精神神経疾患】処方プロファイリング</h2>
+      </div>
+      <span class="section-sub">脳梗塞の3つの病型と、精神科領域の「増強療法・適応外少量処方」を読み解く</span>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">⑤ 脳血管障害（脳梗塞の再発予防と後遺症管理）</h3>
+    <div class="flow-grid" style="margin-bottom:20px;">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">病型A：非心原性（アテローム・ラクナ梗塞）</span>
+        <h4>脳や首の血管自体の動脈硬化が原因</h4>
+        <div class="rx-box">Rp1) クロピドグレル 75mg（またはシロスタゾール）<br>Rp2) アトルバスタチン 10mg<br>Rp3) アムロジピン 5mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>高流速の動脈にできる白色血栓が原因のため、<strong>抗血小板薬単剤</strong>が基本（発症直後3週間だけアスピリンと2剤併用されるが、慢性期は単剤）。スタチンでプラークを安定化させている。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「（もしシロスタゾールなら）飲み始めに頭がガンガンしたり、ドキドキしたりしていませんか？」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">病型B：心原性脳塞栓症</span>
+        <h4>心房細動で心臓から飛んできた巨大血栓</h4>
+        <div class="rx-box">Rp1) アピキサバン（エリキュース） 5mg 1日2回<br>（または2.5mg 1日2回）<br>Rp2) レベチラセタム（イーケプラ） 1000mg</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>心臓由来のフィブリン血栓のため<strong>DOACが必須</strong>。さらにイーケプラが出ていることから、比較的大きな脳梗塞の後遺症として<strong>「脳卒中後てんかん」</strong>を合併（または予防）していると推理できる！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「エリキュースは1日2回、飲み忘れなく飲めていますか？（80歳以上・60kg以下・Cr1.5以上の2つ該当で減量基準チェック！）」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">病型C：慢性期・嚥下障害＆誤嚥性肺炎対策</span>
+        <h4>後遺症によるむせ・誤嚥リスクが高い高齢者</h4>
+        <div class="rx-box">Rp1) シロスタゾールOD錠 100mg<br>Rp2) イミダプリル（タナトリル） 5mg<br>Rp3) アマンタジン 100mg ＋ 半夏厚朴湯</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>すべての薬が<strong>「サブスタンスPを増やして嚥下反射・咳反射を高める（誤嚥性肺炎を防ぐ）」</strong>という明確な意図で統一されている！OD錠が選ばれているのも嚥下低下への配慮。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「最近、お水やお茶を飲む時にむせたり、食事に時間がかかったりしていませんか？」</div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:8px; color:#1e40af;">⑥ 精神神経疾患（うつ病・双極性障害・認知症）</h3>
+    <div class="flow-grid">
+      <div class="flow-card searchable">
+        <span class="badge b-step1">ステージA：うつ病の導入初期（1〜2週目）</span>
+        <h4>副作用を抑えながら効果発現を待つ時期</h4>
+        <div class="rx-box">Rp1) エスシタロプラム（レクサプロ） 10mg 夕食後<br>Rp2) モサプリド 15mg 毎食後<br>Rp3) レンボレキサント（デエビゴ） 5mg 就寝前</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>SSRI開始初期の<strong>「吐き気・胃腸障害」を防ぐためにモサプリド</strong>がセットになっている。効果が出るまで2〜4週間かかるため、今ある不眠には依存性のないデエビゴで対処している初期処方。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「飲み始めの1週間だけ少し胃がムカムカすることがありますが、胃薬も一緒に出ているので安心してくださいね。効果は2週間ほどでじわじわ出てきますよ」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step2">ステージB：難治性うつ病 or 双極性障害</span>
+        <h4>単剤で効かない時の「増強療法」を見抜く</h4>
+        <div class="rx-box">【パターン①】サインバルタ ＋ ミルタザピン（リフレックス）<br>【パターン②】レクサプロ ＋ エビリファイ 1mg<br>【パターン③】ラモトリギン ＋ リチウム ＋ クエチアピン</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>①はSNRI＋NaSSAの「カリフォルニア・ロケット（最強の抗うつ併用）」。②はエビリファイ少量による増強療法。③は抗うつ薬がなく気分安定薬中心なので「うつ病ではなく<strong>双極性障害（躁うつ病）のうつ状態</strong>」！</p>
+        <div class="talk">💬 <strong>第一声：</strong>「（③のラモトリギンの場合）飲み始めや増量時に、発疹や唇のただれ、発熱が出たらすぐに連絡してくださいね（SJS予防）」</div>
+      </div>
+      <div class="flow-card searchable">
+        <span class="badge b-step3">ステージC：認知症の中核症状＋BPSD対策</span>
+        <h4>介護者の負担と転倒リスクに配慮した処方</h4>
+        <div class="rx-box">Rp1) ドネペジルOD錠 5mg（またはリバスチグミンテープ）<br>Rp2) メマンチン（メマリー）OD錠 20mg<br>Rp3) 抑肝散 7.5g ＋ トラゾドン 25mg 就寝前</div>
+        <p class="insight"><strong>🔍 病態推理：</strong>コリンエステラーゼ阻害薬（ドネペジル）とNMDA受容体拮抗薬（メマンチン）が併用されているため、<strong>中等度〜高度のアルツハイマー型認知症</strong>。さらにイライラ・易怒性（BPSD）に抑肝散、夜間せん妄・不眠にトラゾドン少量が入っている。</p>
+        <div class="talk">💬 <strong>第一声：</strong>「（ご家族へ）お薬を嫌がったり飲み忘れたりしていませんか？（もし内服拒否があればテープ剤への変更提案！）」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 疾患 7, 8, 9, 10 -->
+  <div class="section-block disease-sec">
+    <div class="section-header">
+      <div>
+        <span class="badge b-step1">Chart 07 - 10</span>
+        <h2 class="section-title">📊 【7. 免疫・喘息】【8. 感染症】【9. 腎・泌尿器】【10. 骨・代謝】</h2>
+      </div>
+      <span class="section-sub">ステップアップ治療の段階と、ハイリスクな組み合わせを一目で監査する</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:15%;">領域・疾患</th>
+          <th style="width:28%;">軽症〜標準ステップの処方と病態</th>
+          <th style="width:28%;">中等症〜重症・併用ステップの処方と病態</th>
+          <th style="width:29%;">指導薬剤師の「ここを見抜いたら100点！」</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="searchable">
+          <td><strong>7. 気管支喘息<br>・COPD</strong></td>
+          <td><span class="badge b-step1">喘息 Step 1〜2</span><br><strong>処方：</strong>レルベア100 または シムビコート（ICS/LABA）<br><strong>病態：</strong>気道炎症を抑える基本形。シムビコートが「定期＋発作時頓用」で出ていれば<strong>SMART療法</strong>！</td>
+          <td><span class="badge b-step3">喘息 Step 3〜4 ／ COPD合併（ACO）</span><br><strong>処方：</strong>テリルジー または ビレーズトリ、エナジア（<strong>ICS/LABA/LAMA トリプル製剤</strong>）＋モンテルカスト<br><strong>病態：</strong>2剤ではコントロール不十分、またはCOPD合併例。</td>
+          <td><strong>🔍 抗コリン（LAMA）の禁忌チェック！：</strong><br>トリプル製剤（テリルジー等）やスピリーバには「LAMA（抗コリン薬）」が入っている！<strong>閉塞隅角緑内障</strong>と<strong>前立腺肥大症による排尿障害</strong>がないか必ず聴取せよ！</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>7. 関節リウマチ<br>・自己免疫</strong></td>
+          <td><span class="badge b-step1">Phase I（アンカードラッグ）</span><br><strong>処方：</strong>メトトレキサート（MTX）週6〜8mg（月・火に分けて服用）＋ フォリアミン（木曜日に1錠）<br><strong>病態：</strong>診断後早期の基本治療。</td>
+          <td><span class="badge b-step3">Phase II〜III（生物学的製剤・JAK阻害薬）</span><br><strong>処方：</strong>MTX ＋ アクテムラ皮下注／ヒュミラ皮下注 または リンヴォック錠（JAK阻害薬）＋ バクタ（週3回）<br><strong>病態：</strong>MTX効果不十分で分子標的治療へ進んだ段階。</td>
+          <td><strong>🔍 感染症サインの徹底指導：</strong><br>生物学的製剤（特にIL-6阻害薬のアクテムラ等）やJAK阻害薬は、<strong>「肺炎になっても熱が出ない・CRPが上がらない（炎症反応がマスクされる）」</strong>！少しの息切れやだるさでも即受診させる！</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>8. 感染症</strong></td>
+          <td><span class="badge b-step1">市中肺炎・気道感染（外来）</span><br><strong>処方：</strong>アモキシシリン/クラブラン酸（オーグメンチン）＋サワシリン（<strong>オグサワ処方</strong>）1日3〜4回<br><strong>病態：</strong>時間依存性抗菌薬の理想的な高用量・分割投与！</td>
+          <td><span class="badge b-step2">非定型肺炎・マイコプラズマ・腎盂腎炎</span><br><strong>処方：</strong>レボフロキサシン（クラビット）500mg 1日1回 または アジスロマイシン（ジスロマック）3日間<br><strong>病態：</strong>濃度依存性抗菌薬の一撃必殺投与！</td>
+          <td><strong>🔍 「オグサワ処方」の意図を説明できるか？：</strong><br>オーグメンチンだけではアモキシシリン量が足りず、逆にオーグメンチンを増やすとクラブラン酸の副作用で猛烈な下痢をする。だから<strong>サワシリンだけを足してアモキシシリン比率を高める</strong>超合理的な処方！</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>9. 慢性腎臓病<br>（CKD保存期）</strong></td>
+          <td><span class="badge b-step2">CKD ステージ G3a〜G3b</span><br><strong>処方：</strong>ARB ＋ フォシーガ10mg ＋ フェブキソスタット<br><strong>病態：</strong>糸球体の過剰ろ過を抑え、透析導入を全力で遠ざけている段階。</td>
+          <td><span class="badge b-step3">CKD ステージ G4〜G5（透析前保存期）</span><br><strong>処方：</strong>上記 ＋ ダーブロック（HIF-PH阻害薬）＋ ロケルマ（高K改善）＋ ホスレノール（リン吸着）＋ 重曹 ＋ クレメジン<br><strong>病態：</strong>腎臓の4大機能（造血・電解質・酸塩基・毒素排泄）を薬で総力カバーしている状態！</td>
+          <td><strong>🔍 服用タイミングのパズルを整理せよ！：</strong><br>・ダーブロック：鉄剤やリン吸着薬と<strong>併用間隔を空ける</strong>（キレート防止）<br>・ホスレノール：食べ物の中のリンを捕まえるため<strong>「食直後」</strong>必須！<br>・クレメジン：他剤を吸着するため<strong>他剤と時間をずらす</strong>！</td>
+        </tr>
+        <tr class="searchable">
+          <td><strong>10. 骨粗鬆症</strong></td>
+          <td><span class="badge b-step1">標準予防・治療</span><br><strong>処方：</strong>アレンドロン酸（週1回起床時）または ラロキシフェン（エビスタ：閉経後女性）＋ エルデカルシトール</td>
+          <td><span class="badge b-step3">骨折ハイリスク（逐次療法）</span><br><strong>処方：</strong>イベニティ皮下注（1年間）または テリパラチド ➔ 終了後に<strong>プラリア皮下注（6ヶ月に1回）＋ デノタスチュアブル</strong>へ移行。</td>
+          <td><strong>🔍 エビスタ（SERM）の隠れリスク：</strong><br>女性ホルモン様作用があるため、<strong>「長期の飛行機移動や入院・手術で足を動かさない時」に深部静脈血栓症（エコノミークラス症候群）</strong>を起こすリスクがある！整形外科の手術前などは休薬確認！</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+<div class="content-block">
+      <div class="block-header">
+        <h2 class="section-title">📊 【11. 消化器】【12. 整形・疼痛】【13. 内分泌・婦人科】【14. 感覚器】【15. 肝胆膵】処方プロファイリング</h2>
+        <span class="badge" style="background:#059669; color:white;">実臨床・超頻出処方のウラ読み</span>
+      </div>
+
+      <!-- 11. 消化器疾患 -->
+      <div class="disease-section" id="pro-d11">
+        <h3 style="margin-bottom:8px; color:#1e40af;">⑪ 消化器疾患（GERD・便秘症・炎症性腸疾患）</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>タケキャブ錠20mg 1T 分1朝 ＋ モサプリドクエン酸塩錠5mg 3T 分3毎食後</h4>
+            <span class="badge step1">GERD初期治療</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>タケキャブ錠20mg 1回1錠 1日1回朝食後 ＋ ガスモチン錠5mg 1回1錠 1日3回毎食後</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>逆流性食道炎（GERD）の初期治療（重症またはびらん性）。タケキャブ20mgは初期8週間の治療用量（維持療法は10mg）。モサプリド併用は食道クリアランス低下や胃排出遅延を伴う胸焼け症状を改善する意図。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>GERD診療ガイドラインでP-CAB（タケキャブ）は第一選択。8週間投与後に症状改善があれば10mgへ減量、またはオンデマンド療法（症状時のみ服用）へステップダウンする。</p>
+            <p><strong>💡 薬剤師の介入：</strong>8週間を超えて漫然と20mgが継続されていないか監査！また、酸化マグネシウム併用時は胃酸抑制により酸化Mgの効果が低下するため、便秘の悪化がないか確認。</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>アミティーザカプセル24μg 2Cap 分2朝夕食後 ＋ モビコール配合散 2包 分2</h4>
+            <span class="badge step2">CKD合併難治性便秘</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>アミティーザカプセル24μg 1回1カプセル 1日2回朝夕食後 ＋ モビコール配合散 1回1包 1日2回水に溶かして服用</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>慢性腎不全（CKDステージ4〜5）または高齢者の難治性便秘症。酸化マグネシウムが高Mg血症リスクで使えないため、非吸収性のモビコール（PEG）とClチャネル活性化薬アミティーザで電解質を乱さずに水分泌を促進している。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>慢性便秘症診療ガイドラインに準拠。刺激性下剤（センノシド等）の連用による大腸メラノーシス・難治化を回避する最新アプローチ。</p>
+            <p><strong>💡 薬剤師の介入：</strong>アミティーザは空腹時服用で高率に悪心が出るため「必ず食後（できれば食直後）」を徹底指導！妊婦禁忌（子宮収縮）。モビコールの溶解水量（1包あたり約60mL）と塩味の飲みやすさ工夫を支援。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12. 整形外科・疼痛 -->
+      <div class="disease-section" id="pro-d12">
+        <h3 style="margin-bottom:8px; color:#1e40af;">⑫ 整形外科・運動器疼痛（神経障害性疼痛・関節痛）</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>タリージェ錠5mg 2T 分2朝夕 ＋ セレコックス錠100mg 2T 分2 ＋ ネキシウムカプセル10mg 1Cap</h4>
+            <span class="badge step1">神経痛＋急性炎症</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>タリージェ錠5mg 1回1錠 1日2回朝夕食後 ＋ セレコックス錠100mg 1回1錠 1日2回朝夕食後 ＋ ネキシウムカプセル10mg 1回1カプセル 1日1回夕食後</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>腰椎椎間板ヘルニアや腰部脊柱管狭窄症に伴う「坐骨神経痛（下肢のビリビリ・しびれ）」＋「局所の急性炎症痛」。侵害受容性疼痛（NSAIDs）と神経障害性疼痛（タリージェ）のハイブリッド治療。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>神経障害性疼痛薬物療法ガイドラインで第一選択（α2δリガンド）。COX-2選択的阻害薬（セレコックス）にPPIを併用し消化管潰瘍リスクを最小化。</p>
+            <p><strong>💡 薬剤師の介入：</strong>タリージェは初期5mg bidから開始し漸増（維持量10〜15mg bid）。腎機能（eGFR）に応じた用量調節が必須。飲み始めの「めまい・ふらつき・眠気」による転倒注意、自動車運転等の注意喚起を行う。</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>トラムセット配合錠 4T 分4 ＋ プリンペラン錠5mg 2T 分2朝夕食前</h4>
+            <span class="badge step2">弱オピオイド導入期</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>トラムセット配合錠 1回1錠 1日4回毎食後・就寝前 ＋ プリンペラン錠5mg 1回1錠 1日2回朝夕食前</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>変形性膝関節症または慢性腰痛症で、NSAIDs無効・腎機能低下・胃潰瘍既往により弱オピオイド（トラマドール＋アセトアミノフェン）へステップアップした状態。プリンペランはオピオイド導入初期の悪心予防。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>慢性疼痛診療ガイドライン準拠。弱オピオイドの導入初期は悪心が出やすいため、制吐薬の先制併用が推奨される（1〜2週間で耐性獲得し中止可能）。</p>
+            <p><strong>💡 薬剤師の介入：</strong>「隠れアセトアミノフェン（325mg/錠）」を見逃すな！市販風邪薬や他院からのカロナール併用による過量投与（1日4000mg超）を絶対に防ぐ。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13. 甲状腺・内分泌・婦人科 -->
+      <div class="disease-section" id="pro-d13">
+        <h3 style="margin-bottom:8px; color:#1e40af;">⑬ 甲状腺・内分泌・婦人科疾患</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>メルカゾール錠5mg 3T 分1朝</h4>
+            <span class="badge step1">バセドウ病寛解導入</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>メルカゾール錠5mg 1回3錠（15mg） 1日1回朝食後</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>バセドウ病（甲状腺機能亢進症）の新規診断または再燃。過剰な甲状腺ホルモン合成を抑える初期治療用量（15〜30mg/日）。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>甲状腺疾患診療ガイドライン準拠。抗甲状腺薬治療の第一選択。2〜3ヶ月で甲状腺機能が正常化すれば漸減し維持量（2.5〜5mg/日）へ移行する。</p>
+            <p><strong>💡 薬剤師の介入：</strong>最重要警告：服用開始2〜3ヶ月以内に好発する<strong>「無顆粒球症（発熱・咽頭痛）」</strong>の初期症状を必ず説明！「38℃以上の熱が出たら絶対に次の錠剤を飲まず、直ちに白血球・分画の血液検査を受けること」を命がけで指導する。</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>チラーヂンS錠25μg 1T 分1朝食前</h4>
+            <span class="badge step1">高齢者橋本病微量開始</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>チラーヂンS錠25μg 1回1錠 1日1回朝食前（または起床時）</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>原発性甲状腺機能低下症（橋本病）。25μg（または12.5μg）という超少量開始は、高齢者または虚血性心疾患合併患者を強く示唆。代謝の急激な亢進による狭心症発作や不整脈を回避する設計。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>日本甲状腺学会ガイドライン準拠。高齢者や心疾患合併例では12.5〜25μgから開始し、2〜4週ごとにTSHを測定しながら漸増する。</p>
+            <p><strong>💡 薬剤師の介入：</strong>鉄剤（フェロミア等）、カルシウム製剤、酸化マグネシウムと同時服用するとキレートを形成し吸収が著しく低下する！必ず服用間隔を2〜4時間以上空ける指導を行う。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14. 眼科疾患 -->
+      <div class="disease-section" id="pro-d14">
+        <h3 style="margin-bottom:8px; color:#1e40af;">⑭ 眼科疾患（緑内障・白内障術後・アレルギー性結膜炎）</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>キサラタン点眼液0.005% 1日1回就寝前 ＋ チモプトールXE点眼液0.5% 1日1回朝</h4>
+            <span class="badge step2">緑内障2剤併用</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>キサラタン点眼液0.005% 1回1滴 1日1回就寝前 ＋ チモプトールXE点眼液0.5% 1回1滴 1日1回朝</div>
+          <div class="profile-body">
+            <p><strong>🎯 特定される病態：</strong>開放隅角緑内障または正常眼圧緑内障（中期進行例）。PG関連薬（ぶどう膜強膜流出路促進）にβ遮断薬（房水産生抑制）を追加した多剤併用ステップ。</p>
+            <p><strong>🔍 処方の決定打：</strong>点眼間隔の負担を減らすため、チモロール通常製剤（1日2回）ではなく「ゲル化持続製剤（XE：1日1回朝）」が選ばれている配慮。</p>
+            <p><strong>💡 薬剤師の介入：</strong>①差す順番：水溶性（キサラタン）が先、油膜を作るゲル化剤（XE）は必ず後！②β遮断薬の全身吸収による<strong>「気管支喘息・COPD・徐脈・心不全」の絶対禁忌チェック</strong>！③点眼後1〜5分の目頭圧迫と、目の周りの拭き取り（色素沈着・まつ毛伸長防止）。</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>クラビット点眼液1.5% 4回 ＋ フルメトロン点眼液0.1% 4回 ＋ ブロムフェナク点眼液0.1% 2回</h4>
+            <span class="badge step1">白内障手術前後3本柱</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>クラビット点眼液1.5% 1回1滴 1日4回 ＋ フルメトロン点眼液0.1% 1回1滴 1日4回 ＋ ブロムフェナク点眼液0.1% 1回1滴 1日2回</div>
+          <div class="profile-body">
+            <p><strong>🎯 特定される病態：</strong>超頻出！白内障手術前後の標準プロトコール（術後眼内炎予防 ＋ 炎症消火 ＋ 術後黄斑浮腫CME予防）。</p>
+            <p><strong>🔍 処方の決定打：</strong>「抗菌薬（クラビット）＋ステロイド（フルメトロン）＋NSAIDs（ブロムフェナク）」の3剤セットが出たら100%白内障術後！</p>
+            <p><strong>💡 薬剤師の介入：</strong><strong>「痛くなくてもブロムフェナク点眼は絶対に中止してはいけない！」</strong>を徹底指導。NSAIDsは痛み止めではなく、術後刺激で出たプロスタグランジンによる『術後黄斑浮腫（失明リスク）』を防ぐ命綱であることを伝える。点眼間隔は必ず5分以上あける。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 29. 耳鼻咽喉科疾患 -->
+      <div class="disease-section" id="pro-d29">
+        <h3 style="margin-bottom:8px; color:#0f766e;">㉙ 耳鼻咽喉科疾患（メニエール病・突発性難聴・急性中耳炎）</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>イソバイドシロップ70% 60mL 分3毎食後 ＋ メリスロン錠6mg 3T 分3 ＋ アデホスコーワ顆粒10% 3g 分3</h4>
+            <span class="badge" style="background:#0f766e; color:#fff;">メニエール病黄金処方</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>イソバイドシロップ70% 1回20mL 1日3回毎食後 ＋ メリスロン錠6mg 1回1錠 1日3回毎食後 ＋ アデホスコーワ顆粒10% 1回1g 1日3回毎食後</div>
+          <div class="profile-body">
+            <p><strong>🎯 特定される病態：</strong>メニエール病（活動期〜維持期）。回転性めまい、低音難聴、耳鳴り、耳閉塞感を反復する内リンパ水腫。</p>
+            <p><strong>🔍 処方の決定打：</strong>内耳の水抜き（イソバイド：浸透圧利尿）＋内耳血流（メリスロン）＋有毛細胞代謝賦活（アデホス）の計算し尽くされた病態生理学的トリオ！</p>
+            <p><strong>💡 薬剤師の介入：</strong>イソバイドの<strong>「激マズ脱落防止指導」</strong>が最大の腕の見せ所！「冷蔵庫で冷やす」「無糖炭酸水やレモン水で1:1に割る」「氷を入れてストローで一気に飲む」。メリスロンのヒスタミン作用による喘息悪化・胃潰瘍再燃チェック。</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>プレドニン錠5mg 8T 分2朝昼（40mg 3日間 ➔ 漸減） ＋ メコバラミン錠500μg 3T ＋ ネキシウムカプセル20mg</h4>
+            <span class="badge" style="background:#b91c1c; color:#fff;">突発性難聴 超緊急治療</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>プレドニン錠5mg 1回4錠 1日2回朝昼食後（40mg/日 3日間 ➔ 30mg 3日間 ➔ 20mg 3日間 ➔ 10mg 3日間 ➔ 終了） ＋ メコバラミン錠500μg 1回1錠 1日3回 ＋ ネキシウムカプセル20mg 1日1回朝</div>
+          <div class="profile-body">
+            <p><strong>🎯 特定される病態：</strong>突発性難聴（発症後48時間〜1週間以内の超緊急治療）またはBell麻痺（顔面神経麻痺）。</p>
+            <p><strong>🔍 処方の決定打：</strong>高用量ステロイドから開始し数日ごとに階段状に減量していく<strong>「明確な漸減処方スケジュール」</strong>＋末梢神経修復（ビタミンB12）＋胃潰瘍予防（PPI）。</p>
+            <p><strong>💡 薬剤師の介入：</strong>「耳の脳梗塞！副作用が怖いからといって途中で飲むのをやめると一生聞こえなくなる！」ことを真剣に伝え、<strong>指示通りの完全飲み切り・飲み忘れゼロ</strong>を徹底約束させる。血糖値上昇、不眠の注意喚起。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15. 肝胆膵疾患 -->
+      <div class="disease-section" id="pro-d15">
+        <h3 style="margin-bottom:8px; color:#1e40af;">⑮ 肝胆膵疾患（肝硬変・肝性脳症・腹水）</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>モニラック・シロップ60% 30mL 分3 ＋ リフキシマ錠200mg 3T 分3 ＋ リーバクト配合顆粒 3包 分3</h4>
+            <span class="badge step3">非代償性肝硬変・肝性脳症</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>モニラック・シロップ60% 1日30mL 1日3回毎食後 ＋ リフキシマ錠200mg 1回1錠 1日3回毎食後 ＋ リーバクト配合顆粒 1回1包 1日3回毎食後</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>非代償性肝硬変における高アンモニア血症・肝性脳症の再発予防・寛解維持療法。腸内でのアンモニア産生・吸収をトリプルブロック（合成二糖類＋難吸収性抗菌薬＋分枝鎖アミノ酸）する最強のレジメン。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>日本消化器病学会「肝硬変診療ガイドライン」準拠。顕性肝性脳症の二次予防において、ラクツロース＋リファキシミンの併用は再発リスクを劇的に低下させると推奨される。</p>
+            <p><strong>💡 薬剤師の介入：</strong>排便回数の確認（1日2〜3回軟便が目標）。下痢がひどいと脱水から逆に肝性脳症が悪化するためモニラックの用量調節が必要。また「眠れないから」と睡眠薬（BZD系）を要求されても安易な処方は肝性昏睡を招くため禁忌！</p>
+          </div>
+        </div>
+     
+
+      <!-- 16. 皮膚科・アレルギー疾患 -->
+      <div class="disease-section" id="pro-d16">
+        <h3 style="margin-bottom:8px; color:#1e40af;">⑯ 皮膚科・アレルギー疾患（アトピー性皮膚炎・プロアクティブ療法）</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>アンテベート軟膏0.05% 20g ＋ コレクチム軟膏0.5% 15g ＋ ヒルドイドソフト軟膏0.3% 100g</h4>
+            <span class="badge step2">アトピー性皮膚炎・プロアクティブ移行期</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>アンテベート軟膏0.05% 1日2回体幹・四肢の皮疹部 ＋ コレクチム軟膏0.5% 1日2回顔面・頸部 ＋ ヒルドイドソフト軟膏0.3% 1日2回全身入浴後</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>中等症アトピー性皮膚炎。体幹の強い炎症にはベリーストロング群（アンテベート）で速やかに消火し、皮膚の薄い顔面・頸部にはステロイド長期連用の副作用（皮膚萎縮・酒さ様皮膚炎）を回避するため非ステロイド外用JAK阻害薬（コレクチム）を選択。ヒルドイドで皮膚バリア機能を底上げする精密処方。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>日本皮膚科学会「アトピー性皮膚炎診療ガイドライン2024」準拠。急性増悪期からプロアクティブ維持療法へのステップダウン設計。</p>
+            <p><strong>💡 薬剤師の介入：</strong>①FTU（フィンガーチップユニット）遵守指導：「薄く伸ばすのではなく、ティッシュがペタッとくっつく程度に乗せる」。②塗る順番：全身のヒルドイドが先、病変部へのアンテベート・コレクチムが後！③コレクチムの初期一過性の刺激感を予告して自己中断を防ぐ。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 25. 気管支喘息 ＆ COPD -->
+      <div class="disease-section" id="pro-d25">
+        <h3 style="margin-bottom:8px; color:#1e40af;">㉕ 気管支喘息 ＆ COPD（閉塞性肺疾患）</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>シムビコートタービュヘイラー 1回2吸入 1日2回 ＋ 発作時追加吸入指示（最大8吸入/日）</h4>
+            <span class="badge" style="background:#0284c7; color:#fff;">喘息 SMART療法</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>シムビコートタービュヘイラー 1回2吸入 1日2回朝夕 ＋ 発作時1吸入追加（1日最大8吸入まで）</div>
+          <div class="profile-body">
+            <p><strong>🎯 特定される病態：</strong>気管支喘息（中等症〜重症持続型）。定期吸入と発作時吸入を同一デバイスで完結させる<strong>SMART療法（Single inhaler Maintenance And Reliever Therapy）</strong>。</p>
+            <p><strong>🔍 処方の決定打：</strong>レルベアやアドエアではなく「シムビコート」が選ばれ、頓用追加吸入の指示がある点。ホルモテロール（速効性＋長時間作用型LABA）の特性をフル活用している。</p>
+            <p><strong>💡 薬剤師の介入：</strong>①「発作時にメプチンを使わず、このシムビコートを吸ってください」というルールの徹底。発作時に吸うことで同時に抗炎症ステロイドが入り増悪を防ぐ。②吸入後うがい（嗄声・カンジダ防止）。③1日8吸入を超えたら即受診。</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>テリルジー200エリプタ 1回1吸入 1日1回 ＋ モンテルカスト錠10mg 1T 就寝前</h4>
+            <span class="badge" style="background:#4338ca; color:#fff;">重症喘息 or COPD合併（ACO）</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>テリルジー200エリプタ 1回1吸入 1日1回朝 ＋ モンテルカスト錠10mg 1回1錠 1日1回就寝前</div>
+          <div class="profile-body">
+            <p><strong>🎯 特定される病態：</strong>難治性重症喘息、または長年喫煙歴のある高齢者の喘息・COPDオーバーラップ（ACO）。</p>
+            <p><strong>🔍 処方の決定打：</strong>高用量ステロイド（フルチカゾン200）＋LABA＋LAMA（抗コリン薬）の<strong>ICS/LABA/LAMA 3剤トリプル配合吸入薬</strong>が処方されている最高段位の治療ステップ！</p>
+            <p><strong>💡 薬剤師の介入：</strong>①抗コリン薬（ウメクリジニウム）を含むため、<strong>閉塞隅角緑内障・前立腺肥大症による排尿困難の禁忌チェック</strong>が必須！②1日1回朝の完全ルーティン化（24時間持続）。③残数カウンター確認。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 26. 慢性便秘症 ＆ 排便管理 -->
+      <div class="disease-section" id="pro-d26">
+        <h3 style="margin-bottom:8px; color:#1e40af;">㉖ 慢性便秘症 ＆ 排便管理</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>モビコール配合散 2包 分2 ＋ グーフィス錠5mg 2T 分1朝食前</h4>
+            <span class="badge" style="background:#059669; color:#fff;">大腸メラノーシス離脱処方</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>モビコール配合散 1回1包 1日2回水に溶かして服用 ＋ グーフィス錠5mg 1回2錠（10mg） 1日1回朝食前</div>
+          <div class="profile-body">
+            <p><strong>🎯 特定される病態：</strong>長年センノシドやコーラック等（刺激性下剤）を連用し大腸メラノーシス・難治化してしまった慢性便秘症の最新脱却処方。</p>
+            <p><strong>🔍 処方の決定打：</strong>大腸刺激性下剤を一切使わず、非吸収性高分子PEG（便の水分保持）と胆汁酸トランスポーター阻害薬グーフィス（大腸への胆汁酸流入による自然排便促進）の相乗併用！</p>
+            <p><strong>💡 薬剤師の介入：</strong>①グーフィスは<strong>「食前（できれば朝食前20〜30分）」</strong>厳守！食後だと胆汁酸分泌と合致せず効果半減。②モビコールの溶解水量（1包約60mL）指導。③「刺激性下剤を毎日飲むのをやめて、この2つで自然な便意を取り戻しましょう」と動機づけ。</p>
+          </div>
+        </div>
+      </div>
+ </div>
+    </div>
+
+  </div><!-- /.profiling-container -->
+</div><!-- /#tab-profiling -->

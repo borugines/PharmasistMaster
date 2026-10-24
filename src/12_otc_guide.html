@@ -1,0 +1,854 @@
+﻿<!-- シンプルOTC推奨＆基礎疾患別マトリクス タブペイン -->
+<div id="tab-otc" class="tab-pane">
+  <div class="card" style="margin-bottom:20px; background:linear-gradient(135deg, #0f172a 0%, #0369a1 100%); color:white; border-left:4px solid #38bdf8;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h2 style="font-size:1.35rem; color:#7dd3fc; font-weight:800; margin-bottom:4px;">🛒 薬剤師が勧めやすい「シンプルOTC」＆ 基礎疾患別・安全販売マトリクス</h2>
+        <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+          「余計な成分が入っていない単剤OTC」の指名買いリストと、高血圧・緑内障・前立腺肥大・妊婦の「買ってはいけない地雷市販薬」を完全整理。
+        </p>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <button class="header-print-btn" onclick="window.print()" style="padding:7px 14px; font-size:0.85rem; background:#10b981;">🖨️ A4横で印刷</button>
+      </div>
+    </div>
+    <div class="tab-bar" style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
+      <button class="tab-btn active" onclick="showOtc('all', this)">すべて表示（一括印刷）</button>
+      <button class="tab-btn" onclick="showOtc('o-simple', this)">🎯 ① 症状別「シンプル単一成分OTC」</button>
+      <button class="tab-btn" onclick="showOtc('o-disease', this)">🛡️ ② 基礎疾患持ちの「⭕安全 vs ❌地雷」</button>
+      <button class="tab-btn" onclick="showOtc('o-cold', this)">🤧 ③ 総合感冒薬の「分解パズル」と漢方</button>
+      <button class="tab-btn" onclick="showOtc('o-guidance', this)">🏛️ ④ 要指導医薬品（対面必須・アライ等）</button>
+      <button class="tab-btn" onclick="showOtc('o-first', this)">🥇 ⑤ 第1類医薬品（ロキソニン・ガスター・リアップ等）</button>
+      <button class="tab-btn" onclick="showOtc('o-doping', this)">🏃‍♂️ ⑥ ドーピング禁止成分 ＆ 安全OTC</button>
+    </div>
+  </div>
+  <div class="otc-container">
+
+<div class="otc-section o-simple">
+    <div class="sec-header">
+      <h2 class="sec-title">🎯 ① 薬剤師が指名買いで勧めるべき「シンプル成分（単剤・少数処方）OTC」図鑑</h2>
+      <span class="sec-sub">「余計なカフェイン・鎮静成分・抗コリン成分」が入っていない、医療用とほぼ同じ感覚で出せる名品たち</span>
+    </div>
+
+    <div class="banner b-blue">💡 なぜ「シンプル処方」が最強なのか？ ➔ 併用薬との重複がなく、副作用の原因が特定でき、基礎疾患の禁忌に引っかからないから！</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:15%;">症状・領域</th>
+          <th style="width:22%;">狙うべきシンプル成分</th>
+          <th style="width:28%;">薬剤師が自信を持って出しやすい代表商品</th>
+          <th style="width:35%;">なぜこれが勧めやすいのか？（医療用との対応＆現場の勘所）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>頭痛・発熱・生理痛<br>（解熱鎮痛薬）</strong></td>
+          <td><span class="badge-simple">単一成分・カフェインなし</span><br>① <strong>アセトアミノフェン単剤</strong><br>② <strong>ロキソプロフェン単剤</strong><br>③ <strong>イブプロフェン単剤</strong></td>
+          <td>① <span class="product">タイレノールA</span>（300mg単剤）<br>　 <span class="product">バファリンルナJ</span>（小児〜大人・チュアブル）<br>② <span class="product">ロキソニンS</span>（60mg単剤）<br>③ <span class="product">リングルアイビーα200</span>（200mg単剤）</td>
+          <td>・<strong>タイレノールA：</strong><strong>カフェインも催眠鎮静成分（アリルイソプロピルアセチル尿素）も一切入っていない純粋なアセトアミノフェン300mg！</strong>高血圧・腎障害・心不全・喘息・胃潰瘍既往・授乳婦・寝る前の服用まで、あらゆる疾患持ちに第一選択で出せる絶対の切り札！<br>・<strong>注意：</strong>「イブA錠」や「バファリンプレミアム」等には<strong>鎮静成分（眠気・依存）と無水カフェイン</strong>が入っているため、純粋な単剤（ロキソニンSやタイレノールA）の方が圧倒的に安全！</td>
+        </tr>
+        <tr>
+          <td><strong>鼻水・花粉症・じんましん<br>（抗ヒスタミン薬）</strong></td>
+          <td><span class="badge-simple">第2世代・単一成分</span><br>① <strong>フェキソフェナジン</strong><br>② <strong>ロラタジン</strong><br>③ <strong>エピナスチン</strong></td>
+          <td>① <span class="product">アレグラFX</span>（または各種PBジェネリック）<br>② <span class="product">クラリチンEX</span>（1日1回）<br>③ <span class="product">アレジオン20</span>（1日1回就寝前）</td>
+          <td>・<strong>アレグラFX ＆ クラリチンEX：</strong><strong>「眠気（運転制限記載なし）」かつ「抗コリン作用がほぼゼロ」！</strong>そのため、<strong>前立腺肥大症の高齢男性や閉塞隅角緑内障の患者さんでも安全に使える</strong>奇跡の鼻炎薬！（※総合鼻炎薬の「パブロン鼻炎カプセル」や「コンタック鼻炎」には第1世代抗ヒスタミン＋ベラドンナ＋プソイドエフェドリンが全部入っており高齢者には地雷の塊！）。</td>
+        </tr>
+        <tr>
+          <td><strong>咳・痰<br>（鎮咳去痰薬）</strong></td>
+          <td><span class="badge-simple">非麻薬・単一〜少数成分</span><br>① <strong>デキストロメトルファン単剤</strong><br>② <strong>カルボシステイン＋ブロムヘキシン</strong><br>③ <strong>麦門冬湯</strong></td>
+          <td>① <span class="product">メジコンせき止め錠Pro</span>（単剤！）<br>② <span class="product">ストナ去たんカプセル</span> / <span class="product">クールワン去たんソフトカプセル</span><br>③ <span class="product">ツムラ漢方 麦門冬湯エキス顆粒</span></td>
+          <td>・<strong>メジコンせき止め錠Pro：</strong>医療用のメジコン（デキストロメトルファン）と全く同じ<strong>単一成分</strong>！コデイン（麻薬性：便秘・眠気・12歳未満禁忌）やエフェドリン（動悸・血圧上昇・尿閉）が一切入っていないため、<strong>高血圧や前立腺肥大の患者の乾いた咳に迷わず出せる！</strong><br>・<strong>クールワン去たん：</strong>医療用のムコダイン＋ビソルボンのみの2成分！気道を広げず痰だけをサラサラにするため心疾患・高血圧でも完全に安全！</td>
+        </tr>
+        <tr>
+          <td><strong>のどの痛み・口内炎</strong></td>
+          <td><span class="badge-simple">トラネキサム酸 / アズレン</span><br>① <strong>トラネキサム酸主体</strong><br>② <strong>アズレン＋CPC（トローチ・スプレー）</strong></td>
+          <td>① <span class="product">ペラックT錠</span><br>② <span class="product">アズレンうがい薬</span> / <span class="product">パープルショット</span></td>
+          <td>・<strong>ペラックT錠：</strong>トラネキサム酸＋ビタミンB2・B6・C＋カンゾウ乾燥エキス。<strong>解熱鎮痛薬（NSAIDs）や抗ヒスタミン薬が入っていないため、眠くならず胃も荒れない！</strong>（※ただしカンゾウが含まれるため他漢方との重複、また血栓症既往・トロンビン投与中はトラネキサム酸注意）。</td>
+        </tr>
+        <tr>
+          <td><strong>胃痛・胃もたれ・胸やけ</strong></td>
+          <td><span class="badge-simple">単一成分（スイッチOTC）</span><br>① <strong>ファモチジン単剤（H2B）</strong><br>② <strong>ランソプラゾール等（PPI）</strong><br>③ <strong>テプレノン / ソファルコン</strong></td>
+          <td>① <span class="product">ガスター10</span>（10mg単剤）<br>② <span class="product">タケプロンS</span> / <span class="product">オメプラールS</span> / <span class="product">パリエットS</span>（要指導・新登場！）<br>③ <span class="product">セルベール</span>（テプレノン＋生薬）</td>
+          <td>・<strong>ガスター10（またはPPIスイッチOTC）：</strong>余計な制酸剤（MgやAl、Na）やロートエキス（抗コリン）が一切入っていない単剤！<br>・<strong>総合胃腸薬（キャベジンや太田胃散など）の罠：</strong>これらには<strong>「ロートエキス（緑内障・前立腺肥大に禁忌！）」「炭酸水素Na（塩分過多で高血圧・心不全に悪影響）」「アルミニウム（透析禁忌）」</strong>が入っていることが多い！疾患持ちには単剤が圧倒的に安全。</td>
+        </tr>
+        <tr>
+          <td><strong>便秘・下痢<br>（整腸・下剤）</strong></td>
+          <td><span class="badge-simple">非刺激性・生菌単剤</span><br>① <strong>酸化マグネシウム単剤</strong><br>② <strong>酪酸菌 / 乳酸菌単剤</strong></td>
+          <td>① <span class="product">酸化マグネシウムE便秘薬</span><br>② <span class="product">強ミヤリサン錠</span>（酪酸菌単剤！）<br>　 <span class="product">新ビオフェルミンS</span>（3種乳酸菌）</td>
+          <td>・<strong>強ミヤリサン錠：</strong>医療用の「ミヤBM」とほぼ同じ<strong>宮入菌（酪酸菌）単剤</strong>！抗菌薬服用中の下痢予防から普段の整腸まで、誰にでも出せる最強のシンプルOTC。<br>・<strong>下痢止めの注意：</strong>感染性腸炎（食中毒やウイルス性胃腸炎）に「ストッパ（ロートエキス＋タンニン酸）」や「トメダイン（ロペラミド）」を出すと菌が腸に閉じ込められて重症化する！下痢にはまず<strong>「強ミヤリサン＋経口補水液（OS-1）＋五苓散」</strong>を勧めるのがプロの技！</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       PART 2: 基礎疾患持ち患者の「⭕ 安全OTC vs ❌ 絶対NG地雷成分」マトリクス
+       ========================================== -->
+  <div class="otc-section o-disease">
+    <div class="sec-header">
+      <h2 class="sec-title">🛡️ ② 基礎疾患（持病）がある患者への「⭕ 迷わず出せる vs ❌ 地雷成分」完全マトリクス</h2>
+      <span class="sec-sub">お薬手帳を見せられた瞬間、頭の中でこのフィルターを起動せよ！</span>
+    </div>
+
+    <div class="banner b-red">🚨 市販薬の「4大悪魔成分」を暗記せよ！ ➔ ①エフェドリン類、②抗コリン（ベラドンナ・ロートエキス・第1世代抗ヒスタミン）、③NSAIDs、④甘草（グリチルリチン酸）</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">患者の基礎疾患<br>（飲んでいる医療用薬）</th>
+          <th style="width:36%;">❌ 絶対に出してはいけない「OTCの地雷成分」と理由</th>
+          <th style="width:46%;">⭕ この疾患の患者に自信を持って出せる「安全なOTC提案レシピ」</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>① 高血圧・心疾患・不整脈・甲状腺機能亢進症</strong><br>（アムロジピン、ARB、β遮断薬、メルカゾール等）</td>
+          <td>
+            <span class="badge-ng">交感神経刺激成分</span><br>
+            ・<strong>プソイドエフェドリン、メチルエフェドリン、フェニレフリン、ナファゾリン（点鼻）</strong>、<strong>麻黄（葛根湯等）</strong><br>
+            ➔ 血管を収縮させ心臓を叩くため、<strong>血圧急上昇・動悸・狭心症発作・不整脈</strong>を誘発！<br>
+            <span class="badge-ng">甘草・ナトリウム・NSAIDs</span><br>
+            ・総合感冒薬のグリチルリチン酸や胃腸薬の重曹（Na）、ロキソニン（血圧上昇＆心不全増悪）にも注意！
+          </td>
+          <td>
+            ・<strong>熱・痛み：</strong><span class="product">タイレノールA</span>（アセトアミノフェン単剤）<br>
+            ・<strong>咳・痰：</strong><span class="product">メジコンせき止め錠Pro</span> ＋ <span class="product">クールワン去たん</span>（または麦門冬湯）<br>
+            ・<strong>鼻水：</strong><span class="product">アレグラFX</span> または <span class="product">クラリチンEX</span>（プソイドエフェドリン無配合！）<br>
+            ・<strong>風邪のひき始め：</strong>麻黄が入っていない<span class="product">桂枝湯（45番）</span>や<span class="product">参蘇飲（66番）</span>、のど風邪なら<span class="product">桔梗湯（138番）</span>！
+          </td>
+        </tr>
+        <tr>
+          <td><strong>② 前立腺肥大症・排尿障害 ／ 閉塞隅角緑内障</strong><br>（ハルナール、ユリーフ、ザルティア、緑内障点眼薬等）</td>
+          <td>
+            <span class="badge-ng">抗コリン成分（尿閉＆眼圧上昇！）</span><br>
+            ・<strong>クロルフェニラミン、ジフェンヒドラミン（ドリエル含む！）</strong>等の第1世代抗ヒスタミン薬<br>
+            ・鼻炎薬の<strong>ベラドンナ総アルカロイド、ヨウ化イソプロパミド</strong><br>
+            ・胃腸薬・下痢止めの<strong>ロートエキス</strong>、乗り物酔い薬（スコポラミン）<br>
+            <span class="badge-ng">エフェドリン類</span> 尿道括約筋を締めて<strong>完全な尿閉（おしっこが一滴も出なくなる）</strong>を起こす！
+          </td>
+          <td>
+            ・<strong>鼻水・アレルギー：</strong>抗コリン作用がほぼない第2世代単剤（<span class="product">アレグラFX</span>、<span class="product">クラリチンEX</span>）または点鼻ステロイド（<span class="product">ナザールαAR0.1%</span>等）！<br>
+            ・<strong>胃痛：</strong>ロートエキスが入っていない<span class="product">ガスター10</span>または<span class="product">セルベール</span><br>
+            ・<strong>不眠の相談：</strong>「ドリエル（ジフェンヒドラミン）」は抗コリン作用が強いため絶対NG！漢方の<span class="product">抑肝散</span>や<span class="product">加味帰脾湯</span>、生活指導で対応。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>③ 慢性腎臓病（CKD）・透析患者</strong><br>（フォシーガ、ARB、利尿薬、リン吸着薬等）</td>
+          <td>
+            <span class="badge-ng">NSAIDs（腎血流遮断！）</span><br>
+            ・<strong>ロキソニンS、イブ、バファリンA、外用NSAIDs湿布の大量貼り</strong>（特にARB＋利尿薬服用中はTriple Whammyで一発AKI！）<br>
+            <span class="badge-ng">金属（Al・Mg・Ca）含有薬</span><br>
+            ・<strong>アルミニウム含有胃腸薬</strong>（スクラルファート、合成ヒドロタルサイト等＝<strong>透析患者はアルミニウム脳症・骨症で絶対禁忌！</strong>）<br>
+            ・<strong>酸化マグネシウム</strong>（高Mg血症）、<strong>ガスター10</strong>（100%腎排泄で意識障害・痙攣！）
+          </td>
+          <td>
+            ・<strong>熱・痛み：</strong><span class="product">タイレノールA</span>（アセトアミノフェン単剤が唯一の安全港！）<br>
+            ・<strong>胃痛・胸やけ：</strong>腎排泄のガスター10やAl入り胃腸薬は避け、肝代謝主体のPPIスイッチOTC（<span class="product">タケプロンS / オメプラールS / パリエットS</span>）または<span class="product">セルベール</span>（テプレノン）！<br>
+            ・<strong>鼻水：</strong>腎機能の影響を受けにくい<span class="product">クラリチンEX</span>（ロラタジン）または<span class="product">アレグラFX</span>（※ザイザルやジルテック［コンタック鼻炎Z］は腎排泄のため回避！）。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>④ 気管支喘息</strong><br>（レルベア、シムビコート、モンテルカスト等）</td>
+          <td>
+            <span class="badge-ng">NSAIDs（アスピリン喘息誘発！）</span><br>
+            ・<strong>ロキソプロフェン、イブプロフェン、アスピリン、エテンザミド等を含む全ての鎮痛薬・総合感冒薬・外用湿布薬！</strong><br>
+            ➔ 成人の喘息患者の約10%はNSAIDsで<strong>致死的な大発作（NSAIDs過敏喘息）</strong>を起こす（本人が自覚していないことも多い）！<br>
+            ・<strong>コデイン類：</strong>気道分泌を抑えて痰を詰まらせ、呼吸抑制を起こすため発作時はNG。
+          </td>
+          <td>
+            ・<strong>熱・痛み：</strong>1回300mg以下の<span class="product">タイレノールA</span>（アセトアミノフェン単剤）※高用量ではまれに誘発するため少量から。<br>
+            ・<strong>関節痛・筋肉痛（湿布）：</strong>インドメタシンやロキソプロフェン等のNSAIDs湿布は絶対に出さず、サリチル酸メチル等も避け、温感/冷感のみのケアや受診勧奨を行う。
+          </td>
+        </tr>
+        <tr>
+          <td><strong>⑤ 糖尿病 ／ 抗血栓薬（DOAC・ワルファリン）服用中</strong></td>
+          <td>
+            ・<strong>糖尿病にNG：</strong>エフェドリン類・麻黄（交感神経刺激で血糖値を上げる）、甘いシロップ剤。<br>
+            ・<strong>抗血栓薬にNG：</strong><strong>NSAIDs（ロキソニン・アスピリン等＝消化管大出血リスク激増！）</strong>、<strong>ミコナゾール（フロリードゲル等＝ワルファリン禁忌）</strong>、トラネキサム酸（血栓傾向注意）。
+          </td>
+          <td>
+            ・<strong>抗血栓薬服用中の痛み・熱：</strong>胃粘膜を荒らさず血小板も邪魔しない<span class="product">タイレノールA</span>一択！<br>
+            ・<strong>糖尿病患者の風邪：</strong>エフェドリン・麻黄を含まない単剤組み合わせ（タイレノール＋メジコンPro＋アレグラFX等）。
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       PART 3: 総合感冒薬の「分解パズル」と「それでも総合薬を欲しがる人への裏ワザ」
+       ========================================== -->
+  <div class="otc-section o-cold">
+    <div class="sec-header">
+      <h2 class="sec-title">🤧 ③ 「総合感冒薬（パブロン・ルル等）の闇鍋解剖」と「迷った時のピンポイント推奨術」</h2>
+      <span class="sec-sub">学生に「なぜ総合感冒薬はプロにとって使いにくいのか？」を視覚的に理解させる</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="box-card">
+        <h4 style="color:var(--otc-danger);">🍲 一般的な「総合感冒薬（全部入り風邪薬）」の中身を解剖すると…</h4>
+        <p style="font-size:0.84rem; margin-bottom:8px;">患者さんが大好きな有名総合感冒薬（パブロンゴールドAや新ルルAなど）には、1錠の中にこれだけの成分が全部入っています：</p>
+        <ul>
+          <li>① <strong>解熱鎮痛成分</strong>（アセトアミノフェン or イブプロフェン）➔ <em>熱がないのに飲む必要ある？</em></li>
+          <li>② <strong>鎮咳成分</strong>（ジヒドロコデイン）➔ <em>便秘になる、12歳未満禁忌！</em></li>
+          <li>③ <strong>気管支拡張成分</strong>（メチルエフェドリン）➔ <em>高血圧・心臓病・糖尿病・前立腺肥大にNG！</em></li>
+          <li>④ <strong>抗ヒスタミン成分</strong>（クロルフェニラミン）➔ <em>猛烈に眠くなる、緑内障・前立腺肥大にNG！</em></li>
+          <li>⑤ <strong>去痰成分</strong>（グアイフェネシン / ブロムヘキシン）</li>
+          <li>⑥ <strong>無水カフェイン</strong> ➔ <em>風邪で寝たいのに目が冴えて眠れなくなる！</em></li>
+          <li>⑦ <strong>ビタミン類・生薬（カンゾウ等）</strong></li>
+        </ul>
+        <div style="background:#fee2e2; padding:8px; border-radius:6px; margin-top:8px; font-size:0.83rem; color:#991b1b; font-weight:bold;">
+          💡 指導の結論：「のどが痛いだけ」「鼻水が出るだけ」の人に総合感冒薬を出すのは、ハエを叩くために部屋中にバズーカ砲を撃つようなもの！一番つらい症状1〜2個に絞って単剤を出すのがプロの薬学管理！
+        </div>
+      </div>
+
+      <div class="box-card">
+        <h4 style="color:var(--otc-safe);">✨ それでも「1箱で済む風邪薬」を求められた時の『引き算型・優秀OTC』</h4>
+        <p style="font-size:0.84rem; margin-bottom:8px;">どうしても1つの箱で風邪薬を買いたい患者さんには、地雷成分が抜かれている以下の製品を選ぶと安全です：</p>
+        <ul>
+          <li><strong>① 眠くなる成分（抗ヒスタミン）が入っていない風邪薬：</strong>
+            <br>➔ <span class="product">ストナデイタイム</span> などの「眠くなりにくい設計」の製品、または漢方薬（葛根湯・麻黄湯・柴胡桂枝湯・麦門冬湯・桔梗湯）。</li>
+          <li><strong>② コデイン・エフェドリン・カフェインが入っていない小児・高齢者向け：</strong>
+            <br>➔ 漢方の<span class="product">小柴胡湯加桔梗石膏（109番）</span>：<strong>「のどが赤く腫れて痛む風邪・扁桃炎」</strong>の特効薬！麻黄もエフェドリンも抗コリンも入っていないため、高血圧や前立腺肥大の人の「のど風邪」に最強の切れ味を誇る！</li>
+          <li><strong>③ 妊娠中・授乳中のママから相談された時の「神の3神器」：</strong>
+            <br>・<strong>熱・頭痛：</strong><span class="product">タイレノールA</span>（アセトアミノフェン単剤）
+            <br>・<strong>のどの痛み：</strong><span class="product">桔梗湯（138番）</span>をお湯に溶かしてうがいしながら少しずつ飲み込む！または<span class="product">アズレンうがい薬</span>
+            <br>・<strong>便秘：</strong><span class="product">酸化マグネシウムE便秘薬</span> または <span class="product">新ビオフェルミンS</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  
+  <!-- ==========================================
+       4. 要指導医薬品（要指導薬）マスター
+       ========================================== -->
+  <div class="otc-section o-guidance">
+    <div class="sec-header" style="border-left:5px solid #0284c7; background:linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+      <span class="sec-badge" style="background:#0284c7; color:white;">セクション ④ / Guidance-Mandated OTC</span>
+      <h2 class="sec-title" style="color:#0369a1;">🏛️ ④ 要指導医薬品（要指導薬）マスター：対面販売の鉄則・スイッチOTC・代表製品図鑑</h2>
+      <span class="sec-subtitle">薬機法上の定義・ネット販売絶対禁止・PMS（市販後調査3年）・アライ（オルリスタット）販売要件完全攻略</span>
+    </div>
+
+    <!-- 1. OTC 4区分 完全比較早見表 -->
+    <div class="otc-card" style="margin-bottom:20px;">
+      <h3 style="font-size:1.1rem; color:#0f172a; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+        <span>📊</span> <strong>1. OTC医薬品（要指導 ＋ 一般用3区分）完全比較早見表</strong>
+      </h3>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.85rem; background:white; border-radius:8px; overflow:hidden; border:1px solid #cbd5e1;">
+          <thead>
+            <tr style="background:#0f172a; color:white; text-align:left;">
+              <th style="padding:9px 10px; width:15%;">医薬品区分</th>
+              <th style="padding:9px 10px; width:13%;">販売可能な資格</th>
+              <th style="padding:9px 10px; width:18%;">販売方法（ネット可否）</th>
+              <th style="padding:9px 10px; width:20%;">情報提供の法的義務</th>
+              <th style="padding:9px 10px; width:16%;">陳列場所の規制</th>
+              <th style="padding:9px 10px; width:18%;">代表的な製品例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #e2e8f0; background:#eff6ff;">
+              <td style="padding:10px;"><strong style="color:#0369a1; font-size:0.95rem;">要指導医薬品</strong><br><span style="font-size:0.75rem; color:#64748b;">（2014年新設）</span></td>
+              <td style="padding:10px;"><strong style="color:#0369a1;">薬剤師のみ</strong><br><span style="font-size:0.75rem; color:#dc2626;">※登録販売者は不可</span></td>
+              <td style="padding:10px;"><strong style="color:#dc2626; font-size:0.95rem;">対面販売のみ！</strong><br><strong style="color:#dc2626;">ネット・通信販売は完全禁止</strong></td>
+              <td style="padding:10px;"><strong style="color:#dc2626;">対面での書面交付＋指導が義務</strong><br>（購入者状況の確認・記録義務）</td>
+              <td style="padding:10px;">手の届かない場所<br>（鍵付き棚・カウンター奥）</td>
+              <td style="padding:10px;"><strong>アライ（オルリスタット）</strong><br>新スイッチOTC（3年間）<br>緊急避妊薬（モデル事業）</td>
+            </tr>
+            <tr style="border-bottom:1px solid #e2e8f0;">
+              <td style="padding:10px;"><strong>第1類医薬品</strong></td>
+              <td style="padding:10px;"><strong>薬剤師のみ</strong><br><span style="font-size:0.75rem; color:#dc2626;">※登録販売者は不可</span></td>
+              <td style="padding:10px;"><strong>ネット販売可能</strong><br>（メール・画面での確認必須）</td>
+              <td style="padding:10px;"><strong>書面交付による情報提供が義務</strong><br>（対面でなくても可）</td>
+              <td style="padding:10px;">手の届かない場所<br>または陳列設備から7m以内</td>
+              <td style="padding:10px;"><strong>ロキソニンS</strong><br><strong>ガスター10</strong><br><strong>リアップ5%</strong></td>
+            </tr>
+            <tr style="border-bottom:1px solid #e2e8f0; background:#f8fafc;">
+              <td style="padding:10px;"><strong>第2類医薬品</strong><br><span style="font-size:0.75rem; color:#64748b;">（指定第2類含む）</span></td>
+              <td style="padding:10px;">薬剤師 または<br><strong>登録販売者</strong></td>
+              <td style="padding:10px;">ネット販売可能</td>
+              <td style="padding:10px;"><strong>努力義務</strong><br>（指定第2類は禁忌確認を促す）</td>
+              <td style="padding:10px;">7m以内<br>（指定第2類は1.2m以内）</td>
+              <td style="padding:10px;"><strong>パブロンゴールドA</strong><br><strong>アレグラFX</strong><br><strong>イブA錠</strong></td>
+            </tr>
+            <tr>
+              <td style="padding:10px;"><strong>第3類医薬品</strong></td>
+              <td style="padding:10px;">薬剤師 または<br><strong>登録販売者</strong></td>
+              <td style="padding:10px;">ネット販売可能</td>
+              <td style="padding:10px;">法的義務なし（相談時のみ）</td>
+              <td style="padding:10px;">特段の制限なし</td>
+              <td style="padding:10px;"><strong>チョコラBB</strong><br>ビタミンC錠<br>精製水・ワセリン</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 2. 要指導医薬品の4大分類と第1類への移行メカニズム -->
+    <div class="otc-card" style="margin-bottom:20px; background:#f8fafc; border:1px solid #cbd5e1;">
+      <h3 style="font-size:1.05rem; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        <span>🔄</span> <strong>2. 要指導医薬品の4大分類 ＆ 第1類への移行メカニズム（市販後調査 PMS）</strong>
+      </h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; font-size:0.83rem; line-height:1.5;">
+        <div style="background:white; padding:10px; border-radius:6px; border-left:3px solid #0284c7;">
+          <strong style="color:#0284c7;">① スイッチOTC医薬品：</strong><br>
+          医療用医薬品として使われていた有効成分を一般用として転用したもの。上市後<strong>【原則3年間】</strong>は要指導医薬品として対面で副作用を収集。
+        </div>
+        <div style="background:white; padding:10px; border-radius:6px; border-left:3px solid #10b981;">
+          <strong style="color:#10b981;">② ダイレクトOTC医薬品：</strong><br>
+          医療用としての国内実績を経ずに、直接OTCとして承認された新有効成分（例：海外で実績のある成分等）。
+        </div>
+        <div style="background:white; padding:10px; border-radius:6px; border-left:3px solid #f59e0b;">
+          <strong style="color:#d97706;">③ 劇薬指定の医薬品：</strong><br>
+          薬機法で劇薬に指定されている一般用医薬品（例：一部の殺虫剤や特殊製剤）。
+        </div>
+        <div style="background:white; padding:10px; border-radius:6px; border-left:3px solid #6366f1;">
+          <strong style="color:#4f46e5;">④ 製造販売後調査（PMS）期間中の医薬品：</strong><br>
+          安全性のデータを蓄積する期間。調査終了後に厚労省の薬事審議会で審議され、安全性が確認されると<strong>「第1類医薬品」へ移行（ネット販売解禁）</strong>される。
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 【超注目】アライ（オルリスタット）販売要件完全マニュアル -->
+    <div class="otc-card" style="margin-bottom:20px; border:2px solid #0284c7; background:white;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <h3 style="font-size:1.15rem; color:#0369a1; margin:0; display:flex; align-items:center; gap:8px;">
+          <span>💊</span> <strong>注目製品解剖：アライ（オルリスタット / 大正製薬）販売鑑査マニュアル</strong>
+        </h3>
+        <span style="background:#0284c7; color:white; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:12px;">国内初の肥満改善薬（要指導医薬品）</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:0.84rem; line-height:1.5;">
+        <div style="background:#f0f9ff; border-radius:8px; padding:12px; border:1px solid #bae6fd;">
+          <strong style="color:#0369a1; font-size:0.92rem;">【薬理作用と効果】</strong><br>
+          ・<strong>胃腸管リパーゼ阻害薬：</strong>食事中の脂肪（トリグリセリド）の分解をブロックし、<strong>食事由来の脂肪の約30%を便中にそのまま排泄</strong>させる。<br>
+          ・内臓脂肪・腹囲の減少を促す。内服後24〜48時間で便中に油が排出される。
+        </div>
+
+        <div style="background:#fef2f2; border-radius:8px; padding:12px; border:1px solid #fecaca;">
+          <strong style="color:#b91c1c; font-size:0.92rem;">【購入必須要件（調剤鑑査チェック）】</strong><br>
+          ① <strong>18歳以上</strong>の成人。<br>
+          ② <strong>腹囲：男性 85cm以上、女性 90cm以上</strong>（内臓脂肪型肥満）。<br>
+          ③ <strong>BMI 25以上35未満</strong>（35以上は高度肥満症として医療機関へ受診勧奨）。<br>
+          ④ <strong style="color:#b91c1c;">【最重要】購入前3ヶ月以上の生活習慣改善（食事・運動）の取り組み記録の提示が必須！</strong>
+        </div>
+      </div>
+
+      <!-- 服薬指導・副作用対策 -->
+      <div style="margin-top:12px; background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:12px; font-size:0.84rem; line-height:1.5;">
+        <strong style="color:#b45309; font-size:0.92rem;">【服薬指導の極意（患者が驚かないための必須指導）】</strong><br>
+        ・<strong style="color:#b91c1c;">🔥「油漏れ（油便・便意逼迫・おならと一緒に油が出る）」対策：</strong><br>
+        「吸収されなかった油がそのまま便として出ます。最初はおならをした拍子に下着を油で汚してしまうトラブルが非常に多いため、<strong>最初の数週間は生理用ナプキンや吸水パッド、おむつを当てておくこと</strong>を強くお勧めします」と恥ずかしがらず具体的に伝えるのがプロ！<br>
+        ・<strong style="color:#b45309;">💊 脂溶性ビタミン（A, D, E, K）の吸収低下対策：</strong><br>
+        脂肪と一緒にビタミンA・D・E・Kが排泄されるため、マルチビタミンサプリメントを併用する場合は、<strong>アライの内服から「2時間以上あけて就寝前に飲む」</strong>よう指導する。
+      </div>
+    </div>
+
+    <!-- 4. 現場薬剤師の対面販売トラブルシューティング -->
+    <div class="otc-card" style="background:white; border:1px solid #cbd5e1;">
+      <h3 style="font-size:1.05rem; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        <span>💡</span> <strong>先輩薬剤師からの Clinical Pearls（要指導薬カウンター対応の極意）</strong>
+      </h3>
+      <ul style="font-size:0.84rem; color:#334155; line-height:1.6; margin:0; padding-left:20px;">
+        <li><strong>「なんでネットで買えないの？めんどくさい！」と怒るお客様への神回答：</strong><br>
+          <span style="color:#0369a1; font-weight:700;">「医療用から市販薬になってまだ間もない大切なお薬ですので、お客様のお身体やお薬の飲み合わせに問題がないかを、国からの法律で薬剤師が対面で安全を確認することが義務付けられているんです。お客様のお身体を最優先に守るためのルールですので、どうかご理解くださいね」</span>と笑顔で伝える。
+        </li>
+        <li><strong>「本人が来られないから家族が代わりに買いに来た」場合の対応：</strong><br>
+          要指導医薬品は原則<strong>「使用する本人の対面購入」が法的な鉄則</strong>。代理人への販売は原則不可。どうしても本人が来局できない場合は、電話等で本人へ直接問診・説明を行い、緊急性や正当な理由があることを確認して記録に残す。
+        </li>
+        <li><strong>多量購入・頻回購入（乱用・転売防止）：</strong><br>
+          1人1包装単位が原則。他店での購入状況や購入理由を必ず確認し、不審な場合は販売を断る勇気を持つ。
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  
+  <!-- ==========================================
+       5. 第1類医薬品（第1類薬）マスター
+       ========================================== -->
+  <div class="otc-section o-first">
+    <div class="sec-header" style="border-left:5px solid #d97706; background:linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);">
+      <span class="sec-badge" style="background:#d97706; color:white;">セクション ⑤ / Class 1 OTC Master</span>
+      <h2 class="sec-title" style="color:#b45309;">🥇 ⑤ 第1類医薬品マスター：代表8大製剤・鑑査の地雷・ネット販売手続き・受診勧奨基準</h2>
+      <span class="sec-subtitle">薬剤師の情報提供義務（書面交付）・ロキソニンS 4兄弟の使い分け・ガスター10の2週間限界・リアップ循環器リスク完全攻略</span>
+    </div>
+
+    <!-- 1. 第1類医薬品の販売ルール ＆ ネット販売（特定販売）の仕組み -->
+    <div class="otc-card" style="margin-bottom:20px; background:white; border:1.5px solid #cbd5e1;">
+      <h3 style="font-size:1.1rem; color:#0f172a; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+        <span>📜</span> <strong>1. 第1類医薬品の販売ルール ＆ インターネット販売（特定販売）の法定要件</strong>
+      </h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:0.84rem; line-height:1.5;">
+        <div style="background:#f8fafc; border-left:3px solid #d97706; padding:10px 12px; border-radius:0 6px 6px 0;">
+          <strong style="color:#b45309;">👨‍⚕️ 薬剤師による書面交付・情報提供が義務（薬機法第36条の10第1項）：</strong><br>
+          登録販売者は販売できません。店頭では<strong>「書面を交付して」</strong>必要な情報提供を行うことが法的な義務です。購入者の年齢、性別、症状、持病、併用薬、アレルギー歴の確認が必須です。
+        </div>
+        <div style="background:#f8fafc; border-left:3px solid #0284c7; padding:10px 12px; border-radius:0 6px 6px 0;">
+          <strong style="color:#0284c7;">💻 インターネット販売（特定販売）の4ステップ手順：</strong><br>
+          要指導医薬品と異なり、第1類医薬品はネット販売が認められています。ただし、①購入者の状態確認（問診入力）➔ ②薬剤師による個別情報提供メール送信 ➔ ③<strong>購入者による「内容を理解した」旨の承諾手続き</strong> ➔ ④薬剤師の出荷承認、の手順を踏むことが法律で義務付けられています。
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 代表8大ジャンル 完全攻略図鑑 -->
+    <div class="otc-card" style="margin-bottom:20px;">
+      <h3 style="font-size:1.1rem; color:#0f172a; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+        <span>🏆</span> <strong>2. 現場で毎日出る「第1類医薬品 代表8大ジャンル」完全攻略図鑑</strong>
+      </h3>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.85rem; background:white; border-radius:8px; overflow:hidden; border:1px solid #cbd5e1;">
+          <thead>
+            <tr style="background:#0f172a; color:white; text-align:left;">
+              <th style="padding:9px 10px; width:15%;">ジャンル・代表製品</th>
+              <th style="padding:9px 10px; width:16%;">有効成分・作用機序</th>
+              <th style="padding:9px 10px; width:22%;">調剤鑑査上の重大地雷（禁忌・期間制限）</th>
+              <th style="padding:9px 10px; width:47%;">なぜ医師・患者はこの薬を選ぶのか？ ＆ 使い分けの結論（Clinical Pearls）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- ロキソニンSシリーズ -->
+            <tr style="border-bottom:1px solid #e2e8f0; background:#f0f9ff;">
+              <td style="padding:10px;">
+                <strong style="color:#0369a1; font-size:0.95rem;">ロキソニンS シリーズ</strong><br>
+                <span style="font-size:0.75rem; color:#64748b;">第一三共ヘルスケア</span>
+              </td>
+              <td style="padding:10px;">
+                <strong>ロキソプロフェンナトリウム</strong><br>
+                （68.1mg / 錠）<br>
+                プロドラッグ型NSAIDs
+              </td>
+              <td style="padding:10px;">
+                <strong style="color:#b91c1c;">アスピリン喘息（禁忌！）</strong><br>
+                <strong style="color:#b91c1c;">妊娠後期28週以降（絶対禁忌！）</strong><br>
+                消化性潰瘍、重篤な腎障害。1回1錠、1日2回（頓用で3回可・4時間以上間隔）。
+              </td>
+              <td style="padding:10px;">
+                <span class="char" style="background:#e0f2fe; color:#0369a1; font-weight:700; padding:2px 6px; border-radius:4px; font-size:0.78rem;">【4兄弟の神使い分け】</span><br>
+                ・<strong>ロキソニンS：</strong>基本形。小粒で飲みやすい。<br>
+                ・<strong>ロキソニンSプラス：</strong>＋酸化Mgで胃粘膜を保護。胃が弱い人に。<br>
+                ・<strong>ロキソニンSプレミアム：</strong>＋鎮静成分（アリルイソプロピルアセチル尿素）＋無水カフェイン＋胃薬。激しい頭痛に最強だが<strong>眠気あり・運転絶対不可！</strong><br>
+                ・<strong>ロキソニンSプレミアムファイン：</strong><strong>月経痛特化型！</strong>シャクヤク＋ヘスペリジン＋酸化Mg。<strong>眠くなる成分ゼロで仕事・運転も安心！</strong>
+              </td>
+            </tr>
+
+            <!-- ガスター10 -->
+            <tr style="border-bottom:1px solid #e2e8f0;">
+              <td style="padding:10px;">
+                <strong style="color:#0f172a; font-size:0.95rem;">ガスター10</strong><br>
+                <span style="font-size:0.75rem; color:#64748b;">第一三共ヘルスケア</span>
+              </td>
+              <td style="padding:10px;">
+                <strong>ファモチジン（10mg）</strong><br>
+                H2受容体拮抗薬（胃酸分泌抑制）
+              </td>
+              <td style="padding:10px;">
+                <strong style="color:#b91c1c;">【連続服用は2週間まで！】</strong><br>
+                80歳以上高齢者（せん妄・痙攣リスク）、15歳未満小児、重篤な腎障害。
+              </td>
+              <td style="padding:10px;">
+                <span class="char" style="background:#f1f5f9; color:#475569; font-weight:700; padding:2px 6px; border-radius:4px; font-size:0.78rem;">胃酸の出すぎによる胃痛・胸やけをシャープに鎮火</span><br>
+                攻撃因子（胃酸）を元から断つ。<strong>「3日間飲んでも症状が良くならない、または2週間を超えて続く場合は胃がんや胃潰瘍の疑いがあるため直ちに消化器内科へ受診勧奨」</strong>することが薬剤師の義務！
+              </td>
+            </tr>
+
+            <!-- リアップX5プラスネオ -->
+            <tr style="border-bottom:1px solid #e2e8f0; background:#f0fdf4;">
+              <td style="padding:10px;">
+                <strong style="color:#15803d; font-size:0.95rem;">リアップX5プラスネオ</strong><br>
+                <span style="font-size:0.75rem; color:#64748b;">大正製薬</span>
+              </td>
+              <td style="padding:10px;">
+                <strong>ミノキシジル（5%）</strong><br>
+                毛包細胞増殖・血流改善
+              </td>
+              <td style="padding:10px;">
+                <strong style="color:#b91c1c;">高血圧・低血圧・心疾患！</strong><br>
+                <strong style="color:#b91c1c;">女性には使用不可（禁忌！）</strong><br>
+                20歳未満、円形脱毛症（AGA以外には無効）。
+              </td>
+              <td style="padding:10px;">
+                <span class="char" style="background:#dcfce7; color:#15803d; font-weight:700; padding:2px 6px; border-radius:4px; font-size:0.78rem;">国内唯一の発毛成分！効果実感には4ヶ月の継続が必須</span><br>
+                元々血管拡張性降圧薬として開発されたため心血管リスクを必ず確認。女性の薄毛には「リアップリジェンヌ（ミノキシジル1%）」のみ使用可（女性の5%使用は多毛症リスク等で禁忌）。
+              </td>
+            </tr>
+
+            <!-- トランシーノII -->
+            <tr style="border-bottom:1px solid #e2e8f0; background:#fffbeb;">
+              <td style="padding:10px;">
+                <strong style="color:#d97706; font-size:0.95rem;">トランシーノII</strong><br>
+                <span style="font-size:0.75rem; color:#64748b;">第一三共ヘルスケア</span>
+              </td>
+              <td style="padding:10px;">
+                <strong>トラネキサム酸（750mg/日）</strong><br>
+                ＋ L-システイン ＋ ビタミンC
+              </td>
+              <td style="padding:10px;">
+                <strong style="color:#b91c1c;">血栓症（脳梗塞・心筋梗塞・血栓性静脈炎）禁忌！</strong><br>
+                トロンビン内服中禁忌。55歳以上。<br>
+                <strong style="color:#b91c1c;">【2ヶ月服用したら必ず2ヶ月休薬！】</strong>
+              </td>
+              <td style="padding:10px;">
+                <span class="char" style="background:#fef3c7; color:#b45309; font-weight:700; padding:2px 6px; border-radius:4px; font-size:0.78rem;">頬骨に左右対称に出る「肝斑（かんぱん）」の唯一の改善薬</span><br>
+                トラネキサム酸がメラノサイト活性化因子（プラスミン）を阻害。抗プラスミン作用による<strong>血栓塞栓リスクがあるため、2ヶ月を超えて漫然と連続内服させてはならない</strong>（必ず2ヶ月休薬を徹底指導）。
+              </td>
+            </tr>
+
+            <!-- メディトリート -->
+            <tr style="border-bottom:1px solid #e2e8f0; background:#fdf2f8;">
+              <td style="padding:10px;">
+                <strong style="color:#ec4899; font-size:0.95rem;">メディトリート</strong><br>
+                <span style="font-size:0.75rem; color:#64748b;">大正製薬</span>
+              </td>
+              <td style="padding:10px;">
+                <strong>ミコナゾール硝酸塩</strong><br>
+                抗真菌薬（膣坐剤・軟膏）
+              </td>
+              <td style="padding:10px;">
+                <strong style="color:#b91c1c;">【過去に医師の診断を受けた再発限定！】</strong><br>
+                初発患者は受診勧奨。生理中不可。<br>
+                ワルファリン併用（抗凝固増強注意）。
+              </td>
+              <td style="padding:10px;">
+                <span class="char" style="background:#fce7f3; color:#ec4899; font-weight:700; padding:2px 6px; border-radius:4px; font-size:0.78rem;">膣カンジダの再発を自宅で治せるOTC</span><br>
+                酒かす状・ポロポロしたオリモノとかゆみ。初発はトリコモナスやクラミジア等のSTIや子宮疾患との鑑別が必要なため、<strong>「以前病院で膣カンジダと言われたことがあるか」</strong>を必ず対面確認する。
+              </td>
+            </tr>
+
+            <!-- アクチビア / ヘルペシア -->
+            <tr style="border-bottom:1px solid #e2e8f0;">
+              <td style="padding:10px;">
+                <strong style="color:#0f172a; font-size:0.95rem;">アクチビア軟膏</strong><br>
+                <strong style="color:#0f172a; font-size:0.95rem;">ヘルペシア軟膏</strong>
+              </td>
+              <td style="padding:10px;">
+                <strong>アシクロビル（5%）</strong><br>
+                抗ヘルペスウイルス外用薬
+              </td>
+              <td style="padding:10px;">
+                <strong style="color:#b91c1c;">【口唇ヘルペスの再発限定！】</strong><br>
+                初発・口唇以外の部位（性器・帯状疱疹等）は不可（受診勧奨）。
+              </td>
+              <td style="padding:10px;">
+                <span class="char" style="background:#f1f5f9; color:#475569; font-weight:700; padding:2px 6px; border-radius:4px; font-size:0.78rem;">ピリピリ・チクチクの前駆症状（初期）に塗るのが命！</span><br>
+                ウイルスの増殖初期を叩く薬。水疱が破れてジュクジュク・かさぶたになってからでは効果が低いため、「違和感を感じたらすぐに塗る」よう指導する。
+              </td>
+            </tr>
+
+            <!-- ニコチネルパッチ -->
+            <tr style="border-bottom:1px solid #e2e8f0; background:#fef2f2;">
+              <td style="padding:10px;">
+                <strong style="color:#b91c1c; font-size:0.95rem;">ニコチネルパッチ</strong><br>
+                <span style="font-size:0.75rem; color:#64748b;">GSK</span>
+              </td>
+              <td style="padding:10px;">
+                <strong>ニコチン（TTS製剤）</strong><br>
+                経皮吸収型ニコチン補充
+              </td>
+              <td style="padding:10px;">
+                <strong style="color:#b91c1c; font-size:0.95rem;">🚨 貼付中の喫煙は絶対禁止！</strong><br>
+                重篤な心室細動・心筋梗塞死の危険。<br>
+                急性心不全、重篤な不整脈、妊婦禁忌。
+              </td>
+              <td style="padding:10px;">
+                <span class="char" style="background:#fee2e2; color:#b91c1c; font-weight:700; padding:2px 6px; border-radius:4px; font-size:0.78rem;">タバコを吸わずに禁断症状を和らげるステップダウン療法</span><br>
+                最初の6週間はパッチ20（Step 1）、次の2週間はパッチ10（Step 2）へ減量して約8週間で卒煙。毎日貼る場所を変え、貼ったまま絶対にタバコを吸わないことを誓約させる。
+              </td>
+            </tr>
+
+            <!-- 排卵日予測検査薬 -->
+            <tr style="background:#f8fafc;">
+              <td style="padding:10px;">
+                <strong style="color:#7c3aed; font-size:0.95rem;">ドゥーテストLHa</strong><br>
+                <strong style="color:#7c3aed; font-size:0.95rem;">ハイテスターH</strong>
+              </td>
+              <td style="padding:10px;">
+                <strong>抗黄体形成ホルモン（LH）モノクローナル抗体</strong>
+              </td>
+              <td style="padding:10px;">
+                判定保留時の確認。<br>
+                不妊治療薬（hCG製剤等）投与中は偽陽性となるため注意。
+              </td>
+              <td style="padding:10px;">
+                <span class="char" style="background:#ede9fe; color:#6d28d9; font-weight:700; padding:2px 6px; border-radius:4px; font-size:0.78rem;">LHサージを捉えて最も妊娠しやすい排卵日前日を予測</span><br>
+                次回生理予定日の17日前から検査開始。陽性が出たら翌日までにタイミングを取る。体外診断用医薬品から第1類OTCへ移行した代表製品。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3. 先輩薬剤師からの Clinical Pearls -->
+    <div class="otc-card" style="background:white; border:1px solid #cbd5e1;">
+      <h3 style="font-size:1.05rem; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        <span>💡</span> <strong>先輩薬剤師が伝授する「第1類医薬品カウンター鑑査の極意」</strong>
+      </h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:0.83rem; line-height:1.5;">
+        <div style="background:#f8fafc; border-left:3px solid #b45309; padding:8px 10px; border-radius:0 6px 6px 0;">
+          <strong style="color:#b45309;">🚨 ロキソニンSの「痛くなってから飲む」落とし穴：</strong><br>
+          プロスタグランジン（PG）が大量に産生されてしまってからではNSAIDsの効き目が落ちます。「生理痛や偏頭痛は、<strong>我慢せず『痛くなり始めた初期』に飲む</strong>のが一番効き、トータルの内服錠数を最も減らせます」と指導するのがプロ。
+        </div>
+        <div style="background:#f8fafc; border-left:3px solid #dc2626; padding:8px 10px; border-radius:0 6px 6px 0;">
+          <strong style="color:#dc2626;">🚨 市販薬の「受診勧奨レッドフラッグ（見逃してはならない危険兆候）」：</strong><br>
+          ①胃痛＋黒色便（タール便：胃潰瘍出血）、②突然バットで殴られたような激しい頭痛（くも膜下出血）、③胸の中央が締め付けられる圧迫痛（狭心症・心筋梗塞）、④片側のふくらはぎの腫れと激痛（深部静脈血栓症）。これらは第1類を売らず直ちに救急・受診を指示！
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       PART 6: 🏃‍♂️ スポーツファーマシスト直伝！「OTC医薬品・漢方・サプリ vs アンチ・ドーピング」完全早見マトリクス
+       ========================================== -->
+  <div class="otc-section o-doping">
+    <div class="sec-header">
+      <h2 class="sec-title" style="color:#0284c7;">🏃‍♂️ ⑥ スポーツファーマシスト直伝！「OTC医薬品・漢方・サプリ vs アンチ・ドーピング」完全早見マトリクス</h2>
+      <span class="sec-sub">「うっかりドーピング」の9割は市販薬・漢方・サプリ！アスリート・部活生を守る絶対安全バイブル</span>
+    </div>
+
+    <!-- 厳格責任主義と問診5ステップ -->
+    <div class="otc-card" style="background:#eff6ff; border:1px solid #bfdbfe; margin-bottom:16px; padding:16px; border-radius:8px;">
+      <h3 style="font-size:1.05rem; color:#1e40af; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        <span>⚠️</span> <strong>アンチ・ドーピングの鉄則「厳格責任主義」＆ 店頭問診5ステップ</strong>
+      </h3>
+      <p style="font-size:0.85rem; color:#1e3a8a; line-height:1.6; margin-bottom:10px;">
+        アンチ・ドーピング規程では<strong>「体内から禁止物質が出たら、故意か過失（うっかり）かを問わず一発で違反・資格停止・メダル剥奪」</strong>となります。「ドラッグストアで風邪薬を買って飲んだだけ」「部活の顧問に勧められた」は一切通用しません！
+      </p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; font-size:0.82rem;">
+        <div style="background:#fff; padding:8px 10px; border-radius:6px; border-left:3px solid #3b82f6;">
+          <strong>STEP 1 試合日の確認：</strong><br>「大会はいつですか？」（競技会検査：競技前日23:59〜競技終了・検査終了まで）
+        </div>
+        <div style="background:#fff; padding:8px 10px; border-radius:6px; border-left:3px solid #3b82f6;">
+          <strong>STEP 2 競技種目の確認：</strong><br>特定競技（アーチェリー・射撃・ゴルフ等）で禁止されるβ遮断薬等の有無を確認。
+        </div>
+        <div style="background:#fff; padding:8px 10px; border-radius:6px; border-left:3px solid #3b82f6;">
+          <strong>STEP 3 単一成分指名買い：</strong><br>複合成分の総合薬は絶対回避！「タイレノールA」「アレグラFX」等の単剤を提案。
+        </div>
+        <div style="background:#fff; padding:8px 10px; border-radius:6px; border-left:3px solid #3b82f6;">
+          <strong>STEP 4 処方薬・TUE確認：</strong><br>喘息吸入薬やインスリン等の常用薬がある場合、TUE（治療使用特例）申請を確認。
+        </div>
+        <div style="background:#fff; padding:8px 10px; border-radius:6px; border-left:3px solid #3b82f6;">
+          <strong>STEP 5 証拠の保存：</strong><br>推奨した製品名・ロット番号・相談日時をお薬手帳に記入し、患者自身にもパッケージ保管を指導。
+        </div>
+      </div>
+    </div>
+
+    <!-- 4大禁止物質と地雷成分 -->
+    <div class="otc-card" style="background:white; border:1px solid #cbd5e1; margin-bottom:16px; padding:16px; border-radius:8px;">
+      <h3 style="font-size:1.05rem; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        <span>🚨</span> <strong>市販薬・漢方に潜む「4大うっかりドーピング地雷成分」</strong>
+      </h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; font-size:0.85rem; line-height:1.5;">
+        <div style="background:#fef2f2; border-left:3px solid #dc2626; padding:10px 12px; border-radius:0 6px 6px 0;">
+          <strong style="color:#dc2626; font-size:0.9rem;">① エフェドリン類（S6 刺激薬：競技会禁止）</strong><br>
+          ・<strong>成分名：</strong>dl-メチルエフェドリン塩酸塩、プソイドエフェドリン塩酸塩。<br>
+          ・<strong>潜んでいる薬：</strong><strong>市販の総合風邪薬（ルル、パブロン等）、鼻炎薬、せき止めシロップの9割に配合！</strong><br>
+          ・気管支拡張・鼻閉改善目的で多用されるが、交感神経興奮作用で一発失格。
+        </div>
+        <div style="background:#fff7ed; border-left:3px solid #ea580c; padding:10px 12px; border-radius:0 6px 6px 0;">
+          <strong style="color:#ea580c; font-size:0.9rem;">② 生薬「麻黄（マオウ）」（エフェドリン含有）</strong><br>
+          ・<strong>潜んでいる漢方：</strong><strong>葛根湯、麻黄湯、小青竜湯、防風通聖散、五虎湯、神秘湯</strong>など。<br>
+          ・「漢方は自然由来だから安全」は大間違い！天然エフェドリンが大量に含まれており、尿検査で即アウト。
+        </div>
+        <div style="background:#fefce8; border-left:3px solid #ca8a04; padding:10px 12px; border-radius:0 6px 6px 0;">
+          <strong style="color:#a16207; font-size:0.9rem;">③ 生薬「南天実（ナンテンジツ）」＆ ヒゲナミン（S3 常時禁止）</strong><br>
+          ・<strong>潜んでいる製品：</strong><strong>南天のど飴</strong>、一部の生薬のど飴。<br>
+          ・ナンテンジツに含まれる「ヒゲナミン」は気管支拡張作用を持つβ2作動薬で<strong>常時禁止物質</strong>！のど飴をなめただけで陽性になる超有名地雷！
+        </div>
+        <div style="background:#f0fdf4; border-left:3px solid #16a34a; padding:10px 12px; border-radius:0 6px 6px 0;">
+          <strong style="color:#15803d; font-size:0.9rem;">④ 糖質コルチコイド（S9：内服・注射は競技会禁止）</strong><br>
+          ・<strong>経口ステロイド（セレスタミン、プレドニン等）は競技会時禁止！</strong><br>
+          ・<strong style="color:#0284c7;">【超重要例外・使用OKルート】：</strong><strong>吸入ステロイド（フルタイド等）、点鼻スプレー（アラミスト、ナゾネックス等）、点眼薬、外用軟膏・クリームはWADA承認で使用可能！</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📋 市販の超有名50大商品 ガチンコ判定リスト -->
+    <div class="otc-card" style="background:white; border:1px solid #cbd5e1; margin-bottom:16px; padding:16px; border-radius:8px;">
+      <h3 style="font-size:1.05rem; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        <span>📋</span> <strong>市販の超有名商品 ガチンコ判定リスト（⭕ 安全 vs ❌ 禁止 vs ⚠️ 要注意）</strong>
+      </h3>
+      <p style="font-size:0.83rem; color:#64748b; margin-bottom:10px;">ドラッグストア店頭で患者・アスリートが箱を持ってきた際、その場で即答するためのガチンコ判定表です。</p>
+      <div style="overflow-x:auto;">
+        <table class="styled-table" style="width:100%; font-size:0.83rem;">
+          <thead>
+            <tr style="background:#f8fafc; color:#0f172a;">
+              <th style="width:16%;">ジャンル</th>
+              <th style="width:28%;">⭕ 安全（ドーピングセーフ）</th>
+              <th style="width:34%;">❌ 絶対禁止（禁止物質含有で失格！）</th>
+              <th style="width:22%;">⚠️ 要注意・条件付き</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>総合風邪薬<br>（感冒薬）</strong></td>
+              <td>
+                <span style="color:#b91c1c; font-weight:700;">※総合風邪薬に安全な製品はほぼ存在しない！</span><br>
+                ➔ 症状別に「タイレノールA」「アレグラFX」「メジコンせき止めPro」を組み合わせて服用すること！
+              </td>
+              <td>
+                ❌ <strong>パブロン全般</strong>（ゴールドA、エースPro等：メチルエフェドリン）<br>
+                ❌ <strong>ルル全般</strong>（新ルルAゴールドDX、ルルアタック等：メチルエフェドリン）<br>
+                ❌ <strong>ベンザブロック全般</strong>（S/L/IP、プレミアム：プソイドエフェドリン/メチルエフェドリン）<br>
+                ❌ <strong>エスタックイブ全般</strong>（プソイドエフェドリン）<br>
+                ❌ <strong>改源</strong>（麻黄エキス配合）<br>
+                ❌ <strong>プレコール持続性カプセル</strong>（プソイドエフェドリン）
+              </td>
+              <td>総合風邪薬は「熱・喉・鼻・咳」を一網打尽にするため交感神経興奮薬が100%配合されています。選手には絶対売らないこと！</td>
+            </tr>
+            <tr>
+              <td><strong>解熱鎮痛薬<br>（痛み・熱）</strong></td>
+              <td>
+                ⭕ <strong>タイレノールA</strong>（アセトアミノフェン単剤）<br>
+                ⭕ <strong>リングルアイビーα200</strong>（イブプロフェン単剤）<br>
+                ⭕ <strong>ロキソニンS</strong>（ロキソプロフェン単剤）<br>
+                ⭕ <strong>バファリンA</strong>（アスピリン＋制酸剤）<br>
+                ⭕ <strong>バファリンルナJ</strong>（小児〜成人・眠気なし）
+              </td>
+              <td>
+                ❌ <strong>エフェドリンや生薬麻黄が合剤された鎮痛薬</strong>
+              </td>
+              <td>
+                ⚠️ <strong>イブA錠、バファリンプレミアム、ノーシンピュア、セデス・ハイ等：</strong><br>
+                「無水カフェイン」や「鎮静成分」含有。カフェインは監視プログラム対象。純粋単剤を推奨！
+              </td>
+            </tr>
+            <tr>
+              <td><strong>鼻炎薬・花粉症</strong></td>
+              <td>
+                ⭕ <strong>アレグラFX</strong>（フェキソフェナジン単剤）<br>
+                ⭕ <strong>クラリチンEX</strong>（ロラタジン単剤）<br>
+                ⭕ <strong>アレジオン20</strong>（エピナスチン単剤）<br>
+                ⭕ <strong>エバステルAL</strong>（エバスチン単剤）<br>
+                ⭕ <strong>ナゾネックス / アラミスト点鼻液</strong>（ステロイド点鼻はWADA承認OK！）
+              </td>
+              <td>
+                ❌ <strong>パブロン鼻炎カプセル</strong>（プソイドエフェドリン）<br>
+                ❌ <strong>コンタック鼻炎Z以外の総合鼻炎薬</strong>（プソイドエフェドリン）<br>
+                ❌ <strong>コルゲンコーワ鼻炎フィルム/持続性カプセル</strong><br>
+                ❌ <strong>小青竜湯、麻黄湯</strong>
+              </td>
+              <td>内服鼻炎カプセルには鼻づまり解消のプソイドエフェドリンが大量に含まれます。第2世代抗ヒスタミン単剤か点鼻スプレーを指名！</td>
+            </tr>
+            <tr>
+              <td><strong>咳止め・痰・のど飴</strong></td>
+              <td>
+                ⭕ <strong>メジコンせき止め錠Pro</strong>（デキストロメトルファン単剤）<br>
+                ⭕ <strong>クールワン去たん / ストナ去たん</strong>（去痰単剤）<br>
+                ⭕ <strong>ツムラ 麦門冬湯</strong>（麻黄フリー漢方）<br>
+                ⭕ <strong>龍角散ダイレクト</strong>（麻黄・ヒゲナミンフリー）<br>
+                ⭕ <strong>ヴィックスドロップ</strong>（CPC単剤）
+              </td>
+              <td>
+                ❌ <strong>エスエスブロン錠 / 液</strong>（メチルエフェドリン、コデイン）<br>
+                ❌ <strong>パブロンせき止め</strong>（メチルエフェドリン）<br>
+                ❌ <strong>南天のど飴全般</strong>（ヒゲナミン含有！）<br>
+                ❌ <strong>浅田飴クール / パッション</strong>（麻黄含有製品あり）<br>
+                ❌ <strong>五虎湯、麻杏甘石湯</strong>（麻黄含有）
+              </td>
+              <td>咳止めは最も陽性反応が出やすい最警戒領域！「のど飴」も裏面を必ず確認し、南天実が入っているものは即座に排除すること！</td>
+            </tr>
+            <tr>
+              <td><strong>のどの痛み・口内炎</strong></td>
+              <td>
+                ⭕ <strong>ペラックT錠</strong>（トラネキサム酸＋ビタミン等）<br>
+                ⭕ <strong>パープルショット / のどぬ〜るスプレー</strong>（アズレン/ヨウ素）<br>
+                ⭕ <strong>ツムラ 桔梗湯</strong>（麻黄フリー）
+              </td>
+              <td>
+                ❌ <strong>麻黄や南天実が配合されたトローチ・生薬のど飴</strong>
+              </td>
+              <td>ペラックT錠は眠気成分・エフェドリンが一切なくドーピング完全セーフ。桔梗湯は溶かしてうがいしながら飲むと激痛に著効。</td>
+            </tr>
+            <tr>
+              <td><strong>外用消炎鎮痛<br>（湿布・塗り薬）</strong></td>
+              <td>
+                ⭕ <strong>ロキソニンテープ / パップ</strong><br>
+                ⭕ <strong>ボルタレンACテープ / ゲル</strong><br>
+                ⭕ <strong>サロンパス、フェイタス5.0</strong>
+              </td>
+              <td>
+                ❌ <strong>ホクナリンテープ（ツロブテロール）</strong><br>
+                ※気管支拡張のβ2作動薬（S3常時禁止）。湿布薬と勘違いして貼る事故に注意！
+              </td>
+              <td>筋肉痛・打撲・捻挫に貼る外用消炎鎮痛剤（NSAIDs）は経皮吸収でも血中濃度が極めて低いため全てドーピング使用OKです！</td>
+            </tr>
+            <tr>
+              <td><strong>栄養ドリンク・滋養強壮</strong></td>
+              <td>
+                ⭕ <strong>チョコラBBプラス</strong>（ビタミン単剤）<br>
+                ⭕ <strong>キューピーコーワゴールドαプレミアム</strong>（※麻黄フリー確認済）
+              </td>
+              <td>
+                ❌ <strong>生薬「麻黄」「ガラナ（高カフェイン）」高麗人参合剤で禁止生薬混入の恐れがあるもの</strong>
+              </td>
+              <td>
+                ⚠️ <strong>リポビタンD、ユンケル等：</strong><br>
+                無水カフェイン（50mg等）含有。短時間に何本も飲むと利尿・興奮作用で問題になるためビタミン錠剤を推奨。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 漢方薬・生薬の危険度完全ランキング -->
+    <div class="otc-card" style="background:white; border:1px solid #cbd5e1; margin-bottom:16px; padding:16px; border-radius:8px;">
+      <h3 style="font-size:1.05rem; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        <span>🌿</span> <strong>漢方薬・生薬のアンチ・ドーピング危険度ランキング（麻黄・ヒゲナミン完全仕分け）</strong>
+      </h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:12px; font-size:0.84rem; line-height:1.6;">
+        <div style="background:#fef2f2; border:1px solid #fecaca; padding:12px; border-radius:6px;">
+          <h4 style="margin:0 0 6px 0; color:#b91c1c; font-size:0.92rem;">❌ 絶対禁止の漢方薬（麻黄・ヒゲナミン含有）</h4>
+          <ul style="margin:0; padding-left:18px; color:#7f1d1d;">
+            <li><strong>葛根湯（カッコントウ）：</strong>麻黄含有 ➔ 競技会禁止！</li>
+            <li><strong>麻黄湯（マオウトウ）：</strong>麻黄多量含有 ➔ 競技会禁止！</li>
+            <li><strong>小青竜湯（ショウセイリュウトウ）：</strong>麻黄＋細辛含有 ➔ 競技会禁止！</li>
+            <li><strong>防風通聖散（ボウフウツウショウサン）：</strong>麻黄含有（痩せ薬として多用）➔ 禁止！</li>
+            <li><strong>麻杏甘石湯 / 五虎湯 / 神秘湯：</strong>麻黄含有（小児咳で頻用）➔ 禁止！</li>
+            <li><strong>南天実含有製剤（南天のど飴）：</strong>ヒゲナミン含有 ➔ 常時禁止！</li>
+            <li><strong>呉茱萸湯（ゴシュユトウ）：</strong>ヒゲナミン含有 ➔ 常時禁止！</li>
+            <li><strong>八味地黄丸（ハチミジオウガン）：</strong>附子含有（ヒゲナミンリスク）➔ 回避推奨！</li>
+          </ul>
+        </div>
+        <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:12px; border-radius:6px;">
+          <h4 style="margin:0 0 6px 0; color:#15803d; font-size:0.92rem;">⭕ 安全に使用できる代表的漢方薬（麻黄・ヒゲナミンフリー）</h4>
+          <ul style="margin:0; padding-left:18px; color:#14532d;">
+            <li><strong>麦門冬湯（バクモントウコウ）：</strong>気管支の潤滑・から咳に著効（麻黄フリー）。</li>
+            <li><strong>桔梗湯（キキョウトウ）：</strong>のどの激痛・扁桃炎（麻黄フリー）。</li>
+            <li><strong>銀翹散（ギンギョウサン）：</strong>風邪の引き始め・のどの熱感（麻黄フリー）。</li>
+            <li><strong>桂枝湯（ケイシトウ）：</strong>ゾクゾクする寒気・初期風邪（麻黄フリー）。</li>
+            <li><strong>香蘇散（コウソサン）：</strong>胃腸が弱く神経質な人の風邪（麻黄フリー）。</li>
+            <li><strong>補中益気湯（ホチュウエッキトウ）：</strong>大会前の疲労回復・食欲不振（麻黄フリー）。</li>
+            <li><strong>五苓散（ゴレイサン）：</strong>二日酔い・気圧性頭痛・急性下痢（麻黄フリー）。</li>
+            <li><strong>芍薬甘草湯（シャクヤクカンゾウトウ）：</strong>試合中のこむら返り・筋痙攣（麻黄フリー）。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- サプリメントとTUE -->
+    <div class="otc-card" style="background:#faf5ff; border:1px solid #e9d5ff; padding:16px; border-radius:8px;">
+      <h3 style="font-size:1.05rem; color:#6b21a8; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        <span>🛡️</span> <strong>アスリートを救う「TUE（治療使用特例）」＆ サプリメントのコンタミネーション対策</strong>
+      </h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:0.83rem; line-height:1.5; color:#581c87;">
+        <div style="background:#fff; border-left:3px solid #9333ea; padding:10px 12px; border-radius:0 6px 6px 0;">
+          <strong>① サプリメントの「意図しない混入（コンタミネーション）」：</strong><br>
+          海外製プロテインやBCAA、筋肥大サプリ、エナジードリンクは、製造ラインでアナボリックステロイドや興奮薬が混入している事故が多発しています。<strong>「インフォームドチョイス（Informed-Choice）」や「ケルンリスト」などアンチ・ドーピング認証マーク</strong>を取得した製品のみを選ぶよう指導します。
+        </div>
+        <div style="background:#fff; border-left:3px solid #9333ea; padding:10px 12px; border-radius:0 6px 6px 0;">
+          <strong>② TUE（治療使用特例：Therapeutic Use Exemptions）：</strong><br>
+          喘息（β2刺激薬吸入・ステロイド全身投与）、1型糖尿病（インスリン）、重症アレルギーなど、<strong>「治療上どうしても禁止物質を使用しなければ健康に重大な影響が出る」</strong>場合、競技会の前に医師の診断書を添えてJADA（日本アンチ・ドーピング機構）に事前申請して許可を得る制度です。緊急時は事後申請も可能。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /.otc-container -->
+</div><!-- /#tab-otc -->

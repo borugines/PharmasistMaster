@@ -1,0 +1,29 @@
+<!-- 同効薬ガチンコ比較 タブペイン -->
+<div id="tab-comparison" class="tab-pane">
+  <div class="card" style="margin-bottom:20px; background:linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-left:4px solid var(--accent);">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h2 style="font-size:1.35rem; color:var(--primary); font-weight:800; margin-bottom:4px;">⚔️ 分類間 ＆ 同効薬内 ガチンコ比較・使い分け図鑑（全9大セクション）</h2>
+        <p style="font-size:0.88rem; color:#64748b; margin:0;">
+          「なぜこの薬なのか？」「同じクラスの他剤と何が違うのか？」臨床現場で最も質問される使い分けの急所を完全網羅。
+        </p>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <input type="text" id="compSearchBox" class="search-box" placeholder="🔍 薬名・特徴で検索 (例: 胆汁, むくみ, 便秘)" onkeyup="searchCompTables()" style="padding:7px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:0.88rem; width:220px;">
+        <button class="header-print-btn" onclick="printHorizontalComparison()" style="padding:7px 14px; font-size:0.85rem;">🖨️ A4横で綺麗に印刷</button>
+      </div>
+    </div>
+    <div class="filter-bar" style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
+      <button class="filter-btn active" onclick="filterCompSec('all', this)">全領域</button>
+      <button class="filter-btn" onclick="filterCompSec('sec-ht', this)">① 高血圧</button>
+      <button class="filter-btn" onclick="filterCompSec('sec-dm', this)">② 糖尿病</button>
+      <button class="filter-btn" onclick="filterCompSec('sec-cv', this)">③ 抗血栓</button>
+      <button class="filter-btn" onclick="filterCompSec('sec-psy', this)">④ 精神・不眠</button>
+      <button class="filter-btn" onclick="filterCompSec('sec-imm', this)">⑤ 喘息・アレルギー</button>
+      <button class="filter-btn" onclick="filterCompSec('sec-inf', this)">⑥ 感染症・抗菌薬</button>
+      <button class="filter-btn" onclick="filterCompSec('sec-ckd', this)">⑦ 腎・骨・脂質・痛風</button>
+      <button class="filter-btn" onclick="filterCompSec('sec-onc', this)">⑧ がん・緩和オピオイド</button>
+      <button class="filter-btn" onclick="filterCompSec('sec-extra', this)">⑨ 便秘・神経痛・片頭痛・点眼</button>
+    </div>
+  </div>
+  <div class="comparison-container">

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="pillRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </linearGradient>
+  </defs>
+  <!-- 背景角丸スクエア -->
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  
+  <!-- 医療十字背景シャドウ -->
+  <rect x="236" y="80" width="40" height="352" rx="20" fill="rgba(255,255,255,0.08)"/>
+  <rect x="80" y="236" width="352" height="40" rx="20" fill="rgba(255,255,255,0.08)"/>
+
+  <!-- カプセル薬本体（45度傾斜） -->
+  <g transform="translate(256,256) rotate(-45) translate(-256,-256)">
+    <!-- 上半分（赤） -->
+    <path d="M206,120 L306,120 A50,50 0 0,1 356,170 L356,256 L156,256 L156,170 A50,50 0 0,1 206,120 Z" fill="url(#pillRed)"/>
+    <!-- 下半分（白） -->
+    <path d="M156,256 L356,256 L356,342 A50,50 0 0,1 306,392 L206,392 A50,50 0 0,1 156,342 Z" fill="#ffffff"/>
+    <!-- カプセル境界ライン -->
+    <line x1="156" y1="256" x2="356" y2="256" stroke="#94a3b8" stroke-width="4"/>
+    <!-- ハイライト光沢 -->
+    <path d="M180,150 Q200,136 230,136" stroke="rgba(255,255,255,0.6)" stroke-width="8" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

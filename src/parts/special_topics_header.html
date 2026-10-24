@@ -1,0 +1,24 @@
+<!-- 実戦スペシャルトピック タブペイン -->
+<div id="tab-special" class="tab-pane">
+  <div class="card" style="margin-bottom:20px; background:linear-gradient(135deg, #0f172a 0%, #065f46 100%); color:white; border-left:4px solid #10b981;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h2 style="font-size:1.35rem; color:#6ee7b7; font-weight:800; margin-bottom:4px;">🛠️ 薬局実戦スペシャルトピック＆現場チートシート（全5領域）</h2>
+        <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+          教科書と臨床の溝を埋める「漢方」「小児」「在宅・栄養・褥瘡」「周術期休薬」「相互作用NG」の超実践ナレッジ集。
+        </p>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <button class="header-print-btn" onclick="window.print()" style="padding:7px 14px; font-size:0.85rem; background:#10b981;">🖨️ A4横で印刷</button>
+      </div>
+    </div>
+    <div class="tab-group" style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
+      <button class="t-btn active" onclick="showTopic('all', this)">すべて表示（一括印刷）</button>
+      <button class="t-btn" onclick="showTopic('sec-kampo', this)">🌿 ① 頻出漢方薬</button>
+      <button class="t-btn" onclick="showTopic('sec-peds', this)">👶 ② 小児科・坐薬</button>
+      <button class="t-btn" onclick="showTopic('sec-home', this)">🏠 ③ 在宅・栄養剤・褥瘡</button>
+      <button class="t-btn" onclick="showTopic('sec-surg', this)">✂️ ④ 手術・検査前の休薬</button>
+      <button class="t-btn" onclick="showTopic('sec-ng', this)">🚫 ⑤ 一包化NG・食品・OTC</button>
+    </div>
+  </div>
+  <div class="special-container">

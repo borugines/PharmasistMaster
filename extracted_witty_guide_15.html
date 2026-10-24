@@ -1,0 +1,785 @@
+﻿```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>薬学実習 全15疾患「現場の脳内翻訳」ガイド</title>
+<style>
+  :root {
+    --primary: #0f172a;
+    --accent: #2563eb;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --text: #334155;
+    --catch-bg: #eff6ff;
+    --offlabel-bg: #fdf2f8;
+    --offlabel-border: #db2777;
+    --pearl-bg: #fefce8;
+    --pearl-border: #ca8a04;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    display: flex;
+  }
+
+  /* サイドバー */
+  .sidebar {
+    width: 280px;
+    background: var(--primary);
+    color: white;
+    padding: 20px 15px;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .sidebar h1 { font-size: 1.1rem; margin-bottom: 5px; color: #38bdf8; }
+  .sidebar p { font-size: 0.75rem; color: #94a3b8; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+  .nav-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #cbd5e1;
+    padding: 7px 10px;
+    margin-bottom: 3px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.2s;
+  }
+  .nav-btn:hover, .nav-btn.active { background: var(--accent); color: white; font-weight: bold; }
+  .print-btn {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  .print-btn:hover { background: #059669; }
+
+  /* メインエリア */
+  .main {
+    margin-left: 280px;
+    padding: 25px 35px;
+    width: calc(100% - 280px);
+    max-width: 1100px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 28px;
+    margin-bottom: 35px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.07);
+    border: 1px solid #e2e8f0;
+  }
+
+  .card-header {
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+  }
+  .tag {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+  }
+  .card-title { font-size: 1.4rem; color: var(--primary); font-weight: 800; }
+  
+  .catchphrase {
+    background: var(--catch-bg);
+    border-left: 5px solid var(--accent);
+    padding: 12px 16px;
+    font-weight: bold;
+    color: #1e3a8a;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+
+  .box {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 15px;
+    background: #fff;
+  }
+  .box h3 {
+    font-size: 0.98rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 6px;
+  }
+
+  .offlabel {
+    background: var(--offlabel-bg);
+    border: 1px solid #fbcfe8;
+    border-left: 5px solid var(--offlabel-border);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 18px;
+  }
+  .offlabel h3 { color: #9d174d; font-size: 0.98rem; margin-bottom: 8px; }
+
+  .pearl {
+    background: var(--pearl-bg);
+    border: 1px solid #fde047;
+    border-left: 5px solid var(--pearl-border);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  .pearl h3 { color: #854d0e; font-size: 0.98rem; margin-bottom: 8px; }
+
+  ul { padding-left: 18px; }
+  li { margin-bottom: 8px; font-size: 0.9rem; }
+  strong { color: #0f172a; }
+  .highlight { background: linear-gradient(transparent 60%, #fef08a 60%); font-weight: bold; }
+
+  .question-box {
+    background: #f8fafc;
+    border: 2px dashed #94a3b8;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-size: 0.88rem;
+  }
+  .question-box strong { color: var(--accent); }
+
+  @media print {
+    body { background: white; color: black; font-size: 9pt; line-height: 1.4; }
+    .sidebar { display: none !important; }
+    .main { margin-left: 0; padding: 0; width: 100%; max-width: 100%; }
+    .card {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+      margin-bottom: 0;
+      page-break-after: always;
+    }
+    .catchphrase { padding: 8px 12px; margin-bottom: 10px; font-size: 9.5pt; }
+    .grid-2 { gap: 10px; margin-bottom: 10px; }
+    .box, .offlabel, .pearl { padding: 10px; margin-bottom: 10px; break-inside: avoid; }
+    li { margin-bottom: 4px; font-size: 8.5pt; }
+    @page { size: A4 portrait; margin: 10mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <h1>💊 全15疾患「脳内翻訳」ガイド</h1>
+  <p>コアカリ＋臨床必須の5大領域を完備</p>
+  <button class="nav-btn active" onclick="showCard('all', this)">📚 全15疾患を表示（一括印刷）</button>
+  <button class="nav-btn" onclick="showCard('c1', this)">1. 悪性腫瘍（がん）</button>
+  <button class="nav-btn" onclick="showCard('c2', this)">2. 高血圧症</button>
+  <button class="nav-btn" onclick="showCard('c3', this)">3. 糖尿病</button>
+  <button class="nav-btn" onclick="showCard('c4', this)">4. 心疾患</button>
+  <button class="nav-btn" onclick="showCard('c5', this)">5. 脳血管障害</button>
+  <button class="nav-btn" onclick="showCard('c6', this)">6. 精神神経疾患</button>
+  <button class="nav-btn" onclick="showCard('c7', this)">7. 免疫・アレルギー</button>
+  <button class="nav-btn" onclick="showCard('c8', this)">8. 感染症</button>
+  <button class="nav-btn" onclick="showCard('c9', this)">9. 腎・泌尿器疾患</button>
+  <button class="nav-btn" onclick="showCard('c10', this)">10. 脂質・骨粗鬆症</button>
+  <button class="nav-btn" onclick="showCard('c11', this)">11. 消化器疾患</button>
+  <button class="nav-btn" onclick="showCard('c12', this)">12. 整形・疼痛・片頭痛</button>
+  <button class="nav-btn" onclick="showCard('c13', this)">13. 甲状腺・女性医療</button>
+  <button class="nav-btn" onclick="showCard('c14', this)">14. 眼科・耳鼻科</button>
+  <button class="nav-btn" onclick="showCard('c15', this)">15. 肝胆膵疾患</button>
+  <button class="print-btn" onclick="window.print()">🖨️ A4ハンドアウト印刷</button>
+</div>
+
+<div class="main">
+
+  <!-- 1. 悪性腫瘍 -->
+  <div class="card" id="c1">
+    <div class="card-header"><span class="tag">Core 01 / Oncology</span><h2 class="card-title">1. 悪性腫瘍（がん）</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「抗がん薬が『主役』なら、支持療法は舞台を支える『黒子』。黒子がコケると主役も舞台から降りることになる！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 ガイドラインの「型」をざっくり</h3>
+        <ul>
+          <li><strong>攻撃の3銃士：</strong>①無差別爆撃の「殺細胞性」、②ピンポイント狙撃の「分子標的薬」、③免疫のブレーキを壊す「ICI」。</li>
+          <li><strong>吐き気止めは「先手必勝」：</strong>高度催吐性レジメンには「アプレピタント＋5-HT3＋デキサメタゾン＋オランザピン」のフルコース。</li>
+          <li><strong>痛み止め：</strong>定時薬で痛みの水位を下げ、突発痛にはレスキュー（1日量の1/6〜1/10）。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>⏱️ 副作用は「カレンダー」で予測せよ</h3>
+        <ul>
+          <li><strong>当日〜数日：</strong>アレルギー、急性悪心・嘔吐。</li>
+          <li><strong>1〜2週目：</strong>骨髄抑制（白血球底＝発熱時即連絡）、口内炎、下痢。</li>
+          <li><strong>数週〜数ヶ月後：</strong>手足症候群、末梢神経障害、脱毛。</li>
+          <li><strong>忘れた頃にやってくる（ICI）：</strong>免疫暴走（irAE）。「急な下痢」「異常なだるさ」「異常な喉の渇き」は即受診！</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>ジプレキサ（オランザピン）2.5〜5mg 寝る前：</strong>統合失調症の薬ではなく、あらゆる吐き気を止める<strong>『最強の制吐薬』</strong>。ただし糖尿病患者には絶対禁忌！</li>
+        <li><strong>EGFR阻害薬の皮疹に対する「先制治療」：</strong>出る前に叩くため初日からステロイド外用薬やミノマイシンがセットで出る。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>医療用麻薬の「3大鎧」：</strong>オピオイド開始時は「便秘・吐き気・眠気」の対策セット（酸化Mgやスインプロイク）が必須。</li>
+        <li><strong>腎機能とモルヒネ：</strong>モルヒネ代謝物（M6G）は腎排泄のため腎不全で蓄積する。腎機能低下時はフェンタニルやタペンタドールへスイッチ。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「S-1の休薬期間を間違えて飲み続けると何が起きる？またなぜ3成分が合体している？」</div>
+  </div>
+
+  <!-- 2. 高血圧症 -->
+  <div class="card" id="c2">
+    <div class="card-header"><span class="tag">Core 02 / Hypertension</span><h2 class="card-title">2. 高血圧症</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「痛くも痒くもないのに毎日飲むのは、『10年後の自分の脳と心臓への生命保険』である！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 ガイドラインの「型」をざっくり</h3>
+        <ul>
+          <li><strong>ゴール：</strong>75歳未満・糖尿病・CKD等は厳しめの<strong>「診察室 130/80 未満（家庭 125/75 未満）」</strong>。</li>
+          <li><strong>選抜メンバー：</strong>Ca拮抗薬、ARB、ACE阻害薬、利尿薬。</li>
+          <li><strong>治療抵抗性の切り札：</strong>第4の矢として<strong>MRA（エサキセレノン等）</strong>を投入。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>🔍 監査のポイント</h3>
+        <ul>
+          <li><strong>家庭血圧の重視：</strong>白衣高血圧や仮面高血圧（モーニングサージ）を見抜く。</li>
+          <li><strong>夏場の脱水：</strong>夏場は過度な降圧になりやすいため減量・休薬検討。</li>
+          <li><strong>K・Cr値チェック：</strong>ARBとMRA併用時は高カリウム血症に注意。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>インデラル（プロプラノロール）：</strong>高血圧ではなく「片頭痛予防」「手の震え」「あがり症・動悸」「食道静脈瘤予防」で頻用。</li>
+        <li><strong>カルデナリン（ドキサゾシン）就寝前：</strong>早朝高血圧（モーニングサージ）をピンポイントで狙い撃ち。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>Ca拮抗薬のむくみに利尿薬は無効：</strong>動脈だけ開き静脈がそのままでは溢れるため、ARBを足すかアテレック（シルニジピン）へ変更するのがプロ。</li>
+        <li><strong>エンレスト切り替え：</strong>ACE-Iからエンレストへは血管浮腫を防ぐため「36時間休薬」が必須。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「上の血圧は120に下がったのに下が55しかない患者さんへどう安心させる？」</div>
+  </div>
+
+  <!-- 3. 糖尿病 -->
+  <div class="card" id="c3">
+    <div class="card-header"><span class="tag">Core 03 / Diabetes Mellitus</span><h2 class="card-title">3. 糖尿病</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「ただ血糖値を下げる時代は終わった！今の主目的は『血管・心臓・腎臓のアンチエイジング』だ！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 ガイドラインの「型」をざっくり</h3>
+        <ul>
+          <li><strong>目標：</strong>合併症予防の「HbA1c 7.0%未満」（高齢者は低血糖回避を優先）。</li>
+          <li><strong>新常識：</strong>心不全やCKDがあればHbA1cに関わらず<strong>SGLT2阻害薬</strong>を最優先。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>🚑 低血糖＆シックデイ</h3>
+        <ul>
+          <li><strong>α-GI併用中の低血糖：</strong>砂糖では間に合わないため必ず<strong>「ブドウ糖」</strong>を持たせる。</li>
+          <li><strong>シックデイ：</strong>食欲不振でもインスリンを勝手に止めず主治医へ連絡。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>SGLT2阻害薬が血糖正常の人に：</strong>「心不全・CKDの予後改善薬」として循環器・腎臓内科から処方。</li>
+        <li><strong>メトホルミン：</strong>PCOS（多嚢胞性卵巣症候群）の不妊治療として保険適用。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>正常血糖ケトアシドーシス：</strong>SGLT2阻害薬服用中の糖質制限や絶食・手術前は血糖が低くてもケトアシドーシスを起こすため休薬チェックが必須。</li>
+        <li><strong>注射部位のローテーション：</strong>同じ場所に打ち続けて硬くなるとインスリンが吸収されなくなる。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「造影CT前後にメトホルミンを48時間休薬する理由は？」</div>
+  </div>
+
+  <!-- 4. 心疾患 -->
+  <div class="card" id="c4">
+    <div class="card-header"><span class="tag">Core 04 / Cardiology</span><h2 class="card-title">4. 心疾患（心不全・虚血・不整脈）</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「心不全治療は『過労死寸前の心臓への働き方改革』！血サラサラ薬は『出血と血栓の綱引き』！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 ガイドラインの「型」をざっくり</h3>
+        <ul>
+          <li><strong>心不全（HFrEF）のファンタスティック・フォー：</strong>ARNI/ACE-I/ARB、β遮断薬、MRA、SGLT2阻害薬の4剤。</li>
+          <li><strong>PCI後：</strong>出血を防ぐため抗血小板薬2剤（DAPT）はできるだけ早く1剤へ減らす。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>⚖️ DOACの減量基準</h3>
+        <ul>
+          <li><strong>イグザレルト：</strong>CCr 15〜49で減量。</li>
+          <li><strong>エリキュース：</strong>80歳以上・60kg以下・Cr 1.5以上のうち2つ以上で減量。</li>
+          <li><strong>リクシアナ：</strong>60kg以下・CCr 50以下・P糖蛋白阻害薬併用のいずれかで減量（超高齢者には15mg設定あり）。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>アルダクトンA 25mg：</strong>利尿目的ではなく「心筋リモデリング抑制（心臓の線維化防止）」が真の目的。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>心不全の体重急増：</strong>数日で＋2kgの正体は脂肪ではなく「うっ血（水）」。毎朝の体重測定を指導。</li>
+        <li><strong>ニトロペン舌下錠：</strong>立って使うと失神するため必ず座って舌下で使用。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「心房細動にアスピリンが効かずDOACを使う理由を川の流れに例えると？」</div>
+  </div>
+
+  <!-- 5. 脳血管障害 -->
+  <div class="card" id="c5">
+    <div class="card-header"><span class="tag">Core 05 / Stroke</span><h2 class="card-title">5. 脳血管障害</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「犯人（血栓）の出身地で薬が全く違う！さらに『飲み込みにくさ』に寄り添う剤形提案がプロの技！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 ガイドラインの「型」をざっくり</h3>
+        <ul>
+          <li><strong>病型別：</strong>動脈硬化（アテローム・ラクナ）＝<strong>抗血小板薬</strong>。心房細動（心原性）＝<strong>抗凝固薬（DOAC）</strong>。</li>
+          <li><strong>急性期DAPTは期間限定：</strong>発症後数週間で1剤に戻す。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>🥣 後遺症への工夫</h3>
+        <ul>
+          <li><strong>嚥下障害：</strong>サラサラの水よりOD錠やとろみ剤、簡易懸濁法の提案。</li>
+          <li><strong>片麻痺：</strong>PTPから取り出しにくい患者へ一包化の提案。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>シンメトレルやタナトリル（ACE-I）：</strong>脳梗塞後の高齢者における「誤嚥性肺炎予防（サブスタンスP増産）」目的。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>漫然DAPTのストップ：</strong>急性期の2剤併用が数年も続いているケースを見抜き、単剤化を提案するのは薬剤師のファインプレー。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「胃ろう患者にアダラートCR錠を粉砕して流そうとしていたらどう止める？」</div>
+  </div>
+
+  <!-- 6. 精神神経疾患 -->
+  <div class="card" id="c6">
+    <div class="card-header"><span class="tag">Core 06 / Psychiatry & Neurology</span><h2 class="card-title">6. 精神神経疾患</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「抗うつ薬は『最初の2週間は副作用だけ出て、効果は後からやってくるツンデレ薬』だと最初に伝えよ！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 ガイドラインの「型」をざっくり</h3>
+        <ul>
+          <li><strong>うつ病：</strong>SSRI、SNRI、NaSSAを単剤少量から開始。</li>
+          <li><strong>不眠症：</strong>ベンゾジアゼピン系から<strong>オレキシン受容体拮抗薬（デエビゴ等）</strong>やロゼレムへシフト。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>⚠️ 副作用シグナル</h3>
+        <ul>
+          <li><strong>アカシジア：</strong>足がムズムズしてじっとできない（増量と誤認しない）。</li>
+          <li><strong>離脱症状：</strong>急な断薬でシャンビリ感とめまい。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>デジレル 25〜50mg 寝る前：</strong>抗うつ薬だが少量で「依存性のない睡眠薬・せん妄予防」として超頻用。</li>
+        <li><strong>セロクエル 12.5〜25mg：</strong>高齢者のせん妄・不眠に（※糖尿病禁忌）。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>SSRI初期の魔の2週間：</strong>最初の1週は吐き気、効果は2〜4週後。「最初だけ胃腸が驚くが1週間で慣れる」と事前に伝えることでアドヒアランスを守る。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「高齢者にマイスリーやデパスが出ている時、夜中のトイレで何に注意すべき？」</div>
+  </div>
+
+  <!-- 7. 免疫・アレルギー -->
+  <div class="card" id="c7">
+    <div class="card-header"><span class="tag">Core 07 / Immunology & Allergy</span><h2 class="card-title">7. 免疫・アレルギー疾患</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「喘息の気道は『ボヤ騒ぎが続く森』！リウマチのMTXは『曜日を決めて飲む劇薬』！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 ガイドラインの「型」をざっくり</h3>
+        <ul>
+          <li><strong>喘息：</strong>ICS/LABAによる毎日の火消しが基本（SMART療法も普及）。</li>
+          <li><strong>関節リウマチ：</strong>MTXをアンカードラッグとして早期開始（週1〜2日服用）。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>🌬️ 実技指導</h3>
+        <ul>
+          <li><strong>吸入デバイス：</strong>DPIとpMDIの吸い方の違いを確認。</li>
+          <li><strong>外用薬：</strong>1 FTU（人差し指第一関節分＝手のひら2枚分）のたっぷり塗布。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>MTXの2日後のフォリアミン1錠：</strong>貧血薬ではなくMTXの毒性を防ぐ「解毒剤（レスキュー）」。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>吸入ミス：</strong>「カプセルを飲んでいた」「蓋を開けずに吸っていた」を防ぐため必ず実演させる。ステロイド吸入後は口腔カンジダと嗄声予防にうがい必須。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「吸入ステロイド後にブクブク＆ガラガラうがいが必要な理由は？」</div>
+  </div>
+
+  <!-- 8. 感染症 -->
+  <div class="card" id="c8">
+    <div class="card-header"><span class="tag">Core 08 / Infectious Diseases</span><h2 class="card-title">8. 感染症</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「ペニシリンは『持久戦のマラソンランナー（回数勝負）』、キノロンは『一撃必殺のスナイパー（1回量勝負）』！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 PK/PD理論</h3>
+        <ul>
+          <li><strong>時間依存性（ペニシリン・セフェム）：</strong>1日3〜4回に分けて飲む（%T>MIC）。</li>
+          <li><strong>濃度依存性（キノロン・アミノグリコシド）：</strong>1日1回まとめて高用量（$C_{\text{max}}/\text{MIC}$）。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>🛡️ 注意点</h3>
+        <ul>
+          <li><strong>キレート形成：</strong>ニューキノロンやテトラサイクリンは酸化Mgや鉄剤、牛乳と同時で吸収ゼロ（2時間空ける）。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>クラリス 200mg 3ヶ月：</strong>抗菌作用ではなく「慢性副鼻腔炎の痰・炎症抑制（免疫修飾）」の少量長期療法。</li>
+        <li><strong>バクタ週3回：</strong>免疫抑制時のPCP肺炎予防。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>高齢者のバルトレックス脳症：</strong>腎機能低下高齢者に通常量（6錠/日）を出すと意識障害を起こすため必ず腎機能で減量。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「抗菌薬と普通のビオフェルミンやミヤBMの併用に意味はある？」</div>
+  </div>
+
+  <!-- 9. 腎・泌尿器疾患 -->
+  <div class="card" id="c9">
+    <div class="card-header"><span class="tag">Core 09 / Nephrology & Urology</span><h2 class="card-title">9. 腎・泌尿器疾患</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「腎臓は『沈黙のフィルター』！ここが目詰まりしている時の薬の量を見極めるのが薬剤師の真骨頂！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 ガイドラインの「型」をざっくり</h3>
+        <ul>
+          <li><strong>CKD管理：</strong>血圧管理（RAS阻害薬）＋<strong>SGLT2阻害薬</strong>。</li>
+          <li><strong>4大合併症：</strong>貧血（HIF-PH阻害薬）、高K（ロケルマ）、高P（リン吸着薬）、代謝性アシドーシス（重曹）。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>🚽 排尿障害</h3>
+        <ul>
+          <li><strong>前立腺肥大（出にくい）：</strong>α1遮断薬。</li>
+          <li><strong>過活動膀胱（近すぎる）：</strong>β3作動薬（ベオーバ等）。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>女性へのハルナール：</strong>神経因性膀胱の排尿補助か、尿管結石の排出促進（適応外）。前立腺というワードはNG！</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>Triple Whammy（トリプル・ワーミー）：</strong>「ARB ＋ 利尿薬 ＋ NSAIDs（ロキソニン）」の3剤で一発で急性腎障害（AKI）を起こすためロキソニンはカロナールへ変更。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「寝たきりで筋肉がない高齢者のCr 0.6を『腎機能正常』と評価してはいけない理由は？」</div>
+  </div>
+
+  <!-- 10. 脂質・骨粗鬆症 -->
+  <div class="card" id="c10">
+    <div class="card-header"><span class="tag">Core 10 / Metabolic & Aging</span><h2 class="card-title">10. 脂質異常症・骨粗鬆症</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「骨粗鬆症は『壊すスピードと作るスピードのバランスゲーム』！漫然処方の整理も意識せよ！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 ガイドラインの「型」をざっくり</h3>
+        <ul>
+          <li><strong>LDL管理：</strong>二次予防は100未満（ハイリスクは70未満）。主役は<strong>スタチン</strong>＋エゼチミブ。</li>
+          <li><strong>骨粗鬆症：</strong>ビスホスホネートやプラリア（デノスマブ）が主力。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>🦴 BP製剤の儀式</h3>
+        <ul>
+          <li><strong>服用法：</strong>起床時・コップ1杯の水・30分横にならない（食道潰瘍予防と吸収確保）。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>プラリア時のデノタス：</strong>低Ca血症を防ぐ必須のCa/VitD補給剤。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>プラリアのドタキャン骨折：</strong>中断すると破骨細胞が反動で暴走し多発性椎体骨折を起こすため継続と後療法が絶対。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「BP製剤服用中の患者さんが抜歯すると言ったらどう確認・アドバイスする？」</div>
+  </div>
+
+  <!-- 11. 消化器疾患 -->
+  <div class="card" id="c11">
+    <div class="card-header"><span class="tag" style="background:#059669;">Extra 11 / Gastroenterology</span><h2 class="card-title">11. 消化器疾患（GERD・便秘・IBD）</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「便秘薬は『腸をムチで叩く時代』から『水を集めて自然に流す時代』へ！大腸炎の薬が逆に下痢を起こす罠にも注意！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 ガイドラインの「型」をざっくり</h3>
+        <ul>
+          <li><strong>便秘薬：</strong>基本は酸化Mg、効かなければ新世代便秘薬（アミティーザ・リンゼス・グーフィス・モビコール）。センノシドは頓用。</li>
+          <li><strong>GERD：</strong>P-CAB（タケキャブ）やPPIが第一選択。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>🔍 監査のポイント</h3>
+        <ul>
+          <li><strong>高齢者の漫然酸化Mg：</strong>腎機能低下に伴う「高Mg血症（意識障害・心停止）」に注意。</li>
+          <li><strong>ピロリ除菌：</strong>クラリスを含むため他薬との相互作用に注意。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>アコファイド＋六君子湯：</strong>機能性ディスペプシア（FD）の鉄板。六君子湯はグレリンを増やす。</li>
+        <li><strong>リンゼス：</strong>便秘型過敏性腸症候群（IBS-C）の腹痛を伴う便秘に特効。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>新世代便秘薬の飲み方：</strong>アミティーザは「食後」、リンゼス・グーフィスは「食前」。</li>
+        <li><strong>5-ASAアレルギー：</strong>潰瘍性大腸炎のペンタサ等開始1〜2週間の「発熱・下痢悪化」に注意。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「酸化Mgとタケキャブ併用で『便秘薬が効かなくなった』と言われたら胃酸と化学反応からどう推理する？」</div>
+  </div>
+
+  <!-- 12. 整形・疼痛・片頭痛 -->
+  <div class="card" id="c12">
+    <div class="card-header"><span class="tag" style="background:#059669;">Extra 12 / Pain & Orthopedics</span><h2 class="card-title">12. 整形外科・慢性疼痛・片頭痛</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「『傷の痛み（炎症）』と『電線の漏電（神経痛）』では効く薬が全く違う！片頭痛のトリプタンはタイミングが命！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 痛みの3分類</h3>
+        <ul>
+          <li><strong>①侵害受容性疼痛：</strong>NSAIDsやアセトアミノフェン。</li>
+          <li><strong>②神経障害性疼痛：</strong>タリージェ・リリカ、サインバルタ。</li>
+          <li><strong>③難治性：</strong>弱オピオイド（トラマドール）。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>⚡ 片頭痛の新常識</h3>
+        <ul>
+          <li><strong>トリプタン：</strong>ピーク時ではなく「痛みが来たと思った瞬間（軽度）」に飲む。</li>
+          <li><strong>レイボー：</strong>血管を縮めないため心疾患既往でも使用可能。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>トラムセット初期のノバミン：</strong>飲み始めの吐き気を防ぐための予防処方。</li>
+        <li><strong>デパケン・ミグシス：</strong>てんかんではなく「片頭痛の毎日飲む予防薬」。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>リリカ・タリージェ：</strong>初回から大量に飲むとめまいで転倒骨折するため少量から。両方100%腎排泄。</li>
+        <li><strong>薬物乱用頭痛（MOH）：</strong>鎮痛薬の飲みすぎに注意。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「トラムセット服用中にカロナールが追加されたらなぜ疑義照会？（アセトアミノフェン量から計算せよ）」</div>
+  </div>
+
+  <!-- 13. 甲状腺・内分泌・女性医療 -->
+  <div class="card" id="c13">
+    <div class="card-header"><span class="tag" style="background:#059669;">Extra 13 / Endocrinology & Women's Health</span><h2 class="card-title">13. 甲状腺疾患・女性医療</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「メルカゾール開始2ヶ月間の『のどの痛みと発熱』は命に関わる緊急事態！チラーヂンは鉄剤・Mgと混ぜるな危険！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🦋 甲状腺の2大疾患</h3>
+        <ul>
+          <li><strong>バセドウ病：</strong>メルカゾールでホルモン合成を止める。</li>
+          <li><strong>橋本病：</strong>チラーヂンSでホルモンを補充。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>👩 女性医療</h3>
+        <ul>
+          <li><strong>LEP：</strong>血栓症サイン『ACHES』（腹痛・胸痛・頭痛・視覚障害・ふくらはぎの痛みやむくみ）に厳戒態勢。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>ヨウ化カリウム：</strong>バセドウ病初期に大量ヨウ素でホルモン放出を急停止させる（Wolff-Chaikoff効果）。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>無顆粒球症：</strong>メルカゾール開始2ヶ月以内の「発熱・のどの痛み」は致死的。市販薬で様子見させず即受診！</li>
+        <li><strong>チラーヂンSのキレート：</strong>鉄剤・酸化Mg・Ca製剤と同時で吸収ゼロになるため時間をずらす。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「心疾患がある高齢の橋本病にチラーヂンSを超少量から始める理由は？」</div>
+  </div>
+
+  <!-- 14. 眼科・耳鼻科 -->
+  <div class="card" id="c14">
+    <div class="card-header"><span class="tag" style="background:#059669;">Extra 14 / Ophthalmology & Otolaryngology</span><h2 class="card-title">14. 眼科・耳鼻科疾患</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「緑内障には『目薬を使っていいタイプ』と『抗コリン薬が絶対ダメなタイプ』がある！点眼薬の順番も科学せよ！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>👁️ 緑内障の2タイプ</h3>
+        <ul>
+          <li><strong>開放隅角：</strong>抗コリン薬も比較的安心。</li>
+          <li><strong>閉塞隅角：</strong>抗コリン薬等で急性緑内障発作（失明リスク）を起こすため絶対禁忌。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>💧 点眼のルール</h3>
+        <ul>
+          <li><strong>順番：</strong>水溶性 ➔ 懸濁性 ➔ <strong>ゲル化剤（最後！）</strong>。複数差す時は5分空ける。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>白内障術後のNSAIDs点眼：</strong>痛み止めではなく「術後黄斑浮腫（CME）の予防」が真の目的。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>PG関連薬の副作用：</strong>まつ毛伸長・色素沈着を防ぐため入浴前点眼か拭き取り。</li>
+        <li><strong>β遮断薬点眼：</strong>喘息や徐脈発作を防ぐため点眼後は目頭を押さえる。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「タプロス点眼とチモプトールXE（ゲル化剤）の差す順番は何が正解？」</div>
+  </div>
+
+  <!-- 15. 肝胆膵疾患 -->
+  <div class="card" id="c15">
+    <div class="card-header"><span class="tag" style="background:#059669;">Extra 15 / Hepatology & Pancreatology</span><h2 class="card-title">15. 肝胆膵疾患</h2></div>
+    <div class="catchphrase">🎯 一言でいうと：「肝硬変の処方は『アンモニア（毒素）との総力戦』！下剤のラクツロースは便秘薬ではなく『意識を守る解毒薬』だ！」</div>
+    <div class="grid-2">
+      <div class="box">
+        <h3>🧭 肝硬変の合併症管理</h3>
+        <ul>
+          <li><strong>肝性脳症：</strong>モニラック、リフキシマ、リーバクト。</li>
+          <li><strong>腹水：</strong>スピロノラクトン＋フロセミド、サムスカ。</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>🥩 膵臓・胆道</h3>
+        <ul>
+          <li><strong>慢性膵炎：</strong>リパクレオン（消化酵素補充）。</li>
+          <li><strong>ウルソ：</strong>胆汁の流れを改善し肝細胞を守る。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offlabel">
+      <h3>🕵️‍♂️ 処方箋のウラ読み</h3>
+      <ul>
+        <li><strong>リフキシマ：</strong>腸管に留まってアンモニア産生菌を殺す肝性脳症専用の抗菌薬。</li>
+        <li><strong>ノベルジン・プロマック：</strong>肝硬変で欠乏する亜鉛を補い尿素回路の解毒を助ける。</li>
+      </ul>
+    </div>
+    <div class="pearl">
+      <h3>💡 先輩からの現場の勘所（Clinical Pearls）</h3>
+      <ul>
+        <li><strong>モニラックのゴール：</strong>便秘薬ではなく「1日2〜3回軟便を出して脳を守る薬」。</li>
+        <li><strong>リーバクトの飲み方：</strong>水に溶けないためオブラートやゼリーを活用。</li>
+      </ul>
+    </div>
+    <div class="question-box"><strong>🙋‍♂️ 実習生への問いかけ：</strong>「肝硬変患者の昼夜逆転や羽ばたき振戦は何のサイン？確認すべき薬は？」</div>
+  </div>
+
+</div>
+
+<script>
+  function showCard(id, btn) {
+    const cards = document.querySelectorAll('.card');
+    const btns = document.querySelectorAll('.nav-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    cards.forEach(c => {
+      if (id === 'all' || c.id === id) {
+        c.style.display = 'block';
+      } else {
+        c.style.display = 'none';
+      }
+    });
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>

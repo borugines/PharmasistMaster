@@ -1,0 +1,28 @@
+<!-- 15疾患 現場の脳内翻訳ガイド タブペイン -->
+<div id="tab-guide" class="tab-pane">
+  <div class="guide-layout">
+    <div class="guide-sidebar">
+      <div class="sidebar-heading">📚 疾患クイックナビ</div>
+      <ul class="guide-nav-list">
+        <li class="guide-nav-item"><a class="guide-nav-link active" onclick="filterGuideCard('all', this)"><span>🌟 全15疾患を表示</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c1', this)"><span>1. 悪性腫瘍（がん）</span><span class="guide-nav-badge">Oncology</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c2', this)"><span>2. 高血圧症</span><span class="guide-nav-badge">JSH</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c3', this)"><span>3. 糖尿病</span><span class="guide-nav-badge">JDS</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c4', this)"><span>4. 心疾患（心不全・虚血）</span><span class="guide-nav-badge">JCS</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c5', this)"><span>5. 脳血管障害（脳梗塞）</span><span class="guide-nav-badge">Stroke</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c6', this)"><span>6. 精神神経疾患</span><span class="guide-nav-badge">Psychiatry</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c7', this)"><span>7. 免疫・アレルギー</span><span class="guide-nav-badge">Allergy</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c8', this)"><span>8. 感染症</span><span class="guide-nav-badge">PK/PD</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c9', this)"><span>9. 腎・泌尿器疾患</span><span class="guide-nav-badge">CKD</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c10', this)"><span>10. 脂質異常・骨粗鬆症</span><span class="guide-nav-badge">Aging</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c11', this)"><span>11. 消化器疾患</span><span class="guide-nav-badge">GI</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c12', this)"><span>12. 整形外科・疼痛</span><span class="guide-nav-badge">Pain</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c13', this)"><span>13. 皮膚科・アレルギー</span><span class="guide-nav-badge">Skin</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c14', this)"><span>14. 眼科・緑内障</span><span class="guide-nav-badge">Ophth</span></a></li>
+        <li class="guide-nav-item"><a class="guide-nav-link" onclick="filterGuideCard('c15', this)"><span>15. 肝胆膵疾患</span><span class="guide-nav-badge">Liver</span></a></li>
+      </ul>
+      <div style="margin-top:20px;">
+        <button class="header-print-btn" style="width:100%; justify-content:center;" onclick="printActiveGuideCard()">🖨️ 選択中カードを印刷</button>
+      </div>
+    </div>
+    <div class="guide-content-area" id="guide-cards-container">

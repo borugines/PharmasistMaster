@@ -1,0 +1,70 @@
+<!-- ==========================================================================
+     ⭐ マイ・お気に入り管理ハブ（My Favorites Hub） タブペイン
+     ========================================================================== -->
+<div id="tab-favorites" class="tab-pane">
+  <div class="favorites-container">
+    <!-- ヘッダーカード -->
+    <div class="favorites-header-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="badge" style="background:#f59e0b; color:white; font-size:0.75rem; font-weight:800;">BOOKMARKS & SHORTCUTS</span>
+            <span id="favTotalBadge" style="background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:4px; font-size:0.8rem;">登録数: 0 件</span>
+          </div>
+          <h2 style="font-size:1.4rem; color:#fde047; font-weight:800; margin:6px 0 4px 0;">
+            ⭐ マイ・お気に入り管理（My Favorites Hub）
+          </h2>
+          <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+            各疾患ガイド・薬剤カード・同効薬比較・実戦トピックの「☆」ボタンを押すとここに登録されます。日々の鑑査や投薬でよく使う項目へワンタップで直行できます。
+          </p>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <button onclick="copyFavoritesList()" class="header-print-btn" style="background:#0f766e; color:white; padding:7px 14px; font-size:0.82rem;">📋 リストをコピー</button>
+          <button onclick="clearAllFavorites()" style="background:#ef4444; color:white; border:none; border-radius:6px; padding:7px 14px; font-size:0.82rem; font-weight:700; cursor:pointer;">🗑️ すべて解除</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- カテゴリフィルターバー -->
+    <div class="fav-filter-bar" id="favFilterBar">
+      <button class="fav-filter-btn active" onclick="filterFavoritesCategory('all', this)">
+        <span>🌟 すべて</span> <span id="favCountAll" style="font-size:0.75rem; opacity:0.8;">(0)</span>
+      </button>
+      <button class="fav-filter-btn" onclick="filterFavoritesCategory('drug', this)">
+        <span>💊 薬剤</span> <span id="favCountDrug" style="font-size:0.75rem; opacity:0.8;">(0)</span>
+      </button>
+      <button class="fav-filter-btn" onclick="filterFavoritesCategory('guide', this)">
+        <span>📖 疾患ガイド</span> <span id="favCountGuide" style="font-size:0.75rem; opacity:0.8;">(0)</span>
+      </button>
+      <button class="fav-filter-btn" onclick="filterFavoritesCategory('comp', this)">
+        <span>⚔️ 同効薬比較</span> <span id="favCountComp" style="font-size:0.75rem; opacity:0.8;">(0)</span>
+      </button>
+      <button class="fav-filter-btn" onclick="filterFavoritesCategory('topic', this)">
+        <span>🛠️ 実戦トピック</span> <span id="favCountTopic" style="font-size:0.75rem; opacity:0.8;">(0)</span>
+      </button>
+      <button class="fav-filter-btn" onclick="filterFavoritesCategory('ans', this)">
+        <span>🎓 指導Answer</span> <span id="favCountAns" style="font-size:0.75rem; opacity:0.8;">(0)</span>
+      </button>
+      <button class="fav-filter-btn" onclick="filterFavoritesCategory('other', this)">
+        <span>📑 その他</span> <span id="favCountOther" style="font-size:0.75rem; opacity:0.8;">(0)</span>
+      </button>
+    </div>
+
+    <!-- お気に入りカードグリッド -->
+    <div id="favItemsContainer" class="fav-items-grid"></div>
+
+    <!-- 空状態（お気に入り未登録時） -->
+    <div id="favEmptyState" class="fav-empty-box" style="display:none;">
+      <div style="font-size:3rem; margin-bottom:12px;">⭐</div>
+      <h3 style="font-size:1.15rem; color:#1e293b; margin:0 0 8px 0; font-weight:800;">お気に入りはまだ登録されていません</h3>
+      <p style="font-size:0.88rem; color:#64748b; max-width:480px; margin:0 auto 16px auto; line-height:1.55;">
+        臨床事典の薬品カード、29疾患ガイド、同効薬比較表、粉砕・簡易懸濁などの見出しにある<strong>「☆」ボタン</strong>をクリックすると、ここに登録されてワンタップで開けるようになります。
+      </p>
+      <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+        <button onclick="switchTab('tab-dict')" style="background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; border-radius:6px; padding:6px 14px; font-weight:700; font-size:0.82rem; cursor:pointer;">📚 臨床事典を見る</button>
+        <button onclick="switchTab('tab-special')" style="background:#fef3c7; color:#92400e; border:1px solid #fcd34d; border-radius:6px; padding:6px 14px; font-weight:700; font-size:0.82rem; cursor:pointer;">🛠️ 実戦トピックを見る</button>
+        <button onclick="switchTab('tab-guide')" style="background:#ecfdf5; color:#065f46; border:1px solid #6ee7b7; border-radius:6px; padding:6px 14px; font-weight:700; font-size:0.82rem; cursor:pointer;">📖 疾患ガイドを見る</button>
+      </div>
+    </div>
+  </div>
+</div>

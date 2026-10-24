@@ -1,0 +1,176 @@
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+$lines = Get-Content 'c:\Users\borug\Antigravity\PharmasistMaster\extracted_profiling_chart.html' -Encoding UTF8
+
+$startIdx = -1
+$endIdx = -1
+for ($i = 0; $i -lt $lines.Count; $i++) {
+    if ($lines[$i] -match '<div class="main-container">') {
+        $startIdx = $i
+    }
+    if ($lines[$i] -match '</script>') {
+        $endIdx = $i - 1
+    }
+}
+
+$coreHtml = $lines[($startIdx + 1)..($endIdx - 1)] -join "`r`n"
+
+# 疾患11〜15の処方プロファイリングを追加
+$extraProfiling = @'
+    <!-- ==========================================
+         追加5大領域（11〜15）の処方プロファイリング
+         ========================================== -->
+    <div class="content-block">
+      <div class="block-header">
+        <h2 class="section-title">📊 【11. 消化器】【12. 整形・疼痛】【13. 内分泌・婦人科】【14. 感覚器】【15. 肝胆膵】処方プロファイリング</h2>
+        <span class="badge" style="background:#059669; color:white;">実臨床・超頻出処方のウラ読み</span>
+      </div>
+
+      <!-- 11. 消化器疾患 -->
+      <div class="disease-section" id="pro-d11">
+        <h3 style="margin-bottom:8px; color:#1e40af;">⑪ 消化器疾患（GERD・便秘症・炎症性腸疾患）</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>タケキャブ錠20mg 1T 分1朝 ＋ モサプリドクエン酸塩錠5mg 3T 分3毎食後</h4>
+            <span class="badge step1">GERD初期治療</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>タケキャブ錠20mg 1回1錠 1日1回朝食後 ＋ ガスモチン錠5mg 1回1錠 1日3回毎食後</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>逆流性食道炎（GERD）の初期治療（重症またはびらん性）。タケキャブ20mgは初期8週間の治療用量（維持療法は10mg）。モサプリド併用は食道クリアランス低下や胃排出遅延を伴う胸焼け症状を改善する意図。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>GERD診療ガイドラインでP-CAB（タケキャブ）は第一選択。8週間投与後に症状改善があれば10mgへ減量、またはオンデマンド療法（症状時のみ服用）へステップダウンする。</p>
+            <p><strong>💡 薬剤師の介入：</strong>8週間を超えて漫然と20mgが継続されていないか監査！また、酸化マグネシウム併用時は胃酸抑制により酸化Mgの効果が低下するため、便秘の悪化がないか確認。</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>アミティーザカプセル24μg 2Cap 分2朝夕食後 ＋ モビコール配合散 2包 分2</h4>
+            <span class="badge step2">CKD合併難治性便秘</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>アミティーザカプセル24μg 1回1カプセル 1日2回朝夕食後 ＋ モビコール配合散 1回1包 1日2回水に溶かして服用</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>慢性腎不全（CKDステージ4〜5）または高齢者の難治性便秘症。酸化マグネシウムが高Mg血症リスクで使えないため、非吸収性のモビコール（PEG）とClチャネル活性化薬アミティーザで電解質を乱さずに水分泌を促進している。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>慢性便秘症診療ガイドラインに準拠。刺激性下剤（センノシド等）の連用による大腸メラノーシス・難治化を回避する最新アプローチ。</p>
+            <p><strong>💡 薬剤師の介入：</strong>アミティーザは空腹時服用で高率に悪心が出るため「必ず食後（できれば食直後）」を徹底指導！妊婦禁忌（子宮収縮）。モビコールの溶解水量（1包あたり約60mL）と塩味の飲みやすさ工夫を支援。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12. 整形外科・疼痛 -->
+      <div class="disease-section" id="pro-d12">
+        <h3 style="margin-bottom:8px; color:#1e40af;">⑫ 整形外科・運動器疼痛（神経障害性疼痛・関節痛）</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>タリージェ錠5mg 2T 分2朝夕 ＋ セレコックス錠100mg 2T 分2 ＋ ネキシウムカプセル10mg 1Cap</h4>
+            <span class="badge step1">神経痛＋急性炎症</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>タリージェ錠5mg 1回1錠 1日2回朝夕食後 ＋ セレコックス錠100mg 1回1錠 1日2回朝夕食後 ＋ ネキシウムカプセル10mg 1回1カプセル 1日1回夕食後</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>腰椎椎間板ヘルニアや腰部脊柱管狭窄症に伴う「坐骨神経痛（下肢のビリビリ・しびれ）」＋「局所の急性炎症痛」。侵害受容性疼痛（NSAIDs）と神経障害性疼痛（タリージェ）のハイブリッド治療。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>神経障害性疼痛薬物療法ガイドラインで第一選択（α2δリガンド）。COX-2選択的阻害薬（セレコックス）にPPIを併用し消化管潰瘍リスクを最小化。</p>
+            <p><strong>💡 薬剤師の介入：</strong>タリージェは初期5mg bidから開始し漸増（維持量10〜15mg bid）。腎機能（eGFR）に応じた用量調節が必須。飲み始めの「めまい・ふらつき・眠気」による転倒注意、自動車運転等の注意喚起を行う。</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>トラムセット配合錠 4T 分4 ＋ プリンペラン錠5mg 2T 分2朝夕食前</h4>
+            <span class="badge step2">弱オピオイド導入期</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>トラムセット配合錠 1回1錠 1日4回毎食後・就寝前 ＋ プリンペラン錠5mg 1回1錠 1日2回朝夕食前</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>変形性膝関節症または慢性腰痛症で、NSAIDs無効・腎機能低下・胃潰瘍既往により弱オピオイド（トラマドール＋アセトアミノフェン）へステップアップした状態。プリンペランはオピオイド導入初期の悪心予防。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>慢性疼痛診療ガイドライン準拠。弱オピオイドの導入初期は悪心が出やすいため、制吐薬の先制併用が推奨される（1〜2週間で耐性獲得し中止可能）。</p>
+            <p><strong>💡 薬剤師の介入：</strong>「隠れアセトアミノフェン（325mg/錠）」を見逃すな！市販風邪薬や他院からのカロナール併用による過量投与（1日4000mg超）を絶対に防ぐ。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13. 甲状腺・内分泌・婦人科 -->
+      <div class="disease-section" id="pro-d13">
+        <h3 style="margin-bottom:8px; color:#1e40af;">⑬ 甲状腺・内分泌・婦人科疾患</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>メルカゾール錠5mg 3T 分1朝</h4>
+            <span class="badge step1">バセドウ病寛解導入</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>メルカゾール錠5mg 1回3錠（15mg） 1日1回朝食後</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>バセドウ病（甲状腺機能亢進症）の新規診断または再燃。過剰な甲状腺ホルモン合成を抑える初期治療用量（15〜30mg/日）。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>甲状腺疾患診療ガイドライン準拠。抗甲状腺薬治療の第一選択。2〜3ヶ月で甲状腺機能が正常化すれば漸減し維持量（2.5〜5mg/日）へ移行する。</p>
+            <p><strong>💡 薬剤師の介入：</strong>最重要警告：服用開始2〜3ヶ月以内に好発する<strong>「無顆粒球症（発熱・咽頭痛）」</strong>の初期症状を必ず説明！「38℃以上の熱が出たら絶対に次の錠剤を飲まず、直ちに白血球・分画の血液検査を受けること」を命がけで指導する。</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>チラーヂンS錠25μg 1T 分1朝食前</h4>
+            <span class="badge step1">高齢者橋本病微量開始</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>チラーヂンS錠25μg 1回1錠 1日1回朝食前（または起床時）</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>原発性甲状腺機能低下症（橋本病）。25μg（または12.5μg）という超少量開始は、高齢者または虚血性心疾患合併患者を強く示唆。代謝の急激な亢進による狭心症発作や不整脈を回避する設計。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>日本甲状腺学会ガイドライン準拠。高齢者や心疾患合併例では12.5〜25μgから開始し、2〜4週ごとにTSHを測定しながら漸増する。</p>
+            <p><strong>💡 薬剤師の介入：</strong>鉄剤（フェロミア等）、カルシウム製剤、酸化マグネシウムと同時服用するとキレートを形成し吸収が著しく低下する！必ず服用間隔を2〜4時間以上空ける指導を行う。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14. 感覚器（眼科・耳鼻科・皮膚科） -->
+      <div class="disease-section" id="pro-d14">
+        <h3 style="margin-bottom:8px; color:#1e40af;">⑭ 感覚器（眼科・耳鼻咽喉科・皮膚科）</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>キサラタン点眼液0.005% 1日1回就寝前 ＋ チモプトールXE点眼液0.5% 1日1回朝</h4>
+            <span class="badge step2">緑内障多剤併用</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>キサラタン点眼液0.005% 1回1滴 1日1回就寝前 ＋ チモプトールXE点眼液0.5% 1回1滴 1日1回朝</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>原発開放隅角緑内障または正常眼圧緑内障。PG関連薬単剤で眼圧下降不十分のため、作用機序の異なる持続性β遮断点眼薬が追加されたステップ。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>日本緑内障学会緑内障診療ガイドライン準拠。目標眼圧未達時の2剤併用療法。</p>
+            <p><strong>💡 薬剤師の介入：</strong>①点眼順序の指導：水溶性（キサラタン）が先、ゲル化剤（チモプトールXE）が後！②β遮断薬の全身移行による気管支喘息発作・徐脈・心不全増悪をチェック。③点眼後の目頭圧迫（鼻涙管閉塞）と溢れた液の洗顔・拭き取り（色素沈着予防）。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15. 肝胆膵疾患 -->
+      <div class="disease-section" id="pro-d15">
+        <h3 style="margin-bottom:8px; color:#1e40af;">⑮ 肝胆膵疾患（肝硬変・肝性脳症・腹水）</h3>
+        <div class="profile-card">
+          <div class="profile-header">
+            <h4>モニラック・シロップ60% 30mL 分3 ＋ リフキシマ錠200mg 3T 分3 ＋ リーバクト配合顆粒 3包 分3</h4>
+            <span class="badge step3">非代償性肝硬変・肝性脳症</span>
+          </div>
+          <div class="rx-content"><strong>処方：</strong>モニラック・シロップ60% 1日30mL 1日3回毎食後 ＋ リフキシマ錠200mg 1回1錠 1日3回毎食後 ＋ リーバクト配合顆粒 1回1包 1日3回毎食後</div>
+          <div class="profile-body">
+            <p><strong>🩺 読み解く病態：</strong>非代償性肝硬変における高アンモニア血症・肝性脳症の再発予防・寛解維持療法。腸内でのアンモニア産生・吸収をトリプルブロック（合成二糖類＋難吸収性抗菌薬＋分枝鎖アミノ酸）する最強のレジメン。</p>
+            <p><strong>🧭 ガイドライン照合：</strong>日本消化器病学会「肝硬変診療ガイドライン」準拠。顕性肝性脳症の二次予防において、ラクツロース＋リファキシミンの併用は再発リスクを劇的に低下させると推奨される。</p>
+            <p><strong>💡 薬剤師の介入：</strong>排便回数の確認（1日2〜3回軟便が目標）。下痢がひどいと脱水から逆に肝性脳症が悪化するためモニラックの用量調節が必要。また「眠れないから」と睡眠薬（BZD系）を要求されても安易な処方は肝性昏睡を招くため禁忌！</p>
+          </div>
+        </div>
+      </div>
+    </div>
+'@
+
+# <div id="tab-profiling" class="tab-pane"> で包む
+$header = @'
+<!-- 処方箋プロファイリング＆病態逆引きチャート タブペイン -->
+<div id="tab-profiling" class="tab-pane">
+  <div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+    <div>
+      <h2 style="font-size:1.4rem; color:var(--primary); font-weight:800;">🕵️‍♂️ 処方箋プロファイリング＆病態逆引きチャート</h2>
+      <p style="font-size:0.9rem; color:var(--text-muted);">処方箋という「結果」から、医師の診断・病態・重症度・ガイドライン段階を逆算推理する</p>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button class="header-print-btn" onclick="printTab('tab-profiling')">🖨️ プロファイリング全編印刷</button>
+    </div>
+  </div>
+'@
+
+$footer = @'
+</div>
+'@
+
+$finalContent = $header + "`r`n" + $coreHtml + "`r`n" + $extraProfiling + "`r`n" + $footer
+[System.IO.File]::WriteAllText('c:\Users\borug\Antigravity\PharmasistMaster\src\04_profiling.html', $finalContent, (New-Object System.Text.UTF8Encoding($true)))
+Write-Output "Successfully generated src\04_profiling.html with BOM"

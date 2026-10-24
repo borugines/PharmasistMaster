@@ -1,0 +1,590 @@
+﻿```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>薬局実戦スペシャルトピック＆チートシート（漢方・小児・在宅・休薬・NG薬）</title>
+<style>
+  :root {
+    --primary: #0f172a;
+    --kampo: #15803d;
+    --peds: #db2777;
+    --home: #0369a1;
+    --surg: #b45309;
+    --ng: #b91c1c;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --text: #1e293b;
+    --border: #cbd5e1;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding-bottom: 50px;
+  }
+
+  /* ナビゲーションバー */
+  .top-nav {
+    background: var(--primary);
+    color: white;
+    padding: 14px 25px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .top-nav h1 { font-size: 1.15rem; color: #38bdf8; }
+  .tab-group { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .t-btn {
+    background: #334155;
+    color: #f8fafc;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: 0.2s;
+  }
+  .t-btn.active, .t-btn:hover { background: #38bdf8; color: #0f172a; font-weight: bold; }
+  .print-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+
+  .container { max-width: 1220px; margin: 20px auto; padding: 0 15px; }
+
+  .topic-sec {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .sec-head {
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .sec-title { font-size: 1.35rem; font-weight: 800; }
+  .sec-sub { font-size: 0.85rem; color: #64748b; font-weight: bold; }
+
+  .sub-bar {
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.92rem;
+    margin: 14px 0 8px 0;
+  }
+  .bar-kampo { background: #dcfce7; color: #14532d; border-left: 5px solid var(--kampo); }
+  .bar-peds { background: #fce7f3; color: #831843; border-left: 5px solid var(--peds); }
+  .bar-home { background: #e0f2fe; color: #0c4a6e; border-left: 5px solid var(--home); }
+  .bar-surg { background: #fef3c7; color: #78350f; border-left: 5px solid var(--surg); }
+  .bar-ng { background: #fee2e2; color: #7f1d1d; border-left: 5px solid var(--ng); }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 0.86rem; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #f8fafc; font-weight: bold; color: var(--primary); }
+
+  .num-badge {
+    display: inline-block;
+    background: var(--kampo);
+    color: white;
+    font-weight: bold;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    margin-right: 4px;
+  }
+  .warn-tag {
+    display: inline-block;
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.75rem;
+  }
+  .ok-tag {
+    display: inline-block;
+    background: #dcfce7;
+    color: #166534;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.75rem;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .info-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    background: #fafafa;
+  }
+  .info-card h4 { font-size: 0.95rem; margin-bottom: 8px; color: var(--primary); border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; }
+  ul { padding-left: 18px; font-size: 0.86rem; }
+  li { margin-bottom: 5px; }
+
+  @media print {
+    body { background: white; font-size: 7.8pt; padding: 0; }
+    .top-nav { display: none !important; }
+    .container { max-width: 100%; margin: 0; padding: 0; }
+    .topic-sec {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+      margin-bottom: 0;
+      page-break-after: always;
+    }
+    th, td { padding: 4px 6px; font-size: 7.5pt; }
+    .sub-bar { margin: 8px 0 4px 0; padding: 4px 8px; font-size: 8.2pt; }
+    @page { size: A4 landscape; margin: 8mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <h1>🛠️ 薬局実戦スペシャルトピック＆現場チートシート（全5領域）</h1>
+  <div class="tab-group">
+    <button class="t-btn active" onclick="showTopic('all', this)">すべて表示（一括印刷）</button>
+    <button class="t-btn" onclick="showTopic('sec-kampo', this)">🌿 ① 頻出漢方薬</button>
+    <button class="t-btn" onclick="showTopic('sec-peds', this)">👶 ② 小児科・坐薬</button>
+    <button class="t-btn" onclick="showTopic('sec-home', this)">🏠 ③ 在宅・栄養剤・褥瘡</button>
+    <button class="t-btn" onclick="showTopic('sec-surg', this)">✂️ ④ 手術・検査前の休薬</button>
+    <button class="t-btn" onclick="showTopic('sec-ng', this)">🚫 ⑤ 一包化NG・食品・OTC</button>
+    <button class="print-btn" onclick="window.print()">🖨️ A4横で印刷</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ==========================================
+       1. 頻出漢方薬の「ウラ読み＆キャラ立ち」と5大注意生薬
+       ========================================== -->
+  <div class="topic-sec sec-kampo">
+    <div class="sec-head" style="border-color: var(--kampo);">
+      <h2 class="sec-title" style="color: var(--kampo);">🌿 ① 薬局で毎日出る「頻出漢方薬ベスト15」ウラ読み＆5大危険生薬</h2>
+      <span class="sec-sub">番号と「証（体力）」だけでなく、医師が狙っているモダンな薬理作用で説明する！</span>
+    </div>
+
+    <div class="sub-bar bar-kampo">🔥 まずここを監査せよ！「5大要注意生薬」の副作用トラップ</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:14%;">要注意生薬</th>
+          <th style="width:18%;">主成分・薬理作用</th>
+          <th style="width:32%;">代表的な配合漢方薬</th>
+          <th style="width:36%;">現場で絶対に見逃せない副作用・禁忌チェック</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>① 甘草（カンゾウ）</strong></td>
+          <td>グリチルリチン酸<br>（コルチゾール変換阻害）</td>
+          <td><strong>ほぼ7割の漢方に配合！</strong><br>特に<strong>芍薬甘草湯（最多！）</strong>、抑肝散、六君子湯、補中益気湯、葛根湯など</td>
+          <td><span class="warn-tag">偽アルドステロン症</span> <strong>「血圧上昇・むくみ・低カリウム血症（手足の脱力・筋肉痛・不整脈）」</strong>！漢方を2種類以上併用している高齢者や、グリチロン、利尿薬併用時はK値を必ず確認！（※五苓散、大建中湯、半夏厚朴湯、茵蔯蒿湯には甘草が入っていない＝安全！）</td>
+        </tr>
+        <tr>
+          <td><strong>② 麻黄（マオウ）</strong></td>
+          <td><strong>エフェドリン類</strong><br>（交感神経刺激）</td>
+          <td><strong>葛根湯、麻黄湯、小青竜湯</strong>、麻黄附子細辛湯、防風通聖散、越婢加朮湯</td>
+          <td><span class="warn-tag">交感神経興奮</span> <strong>「動悸・頻脈・血圧上昇・不眠・尿閉（前立腺肥大の高齢男性は要注意！）」</strong>。狭心症・心근梗塞・重症高血圧・高度腎障害には慎重投与。</td>
+        </tr>
+        <tr>
+          <td><strong>③ 大黄（ダイオウ）<br>＋ 芒硝（ボウショウ）</strong></td>
+          <td>センノシド類（刺激性）<br>＋ 硫酸Na（塩類下剤）</td>
+          <td><strong>麻子仁丸、潤腸湯、桃核承気湯、防風通聖散</strong>、大黄甘草湯、乙字湯</td>
+          <td><span class="warn-tag">子宮収縮・流早産リスク</span> 大黄は骨盤内臓器を充血させ子宮を収縮させるため<strong>妊婦には原則禁忌（または慎重投与）</strong>！授乳婦も母乳に移行して赤ちゃんが下痢をするため注意。</td>
+        </tr>
+        <tr>
+          <td><strong>④ 黄芩（オウゴン）</strong></td>
+          <td>バイカリン等</td>
+          <td><strong>小柴胡湯、柴苓湯、半夏瀉心湯、防風通聖散、辛夷清肺湯</strong>、黄連解毒湯</td>
+          <td><span class="warn-tag">間質性肺炎 ＆ 肝機能障害</span> 原因不明の<strong>「空咳・息切れ・発熱（間質性肺炎）」</strong>と<strong>「黄疸・だるさ（薬物性肝障害）」</strong>の原因生薬No.1！（小柴胡湯はインターフェロン製剤と併用禁忌・肝硬変に禁忌）。</td>
+        </tr>
+        <tr>
+          <td><strong>⑤ 山梔子（サンシシ）</strong></td>
+          <td>ゲニポシド</td>
+          <td><strong>加味逍遙散、黄連解毒湯、防風通聖散、辛夷清肺湯</strong>、茵蔯蒿湯</td>
+          <td><span class="warn-tag">腸間膜静脈硬化症</span> <strong>5年以上などの長期漫然服用</strong>により、大腸の静脈が石灰化して青黒くなり、慢性的な腹痛・下痢・便潜血を起こす！「何年も飲み続けていませんか？」と確認せよ！</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-bar bar-kampo">🏆 処方箋で毎日見る「頻出15漢方」の脳内翻訳＆ウラ読みリスト</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">番号・漢方名</th>
+          <th style="width:12%;">甘草 / 麻黄</th>
+          <th style="width:32%;">王道の適応 ＋ 【処方箋のウラ読み（意外な意図）】</th>
+          <th style="width:38%;">先輩の脳内翻訳（患者説明のキラーフレーズ）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="num-badge">1</span><strong>葛根湯</strong></td>
+          <td>甘○ / <strong>麻○</strong></td>
+          <td>風邪のひき始め（汗をかいていない時）<br><strong>【ウラ読み】</strong>整形外科なら<strong>「肩こり・五十肩」</strong>、脳外科なら<strong>「緊張型頭痛」</strong>、産婦人科なら<strong>「乳腺炎（おっぱいの詰まり）」</strong>！</td>
+          <td>「首から背中の筋肉を温めて血流を一気に良くするお薬です。お湯に溶かして温かいうちに飲むと効果倍増ですよ」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">17</span><strong>五苓散</strong></td>
+          <td><strong>甘× / 麻×</strong></td>
+          <td>水様下痢、二日酔い、むくみ<br><strong>【ウラ読み】</strong>耳鼻科なら<strong>「めまい（メニエール）」</strong>、頭痛外来なら<strong>「気圧低下（雨の日）の頭痛」</strong>、脳外科なら<strong>「慢性硬膜下血腫の再発予防」</strong>！</td>
+          <td>「細胞の水の通り道（アクアポリン）を調整して、<strong>『むくんでいる場所からは水を抜き、脱水なら水を保つ』天才的な水分バランサー</strong>です！」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">24</span><strong>加味逍遙散</strong><br><span class="num-badge">23</span><strong>当帰芍薬散</strong></td>
+          <td>24:甘○(山梔子○)<br>23:<strong>甘×/麻×</strong></td>
+          <td>女性の更年期障害・月経不順・冷え症<br><strong>【使い分け】</strong>イライラ・ホットフラッシュ（のぼせ）なら<strong>24番（加味逍遙散）</strong>。色白で冷え・むくみ・貧血傾向・妊娠中の安胎薬なら<strong>23番（当帰芍薬散）</strong>！</td>
+          <td>「24番は体にこもった余分な熱とイライラを逃がす薬、23番は血を補って余分な水を抜き、芯から温める薬です」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">29</span><strong>麦門冬湯</strong></td>
+          <td>甘○ / 麻×</td>
+          <td>風邪の後の長引く空咳（コンコンという乾いた咳）、気管支炎、声枯れ</td>
+          <td>「気道のカラカラに乾いた粘膜を潤して、咳のセンサーの過敏さを鎮める『喉の化粧水』のようなお薬です（※痰が大量に絡む咳には不向き）」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">41</span><strong>補中益気湯</strong><br><span class="num-badge">48</span><strong>十全大補湯</strong></td>
+          <td>両方：甘○ / 麻×</td>
+          <td>病後・術後の体力低下、夏バテ、食欲不振、抗がん薬治療中の倦怠感<br><strong>【使い分け】</strong>胃腸が弱く疲れやすいだけなら<strong>41番</strong>。さらに貧血・皮膚の乾燥（血虚）も伴うなら<strong>48番</strong>（さらに咳・不眠もあれば<strong>108番 人参養栄湯</strong>）！</td>
+          <td>「漢方の『飲むエナジードリンク』です！胃腸の働きを元気にして、食べ物からエネルギー（気）を作る力を底上げします」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">43</span><strong>六君子湯</strong></td>
+          <td>甘○ / 麻×</td>
+          <td>胃もたれ、食欲不振、機能性ディスペプシア（FD）、抗がん薬やSSRIの吐き気対策</td>
+          <td>「胃から出る<strong>『食欲ホルモン（グレリン）』を増やし、胃の袋をふわっと広げて食べ物を腸へ送り出す</strong>エビデンス抜群の胃薬です！」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">54</span><strong>抑肝散</strong></td>
+          <td>甘○ / 麻×</td>
+          <td>神経症、不眠症、小児の夜泣き<br><strong>【ウラ読み】</strong>高齢者に出ていたら<strong>「認知症のBPSD（イライラ・怒りっぽさ・昼夜逆転・幻視）」</strong>を抑える切り札！（胃腸が弱い人には<strong>83番 抑肝散加陳皮半夏</strong>）。</td>
+          <td>「脳の過剰な興奮（グルタミン酸やセロトニン）を穏やかに鎮めて、眠気をあまり出さずにイライラや心のトゲを丸くするお薬です（※低K血症による足のふらつきに注意！）」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">68</span><strong>芍薬甘草湯</strong></td>
+          <td><strong>甘◎（最大級）</strong></td>
+          <td>こむら返り（足のつり）、胃けいれん、尿路結石・生理痛などの急激な筋肉のけいれん痛</td>
+          <td>「筋肉の急なつりを5〜10分でスッと緩める即効薬です！ただし<strong>甘草が大量に入っているため、毎日1日3回漫然と飲むと血圧上昇や低K血症を起こします。『つった時（または寝る前1包）』の頓用</strong>を基本にしましょう！」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">100</span><strong>大建中湯</strong></td>
+          <td><strong>甘× / 麻×</strong></td>
+          <td>お腹の冷え・張り、術後の腸閉塞（イレウス）予防、便秘<br>（山椒・乾姜・人参・膠飴［麦芽糖］の4成分＝甘草なしで超安全！）</td>
+          <td>「山椒と生姜の力で<strong>腸の血流を2倍近く増やし、冷えて動きが止まった腸を温めて動かす</strong>お薬です。ピリッとした辛さと飴の甘みがあります」</td>
+        </tr>
+        <tr>
+          <td><span class="num-badge">107</span><strong>牛車腎気丸</strong></td>
+          <td>甘× / 麻×<br>（<strong>附子○</strong>）</td>
+          <td>高齢者の下半身の冷え・しびれ、腰痛、夜間頻尿<br><strong>【ウラ読み】</strong>がん化学療法（パクリタキセルやオキサリプラチン）による<strong>「手足のしびれ（末梢神経障害）」</strong>対策！</td>
+          <td>「八味地黄丸に2つの生薬を足した、下半身の血流と神経の特効薬です（※附子［トリカブト加工品］が入っているので動悸やのぼせに注意）」</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       2. 小児科の「飲ませ方魔法」＆「坐薬ルール」
+       ========================================== -->
+  <div class="topic-sec sec-peds">
+    <div class="sec-head" style="border-color: var(--peds);">
+      <h2 class="sec-title" style="color: var(--peds);">👶 ② 小児科処方の「飲ませ方の魔法（味・配合変化）」と「坐薬・保護者対応」</h2>
+      <span class="sec-sub">「苦くて吐いちゃう！」を解決する食品相性マトリクスと、熱性けいれん坐薬の鉄則</span>
+    </div>
+
+    <div class="sub-bar bar-peds">🍫 【粉薬（ドライシロップ）× 飲食物】「混ぜると天国」vs「混ぜると地獄（激苦！）」マトリクス</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:22%;">小児頻出の抗菌薬・粉薬</th>
+          <th style="width:16%;">もともとの味</th>
+          <th style="width:32%;">😭 絶対に混ぜてはいけないNG食品（地獄！）</th>
+          <th style="width:30%;">😋 相性抜群のおすすめ食品（天国！）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>マクロライド系</strong><br>・<strong>クラリスDS</strong><br>・<strong>ジスロマック細粒</strong></td>
+          <td>甘い（イチゴ味等）<br>※アルカリ性コーティングで苦味を封印中</td>
+          <td><span class="warn-tag">酸性の飲料すべて絶対NG！</span><br><strong>オレンジ・リンゴ等の果汁ジュース、スポーツドリンク、乳酸菌飲料（ヤクルト・カルピス）、ヨーグルト</strong><br>➔ 酸でコーティングが瞬時に溶け、<strong>悶絶するほどの猛烈な苦味</strong>が出る！</td>
+          <td><span class="ok-tag">中性〜アルカリ性・油脂系</span><br><strong>チョコレートアイス、バニラアイス、ココア、練乳、牛乳</strong>、お薬ゼリー（チョコ味・いちご味）</td>
+        </tr>
+        <tr>
+          <td><strong>セフェム系・ペニシリン系</strong><br>・ワイドシリン / サワシリン<br>・メイアクト / フロモックス<br>・セフゾン / トミロン</td>
+          <td>甘い（イチゴ・バナナ・オレンジ味等）</td>
+          <td>・<strong>牛乳・乳製品</strong>（苦味が出たり、風味が変わって嫌がることがある）<br>・<strong>熱いお湯</strong>（コーティングが溶けて苦くなる）</td>
+          <td><strong>アイスクリーム、プリン、ヨーグルト、リンゴすりおろし、ジュース類</strong>、お薬ゼリー</td>
+        </tr>
+        <tr>
+          <td><strong>抗インフルエンザ・その他</strong><br>・<strong>タミフルDS</strong><br>・<strong>オノンドライシロップ</strong></td>
+          <td>タミフルは独特の苦味・渋みあり<br>オノンは甘い</td>
+          <td>・<strong>タミフル ＋ 乳酸菌飲料・オレンジジュース</strong>（苦味が強調されることがある）<br>・<strong>オノン ＋ 酸性飲料</strong>（溶けにくくなりザラザラ感が出る）</td>
+          <td><strong>タミフルには「チョコアイス・ココア・ピーナッツバター」が最強！</strong>（油分とカカオが舌をコーティングして苦味を完全に遮断する！）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="grid-2">
+      <div class="info-card">
+        <h4>🚀 坐薬が2種類出た時の「差す順番と30分ルール」</h4>
+        <ul>
+          <li><strong>処方例：</strong><strong>ダイアップ坐剤（ジアゼパム：熱性けいれん予防）</strong> ＋ <strong>アンヒバ / アルピニー坐剤（アセトアミノフェン：解熱薬）</strong></li>
+          <li><strong>❌ 同時に2個続けて差すと何が起きる？：</strong>アンヒバの基剤（油脂性：ハードファット）が、水溶性基剤であるダイアップの成分を取り込んでしまい、<strong>肝心のダイアップの吸収が大幅に遅れて熱性けいれんを防げなくなる！</strong></li>
+          <li><strong>⭕ 正解の指導：</strong>
+            <br>① 発熱（37.5〜38.0℃以上）に気づいたら、<strong>まず先に「ダイアップ坐剤」を差す！</strong>
+            <br>② それでも熱が高くてつらそうなら、<strong>必ず「30分以上」空けてから「アンヒバ（解熱坐剤）」を差す！</strong></li>
+          <li><strong>💡 坐薬がすぐ出てきちゃった時は？：</strong>差してすぐ（数分以内）にそのままの形でツルンと出てきたらもう1度差し直す。15〜30分以上経ってドロドロに溶けて出てきた場合は、すでに吸収されているので追加しない。</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>🍼 保護者（パパ・ママ）を救う「粉薬の飲ませ方 3大鉄則」</h4>
+        <ul>
+          <li><strong>① 「ミルク（母乳・粉ミルク）の哺乳瓶」には絶対に混ぜない！：</strong>ミルクの味が変わると、赤ちゃんが<strong>「ミルクそのものを嫌いになって飲まなくなる（ミルク嫌い）」</strong>という大惨事になる！また飲み残すと薬の量が分からなくなる。</li>
+          <li><strong>② 乳児には「お団子ペースト法」を伝授：</strong>小皿に粉薬を出し、水を<strong>スポイトで1〜2滴だけ</strong>垂らして耳たぶくらいの固さのペースト（お団子）にする。それを<strong>上あごや頬の内側（舌の上は苦味を感じるからNG！）に塗りつけ</strong>、すぐにお茶やミルクを飲ませて流し込む！</li>
+          <li><strong>③ 作り置きは絶対NG：</strong>アイスやジュースに混ぜたら、苦味が出る前に<strong>「その場で一口でパクッと食べられる量（スプーン1杯分）」</strong>だけに混ぜてすぐ飲ませる。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       3. 在宅医療・経腸栄養剤・褥瘡（床ずれ）外用薬
+       ========================================== -->
+  <div class="topic-sec sec-home">
+    <div class="sec-head" style="border-color: var(--home);">
+      <h2 class="sec-title" style="color: var(--home);">🏠 ③ 在宅医療：「経腸栄養剤4大比較」と「褥瘡（床ずれ）の基剤マトリクス」</h2>
+      <span class="sec-sub">在宅訪問・高齢者施設で薬剤師が最も頼りにされる専門知識</span>
+    </div>
+
+    <div class="sub-bar bar-home">🥤 【経腸栄養剤（エンシュア・ラコール・エネーボ・イノラス）比較】なぜその栄養剤が選ばれているのか？</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">栄養剤名</th>
+          <th style="width:14%;">濃度・容量</th>
+          <th style="width:18%;">微量元素（亜鉛・銅等）</th>
+          <th style="width:50%;">キャラ立ち・選ばれる理由・現場のピットフォール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>エンシュア・H</strong><br>（エンシュア・リキッド）</td>
+          <td><strong>1.5 kcal/mL</strong><br>（リキッドは1.0）<br>250mL缶</td>
+          <td>少し少ない（長期単独使用時は欠乏注意）</td>
+          <td><span class="ok-tag">経口摂取（飲んで栄養補給）の大定番！</span> バニラ・ストロベリー・メロン・コーヒー・バナナ・黒糖など味が豊富で、食が細くなった高齢者がコップで飲むのに最適。（※Hは高濃度のため早く飲むと浸透圧性下痢をしやすい）。</td>
+        </tr>
+        <tr>
+          <td><strong>ラコールNF</strong><br>配合経腸用液 / 半固形</td>
+          <td>1.0 kcal/mL<br>200/400mLパウチ</td>
+          <td>セレン以外はほぼ充足</td>
+          <td><span class="ok-tag">ω-3系脂肪酸（EPA/DHA）配合＆パウチでゴミが捨てやすい！</span> 缶ではなくアルミパウチのため在宅でゴミがかさばらない。<strong>「ラコール半固形剤」</strong>は胃ろうから数分で注入でき、胃食道逆流（誤嚥性肺炎）や下痢を劇的に減らせる！<br><span class="warn-tag">重要</span> <strong>ワルファリンと相互作用あり！（ラコールはビタミンK含有量が多いためワルファリンの効果を弱める！）</strong></td>
+        </tr>
+        <tr>
+          <td><strong>エネーボ</strong><br>配合経腸用液</td>
+          <td>1.2 kcal/mL<br>250mL缶</td>
+          <td><strong>◎ 亜鉛・銅・セレン・クロムまで完全配合！</strong></td>
+          <td>エンシュア・ラコールで問題だった「長期経管栄養による微量元素欠乏（味覚障害・貧血・皮膚炎）」をこれ1本で防げるオールインワン設計。</td>
+        </tr>
+        <tr>
+          <td><strong>イノラス</strong><br>配合経腸用液</td>
+          <td><strong>1.6 kcal/mL（最高濃度！）</strong><br>187.5mLパウチ</td>
+          <td><strong>◎ 微量元素＆カルニチンまで完全配合！</strong></td>
+          <td><span class="ok-tag">現在の経管栄養（胃ろう）の最新トレンドNo.1！</span> わずか187.5mLという少量で300kcal摂れるため、<strong>水分制限がある心不全・腎不全患者や、1回の注入量を減らして嘔吐・逆流を防ぎたい高齢者に最強！</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-bar bar-home">🩹 【褥瘡（床ずれ）外用薬の選び方】薬効ではなく「傷の湿り気（基剤）」で選ぶのが薬剤師の真骨頂！</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:20%;">傷の状態（ステージ）</th>
+          <th style="width:22%;">選ぶべき「基剤」の性質</th>
+          <th style="width:26%;">代表的な外用薬</th>
+          <th style="width:32%;">もし逆の薬を塗ったらどうなる？（指導の勘所）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>① ジュクジュク期（黒〜黄期）</strong><br>滲出液（汁）が多く、壊死組織や感染がある状態</td>
+          <td><strong>【吸水性基剤（マクロゴール等）】</strong><br>余分な汁を吸い取り、感染を殺菌・洗浄する！</td>
+          <td>・<strong>ユーパスタ / イソジンシュガー</strong>（白糖＋ポビドンヨード）<br>・<strong>カデックス軟膏</strong><br>・<strong>ゲーベンクリーム</strong>（スルファジアジン銀：壊死組織を溶かす）</td>
+          <td>❌ ジュクジュクの傷に「プロスタンディン（油脂性）」を塗ると、<strong>汁が閉じ込められて傷がふやけ（浸軟）、細菌が大繁殖して褥瘡が一気に深くなる！</strong></td>
+        </tr>
+        <tr>
+          <td><strong>② カサカサ・肉芽形成期（赤〜白期）</strong><br>汁が減り、赤い肉芽を盛り上げて皮膚を張らせる時期</td>
+          <td><strong>【油脂性基剤（ワセリン等） / 乳剤性】</strong><br>乾燥を防いで適度な湿潤環境（モイストヒーリング）を保つ！</td>
+          <td>・<strong>プロスタンディン軟膏</strong>（血流促進）<br>・<strong>アクトシン軟膏</strong>（肉芽形成＋少し吸水）<br>・<strong>オルセノン軟膏 / アズノール軟膏</strong><br>・<strong>フィブラストスプレー</strong>（bFGF：最強の肉芽促進スプレー）</td>
+          <td>❌ 乾いた傷に「ユーパスタ（吸水性）」を塗り続けると、<strong>傷口の水分まで奪われてカラカラに干からび、肉芽細胞が死んでいつまでも治らない！</strong><br>（※フィブラストスプレーは塗った後30秒置いてから軟膏を重ねる！）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       4. 手術・内視鏡・抜歯前の「休薬期間タイムライン」
+       ========================================== -->
+  <div class="topic-sec sec-surg">
+    <div class="sec-head" style="border-color: var(--surg);">
+      <h2 class="sec-title" style="color: var(--surg);">✂️ ④ 手術・内視鏡（ポリープ切除）・検査前の「休薬期間タイムライン」早見表</h2>
+      <span class="sec-sub">「来週手術（カメラ）なんだけど、この薬いつから止めるの？」に即答・監査するための必須チャート</span>
+    </div>
+
+    <div class="sub-bar bar-surg">⏳ 【周術期・出血高リスク処置前の休薬目安】※最終決定は必ず執刀医・主治医の指示を確認すること！</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">休薬タイミング</th>
+          <th style="width:28%;">対象となる薬剤名</th>
+          <th style="width:24%;">なぜその日数が必要なのか？（理由）</th>
+          <th style="width:32%;">現場での超重要チェック＆例外ルール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>手術の 4週間前〜</strong></td>
+          <td>・<strong>低用量ピル（LEP：ルナベル、ヤーズ等）</strong><br>・<strong>女性ホルモン剤（HRT）</strong></td>
+          <td>エストロゲンによる血液凝固亢進作用で、術後のベッド安静時に<strong>致死的な肺塞栓症（エコノミークラス症候群）</strong>を起こすのを防ぐため！</td>
+          <td>若い女性の整形外科手術（骨折や靭帯手術）などで最も見落とされやすい！お薬手帳に載っていないことも多いため必ず口頭で聴取せよ！</td>
+        </tr>
+        <tr>
+          <td><strong>7日前〜14日前</strong></td>
+          <td>・<strong>パナルジン</strong>（チクロピジン）：10〜14日前<br>・<strong>バイアスピリン</strong>（アスピリン）：<strong>7日前</strong><br>・<strong>プラビックス</strong>（クロピドグレル）：<strong>5〜7日前</strong><br>・<strong>エフィエント</strong>（プラスグレル）：<strong>5〜7日前</strong></td>
+          <td>血小板の機能を<strong>「不可逆的（一度くっついたら血小板の寿命が尽きるまで離れない）」</strong>に阻害するため、新しい血小板が生まれ変わるまで約1週間かかる！</td>
+          <td><span class="warn-tag">重要</span> 心臓ステント留置後（DAPT中）など血栓リスクが極めて高い場合は、<strong>「アスピリンだけ継続して手術する」</strong>または入院してヘパリン点滴に置き換えることがある。絶対に患者の自己判断で止めさせない！</td>
+        </tr>
+        <tr>
+          <td><strong>3日前〜5日前</strong></td>
+          <td>・<strong>ワルファリン</strong>：<strong>3〜5日前</strong><br>・<strong>エビスタ / ビビアント（SERM：骨粗鬆症）</strong>：<strong>3日前〜1週間前</strong><br>・<strong>SGLT2阻害薬（フォシーガ・ジャディアンス等）</strong>：<strong>3日前（または前日）</strong></td>
+          <td>・ワルファリン：凝固因子が回復するまで数日。<br>・SERM：ピルと同じく<strong>静脈血栓塞栓症リスク</strong>！<br>・SGLT2阻害薬：周術期の絶食ストレスによる<strong>「正常血糖ケトアシドーシス」</strong>を防ぐため！</td>
+          <td><span class="warn-tag">盲点No.1</span> <strong>「骨粗鬆症のエビスタ」と「糖尿病・心不全のSGLT2阻害薬」が手術前に休薬対象になる</strong>ことを知らない患者・医療者は非常に多い！薬剤師が気づくと大感謝されるポイント！</td>
+        </tr>
+        <tr>
+          <td><strong>2日前〜3日前</strong></td>
+          <td>・<strong>プレタール</strong>（シロスタゾール）：<strong>2〜3日前</strong><br>・<strong>エパデール / ロトリガ</strong>（EPA）：1〜7日前（施設による）<br>・<strong>メトホルミン</strong>：<strong>造影CT検査の前後48時間（2日間）</strong></td>
+          <td>・シロスタゾールは「可逆的」に血小板を抑えるため、薬が体から抜ければ（約48時間）すぐに血小板機能が戻る！<br>・メトホルミンは造影剤腎症による乳酸アシドーシス防止。</td>
+          <td>脳梗塞後のプレタールは休薬期間が短くて済むのがメリット。</td>
+        </tr>
+        <tr>
+          <td><strong>前日〜当日（1〜2日前）</strong></td>
+          <td>・<strong>DOAC 4剤（エリキュース・リクシアナ・イグザレルト・プラザキサ）</strong>：<strong>手術の1〜2日前（24〜48時間前）または当日朝のみ休薬</strong></td>
+          <td>DOACは半減期が短く、<strong>飲んで数時間で効き、やめれば1〜2日でスッと効果が切れる</strong>ため、ワルファリンより休薬期間が圧倒的に短くて済む！（プラザキサで腎機能低下時は2〜4日前）。</td>
+          <td><span class="ok-tag">原則休薬しない処置</span> <strong>「通常の抜歯」「白内障手術」「胃・大腸カメラの観察のみ（生検なし）」</strong>では、脳梗塞リスクの方が高いため、<strong>抗血栓薬もビスホスホネートも原則として休薬しない（飲んでまま行う）</strong>のが現在の標準ガイドライン！</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==========================================
+       5. 一包化・粉砕NG薬 ＆ 食品・サプリ・OTC相互作用
+       ========================================== -->
+  <div class="topic-sec sec-ng">
+    <div class="sec-head" style="border-color: var(--ng);">
+      <h2 class="sec-title" style="color: var(--ng);">🚫 ⑤ 調剤室の地雷！「一包化NG薬リスト」＆「食品・サプリ・OTC相互作用」</h2>
+      <span class="sec-sub">調剤ミスを防ぎ、カウンターでの「これと一緒に飲んでいい？」に10秒で答える最終防衛ライン</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="info-card">
+        <h4 style="color:var(--ng);">💊 絶対に「一包化（PTPから出す）」してはいけない代表薬</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>理由</th>
+              <th>代表的な薬剤名</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>① 湿気でドロドロに溶ける・潮解・失活する</strong><br>（吸湿性極めて大）</td>
+              <td>・<strong>プラザキサカプセル</strong>（湿気でカプセルが変質）<br>・<strong>リベルサス錠</strong>（湿気と光に極めて弱い）<br>・<strong>デパケンR / セレニカR（バルプロ酸）</strong>（普通錠は潮解、徐放錠も原則アルミピロー保管）<br>・<strong>ミカルディス（テルミサルタン）</strong>（一部ジェネリックは改善されているが吸湿性大）<br>・<strong>グルコバイ（アカルボース）</strong>、<strong>ホスレノールチュアブル</strong></td>
+            </tr>
+            <tr>
+              <td><strong>② 他の薬に色が移る・匂いが移る・揮発する</strong></td>
+              <td>・<strong>アドナ（カルバゾクロム）</strong>、<strong>リファンピシン</strong>（鮮やかなオレンジ色が他剤に移る）<br>・<strong>ニトロペン舌下錠</strong>（揮発して効かなくなるため絶対一包化NG！）</td>
+            </tr>
+            <tr>
+              <td><strong>③ 毎日飲むと死亡事故になる（用法特殊）</strong></td>
+              <td>・<strong>リウマトレックス（MTX：週1〜2日）</strong><br>・<strong>ボナロン / アクトネル（週1回・月1回BP製剤）</strong><br>・<strong>経口抗がん薬（休薬期間があるもの）</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-card">
+        <h4 style="color:var(--ng);">🍊 食品・サプリ・嗜好品との「リアルな相互作用」</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>食品・嗜好品</th>
+              <th>ダメな薬と理由（代替案）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>グレープフルーツ<br>（フラノクマリン類）</strong><br>※スウィーティー、文旦、晩白柚、夏みかん、だいだいもNG！</td>
+              <td>小腸のCYP3A4を不可逆的に壊すため、<strong>3〜4日間空けても影響が消えない！</strong><br>・<strong>併用禁忌：</strong><strong>ベルソムラ、イバブラジン（コララン）</strong>等<br>・<strong>作用増強（注意）：</strong>Ca拮抗薬（ニフェジピン、アゼルニジピン等 ※<strong>アムロジピンはほぼ影響なし</strong>）、リピトール、イグザレルト、ケレンディア、タクロリムス、カルバマゼピン等。<br>（⭕ <strong>温州みかん、バレンシアオレンジ、レモン、りんごは食べても完全OK！</strong>）</td>
+            </tr>
+            <tr>
+              <td><strong>納豆・クロレラ・青汁</strong><br>（ビタミンK）</td>
+              <td>・<strong>ワルファリンのみ絶対NG！</strong>（納豆菌は腸内で数日間ビタミンKを作り続けるため少量でもダメ。緑黄色野菜は常識的な量を毎日一定に食べるならOK）。<br>・<strong>⭕ DOAC（エリキュース等）やバイアスピリンは納豆も青汁も完全OK！</strong></td>
+            </tr>
+            <tr>
+              <td><strong>セントジョーンズワート<br>（セイヨウオトギリソウ）</strong></td>
+              <td>CYP3A4やP糖蛋白を強力に<strong>「誘導（増産）」</strong>し、薬を全部燃やして効果を消す！<br>・<strong>抗がん薬、免疫抑制薬、抗HIV薬、DOAC、強心薬、低用量ピル、気管支拡張薬</strong>など多数の薬が効かなくなるため全面回避！</td>
+            </tr>
+            <tr>
+              <td><strong>タバコ（喫煙）</strong></td>
+              <td>・煙（多環芳香族炭化水素）が<strong>CYP1A2を誘導</strong> ➔ <strong>テオフィリン、ジプレキサ（オランザピン）、クロザピン</strong>の血中濃度が下がる（<strong>逆に禁煙すると急に血中濃度が跳ね上がって中毒を起こす！</strong>）。<br>・<strong>低用量ピル（LEP）＋ 喫煙（35歳以上15本/日）は血栓症リスク激増のため絶対禁忌！</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showTopic(cls, btn) {
+    const btns = document.querySelectorAll('.t-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const secs = document.querySelectorAll('.topic-sec');
+    secs.forEach(s => {
+      if (cls === 'all' || s.classList.contains(cls)) {
+        s.style.display = 'block';
+      } else {
+        s.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>
+```

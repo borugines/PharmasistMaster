@@ -1,0 +1,92 @@
+<!-- グローバルナビゲーション（コンパクト・スクロールレス2段構成 / スマホスワイプ対応） -->
+<nav class="navbar">
+  <!-- 上段：ブランド＆アクションバー -->
+  <div class="nav-top-bar">
+    <div class="brand" onclick="switchTab('tab-search')">
+      💊 臨床薬学マスターポータル
+      <span class="sub">150疾患・鑑別・同効薬比較・指導 統合実務OS</span>
+    </div>
+    <div class="action-btns">
+      <button class="header-fav-btn" onclick="switchTab('tab-favorites', true)" id="headerFavBtn" style="background:#fef3c7; color:#92400e; border:1px solid #fde047; padding:5px 12px; border-radius:6px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:6px; font-size:0.82rem;">⭐ お気に入り <span id="favCountBadge" style="background:#f59e0b; color:white; font-size:0.7rem; padding:1px 6px; border-radius:10px; font-weight:800;">0</span></button>
+      <button class="header-print-btn" onclick="triggerQuickPrint()">🖨️ A4印刷</button>
+    </div>
+  </div>
+
+  <!-- 下段：全14タブ完全表示バー（PC常時表示 / スマホ滑らかスワイプピル） -->
+  <div class="nav-tab-bar">
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-search', true)" title="総合トップページ・目的別ポータル＆全薬剤検索">🏠 ホーム</button>
+      <button class="tab-btn" onclick="jumpToDiseaseCheck('all', true)" title="全46疾患 症状確認（病態由来）＆薬剤モニタリング総合マスター" style="background:#ecfdf5; color:#065f46; font-weight:800; border:2px solid #10b981; box-shadow:0 1px 3px rgba(16,185,129,0.25);">🩺 疾患別 症状＆薬剤確認</button>
+      <button class="tab-btn" onclick="switchTab('tab-wizard', true)" title="対話型・処方から病態を特定する推論プログラム" style="background:#f0fdf4; color:#15803d; font-weight:800; border:2px solid #22c55e; box-shadow:0 1px 3px rgba(34,197,94,0.25);">🧩 病態特定プログラム</button>
+      <button class="tab-btn" onclick="switchTab('tab-top100', true)" title="薬局対応・処方箋受付頻出疾患ランキング TOP150">🏆 頻出TOP150</button>
+      <button class="tab-btn" onclick="switchTab('tab-dict', true)" title="全150疾患 臨床インデックス事典">📚 臨床事典</button>
+      <button class="tab-btn" onclick="switchTab('tab-lab', true)" title="臨床検査値 ＆ ⚡腎機能・減量シミュレーター">🧪 検査値・腎機能</button>
+      <button class="tab-btn" onclick="switchTab('tab-guide', true)" title="Core 29大疾患ガイドライン＆処方ウラ読み">📖 29疾患ガイド</button>
+      <button class="tab-btn" onclick="switchTab('tab-profiling', true)" title="処方意図・病態鑑別プロファイリングチャート">🕵️‍♂️ 処方鑑別</button>
+      <button class="tab-btn" onclick="switchTab('tab-comparison', true)" title="同効薬ガチンコ比較（使い分け・PK/PD）">⚔️ 同効薬比較</button>
+      <button class="tab-btn" onclick="switchTab('tab-answers', true)" title="実習・新人指導 Answer Book（先輩の脳内翻訳）">🎓 指導Answer</button>
+      <button class="tab-btn" onclick="switchTab('tab-newdrugs', true)" title="最新新薬トレンド・作用機序図鑑">🚀 新薬図鑑</button>
+      <button class="tab-btn" onclick="switchTab('tab-special', true)" title="実戦スペシャルトピック（腎機能・ハイリスク等）">🛠️ 実戦トピック</button>
+      <button class="tab-btn" onclick="switchTab('tab-otc', true)" title="シンプルOTC推奨・セルフメディケーション">🛒 OTC推奨</button>
+      <button class="tab-btn" onclick="switchTab('tab-followup', true)" title="薬剤師業務・調剤加算・服薬フォロー・トレーシングレポート">📋 業務加算＆TR</button>
+      <button class="tab-btn" onclick="switchTab('tab-favorites', true)" title="お気に入り登録した疾患・薬剤・比較・トピック管理">⭐ お気に入り</button>
+      <button class="tab-btn" onclick="switchTab('tab-print', true)" title="A4印刷・学習プリント出力ハブ">🖨️ 印刷ハブ</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ヒーローセクション ＆ インテリジェントサジェスト検索バー（極小スリム化・スマホ最適化） -->
+<header class="hero-section" id="hero-area">
+  <div class="hero-content">
+    <div class="hero-header-row">
+      <h1 class="hero-title">
+        <span>💊 臨床薬学インテリジェンス</span>
+      </h1>
+      <span class="hero-desc">
+        「なぜその薬なのか？」——ガイドライン・病態鑑別・ウラ読み・同効薬の使い分けを瞬時に紐解く
+      </span>
+    </div>
+
+    <!-- 検索ボックス（ウルトラスリム・iOSズーム防止） -->
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <span class="search-icon" onclick="quickSearch(document.getElementById('drug-search-input').value)" style="cursor:pointer;" title="検索実行">🔍</span>
+        <input type="text" id="drug-search-input" class="search-input" placeholder="薬剤名（先発/一般名）、疾患名、キーワード（例：オグサワ、めまい、便秘、DOAC、吸入...）" autocomplete="off" oninput="handleHeroSearchInput(this)" onkeydown="handleHeroSearchKeydown(event, this)" />
+        <button id="search-clear-btn" class="search-clear-btn" onclick="clearSearch()">✕</button>
+      </div>
+
+      <!-- サジェストドロップダウン -->
+      <div id="suggest-dropdown" class="suggest-dropdown"></div>
+    </div>
+
+    <!-- クイックタグ（スマホ横スクロール対応） -->
+    <div class="quick-tags">
+      <span style="color:#94a3b8; font-size:0.72rem; align-self:center;">注目：</span>
+      <button class="quick-tag-btn" onclick="jumpToDiseaseCheck('all')" style="background:#047857; color:white; border-color:#10b981; font-weight:800; box-shadow:0 1px 3px rgba(4,120,87,0.3);">🩺 疾患別 症状＆薬剤確認 (全46)</button>
+      <button class="quick-tag-btn" onclick="switchTab('tab-wizard', true)" style="background:#15803d; color:white; border-color:#22c55e; font-weight:800; box-shadow:0 1px 3px rgba(21,128,61,0.3);">🧩 病態特定プログラム (対話型推論)</button>
+      <button class="quick-tag-btn" onclick="jumpToDiseaseCheck('cat-rare')" style="background:#991b1b; color:white; border-color:#ef4444; font-weight:800;">🧬 指定難病15選</button>
+      <button class="quick-tag-btn" onclick="jumpToWeeklyTopics()" style="background:#2563eb; color:white; border-color:#60a5fa; font-weight:800;">📢 今週の最新トピック</button>
+      <button class="quick-tag-btn" onclick="jumpToContra()" style="background:#991b1b; color:white; border-color:#ef4444;">⚡ 併用禁忌・CYP</button>
+      <button class="quick-tag-btn" onclick="jumpToCrush()" style="background:#3730a3; color:white; border-color:#818cf8;">💊 粉砕・懸濁</button>
+      <button class="quick-tag-btn" onclick="jumpToPediatric()" style="background:#065f46; color:white; border-color:#34d399;">👶 小児計算</button>
+      <button class="quick-tag-btn" onclick="jumpToInquiry()" style="background:#92400e; color:white; border-color:#f59e0b;">📞 疑義照会</button>
+      <button class="quick-tag-btn" onclick="jumpToMonitoring()" style="background:#701a75; color:white; border-color:#d946ef;">🔍 確認事項・副作用</button>
+      <button class="quick-tag-btn" onclick="jumpToFirstLine()" style="background:#4338ca; color:white; border-color:#6366f1;">🎯 病型別第一選択</button>
+      <button class="quick-tag-btn" onclick="jumpToLifestyle()">🥗 実戦生活指導</button>
+      <button class="quick-tag-btn" onclick="jumpToComp('sec-dm', 'インスリン')">💉 インスリン処方</button>
+      <button class="quick-tag-btn" onclick="quickSearch('オグサワ処方')">オグサワ処方</button>
+      <button class="quick-tag-btn" onclick="quickSearch('めまい')">めまい5大製剤</button>
+      <button class="quick-tag-btn" onclick="quickSearch('DOAC 減量')">DOAC減量</button>
+      <button class="quick-tag-btn" onclick="jumpToComp('sec-cv', '周術期')">内視鏡・抜歯休薬</button>
+      <button class="quick-tag-btn" onclick="jumpToComp('sec-psy', 'イーケプラ')">抗てんかん薬</button>
+      <button class="quick-tag-btn" onclick="jumpToComp('sec-pregnancy', '授乳婦')">授乳中安全薬</button>
+      <button class="quick-tag-btn" onclick="jumpToComp('sec-psy', 'デパス')">脱ベンゾ減量</button>
+      <button class="quick-tag-btn" onclick="quickSearch('スタチン')">スタチン4強</button>
+      <button class="quick-tag-btn" onclick="quickSearch('吸入')">吸入三剤合剤</button>
+      <button class="quick-tag-btn" onclick="quickSearch('便秘薬')">便秘薬4銃士</button>
+      <button class="quick-tag-btn" onclick="quickSearch('ファンタスティック・フォー')">心不全F4</button>
+      <button class="quick-tag-btn" onclick="switchTab('tab-profiling')">🦎 カメレオン薬</button>
+      <button class="quick-tag-btn" onclick="quickSearch('小児用量')">小児10kg刻み早見表</button>
+    </div>
+  </div>
+</header>
