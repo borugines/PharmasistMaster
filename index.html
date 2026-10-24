@@ -4106,6 +4106,56 @@ tbody tr:hover { background-color: #f0fdf4; }
   }
 }
 
+/* ========================================================
+   モバイル完全操作性向上パック (iOS / Android 実機最適化)
+   ======================================================== */
+/* 1. ダブルタップズーム遅延を解消し、ネイティブアプリ並みの爆速反応に */
+button, a, input, select, textarea, .tab-btn, .quick-tag-btn, .diff-tag-btn, .disease-filter-btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(16, 185, 129, 0.15);
+}
+
+@media (max-width: 768px) {
+  /* 2. iOSのinputフォーカス時における勝手な画面ズームインを完全防止（フォント16px化） */
+  input, select, textarea, .search-input, .wizard-search-input {
+    font-size: 16px !important;
+  }
+
+  /* 3. iPhoneのノッチ・ホームインジケーター（下部セーフエリア）被り防止 */
+  body {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+  .navbar {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .back-to-top-btn {
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* 4. スマホ全画面におけるテーブルの横スクロール保護（画面崩れ防止） */
+  table, .table-responsive, .comp-table, .matrix-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 5. カード類のスマホパディング微調整 */
+  .disease-check-card {
+    padding: 14px 12px !important;
+  }
+  .profile-card, .dict-card, .guide-card {
+    padding: 14px 12px !important;
+  }
+
+  /* 6. 親指でタップしやすいボタンサイズ確保（40px以上） */
+  .quick-tag-btn, .diff-tag-btn, .disease-filter-btn {
+    min-height: 36px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}
+
 
 </style>
 </head>
