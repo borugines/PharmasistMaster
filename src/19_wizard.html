@@ -84,6 +84,28 @@
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ワーファリン')">🩸 ワーファリン (VKA)</button>
           </div>
         </div>
+
+        <!-- 📋 処方箋テキスト一括貼り付け（複数薬剤ペーストで一発解析） -->
+        <div class="wizard-paste-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+            <span style="font-size:0.86rem; font-weight:800; color:#1e293b; display:flex; align-items:center; gap:6px;">
+              <span>📋</span>
+              <span>処方箋テキスト一括貼り付け（レセコン・薬歴からコピー＆ペーストで即判定）：</span>
+            </span>
+            <span style="font-size:0.75rem; color:#64748b; background:#ffffff; padding:2px 8px; border-radius:10px; border:1px solid #cbd5e1;">
+              💡 複数剤をまとめて解析
+            </span>
+          </div>
+          <textarea id="wizardPasteTextarea" class="wizard-paste-textarea" 
+                    placeholder="処方箋のテキストをそのまま貼り付けてください（例：&#10;1. フォシーガ錠10mg 1錠&#10;2. エンレスト錠50mg 2錠&#10;3. スピロノラクトン錠25mg 1錠&#10;循環器内科 / 70歳 男性）"></textarea>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; flex-wrap:wrap; gap:8px;">
+            <span style="font-size:0.76rem; color:#64748b;">薬品名・規格・受診科・年齢などを自動認識して一括解析します</span>
+            <button type="button" class="wizard-action-btn-primary" onclick="handlePrescriptionPaste()" style="padding:7px 18px; font-size:0.84rem;">
+              🚀 処方箋テキストを一括解析して病態特定 ➔
+            </button>
+          </div>
+        </div>
+
       </div>
 
       <!-- STEP 2: アキネーター型・動的適応質問ステージ（1問1答インタラクティブ問診） -->
@@ -267,12 +289,78 @@
           </button>
         </div>
 
-        <!-- 診断結果表示コンテナ -->
+        <!-- ビュー切り替えバー（専門レポート vs 患者向け説明シート ＆ 印刷 ＆ シックデイ） -->
+        <div class="wizard-view-toggle-bar">
+          <div class="wizard-view-btn-group">
+            <button type="button" id="btnViewPro" class="wizard-view-btn active" onclick="switchReportViewMode('pro')">
+              🩺 医療従事者向け専門レポート
+            </button>
+            <button type="button" id="btnViewPatient" class="wizard-view-btn" onclick="switchReportViewMode('patient')">
+              🗣️ 患者さん向け説明シート
+            </button>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="wizard-action-btn-secondary" onclick="openSickdayModal()" style="color:#b91c1c; border-color:#fca5a5; background:#fef2f2; font-weight:800; font-size:0.82rem; padding:6px 14px; cursor:pointer;">
+              🤒 シックデイ緊急判定
+            </button>
+            <button type="button" class="wizard-action-btn-secondary" onclick="printPatientSheet()" style="font-size:0.82rem; padding:6px 14px; display:inline-flex; align-items:center; gap:4px; cursor:pointer;">
+              🖨️ A4印刷 / PDF出力
+            </button>
+          </div>
+        </div>
+
+        <!-- 1. 医療従事者向け詳細診断結果表示コンテナ -->
         <div id="wizardResultsContainer">
+          <!-- JSで動的レンダリング -->
+        </div>
+
+        <!-- 2. 患者向けやさしい言葉指導シート表示コンテナ -->
+        <div id="wizardPatientSheetContainer" style="display:none;">
           <!-- JSで動的レンダリング -->
         </div>
       </div>
 
+    </div>
+
+    <!-- 🤒 SADMANS シックデイ緊急判定モーダル -->
+    <div id="wizardSickdayModal" class="sickday-modal-overlay" style="display:none;" onclick="if(event.target===this) closeSickdayModal()">
+      <div class="sickday-modal-card">
+        <div class="sickday-modal-header">
+          <h3 class="sickday-modal-title">
+            <span>🤒</span>
+            <span>SADMANS シックデイ緊急判定シミュレーター</span>
+          </h3>
+          <button onclick="closeSickdayModal()" style="background:none; border:none; font-size:1.3rem; cursor:pointer; color:#991b1b; font-weight:bold;">✕</button>
+        </div>
+        <div class="sickday-modal-body">
+          <p style="font-size:0.88rem; color:#475569; margin:0 0 14px 0; line-height:1.5;">
+            発熱・下痢・嘔吐・食事摂取困難時において、現在処方されている薬剤の中から<strong>【直ちに一時休薬すべき薬剤（SADMANS）】</strong>と<strong>【勝手に中断してはならない薬剤】</strong>を即座に判定します。
+          </p>
+
+          <div style="font-size:0.82rem; font-weight:800; color:#1e293b; margin-bottom:8px;">
+            ▼ 現在の患者さんの症状をチェックしてください：
+          </div>
+          <div class="sd-symptom-check-grid">
+            <label class="sd-check-item">
+              <input type="checkbox" id="sd_chk_fever" checked onchange="runSickdayCheck()" />
+              <span>38度以上の発熱がある</span>
+            </label>
+            <label class="sd-check-item">
+              <input type="checkbox" id="sd_chk_diarrhea" checked onchange="runSickdayCheck()" />
+              <span>嘔吐や激しい下痢が続いている（脱水兆候）</span>
+            </label>
+            <label class="sd-check-item">
+              <input type="checkbox" id="sd_chk_nofood" checked onchange="runSickdayCheck()" />
+              <span>食事や水分がほとんど喉を通らない</span>
+            </label>
+          </div>
+
+          <!-- 判定結果ボックス -->
+          <div id="sdResultContainer" class="sd-result-box">
+            <!-- JSで動的判定 -->
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>

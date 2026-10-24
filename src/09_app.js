@@ -8480,6 +8480,13 @@ function calculateWizardDiagnosis(isForced = false) {
 
   resultsContainer.innerHTML = resultsHtml;
 
+  // 患者向けやさしい言葉シートの生成と注入
+  const patientContainer = document.getElementById('wizardPatientSheetContainer');
+  if (patientContainer) {
+    patientContainer.innerHTML = generatePatientFriendlyHtml(top, complexSyndrome);
+  }
+
+
   // スクロール
   if (isForced) {
     setTimeout(() => {
@@ -8617,4 +8624,372 @@ function clearWizardDrugInput() {
     handleWizardDrugInput('');
     input.focus();
   }
+}
+
+
+// ========================================================
+// 📋 アイデア 3: 処方箋テキスト一括貼り付け解析エンジン
+// ========================================================
+function handlePrescriptionPaste() {
+  const textarea = document.getElementById('wizardPasteTextarea');
+  if (!textarea) return;
+  const text = (textarea.value || '').trim();
+  if (!text) {
+    alert('処方箋のテキストを貼り付けてください。');
+    return;
+  }
+
+  // 1. 患者属性の自動認識（受診科、年齢、性別、検査値）
+  resetPatientProfile();
+
+  const textLower = text.toLowerCase();
+
+  // 診療科の認識
+  if (textLower.includes('循環器') || textLower.includes('心臓')) toggleProfileItem('dept', 'cardio');
+  else if (textLower.includes('整形')) toggleProfileItem('dept', 'ortho');
+  else if (textLower.includes('糖尿') || textLower.includes('代謝') || textLower.includes('内分泌')) toggleProfileItem('dept', 'dm');
+  else if (textLower.includes('消化器') || textLower.includes('胃腸') || textLower.includes('肝臓')) toggleProfileItem('dept', 'gi');
+  else if (textLower.includes('リウマチ') || textLower.includes('膠原病')) toggleProfileItem('dept', 'rheuma');
+  else if (textLower.includes('精神') || textLower.includes('心療')) toggleProfileItem('dept', 'psych');
+  else if (textLower.includes('腎臓') || textLower.includes('人工透析')) toggleProfileItem('dept', 'renal');
+  else if (textLower.includes('泌尿器') || textLower.includes('皮膚')) toggleProfileItem('dept', 'uro_derm');
+
+  // 年齢の認識
+  const ageMatch = text.match(/(\d{1,3})\s*(?:歳|才)/);
+  if (ageMatch) {
+    const ageNum = parseInt(ageMatch[1], 10);
+    if (ageNum < 40) toggleProfileItem('age', 'young');
+    else if (ageNum < 65) toggleProfileItem('age', 'middle');
+    else if (ageNum < 75) toggleProfileItem('age', 'senior');
+    else toggleProfileItem('age', 'elderly');
+  }
+
+  // 性別の認識
+  if (text.includes('男') && !text.includes('女性')) toggleProfileItem('gender', 'male');
+  else if (text.includes('女')) toggleProfileItem('gender', 'female');
+
+  // 検査値の認識
+  if (textLower.includes('hba1c') || textLower.includes('a1c')) {
+    const a1cValMatch = text.match(/(?:hba1c|a1c)[:\s=]*([0-9.]+)/i);
+    if (a1cValMatch) {
+      const v = parseFloat(a1cValMatch[1]);
+      if (v >= 7.0) toggleProfileItem('lab', 'hba1c_high');
+      else if (v < 6.0) toggleProfileItem('lab', 'hba1c_norm');
+    }
+  }
+  if (textLower.includes('egfr')) {
+    const egfrMatch = text.match(/egfr[:\s=]*([0-9.]+)/i);
+    if (egfrMatch && parseFloat(egfrMatch[1]) < 60) toggleProfileItem('lab', 'egfr_low');
+  }
+  if (text.includes('尿蛋白') || text.includes('蛋白尿') || text.includes('アルブミン尿')) {
+    toggleProfileItem('lab', 'proteinuria');
+  }
+  if (text.includes('bnp')) {
+    toggleProfileItem('lab', 'bnp_high');
+  }
+
+  // 2. 薬剤名の抽出（CLINICAL_WIZARD_DATA、DRUG_DIFF_MAP、DRUG_DB）
+  const detectedDrugs = [];
+
+  // 専用データから探索
+  for (const [key, item] of Object.entries(CLINICAL_WIZARD_DATA)) {
+    for (const alias of item.aliases) {
+      if (textLower.includes(alias.toLowerCase())) {
+        if (!detectedDrugs.includes(item.name)) detectedDrugs.push(item.name);
+        break;
+      }
+    }
+  }
+
+  // DRUG_DIFF_MAP からも探索
+  if (typeof DRUG_DIFF_MAP !== 'undefined') {
+    DRUG_DIFF_MAP.forEach(m => {
+      m.drugs.forEach(d => {
+        if (textLower.includes(d.toLowerCase())) {
+          const p = m.drugs[0];
+          if (!detectedDrugs.includes(p)) detectedDrugs.push(p);
+        }
+      });
+    });
+  }
+
+  // DRUG_DB からも探索
+  if (typeof DRUG_DB !== 'undefined' && detectedDrugs.length < 5) {
+    DRUG_DB.forEach(dbItem => {
+      const n = (dbItem.name || '').toLowerCase().split('/')[0].trim();
+      const g = (dbItem.gen || '').toLowerCase();
+      if ((n && textLower.includes(n)) || (g && textLower.includes(g))) {
+        const shortName = dbItem.name.split('/')[0].trim();
+        if (!detectedDrugs.includes(shortName)) detectedDrugs.push(shortName);
+      }
+    });
+  }
+
+  if (detectedDrugs.length === 0) {
+    alert('処方箋テキストから認識可能な薬剤名が見つかりませんでした。薬品名が含まれているかご確認ください。');
+    return;
+  }
+
+  // 3. 最初の薬剤を起点薬としてセットし、残りを併用薬に追加
+  const firstDrug = detectedDrugs[0];
+  selectWizardPrimaryDrug(firstDrug);
+
+  // 残りの薬剤をカスタム併用薬に追加
+  for (let i = 1; i < detectedDrugs.length; i++) {
+    const d = detectedDrugs[i];
+    if (!wizardState.customDrugs.includes(d)) {
+      wizardState.customDrugs.push(d);
+    }
+  }
+
+  renderWizardCustomDrugTags();
+  updateAkinatorGauge();
+
+  // 4. 即座に診断計算を実行して結果へスクロール！
+  setTimeout(() => {
+    calculateWizardDiagnosis(true);
+  }, 120);
+}
+
+// ========================================================
+// 🗣️ アイデア 2: 患者向けやさしい言葉・服薬指導シート生成
+// ========================================================
+function switchReportViewMode(mode) {
+  const proView = document.getElementById('wizardResultsContainer');
+  const patientView = document.getElementById('wizardPatientSheetContainer');
+  const btnPro = document.getElementById('btnViewPro');
+  const btnPatient = document.getElementById('btnViewPatient');
+
+  if (mode === 'patient') {
+    if (proView) proView.style.display = 'none';
+    if (patientView) patientView.style.display = 'block';
+    if (btnPro) btnPro.classList.remove('active');
+    if (btnPatient) btnPatient.classList.add('active');
+  } else {
+    if (proView) proView.style.display = 'block';
+    if (patientView) patientView.style.display = 'none';
+    if (btnPro) btnPro.classList.add('active');
+    if (btnPatient) btnPatient.classList.remove('active');
+  }
+}
+
+function printPatientSheet() {
+  // 患者向けシートに切り替えてから印刷ダイアログを起動
+  switchReportViewMode('patient');
+  setTimeout(() => {
+    window.print();
+  }, 100);
+}
+
+function generatePatientFriendlyHtml(top, complexSyndrome) {
+  const drugName = wizardState.activeData ? wizardState.activeData.name : '処方薬';
+
+  let purposeText = '';
+  let warningText = '';
+  let lifestyleText = '';
+  let emergencyText = '';
+
+  const diseaseName = top.name || '';
+
+  if (diseaseName.includes('心不全')) {
+    purposeText = '心臓の筋肉にかかる負担をやわらげ、心臓を休ませながら元気に長持ちさせるためのお薬です。心臓が疲れやすくなるのを防ぎ、長く安心して暮らすための大切な基礎治療です。';
+    warningText = '・体液が溜まっていないか確認するため、朝起きたときの【体重測定】を日課にしてください。2〜3日で2kg以上急に増えたときはご相談ください。\n・飲み始めに立ちくらみやめまい、だるさを感じることがありますが、体が慣れてくるサインです。自己判断で勝手にやめないでください。';
+    lifestyleText = '・塩分を少し控える（薄味にする）だけで、お薬の効果がぐっと高まります。\n・水分は「喉が渇いたら我慢せず適度に飲む」ようにし、一度にがぶ飲みしないようにしましょう。';
+    emergencyText = '・息苦しくて夜横になって眠れないとき\n・足の甲やすねが指で押すと戻らないほどパンパンにむくんだとき\n・脈が普段より極端に遅い（1分間に50回未満）とき';
+  } else if (diseaseName.includes('高血圧') || diseaseName.includes('アルドステロン')) {
+    purposeText = '血管を広げてしなやかに保ち、心臓や脳、腎臓の血管が傷つくのを防ぐためのお薬です。自覚症状がなくても血管を守るために毎日飲み続けることが大切です。';
+    warningText = '・朝起きた後と、夜寝る前の【家庭血圧測定】を習慣にしましょう。\n・立ち上がるときにフラッとする（立ちくらみ）ときは、急に立たずにゆっくり動くようにしてください。';
+    lifestyleText = '・麺類の汁を残す、減塩しょうゆを使うなど、無理のない減塩を心がけましょう。\n・軽いお散歩や十分な睡眠が血圧の安定につながります。';
+    emergencyText = '・激しい頭痛や吐き気、視界がかすむとき\n・手足に力が入らない、ろれつが回らないとき';
+  } else if (diseaseName.includes('糖尿病')) {
+    purposeText = '血液中の余分な糖分を体の外へ逃がしたり、インスリンの効き目を助けたりして、血管や神経、腎臓を守るためのお薬です。';
+    warningText = '・尿の量が増えやすいため、喉が渇く前にコップ1杯のお水をこまめに補給してください。\n・陰部を清潔に保つよう心がけてください（かゆみや違和感が出たときはご相談ください）。';
+    lifestyleText = '・バランスの良い食事を腹八分目で楽しみましょう。\n・甘い清涼飲料水やお菓子の過剰摂取には気をつけましょう。';
+    emergencyText = '・激しい吐き気、強いだるさ、息苦しさがあるとき（血糖値が高くなくてもケトアシドーシスの可能性があります）\n・冷や汗、手足の震え、激しい空腹感（低血糖症状）が出たときはすぐに糖分を補給してください';
+  } else if (diseaseName.includes('リウマチ') || diseaseName.includes('ステロイド') || diseaseName.includes('エリテマトーデス')) {
+    purposeText = '免疫の過剰な暴走を鎮め、関節や内臓の腫れ・痛みを抑えて体を守るためのお薬です。';
+    warningText = '・菌やウイルスに感染しやすくなるため、うがい・手洗いを徹底しましょう。\n・【絶対厳禁】：調子が良いからといって、ステロイドを自分の判断で急にやめたり減らしたりしないでください（体がショック状態になる危険があります）。';
+    lifestyleText = '・骨を丈夫に保つため、カルシウムやビタミンDを意識した食事を摂りましょう。\n・人混みに出かけるときはマスクを着用しましょう。';
+    emergencyText = '・38度以上の高熱が出たとき、咳が止まらないとき\n・皮膚に赤い発疹や口内炎が急にできたとき';
+  } else if (diseaseName.includes('痛風') || diseaseName.includes('コルヒチン')) {
+    purposeText = '関節に溜まった尿酸の結晶による激しい炎症や腫れを抑え、痛風発作を未然に防ぐためのお薬です。';
+    warningText = '・足の指に「ムズムズ・ピリピリ」と発作の前触れを感じたら、我慢せずできるだけ早く1錠飲んでください。激痛になってから何錠も飲んでも下痢を起こすだけで効きません。';
+    lifestyleText = '・お水を毎日意識して多め（1日2L目標）に飲み、尿と一緒に尿酸を排泄しましょう。\n・アルコール（特にビール）やプリン体の多い食事は控えめにしましょう。';
+    emergencyText = '・激しい下痢や吐き気、腹痛が続くとき\n・手足のしびれや筋肉の強い痛みが出たとき';
+  } else {
+    purposeText = `${top.subType}を改善し、体のバランスを整えて健康を維持するための大切なお薬です。`;
+    warningText = '・処方された通りに毎日決まった時間に服用してください。\n・体調の変化や気になる症状があれば自己判断で中断せずご相談ください。';
+    lifestyleText = '・十分な休養とバランスの良い食事を心がけましょう。';
+    emergencyText = '・強い発疹やかゆみ、呼吸困難、激しい腹痛が出たとき';
+  }
+
+  const complexBanner = complexSyndrome ? `
+    <div style="background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; padding:12px 16px; margin-bottom:16px;">
+      <div style="font-size:0.88rem; font-weight:800; color:#1e40af; margin-bottom:4px;">
+        💡 あなたの体調管理のポイント（複数の病気とお薬の組み合わせ）：
+      </div>
+      <div style="font-size:0.85rem; color:#334155; line-height:1.55;">
+        このお薬は単に1つの病気だけでなく、心臓・腎臓・血管などを同時に守るために特別に選ばれています。お薬同士が助け合って体を守っていますので、決められた組み合わせでしっかり続けていきましょう。
+      </div>
+    </div>
+  ` : '';
+
+  return `
+    <div class="wizard-patient-sheet">
+      <div class="ps-hero">
+        <span class="ps-hero-badge">薬局・医療機関からの大切なお知らせ</span>
+        <h2 class="ps-title">🌸 あなたのお薬と体調管理シート</h2>
+        <p class="ps-subtitle">処方されたお薬（${drugName}など）について、安心して治療を続けていただくためのやさしい手引きです。</p>
+      </div>
+
+      ${complexBanner}
+
+      <div class="ps-sections">
+        <div class="ps-card purpose">
+          <div class="ps-card-header"><span>🌟</span><span>1. 今日のお薬は何のために飲むの？</span></div>
+          <div class="ps-card-body"><p style="margin:0;">${purposeText}</p></div>
+        </div>
+
+        <div class="ps-card warning">
+          <div class="ps-card-header"><span>⚠️</span><span>2. ご自身とご家族に知っておいてほしい注意点</span></div>
+          <div class="ps-card-body"><div style="white-space:pre-line;">${warningText}</div></div>
+        </div>
+
+        <div class="ps-card lifestyle">
+          <div class="ps-card-header"><span>💧</span><span>3. 毎日の生活・食事・水分で気をつけること</span></div>
+          <div class="ps-card-body"><div style="white-space:pre-line;">${lifestyleText}</div></div>
+        </div>
+
+        <div class="ps-card emergency">
+          <div class="ps-card-header"><span>🚨</span><span>4. こんな症状が出たら、すぐに病院・薬局へ連絡してください</span></div>
+          <div class="ps-card-body"><div style="white-space:pre-line; color:#991b1b; font-weight:700;">${emergencyText}</div></div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px; padding-top:14px; border-top:1px dashed #cbd5e1; display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:#64748b;">
+        <span>作成日: ${new Date().toLocaleDateString('ja-JP')}</span>
+        <span>ご不明な点はお気軽に薬剤師・担当医へご相談ください</span>
+      </div>
+    </div>
+  `;
+}
+
+// ========================================================
+// 🤒 アイデア 5: SADMANS シックデイ緊急判定シミュレーター
+// ========================================================
+function openSickdayModal() {
+  const modal = document.getElementById('wizardSickdayModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    runSickdayCheck();
+  }
+}
+
+function closeSickdayModal() {
+  const modal = document.getElementById('wizardSickdayModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function runSickdayCheck() {
+  const container = document.getElementById('sdResultContainer');
+  if (!container) return;
+
+  const fever = document.getElementById('sd_chk_fever') ? document.getElementById('sd_chk_fever').checked : false;
+  const diarrhea = document.getElementById('sd_chk_diarrhea') ? document.getElementById('sd_chk_diarrhea').checked : false;
+  const nofood = document.getElementById('sd_chk_nofood') ? document.getElementById('sd_chk_nofood').checked : false;
+
+  const isSickday = fever || diarrhea || nofood;
+
+  // 現在処方されている全薬剤を収集
+  const allCurrentDrugs = [];
+  if (wizardState.activeData) allCurrentDrugs.push(wizardState.activeData.name);
+  wizardState.customDrugs.forEach(d => allCurrentDrugs.push(d));
+
+  const drugsText = allCurrentDrugs.join(' ').toLowerCase();
+
+  // SADMANS該当判定
+  const stopDrugs = [];
+  const continueDrugs = [];
+
+  // S: SGLT2阻害薬
+  if (drugsText.includes('フォシーガ') || drugsText.includes('ダパグリフロジン') || drugsText.includes('ジャディアンス') || drugsText.includes('エンパグリフロジン') || drugsText.includes('カナグル') || drugsText.includes('スーグラ') || drugsText.includes('sglt2')) {
+    stopDrugs.push({ name: 'SGLT2阻害薬（フォシーガ / ジャディアンス等）', reason: '正常血糖ケトアシドーシス（euDKA）および重症脱水を防止するため【直ちに一時休薬】' });
+  }
+
+  // A: ARNI / ACEi / ARB
+  if (drugsText.includes('エンレスト') || drugsText.includes('アジルバ') || drugsText.includes('オルメテック') || drugsText.includes('ニューロタン') || drugsText.includes('ロサルタン') || drugsText.includes('arb') || drugsText.includes('arni')) {
+    stopDrugs.push({ name: 'ARNI / ARB / ACE阻害薬（エンレスト、アジルバ等）', reason: '脱水・循環血液量低下時の急性腎不全（AKI）を防止するため【一時休薬を医師へ確認】' });
+  }
+
+  // D: 利尿薬 (Diuretics)
+  if (drugsText.includes('ラシックス') || drugsText.includes('フロセミド') || drugsText.includes('ルプラック') || drugsText.includes('ダイアート') || drugsText.includes('アゾセミド') || drugsText.includes('スピロノラクトン') || drugsText.includes('サムスカ')) {
+    stopDrugs.push({ name: '利尿薬（ラシックス、スピロノラクトン、サムスカ等）', reason: '循環血漿量の枯渇・ショック・腎血流遮断を防止するため【一時休薬】' });
+  }
+
+  // M: メトホルミン
+  if (drugsText.includes('メトグルコ') || drugsText.includes('メトホルミン')) {
+    stopDrugs.push({ name: 'メトホルミン（メトグルコ）', reason: '脱水・循環不全下での致死的【乳酸アシドーシス】を防止するため【直ちに一時休薬】' });
+  }
+
+  // A: NSAIDs (痛み止め)
+  if (drugsText.includes('ロキソニン') || drugsText.includes('ロキソプロフェン') || drugsText.includes('ボルタレン') || drugsText.includes('セレコックス')) {
+    stopDrugs.push({ name: 'NSAIDs 解熱鎮痛消炎薬（ロキソニン、セレコックス等）', reason: '腎血流を遮断し急性腎障害を悪化させるため中止（解熱にはアセトアミノフェン推奨）' });
+  }
+
+  // 継続すべき薬
+  if (drugsText.includes('プレドニン') || drugsText.includes('プレドニゾロン') || drugsText.includes('ステロイド')) {
+    continueDrugs.push({ name: '副腎皮質ステロイド（プレドニン等）', reason: '絶対に勝手に中止してはなりません！急に止めると急性副腎不全（ショック）を起こす危険があります。主治医にすぐ連絡してください。' });
+  }
+  if (drugsText.includes('メインテート') || drugsText.includes('ビソプロロール') || drugsText.includes('アーチスト') || drugsText.includes('β遮断')) {
+    continueDrugs.push({ name: 'β遮断薬（メインテート、アーチスト等）', reason: '急な自己中断によるリバウンド頻脈や不整脈悪化を防ぐため、原則継続（血圧極端低下時は要医師相談）。' });
+  }
+
+  let html = '';
+
+  if (!isSickday) {
+    html = `
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px; text-align:center; color:#64748b;">
+        現在シックデイ症状（発熱・下痢・食事困難）はチェックされていません。\n体調不良が出現した際は上記にチェックを入れて休薬指示を確認してください。
+      </div>
+    `;
+  } else {
+    html += `
+      <div class="sd-stop-card">
+        <div class="sd-item-title">
+          <span>🛑</span>
+          <span>【直ちに一時休薬・中止すべき薬剤（SADMANS）】</span>
+        </div>
+        ${stopDrugs.length > 0 ? stopDrugs.map(d => `
+          <div style="margin-bottom:8px; font-size:0.85rem;">
+            <strong style="color:#b91c1c;">・${d.name}</strong>
+            <div style="color:#475569; margin-left:12px; font-size:0.8rem;">理由: ${d.reason}</div>
+          </div>
+        `).join('') : '<div style="font-size:0.85rem; color:#475569;">現在処方されている薬の中に直ちに休薬すべき典型的なSADMANS薬剤は検出されていません。</div>'}
+      </div>
+
+      <div class="sd-continue-card">
+        <div class="sd-item-title">
+          <span>✅</span>
+          <span>【絶対に勝手に中断してはならない薬剤（継続必須）】</span>
+        </div>
+        ${continueDrugs.length > 0 ? continueDrugs.map(d => `
+          <div style="margin-bottom:8px; font-size:0.85rem;">
+            <strong style="color:#047857;">・${d.name}</strong>
+            <div style="color:#475569; margin-left:12px; font-size:0.8rem;">注意: ${d.reason}</div>
+          </div>
+        `).join('') : '<div style="font-size:0.85rem; color:#475569;">自己中断で直ちに危険な離脱を起こす薬剤は現在処方されていません。</div>'}
+      </div>
+
+      <div style="background:#fff7ed; border:1.5px solid #fed7aa; border-radius:8px; padding:12px 14px; font-size:0.82rem; color:#9a3412;">
+        <strong>🚨 救急受診・主治医連絡の目安：</strong>
+        <ul style="margin:4px 0 0 16px; padding:0; line-height:1.5;">
+          <li>水分が全く喉を通らず、半日以上おしっこ（尿）が出ないとき</li>
+          <li>ぐったりして意識がもうろうとしているとき、息苦しさが強いとき</li>
+          <li>自己判断で悩むときは、速やかにかかりつけ薬局・医療機関へお電話ください</li>
+        </ul>
+      </div>
+    `;
+  }
+
+  container.innerHTML = html;
 }
