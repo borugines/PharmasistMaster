@@ -4046,6 +4046,344 @@ tbody tr:hover { background-color: #f0fdf4; }
 }
 
 /* ========================================================
+   アキネーター型・動的適応型問診UI ＆ 詳細治療戦略スタイル
+   ======================================================== */
+.wizard-akinator-container {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border: 2px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+/* 確信度メーター＆進捗ヘッダー */
+.wizard-gauge-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+.wizard-gauge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.wizard-step-tracker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #065f46;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+.wizard-confidence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #047857;
+}
+.wizard-gauge-track {
+  width: 100%;
+  height: 12px;
+  background: #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.wizard-gauge-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6 0%, #10b981 50%, #059669 100%);
+  border-radius: 6px;
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+.wizard-prediction-status {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: #475569;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* アキネーター質問ステージカード */
+.wizard-question-stage {
+  animation: fadeInQuestion 0.35s ease-out;
+}
+@keyframes fadeInQuestion {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.wizard-stage-title-box {
+  background: #f1f5f9;
+  border-left: 5px solid #10b981;
+  padding: 14px 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 16px;
+}
+.wizard-stage-title {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.4;
+  margin: 0;
+}
+.wizard-stage-subtitle {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* 選択肢ボタン（アキネーター式大型カード） */
+.wizard-akinator-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.wizard-akinator-btn {
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+.wizard-akinator-btn:hover {
+  border-color: #10b981;
+  background: #f0fdf4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+.wizard-akinator-btn:active {
+  transform: translateY(0);
+}
+.wizard-akinator-btn.selected {
+  border-color: #059669;
+  background: #ecfdf5;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+}
+.wizard-btn-left {
+  flex: 1;
+}
+.wizard-btn-label {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.35;
+}
+.wizard-btn-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.wizard-btn-badge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: #e2e8f0;
+  color: #334155;
+  white-space: nowrap;
+}
+.wizard-akinator-btn.selected .wizard-btn-badge {
+  background: #059669;
+  color: #ffffff;
+}
+
+/* アキネーター・ナビゲーションバー */
+.wizard-nav-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
+}
+.wizard-nav-btn {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.wizard-nav-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+.wizard-nav-btn.primary {
+  background: #059669;
+  color: #ffffff;
+  border-color: #059669;
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+}
+.wizard-nav-btn.primary:hover {
+  background: #047857;
+  transform: translateY(-1px);
+}
+
+/* ========================================================
+   教科書レベルの詳細治療戦略・病態サブタイプレポート
+   ======================================================== */
+.wizard-report-hero {
+  background: linear-gradient(135deg, #064e3b 0%, #065f46 60%, #0f766e 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(6, 78, 59, 0.25);
+}
+.wizard-report-rank-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f59e0b;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+.wizard-report-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
+}
+.wizard-report-subtype-pill {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-top: 6px;
+}
+
+/* 治療戦略セクションカード */
+.wizard-report-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.wt-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+.wt-header {
+  padding: 12px 18px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wt-header.pathology { background: #eff6ff; color: #1e40af; border-bottom: 1.5px solid #bfdbfe; }
+.wt-header.rationale { background: #fefce8; color: #854d0e; border-bottom: 1.5px solid #fef08a; }
+.wt-header.treatment { background: #ecfdf5; color: #065f46; border-bottom: 1.5px solid #a7f3d0; }
+.wt-header.targets { background: #faf5ff; color: #6b21a8; border-bottom: 1.5px solid #e9d5ff; }
+.wt-header.guidance { background: #fff7ed; color: #9a3412; border-bottom: 1.5px solid #fed7aa; }
+
+.wt-body {
+  padding: 16px 18px;
+  font-size: 0.88rem;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+/* 治療戦略ボックス内部 */
+.wt-treatment-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.wt-treatment-item {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.wt-treatment-item.first-line {
+  background: #f0fdf4;
+  border: 1.5px solid #10b981;
+}
+.wt-treatment-item.combination {
+  background: #eff6ff;
+  border: 1.5px solid #60a5fa;
+}
+.wt-treatment-item.contra {
+  background: #fff1f2;
+  border: 1.5px solid #f43f5e;
+}
+.wt-item-label {
+  font-size: 0.82rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.wt-treatment-item.first-line .wt-item-label { color: #065f46; }
+.wt-treatment-item.combination .wt-item-label { color: #1e40af; }
+.wt-treatment-item.contra .wt-item-label { color: #9f1239; }
+
+/* 鑑別候補（第2位、第3位）の比較カード */
+.wizard-secondary-cards {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 2px dashed #cbd5e1;
+}
+.wizard-secondary-card {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+
+/* ========================================================
    ウィザード＆病態特定のスマートフォン最適化 (Mobile Responsive)
    ======================================================== */
 @media (max-width: 768px) {

@@ -86,31 +86,73 @@
         </div>
       </div>
 
-      <!-- STEP 2: 動的な追加質問・併用薬の選択（インタラクティブ問診） -->
+      <!-- STEP 2: アキネーター型・動的適応質問ステージ（1問1答インタラクティブ問診） -->
       <div id="wizardStep2" class="wizard-step-section" style="display:none; border-top:2px dashed #e2e8f0; margin-top:20px; padding-top:20px;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
           <div class="wizard-step-badge">
             <span class="step-num">STEP 2</span>
-            <span class="step-title">鑑別のための質問（①処方箋の併用薬・用量 ＋ ②患者への自覚症状問診）</span>
+            <span class="step-title">アキネーター型 推論問診（1問1答で詳細病態を絞り込みます）</span>
           </div>
           <div id="wizardSelectedDrugBadge" class="wizard-selected-drug-badge">
             <!-- 選択された起点薬 -->
           </div>
         </div>
 
-        <!-- 質問コンテナ（JSで動的生成） -->
-        <div id="wizardQuestionsContainer">
-          <!-- 動的質問カード群 -->
+        <!-- アキネーター・コンテナ -->
+        <div class="wizard-akinator-container">
+
+          <!-- 確信度メーター ＆ 進捗ヘッダー -->
+          <div class="wizard-gauge-card">
+            <div class="wizard-gauge-header">
+              <div id="wizardStepTracker" class="wizard-step-tracker">
+                <span>❓ 第 1 問 / 推定残り 3〜4 問</span>
+              </div>
+              <div class="wizard-confidence-badge">
+                <span>🔮 AI確信度：</span>
+                <span id="wizardConfidenceText" style="font-size:1.15rem; font-weight:900; color:#059669;">25%</span>
+              </div>
+            </div>
+            <div class="wizard-gauge-track">
+              <div id="wizardGaugeFill" class="wizard-gauge-fill" style="width: 25%;"></div>
+            </div>
+            <div class="wizard-prediction-status">
+              <span id="wizardPredictionText">💡 処方の特徴から疾患候補を絞り込んでいます…</span>
+              <span style="font-size:0.75rem; color:#94a3b8;">※選択肢をタップすると次の質問に進みます</span>
+            </div>
+          </div>
+
+          <!-- アキネーター質問ステージ（JSで1問ずつ動的描画） -->
+          <div id="wizardQuestionStage" class="wizard-question-stage">
+            <!-- JS動的生成 -->
+          </div>
+
+          <!-- アキネーター・ナビゲーションツールバー -->
+          <div class="wizard-nav-toolbar">
+            <div style="display:flex; gap:8px;">
+              <button id="wizardPrevBtn" class="wizard-nav-btn" onclick="wizardStepToPrev()" style="display:none;">
+                ⬅ 前の質問に戻る
+              </button>
+              <button class="wizard-nav-btn" onclick="wizardStepSkip()">
+                ⏩ この質問をスキップ
+              </button>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="wizard-nav-btn primary" onclick="calculateWizardDiagnosis(true)">
+                🏁 ここまでの情報で病態を特定する
+              </button>
+            </div>
+          </div>
+
         </div>
 
         <!-- フリー追加（主訴・自覚症状 ＆ 併用薬）入力エリア -->
         <div class="wizard-custom-drug-box">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
             <span style="font-size:0.88rem; font-weight:800; color:#065f46;">
-              🎯 精度UP！患者の主訴・症状や気になる併用薬を自由に追加（複数入力可）：
+              🎯 精度UP！患者の主訴・自覚症状や気になる併用薬を自由に追加：
             </span>
             <span style="font-size:0.75rem; color:#64748b; background:#ffffff; padding:2px 8px; border-radius:10px; border:1px solid #cbd5e1;">
-              💡 主訴を追加するほどベイズ推論で精度が急上昇します
+              💡 主訴を追加すると確信度が一気に跳ね上がります
             </span>
           </div>
           <p style="font-size:0.78rem; color:#64748b; margin:4px 0 8px 0;">
@@ -127,7 +169,7 @@
           <!-- よくある主訴クイック追加ボタン群 -->
           <div style="margin-top:10px;">
             <span style="font-size:0.76rem; font-weight:700; color:#475569;">💡 代表的な主訴をワンタップ追加：</span>
-            <div style="display:flex; gap:5px; flex-wrap:wrap; margin-top:4px;">
+            <div class="wizard-quick-tags" style="margin-top:4px;">
               <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('朝のこわばり')">朝のこわばり</button>
               <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('夜間・早朝の胸痛')">夜間・早朝の胸痛</button>
               <button class="wizard-symptom-quick-tag" onclick="addWizardQuickSymptom('階段での息切れ・動悸')">息切れ・動悸</button>
@@ -145,26 +187,23 @@
           <div id="wizardCustomDrugTags" style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;"></div>
         </div>
 
-        <!-- アクションボタン群（打ち切り＆判定） -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-top:20px;">
+        <!-- 戻るボタン -->
+        <div style="display:flex; justify-content:flex-start; margin-top:16px;">
           <button class="wizard-action-btn-secondary" onclick="resetWizard()">
             ← 起点薬を選び直す
-          </button>
-          <button id="wizardDiagnoseBtn" class="wizard-action-btn-primary" onclick="calculateWizardDiagnosis(true)">
-            🚀 この条件で病態を判定する（質問を打ち切る）
           </button>
         </div>
       </div>
 
-      <!-- STEP 3: 診断結果・確率判定パネル（特定された詳細病態） -->
+      <!-- STEP 3: 診断結果・確率判定パネル（特定された詳細病態 ＆ ガイドライン治療戦略レポート） -->
       <div id="wizardStep3" class="wizard-step-section" style="display:none; border-top:2px solid #10b981; margin-top:24px; padding-top:24px;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
           <div class="wizard-step-badge" style="background:#ecfdf5; border-color:#a7f3d0; color:#065f46;">
             <span class="step-num" style="background:#059669; color:white;">RESULT</span>
-            <span class="step-title" style="color:#065f46;">推論結果：確率の高い疾患 ＆ 特定された詳細病態</span>
+            <span class="step-title" style="color:#065f46;">推論結果：特定された詳細病態 ＆ ガイドライン推奨治療戦略レポート</span>
           </div>
           <button class="wizard-action-btn-secondary" onclick="resetWizard()" style="padding:6px 14px; font-size:0.82rem;">
-            🔄 新しい処方を判定する
+            🔄 別の処方を判定する
           </button>
         </div>
 

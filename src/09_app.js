@@ -5480,591 +5480,932 @@ function jumpToRenalSimulator(scr, age, wt) {
   }, 120);
 }
 
+
 // ========================================================
-// 🧩 対話型・病態特定プログラム（Prescription Profiling Wizard）
+// 🧩 アキネーター型・対話型病態特定プログラム（Prescription Profiling Wizard Engine）
 // ========================================================
 
 const CLINICAL_WIZARD_DATA = {
-  // 1. スピロノラクトン / エサキセレノン
+  // 1. スピロノラクトン / 選択的MRA（エサキセレノン・エプレレノン）
   spironolactone: {
     aliases: ['スピロノラクトン', 'アルダクトン', 'エサキセレノン', 'ミネブロ', 'エプレレノン', 'セララ', 'spironolactone'],
     name: 'スピロノラクトン / 選択的MRA',
     category: 'MRA（ミネラルコルチコイド受容体拮抗薬）',
     questions: [
       {
-        id: 'q1_combo',
-        title: 'Q1. 処方箋情報：以下の併用薬は含まれていますか？（該当するものを選択）',
+        id: 'spiro_q1_combo',
+        title: 'Q1. 処方箋情報：以下の併用薬は含まれていますか？（最も当てはまるものを1つ選択）',
+        subtitle: '併用薬のプロファイルから病態の大枠を絞り込みます',
         options: [
           {
-            id: 'hf_4pillars',
+            id: 'spiro_opt_4pillars',
             label: 'エンレスト（ARNI） または メインテート/アーチスト（β遮断薬）',
             badge: '心不全4本柱',
             desc: '微量（12.5〜25mg/日）。左室心筋線維化抑制・リモデリング予防目的',
-            weights: { hf: 60, pa: -30, cirrhosis: -20, htn: 10 }
+            weights: { hf_ref: 70, hf_pef: 30, pa_adenoma: -35, cirrhosis_ascites: -30, resist_htn: 10 }
           },
           {
-            id: 'loop_diuretic',
+            id: 'spiro_opt_loop',
             label: 'ラシックス / ダイアート / ルプラック（ループ利尿薬）',
             badge: '体液貯留・浮腫是正',
             desc: '腹水や重度心不全うっ血。用量25〜100mg/日',
-            weights: { cirrhosis: 50, hf: 35, pa: -20, htn: -10 }
+            weights: { cirrhosis_ascites: 60, hf_pef: 45, hf_ref: 25, pa_adenoma: -25, resist_htn: -10 }
           },
           {
-            id: 'arb_ccb_combo',
-            label: 'アジルバ等のARB ＋ アムロジピン等のCCB（3剤併用でも血圧高値）',
-            badge: '治療抵抗性高血圧',
-            desc: '高用量（50〜100mg/日）。低K血症を伴う難治性高血圧',
-            weights: { pa: 65, htn: 25, hf: -25, cirrhosis: -20 }
+            id: 'spiro_opt_arb_ccb',
+            label: 'アジルバ等のARB ＋ アムロジピン等のCCB（降圧薬2〜3剤併用）',
+            badge: '治療抵抗性・二次性高血圧',
+            desc: '中〜高用量（25〜100mg/日）。低K血症または降圧目標未達',
+            weights: { pa_adenoma: 70, resist_htn: 55, ckd_dm_nephropathy: 30, hf_ref: -30, cirrhosis_ascites: -30 }
           },
           {
-            id: 'sglt2_combo',
+            id: 'spiro_opt_sglt2',
             label: 'フォシーガ / ジャディアンス（SGLT2阻害薬）',
-            badge: 'Fantastic 4',
-            desc: '心不全予後改善のための最新標準併用療法',
-            weights: { hf: 45, pa: -15, cirrhosis: -10 }
+            badge: '心腎保護併用',
+            desc: '心不全予後改善または糖尿病性腎症の進展抑制',
+            weights: { hf_ref: 50, hf_pef: 40, ckd_dm_nephropathy: 45, pa_adenoma: -20 }
+          },
+          {
+            id: 'spiro_opt_none',
+            label: '上記の薬剤は見当たらない / 単独投与',
+            badge: '単剤・初期導入',
+            desc: '単剤での降圧導入または浮腫初期対応',
+            weights: { resist_htn: 20, pa_adenoma: 15 }
           }
         ]
       },
       {
-        id: 'q2_dose',
-        title: 'Q2. 処方箋情報：スピロノラクトンの用量はどれに近いですか？',
+        id: 'spiro_q2_dose',
+        title: 'Q2. 処方箋情報：スピロノラクトン（またはMRA）の投与量はどれに近いですか？',
+        subtitle: 'MRAは投与量によって「心筋線維化遮断」か「利尿・過剰アルドステロン拮抗」かが明確に分かれます',
         options: [
           {
-            id: 'low_dose',
-            label: '12.5mg 〜 25mg / 日（極低用量〜低用量）',
-            badge: '心保護用量',
-            desc: '利尿目的ではなく「アルドステロンブレイクスルー」を遮断',
-            weights: { hf: 35, htn: 10, pa: -30, cirrhosis: -20 }
+            id: 'spiro_opt_low_dose',
+            label: '12.5mg 〜 25mg / 日（ミネブロなら1.25〜2.5mg）（低用量・心保護用量）',
+            badge: '心保護・抗線維化',
+            desc: '利尿目的ではなく「アルドステロンブレイクスルー」を遮断し心不全予後を改善',
+            weights: { hf_ref: 50, hf_pef: 30, ckd_dm_nephropathy: 35, pa_adenoma: -35, cirrhosis_ascites: -30 }
           },
           {
-            id: 'high_dose',
-            label: '50mg 〜 100mg / 日（高用量）',
+            id: 'spiro_opt_high_dose',
+            label: '50mg 〜 100mg / 日（ミネブロなら5mg）（高用量・利尿/過剰遮断用量）',
             badge: '過剰アルドステロン遮断',
-            desc: '副腎腺腫等によるアルドステロン自律過剰分泌または難治性腹水',
-            weights: { pa: 45, cirrhosis: 40, hf: -30 }
+            desc: '副腎腺腫等によるアルドステロン自律過剰分泌、難治性腹水、または重度抵抗性高血圧',
+            weights: { pa_adenoma: 65, cirrhosis_ascites: 55, resist_htn: 35, hf_ref: -40 }
+          },
+          {
+            id: 'spiro_opt_dose_unknown',
+            label: '用量が分からない / 処方箋を確認中',
+            badge: '不明・スキップ',
+            desc: '用量情報なしで他の質問から推論を継続します',
+            weights: {}
           }
         ]
       },
       {
-        id: 'q3_patient',
-        title: 'Q3. 🗣️【患者への問診・確認】薬だけでは特定できない場合の症状確認（当てはまる自覚症状・主訴を選択）',
+        id: 'spiro_q3_patient',
+        title: 'Q3. 🗣️【患者への問診・主訴】患者さんの自覚症状や訴えはどれに最も近いですか？',
+        subtitle: '患者さんの生の声は、処方箋の行間を埋める決定的な鑑別診断の鍵です',
         options: [
           {
-            id: 'sym_spiro_hf',
+            id: 'spiro_opt_sym_dyspnea',
             label: '「坂道や階段で息が切れる、夕方に足の甲やすねがむくむ」',
-            badge: '心不全自覚症状',
-            desc: '心拍出量低下と肺・体静脈うっ血による労作時息切れ・浮腫',
-            weights: { hf: 60, pa: -20, cirrhosis: 10, htn: -10 }
+            badge: '心不全徴候',
+            desc: '心拍出量低下と肺うっ血・体静脈うっ血による労作時呼吸困難と浮腫',
+            weights: { hf_ref: 65, hf_pef: 60, pa_adenoma: -30, cirrhosis_ascites: 15 }
           },
           {
-            id: 'sym_spiro_pa',
-            label: '「手足に力が入らない・脱力感、足がよくつる（こむら返り）」',
+            id: 'spiro_opt_sym_weakness',
+            label: '「手足に力が入らない・脱力感がある、夜中に足がよくつる（こむら返り）」',
             badge: '低K血症兆候',
-            desc: 'アルドステロン過剰による尿中K排泄と低カリウム血症の特有症状',
-            weights: { pa: 70, hf: -20, cirrhosis: -20 }
+            desc: 'アルドステロン過剰による尿中カリウム排泄促進と著明な低カリウム血症の特有症状',
+            weights: { pa_adenoma: 80, resist_htn: 20, hf_ref: -25, cirrhosis_ascites: -20 }
           },
           {
-            id: 'sym_spiro_cirrhosis',
-            label: '「お腹が張って苦しい、体重が急に増えた（腹水）」',
-            badge: '肝硬変腹水兆候',
-            desc: '門脈圧亢進と低アルブミン血症に伴う難治性腹水',
-            weights: { cirrhosis: 70, hf: 15, pa: -20 }
+            id: 'spiro_opt_sym_ascites',
+            label: '「お腹がパンパンに張って苦しい、短期間で急に体重やお腹周りが増えた」',
+            badge: '難治性腹水兆候',
+            desc: '門脈圧亢進と低アルブミン血症、二次性高アルドステロン症に伴う腹水貯留',
+            weights: { cirrhosis_ascites: 85, hf_pef: 20, pa_adenoma: -25 }
           },
           {
-            id: 'sym_spiro_htn',
-            label: '「自覚症状は特になく、何種類飲んでも血圧が下がらないと言われた」',
+            id: 'spiro_opt_sym_htn_only',
+            label: '「自覚症状は特にないが、何種類飲んでも血圧が下がらないと言われた」',
             badge: '無症候性抵抗性高血圧',
-            desc: '食塩感受性・体液量過剰型の本態性高血圧',
-            weights: { htn: 50, pa: 20, hf: -20 }
+            desc: '食塩感受性・体液量過剰型の本態性高血圧、または無症候期のアルブミン尿合併高血圧',
+            weights: { resist_htn: 60, ckd_dm_nephropathy: 40, pa_adenoma: 25, hf_ref: -20 }
+          }
+        ]
+      },
+      {
+        id: 'spiro_q4_lab',
+        title: 'Q4. 🔬【検査値・身体所見】カルテや検査結果で該当する特徴はありますか？',
+        subtitle: '血清カリウム値や心エコー所見によりサブタイプを確定します',
+        options: [
+          {
+            id: 'spiro_opt_lab_hypok',
+            label: '血清カリウム（K）が低値（3.5 mEq/L未満）またはPAC/PRA比高値（ARR ≥ 200）',
+            badge: '原発性アルドステロン症確定根拠',
+            desc: '自律的アルドステロン過剰分泌による低K血症。副腎CT精査対象',
+            weights: { pa_adenoma: 85, resist_htn: 15, hf_ref: -35 }
+          },
+          {
+            id: 'spiro_opt_lab_lvef_low',
+            label: '心エコーで駆出率低下（LVEF ≤ 40%）または左室拡大・BNP著明高値',
+            badge: 'HFrEF確定根拠',
+            desc: '左室収縮能不全。ガイドライン推奨4本柱（GDMT）必須病態',
+            weights: { hf_ref: 85, hf_pef: -30, pa_adenoma: -30 }
+          },
+          {
+            id: 'spiro_opt_lab_lvef_preserved',
+            label: '駆出率は正常（LVEF ≥ 50%）だが左室肥大・拡張障害やBNP軽度上昇がある',
+            badge: 'HFpEF確定根拠',
+            desc: '拡張不全型心不全。高齢者・高血圧性心疾患に好発',
+            weights: { hf_pef: 80, hf_ref: -20, pa_adenoma: -15 }
+          },
+          {
+            id: 'spiro_opt_lab_proteinuria',
+            label: '微量アルブミン尿（30〜299mg/gCr）または尿蛋白陽性・糖尿病合併',
+            badge: '糖尿病性腎症確定根拠',
+            desc: '糸球体高血圧とアルブミン漏出。エサキセレノン/フィネレノン適応',
+            weights: { ckd_dm_nephropathy: 85, resist_htn: 20, pa_adenoma: -20 }
+          },
+          {
+            id: 'spiro_opt_lab_unknown',
+            label: '検査値情報は手元にない / 分からない',
+            badge: '不明',
+            desc: 'ここまでの回答と主訴から総合判定します',
+            weights: {}
           }
         ]
       }
     ],
     diseases: [
       {
-        id: 'hf',
+        id: 'hf_ref',
         cardNum: 1,
-        name: '慢性心不全（HF）',
-        subType: '🫀 HFrEF（駆出率低下心不全）：心筋線維化抑制・左室リモデリング予防',
-        baseProb: 35,
-        criteria: '微量12.5〜25mg ＋ エンレスト/β遮断薬/SGLT2阻害薬（Fantastic 4）',
-        reason: '利尿目的ではなく「アルドステロンブレイクスルー」を抑制し生命予後・再入院率を劇的改善する標準治療です。',
-        keyPoint: '血清K値（高K血症注意）、Cr上昇・eGFR低下、起立性低血圧、息切れ・体重増減'
+        name: '慢性心不全（HFrEF：左室駆出率低下心不全）',
+        subType: '🫀 LVEF ≤ 40% / 左室拡大・心筋リモデリング進行期（Fantastic 4標準治療）',
+        baseProb: 30,
+        criteria: 'スピロノラクトン 12.5〜25mg ＋ ARNI（エンレスト）＋ β遮断薬 ＋ SGLT2阻害薬',
+        reason: '利尿目的ではなく心筋線維化抑制・アルドステロンブレイクスルー遮断を目的とした予後改善の標準4本柱療法です。',
+        keyPoint: '血清K値（>5.0mEq/L警戒）、Cr上昇・eGFR低下、起立性低血圧、労作時息切れ・体重急増',
+        treatment: {
+          pathology: '心筋梗塞や拡張型心筋症などにより左室収縮能が著明低下（LVEF ≤ 40%）。レニン・アンジオテンシン・アルドステロン系（RAAS）と交感神経系の過剰亢進により心筋線維化と心室拡大（リモデリング）が進行し、心不全入院・心血管死リスクが高まります。',
+          rationale: '微量MRA（12.5〜25mg）にARNI（エンレスト）やβ遮断薬（メインテート等）が併用されている処方は、まさに心血管死・心不全再入院を抑制するエビデンスに基づく「GDMT（ガイドライン推奨薬物療法）」の典型的シグネチャーです。',
+          firstLine: '【GDMT 基本4本柱（The Fantastic 4）】\n① ARNI（エンレスト 1回50〜200mg 1日2回）または ACEi/ARB\n② β遮断薬（メインテート 1.25mgから開始し目標5〜10mg/日へ漸増、またはアーチスト）\n③ MRA（スピロノラクトン 12.5〜25mg/日、またはエプレレノン）\n④ SGLT2阻害薬（フォシーガ 10mg/日 または ジャディアンス 10mg/日）',
+          combination: 'うっ血（下腿浮腫・頸静脈怒張・息切れ）が残存する場合はループ利尿薬（ラシックス / ルプラック / アゾセミド）を最小限併用。房室伝導に問題ない洞調律頻脈（HR ≥ 75）ならコララン（イバブラジン）追加。難治性うっ血・低Na時はサムスカ短期併用。',
+          contra: '【禁忌・慎重投与】：\n・重篤な高カリウム血症（K > 5.5 mEq/L）または重篤な腎不全（eGFR < 30 mL/min/1.73m²時はMRA用量注意・K頻回測定）。\n・エンレストとACE阻害薬の併用は血管浮腫リスクのため【絶対禁忌】（36時間の休薬必須）。\n・収縮期血圧 < 90 mmHg の過度な低血圧。',
+          targets: '【臨床指標・目標値】：\n・安静時心拍数：60〜70 bpm（β遮断薬の用量調節指標）\n・血圧：収縮期 100〜120 mmHg（低血圧症状がない範囲）\n・BNP / NT-proBNP：前回値比で30%以上の低下またはベースライン維持\n・血清K：4.0〜5.0 mEq/L（5.5を超えたら減量・休薬検討）',
+          guidance: '【服薬指導 ＆ 疑義照会トリガー】：\n🗣️ 患者への声かけ：「朝起きたときの体重測定を日課にしてください。2〜3日で2kg以上増えたら体液が溜まり始めているサインです」「立ちくらみやめまい、手足の冷えが強くなったときはすぐにご相談ください」\n🚨 疑義照会トリガー：K値が 5.5 mEq/L を超えている場合、またはeGFRが短期間で30%以上急激に悪化している場合はMRAやARNIの一時減量・休薬を医師に照会。'
+        }
       },
       {
-        id: 'pa',
+        id: 'hf_pef',
+        cardNum: 1,
+        name: '慢性心不全（HFpEF：駆出率保持心不全）',
+        subType: '🫀 LVEF ≥ 50% / 左室拡張不全・高齢者うっ血性心不全期（体液管理 ＆ SGLT2i/MRA）',
+        baseProb: 20,
+        criteria: 'MRA少量 ＋ ループ利尿薬 ＋ SGLT2阻害薬（エンパグリフロジン/ダパグリフロジン）',
+        reason: '左室収縮能は保たれているものの心室壁肥厚・伸展性低下により拡張不全を呈し、体液過剰になりやすい病態です。',
+        keyPoint: '急激な脱水による腎機能悪化、下腿浮腫・頸静脈怒張、血圧・脈拍'
+      },
+      {
+        id: 'pa_adenoma',
         cardNum: 29,
-        name: '原発性アルドステロン症 ＆ クッシング',
-        subType: '🧪 二次性高血圧：副腎腺腫等による過剰アルドステロン自律分泌 ＆ 低K是正',
-        baseProb: 25,
-        criteria: '高用量50〜100mg（ARB＋CCB無効の若年・治療抵抗性高血圧）',
-        reason: '過剰なアルドステロン作用を強力に遮断し低K血症を是正・降圧します。女性化乳房時はエサキセレノン等を検討。',
-        keyPoint: '手足の脱力感・こむら返り（低K是正）、男性の女性化乳房、家庭血圧'
+        name: '原発性アルドステロン症（PA）',
+        subType: '🧪 二次性高血圧：副腎腺腫（APA）または特発性アルドステロン過形成（IHA）',
+        baseProb: 20,
+        criteria: 'スピロノラクトン高用量（50〜100mg/日）またはエサキセレノン高用量（5mg/日）',
+        reason: '副腎からの自律的過剰アルドステロン分泌により、遠位尿細管でのNa再吸収亢進と著明なK排泄が生じ、低K血症と重度高血圧をきたします。',
+        keyPoint: '血清K値のモニタリング、手足の脱力感・こむら返り、男性の女性化乳房・乳房痛'
       },
       {
-        id: 'cirrhosis',
+        id: 'resist_htn',
+        cardNum: 3,
+        name: '治療抵抗性高血圧症',
+        subType: '🩸 食塩感受性・体液量過剰型高血圧（3剤目標未達時の第4の切り札）',
+        baseProb: 15,
+        criteria: 'ARB ＋ CCB ＋ サイアザイド系利尿薬にミネブロ（1.25〜2.5mg）またはスピロノラクトン追加',
+        reason: '3剤（ARB+CCB+利尿薬）でも降圧目標未達の抵抗性高血圧に対し、潜在的な体液過剰・アルドステロン作用を遮断する極めて効果的な治療戦略です。',
+        keyPoint: '過度な降圧、血清K上昇、家庭血圧の朝晩記録'
+      },
+      {
+        id: 'cirrhosis_ascites',
         cardNum: 1,
         name: '肝硬変に伴う難治性腹水',
-        subType: '🍻 肝不全・門脈圧亢進：アルドステロン不活化低下による体液貯留',
-        baseProb: 20,
-        criteria: 'スピロノラクトン25〜100mg ＋ ループ利尿薬併用（消化器内科）',
-        reason: '肝機能低下によるアルドステロン分解低下に伴う二次性高アルドステロン症を是正し腹水を排泄。',
-        keyPoint: '腹囲・体重測定、急激な脱水による肝性脳症兆候、電解質異常'
-      },
-      {
-        id: 'htn',
-        cardNum: 3,
-        name: '本態性高血圧症',
-        subType: '🩸 治療抵抗性高血圧：3剤併用で目標未達の第4の選択肢',
-        baseProb: 20,
-        criteria: 'ARB＋CCB＋利尿薬にミネブロ1.25〜2.5mgまたはアルダクトン少量追加',
-        reason: '体液量過剰・食塩感受性高血圧に対する強力な降圧上乗せ。',
-        keyPoint: '導入初期の過度な降圧、血清K値'
-      }
-    ]
-  },
-
-  // 2. フォシーガ / ジャディアンス
-  dapagliflozin: {
-    aliases: ['フォシーガ', 'ダパグリフロジン', 'ジャディアンス', 'エンパグリフロジン', 'sglt2'],
-    name: 'フォシーガ / ジャディアンス',
-    category: 'SGLT2阻害薬',
-    questions: [
-      {
-        id: 'q1_combo',
-        title: 'Q1. 処方箋情報：以下の併用薬は含まれていますか？',
-        options: [
-          {
-            id: 'hf_combo',
-            label: 'エンレスト / メインテート / スピロノラクトン（心不全薬）',
-            badge: '心不全4本柱',
-            desc: '用量は通常10mg固定。心血管死・心不全入院抑制目的',
-            weights: { hf: 65, ckd: 10, dm: -20 }
-          },
-          {
-            id: 'ckd_combo',
-            label: 'ニューロタン / オルメテック等のARB単独（尿蛋白陽性・CKD）',
-            badge: '腎保護適応',
-            desc: 'eGFR低下抑制・末期腎不全移行遅延目的（10mg）',
-            weights: { ckd: 60, hf: 15, dm: -15 }
-          },
-          {
-            id: 'dm_combo',
-            label: 'メトグルコ（メトホルミン） / ジャヌビア / アマリール / インスリン',
-            badge: '血糖降下治療',
-            desc: '初期5mgまたは10mg。HbA1c改善・体重減少目的',
-            weights: { dm: 70, hf: -25, ckd: -20 }
-          }
-        ]
-      },
-      {
-        id: 'q2_dose',
-        title: 'Q2. 処方箋情報：フォシーガの処方用量はどちらですか？',
-        options: [
-          {
-            id: 'dose_5mg',
-            label: '5mg / 日（初期用量）',
-            badge: '糖尿病初期用量',
-            desc: '心不全・CKDでは通常10mgから開始されるため、5mgなら糖尿病の可能性大',
-            weights: { dm: 45, hf: -30, ckd: -30 }
-          },
-          {
-            id: 'dose_10mg',
-            label: '10mg / 日（標準用量）',
-            badge: '心不全/CKD標準 または 糖尿病増量',
-            desc: '心不全・CKD適応は10mg固定。糖尿病でも効果不十分で増量あり',
-            weights: { hf: 25, ckd: 25, dm: 10 }
-          }
-        ]
-      },
-      {
-        id: 'q3_patient',
-        title: 'Q3. 🗣️【患者への問診・確認】薬だけでは特定できない場合の症状確認（当てはまる自覚症状・主訴を選択）',
-        options: [
-          {
-            id: 'sym_dapa_hf',
-            label: '「少し動いただけで息苦しい、横になって寝ると息苦しい（起座呼吸）」',
-            badge: '心不全うっ血症状',
-            desc: '肺うっ血・心拍出量低下による息切れ',
-            weights: { hf: 65, ckd: 10, dm: -20 }
-          },
-          {
-            id: 'sym_dapa_ckd',
-            label: '「健康診断で尿に蛋白が出ていると言われた、腎臓の数値が悪い」',
-            badge: '腎障害・蛋白尿',
-            desc: '自覚症状に乏しい初期〜中等度CKDの検査所見主訴',
-            weights: { ckd: 65, hf: 10, dm: -15 }
-          },
-          {
-            id: 'sym_dapa_dm',
-            label: '「血糖値やHbA1cが高いと言われた、喉が渇きやすい、甘いものが好き」',
-            badge: '糖尿病主訴',
-            desc: '高血糖・耐糖能異常の主訴',
-            weights: { dm: 70, hf: -20, ckd: -15 }
-          }
-        ]
-      }
-    ],
-    diseases: [
-      {
-        id: 'hf',
-        cardNum: 1,
-        name: '慢性心不全（HFrEF / HFpEF）',
-        subType: '🫀 心筋エネルギー効率改善 ＆ 浸透圧利尿による前負荷・後負荷軽減',
-        baseProb: 35,
-        criteria: 'フォシーガ10mg（またはジャディアンス10mg） ＋ 循環器処方',
-        reason: '糖尿病の有無に関わらず心血管死・心不全入院を有意に減少させる標準治療。',
-        keyPoint: '脱水症状、立ちくらみ、尿路・性器感染症、血圧低下'
-      },
-      {
-        id: 'ckd',
-        cardNum: 3,
-        name: '慢性腎臓病（CKD）',
-        subType: '🫘 糸球体過剰濾過是正 ＆ 腎機能低下遅延（DAPA-CKD準拠）',
-        baseProb: 30,
-        criteria: 'フォシーガ10mg ＋ ARB/ACE阻害薬（蛋白尿陽性例）',
-        reason: '輸入細動脈を収縮させ糸球体内圧を低下させ、末期腎不全（透析）への移行を劇的遅延。',
-        keyPoint: '導入初期のeGFR低下（30%以内は可逆的許容）、多尿・脱水、Cr値'
-      },
-      {
-        id: 'dm',
-        cardNum: 5,
-        name: '2型糖尿病',
-        subType: '🍬 近位尿細管SGLT2阻害による尿糖排泄 ＆ 体重・内臓脂肪減少',
-        baseProb: 35,
-        criteria: 'フォシーガ5mg〜10mg ＋ 経口血糖降下薬併用',
-        reason: 'インスリン非依存性に血糖を降下させ、低血糖リスクが低く体重減少をもたらす。',
-        keyPoint: 'シックデイ時の休薬指導（正常血糖ケトアシドーシス防止）、陰部清潔'
-      }
-    ]
-  },
-
-  // 3. メインテート / アーチスト
-  bisoprolol: {
-    aliases: ['メインテート', 'ビソプロロール', 'アーチスト', 'カルベジロール', 'bisoprolol', 'carvedilol'],
-    name: 'メインテート / アーチスト',
-    category: '心臓選択性β1遮断薬 / αβ遮断薬',
-    questions: [
-      {
-        id: 'q1_dose_combo',
-        title: 'Q1. 処方箋情報：処方用量と併用薬の特徴はどれですか？',
-        options: [
-          {
-            id: 'hf_micro',
-            label: '極低用量（メインテート 0.625mg〜1.25mg または アーチスト 1.25mg〜2.5mg）',
-            badge: '心不全導入期',
-            desc: 'エンレストやスピロノラクトン併用。慎重漸増中',
-            weights: { hf: 75, af: -35, htn: -30, cad: -10 }
-          },
-          {
-            id: 'af_combo',
-            label: '5mg通常量 ＋ エリキュース等のDOAC（抗凝固薬）併用',
-            badge: '心房細動レートコントロール',
-            desc: '心室応答数を抑えて頻脈性不整脈・動悸をコントロール',
-            weights: { af: 65, hf: 10, htn: -10, cad: 15 }
-          },
-          {
-            id: 'cad_combo',
-            label: '2.5mg〜5mg ＋ バイアスピリンやニトロペン携帯（胸痛既往）',
-            badge: '虚血性心疾患（狭心症・PCI後）',
-            desc: '心筋酸素消費量を抑え狭心発作・心筋梗塞再発予防',
-            weights: { cad: 65, hf: 20, af: 10, htn: -15 }
-          },
-          {
-            id: 'htn_single',
-            label: 'アムロジピン等の降圧薬併用 または 単独処方（脈拍正常〜高め）',
-            badge: '頻脈性・交感神経性高血圧',
-            desc: '心拍数を抑えつつ血圧を降下',
-            weights: { htn: 50, hf: -20, af: -20, cad: -15 }
-          }
-        ]
-      },
-      {
-        id: 'q2_patient',
-        title: 'Q2. 🗣️【患者への問診・確認】薬だけでは特定できない場合の症状確認（当てはまる自覚症状・主訴を選択）',
-        options: [
-          {
-            id: 'sym_biso_af',
-            label: '「胸が急にドキドキする、脈が急に速くなったりバラバラに飛ぶ」',
-            badge: '心房細動・頻脈発作',
-            desc: '不整脈による動悸・胸部不快感',
-            weights: { af: 70, hf: 10, cad: 10, htn: -20 }
-          },
-          {
-            id: 'sym_biso_cad',
-            label: '「急ぎ足で歩いたり階段を上がると、胸がギューッと締め付けられる」',
-            badge: '労作性狭心症症状',
-            desc: '労作時の心筋虚血発作（数分で安静軽快）',
-            weights: { cad: 70, hf: 15, af: 10, htn: -20 }
-          },
-          {
-            id: 'sym_biso_hf',
-            label: '「少し動くと息切れする、足がむくみやすい、心不全で入院したことがある」',
-            badge: '慢性心不全既往',
-            desc: '心機能低下に伴う労作時息切れ・体液貯留',
-            weights: { hf: 70, af: 15, cad: 15, htn: -20 }
-          },
-          {
-            id: 'sym_biso_htn',
-            label: '「特に息切れや胸痛はなく、緊張すると血圧や脈拍が上がりやすい」',
-            badge: '交感神経性高血圧',
-            desc: '若年〜中年のストレス性・自律神経性の高血圧',
-            weights: { htn: 55, hf: -20, af: -20, cad: -20 }
-          }
-        ]
-      }
-    ],
-    diseases: [
-      {
-        id: 'hf',
-        cardNum: 1,
-        name: '慢性心不全（HFrEF）',
-        subType: '🫀 交感神経過緊張遮断による心筋保護 ＆ 突然死予防',
-        baseProb: 35,
-        criteria: '極低用量0.625mgから開始し数週間かけて漸増 ＋ ARNI/MRA',
-        reason: '交感神経の慢性過剰興奮による心筋アポトーシスを遮断し生命予後を劇的改善。',
-        keyPoint: '心拍数（徐脈 HR<50注意）、導入初期の一時的心不全増悪（むくみ・体重増加）'
-      },
-      {
-        id: 'af',
-        cardNum: 2,
-        name: '心房細動（Af）',
-        subType: '💓 房室結節伝導抑制による心室レートコントロール',
-        baseProb: 30,
-        criteria: 'メインテート 2.5mg〜5mg ＋ DOAC（塞栓予防）',
-        reason: '不規則で頻脈な心室応答を抑え、心不全発症や動悸症状を予防。',
-        keyPoint: '脈拍測定、安静時HR 60〜80目標、高度徐脈、めまい・ふらつき'
-      },
-      {
-        id: 'cad',
-        cardNum: 4,
-        name: '虚血性心疾患（狭心症・心筋梗塞後）',
-        subType: '🫀 心拍数・心収縮力抑制による心筋酸素需要減少',
-        baseProb: 20,
-        criteria: 'メインテート/アーチスト ＋ 抗血小板薬 ＋ スタチン',
-        reason: '労作時の心筋虚血発作を抑制し、梗塞後の左室リモデリングと突然死を防止。',
-        keyPoint: '労作時胸痛の有無、ニトロペン携帯確認、喘息合併チェック（喘息は原則禁忌）'
-      },
-      {
-        id: 'htn',
-        cardNum: 3,
-        name: '本態性高血圧症',
-        subType: '🩸 交感神経優位・頻脈型高血圧の是正',
-        baseProb: 15,
-        criteria: 'メインテート 2.5mg〜5mg ＋ CCB/ARB',
-        reason: '若年〜中年のストレス性頻脈や心拍出量過剰型高血圧に効果的。',
-        keyPoint: '過度な徐脈・立ちくらみ'
-      }
-    ]
-  },
-
-  // 4. プレドニン
-  prednisolone: {
-    aliases: ['プレドニン', 'プレドニゾロン', 'prednisolone'],
-    name: 'プレドニン（プレドニゾロン）',
-    category: '経口副腎皮質ステロイド',
-    questions: [
-      {
-        id: 'q1_combo',
-        title: 'Q1. 処方箋情報：以下の免疫抑制薬や専門薬は併用されていますか？',
-        options: [
-          {
-            id: 'ra_combo',
-            label: 'リウマトレックス（MTX） または アクテムラ/エンブレル等の生物製剤',
-            badge: '関節リウマチ RA',
-            desc: '関節の痛み・朝のこわばり。プレドニンは少量（2.5〜5mg）併用',
-            weights: { ra: 70, sle: -25, mg: -30, ipf: -30 }
-          },
-          {
-            id: 'sle_combo',
-            label: 'プラケニル（ヒドロキシクロロキン） または セルセプト（MMF）',
-            badge: '全身性エリテマトーデス SLE',
-            desc: 'ループス腎炎や蝶形紅斑。プレドニン中〜高用量から漸減',
-            weights: { sle: 75, ra: -30, mg: -25, ipf: -30 }
-          },
-          {
-            id: 'mg_combo',
-            label: 'メスチノン（ピリドスチグミン） または プログラフ（タクロリムス）',
-            badge: '重症筋無力症 MG',
-            desc: 'まぶたの下垂（眼瞼下垂）や複視・筋力低下',
-            weights: { mg: 80, ra: -35, sle: -30, ipf: -30 }
-          },
-          {
-            id: 'ipf_combo',
-            label: 'オフェブ（ニンテダニブ） または ピレスパ（ピルフェニドン）',
-            badge: '特発性肺線維症 / 間質性肺炎',
-            desc: '乾性咳嗽（空咳）や労作時息切れ',
-            weights: { ipf: 75, ra: -25, sle: -25, mg: -35 }
-          },
-          {
-            id: 'pcp_prevention',
-            label: 'ダイフェン（バクタ配合錠） ＋ ボナロン/フォサマック等の骨粗鬆症薬',
-            badge: '高用量ステロイド治療',
-            desc: 'プレドニン20mg以上。ネフローゼ症候群、血管炎、多発性筋炎等',
-            weights: { nephrotic: 60, sle: 30, ra: -30 }
-          }
-        ]
-      },
-      {
-        id: 'q2_patient',
-        title: 'Q2. 🗣️【患者への問診・確認】薬だけでは特定できない場合の症状確認（当てはまる自覚症状・主訴を選択）',
-        options: [
-          {
-            id: 'sym_pred_ra',
-            label: '「朝起きたときに手や指の関節がこわばって動かしにくい、関節が痛む」',
-            badge: '朝のこわばり（RA）',
-            desc: '関節リウマチの典型的滑膜炎症候',
-            weights: { ra: 75, sle: -20, mg: -30, ipf: -30 }
-          },
-          {
-            id: 'sym_pred_sle',
-            label: '「頬が赤くなる（蝶形紅斑）、日光に当たると皮膚が赤くなる、微熱・だるさ」',
-            badge: 'ループス紅斑（SLE）',
-            desc: '若年女性に多い多臓器自己免疫症候',
-            weights: { sle: 80, ra: -25, mg: -25, ipf: -30 }
-          },
-          {
-            id: 'sym_pred_mg',
-            label: '「夕方になるとまぶたが下がってくる、物が二重に見える、噛むと疲れる」',
-            badge: '日内変動・眼瞼下垂（MG）',
-            desc: '重症筋無力症の易疲労性と眼症状',
-            weights: { mg: 85, ra: -35, sle: -30, ipf: -35 }
-          },
-          {
-            id: 'sym_pred_ipf',
-            label: '「乾いた咳（コンコン）が何ヶ月も続く、坂道で息が切れる」',
-            badge: '乾性咳嗽・息切れ（IPF）',
-            desc: '間質性肺炎の肺胞中隔線維化症状',
-            weights: { ipf: 80, ra: -25, sle: -25, mg: -35 }
-          },
-          {
-            id: 'sym_pred_nephrotic',
-            label: '「顔や足がパンパンにむくむ、尿が泡立ちやすい」',
-            badge: 'ネフローゼ浮腫',
-            desc: '大量蛋白尿と低蛋白血症による急速な全身浮腫',
-            weights: { nephrotic: 75, sle: 25, ra: -25 }
-          }
-        ]
-      }
-    ],
-    diseases: [
-      {
-        id: 'ra',
-        cardNum: 16,
-        name: '関節リウマチ（RA）',
-        subType: '🦴 滑膜炎・骨破壊抑制（MTX導入期のブリッジング療法）',
-        baseProb: 30,
-        criteria: 'プレドニン少量（2.5〜5mg/日） ＋ リウマトレックス（MTX）',
-        reason: 'MTXの効果発現までの急性炎症・朝のこわばりを鎮火させ、寛解達成後に中止を目指す。',
-        keyPoint: '関節の腫れ・痛み、感染症（発熱・咳）、胃潰瘍予防、骨粗鬆症予防'
-      },
-      {
-        id: 'sle',
-        cardNum: 18,
-        name: '全身性エリテマトーデス（SLE）',
-        subType: '🦋 多臓器自己免疫寛解導入 ＆ ループス腎炎再燃予防',
-        baseProb: 25,
-        criteria: 'プレドニン中〜高用量（20〜40mg） ＋ プラケニル',
-        reason: '自己抗体産生と補体活性化を強力に抑制し多臓器病変を鎮静。',
-        keyPoint: '易感染性、満月様顔貌（ムーンフェイス）、不眠・精神症状、眼科定期検査'
-      },
-      {
-        id: 'mg',
-        cardNum: 33,
-        name: '重症筋無力症（MG）',
-        subType: '👁️ 抗アセチルコリン受容体抗体抑制 ＆ 神経筋接合部伝達改善',
-        baseProb: 20,
-        criteria: 'プレドニン ＋ メスチノン ＋ タクロリムス',
-        reason: '自己抗体を減少させシナプス伝達を回復（初期の一時的増悪に注意）。',
-        keyPoint: '眼瞼下垂・複視、嚥下困難（誤嚥）、酸化マグネシウム絶対禁忌！'
-      },
-      {
-        id: 'ipf',
-        cardNum: 24,
-        name: '特発性肺線維症 ＆ 間質性肺炎',
-        subType: '🫁 急性増悪抑制 ＆ 肺胞中隔線維化進展抑制',
-        baseProb: 15,
-        criteria: 'プレドニン ＋ オフェブ/ピレスパ',
-        reason: '非特異的間質性肺炎（NSIP）や急性増悪時の肺胞炎症を強力抑制。',
-        keyPoint: '労作時息切れ、SpO2低下、オフェブによる激しい下痢、肝機能'
-      },
-      {
-        id: 'nephrotic',
-        cardNum: 3,
-        name: 'ネフローゼ症候群 ＆ 微小変化型',
-        subType: '🫘 糸球体上皮細胞（ポドサイト）足突起癒合是正 ＆ 大量蛋白尿消失',
+        subType: '🍻 門脈圧亢進・低アルブミン血症に伴う二次性高アルドステロン症 ＆ 体液貯留',
         baseProb: 10,
-        criteria: 'プレドニン高用量（0.8〜1.0mg/kg/日） ＋ ダイフェン（PCP予防）',
-        reason: '微小変化型ネフローゼ症候群（MCNS）に極めてステロイド反応性良好。',
-        keyPoint: '尿中蛋白、全身浮腫・体重、感染症予防（バクタ内服徹底）'
+        criteria: 'スピロノラクトン 25〜100mg ＋ ループ利尿薬（ラシックス）併用（消化器内科）',
+        reason: '肝機能低下によるアルドステロン不活化能低下と有効循環血漿量低下に伴う強烈な二次性高アルドステロン症を是正し腹水を排泄します。',
+        keyPoint: '急激な利尿脱水による肝性脳症・肝腎症候群の誘発、血清電解質（低Na血症）'
+      },
+      {
+        id: 'ckd_dm_nephropathy',
+        cardNum: 16,
+        name: '糖尿病性腎症・微量アルブミン尿合併高血圧',
+        subType: '🧪 糸球体内圧亢進 ＆ 腎線維化進行期（エサキセレノン/フィネレノンによる腎保護）',
+        baseProb: 5,
+        criteria: 'ミネブロ 1.25〜2.5mg または ケレンディア 10〜20mg ＋ ARB/ACEi',
+        reason: 'アルドステロンによる糸球体ポドサイト障害および局所炎症・線維化を直接抑制し、アルブミン尿漏出を劇的に改善します。',
+        keyPoint: '投与初期の血清K値上昇、eGFR低下（ベースラインからの過度な変動）'
       }
     ]
   },
 
-  // 5. タケキャブ
-  vonoprazan: {
-    aliases: ['タケキャブ', 'ボノプラザン', 'vonoprazan'],
-    name: 'タケキャブ（ボノプラザン）',
-    category: 'P-CAB（カリウムイオン競合型アシッドブロッカー）',
+  // 2. フォシーガ / ジャディアンス（SGLT2阻害薬）
+  dapagliflozin: {
+    aliases: ['フォシーガ', 'ダパグリフロジン', 'ジャディアンス', 'エンパグリフロジン', 'カナグル', 'スーグラ', 'デベルザ', 'ルセフィ', 'sglt2'],
+    name: 'フォシーガ / ジャディアンス（SGLT2阻害薬）',
+    category: 'SGLT2阻害薬（心腎代謝連関薬）',
     questions: [
       {
-        id: 'q1_dose_combo',
-        title: 'Q1. 処方箋情報：タケキャブの処方用量と併用薬はどれですか？',
+        id: 'sglt2_q1_combo',
+        title: 'Q1. 処方箋情報：以下の併用薬は含まれていますか？（最も当てはまるものを選択）',
+        subtitle: 'SGLT2阻害薬は「糖尿病」「心不全」「CKD」の3大適応があり、併用薬で適応が判明します',
         options: [
           {
-            id: 'dose_20mg',
-            label: '20mg 1日1回（通常量・高用量）',
-            badge: '急性期びらん性潰瘍',
-            desc: '胸やけ・胃酸逆流。びらん性GERD（LA分類 Grade C/D）や胃潰瘍初期',
-            weights: { gerd_severe: 65, lda_prevent: -30, gerd_maint: -25, hp: 10 }
+            id: 'sglt2_opt_hf',
+            label: 'エンレスト（ARNI） / メインテート（β遮断薬） / スピロノラクトン（MRA）',
+            badge: '心不全4本柱',
+            desc: '用量は通常10mg固定。糖尿病の有無にかかわらず心不全入院・心血管死抑制目的',
+            weights: { hf_hfs_all: 75, ckd_proteinuria: 20, dm2_obese: -25, dm2_elderly: -25 }
           },
           {
-            id: 'dose_10mg_lda',
-            label: '10mg 1日1回 ＋ バイアスピリン または ロキソニン等のNSAIDs併用',
-            badge: '消化管潰瘍再発予防',
-            desc: '抗血小板薬やNSAIDsによる出血性潰瘍の強力な再発予防',
-            weights: { lda_prevent: 70, gerd_severe: -20, gerd_maint: 10, hp: -30 }
+            id: 'sglt2_opt_dm_metformin',
+            label: 'メトグルコ（メトホルミン） または DPP-4阻害薬（ジャヌビア/トラゼンタ等）',
+            badge: '2型糖尿病併用',
+            desc: '血糖降下、インスリン抵抗性改善、体重減少・脂肪肝是正目的',
+            weights: { dm2_obese: 70, dm2_elderly: 40, hf_hfs_all: -15, ckd_proteinuria: 15 }
           },
           {
-            id: 'dose_10mg_single',
-            label: '10mg 1日1回 単独処方（胃酸逆流の再発予防・非びらん性NERD）',
-            badge: 'GERD維持療法',
-            desc: 'びらん性GERD治療後の寛解維持療法またはNERD',
-            weights: { gerd_maint: 60, gerd_severe: 10, lda_prevent: -20, hp: -30 }
+            id: 'sglt2_opt_ckd_arb',
+            label: 'ニューロタン / オルメテック等のARB単独（血圧高値・尿蛋白陽性）',
+            badge: 'CKD腎保護適応',
+            desc: 'eGFR低下抑制・末期腎不全移行遅延目的（フォシーガ10mg）',
+            weights: { ckd_proteinuria: 70, hf_hfs_all: 20, dm2_obese: -10, dm2_elderly: -10 }
           },
           {
-            id: 'hp_pack',
-            label: 'クラリス（クラリスロマイシン） ＋ アモリン（アモキシシリン） 1週間分併用',
-            badge: 'ピロリ除菌パック',
-            desc: 'ヘリコバクター・ピロリ1次除菌（朝夕分2）',
-            weights: { hp: 95, gerd_severe: -40, lda_prevent: -40, gerd_maint: -40 }
+            id: 'sglt2_opt_insulin',
+            label: 'インスリン頻回注射（ランタス、ノボラピッド等のプレフィルド製剤）',
+            badge: 'インスリン併用下',
+            desc: '血糖日内変動是正。1型糖尿病適応（ダパグリフロジン5mg）またはインスリン枯渇2型DM',
+            weights: { dm1_adjunct: 80, dm2_elderly: 30, dm2_obese: 20, hf_hfs_all: -20 }
+          },
+          {
+            id: 'sglt2_opt_mono',
+            label: '上記は見当たらず、SGLT2阻害薬単剤または軽微な処方',
+            badge: '単剤治療',
+            desc: '初期2型糖尿病または心不全・CKD初期導入',
+            weights: { dm2_obese: 35, ckd_proteinuria: 25, hf_hfs_all: 20 }
           }
         ]
       },
       {
-        id: 'q2_patient',
-        title: 'Q2. 🗣️【患者への問診・確認】薬だけでは特定できない場合の症状確認（当てはまる自覚症状・主訴を選択）',
+        id: 'sglt2_q2_symptom',
+        title: 'Q2. 🗣️【患者への問診・主訴】患者さんの自覚症状や健康課題はどれですか？',
+        subtitle: '患者さんの生の声から真の病態サブタイプを特定します',
         options: [
           {
-            id: 'sym_vono_gerd',
-            label: '「胸のあたりが焼けるように熱い（胸やけ）、酸っぱい水が上がってくる（呑酸）」',
-            badge: 'GERD典型症状',
-            desc: '胃酸逆流による食道粘膜刺激症状',
-            weights: { gerd_severe: 60, gerd_maint: 50, lda_prevent: -30, hp: -30 }
+            id: 'sglt2_opt_sym_hf',
+            label: '「坂道で胸が苦しい、動悸・息切れがある、足が夕方むくむ」',
+            badge: '心不全自覚症状',
+            desc: '心機能低下に伴う体液貯留とうっ血。循環器内科主導の処方',
+            weights: { hf_hfs_all: 80, ckd_proteinuria: 20, dm2_obese: -25 }
           },
           {
-            id: 'sym_vono_lda',
-            label: '「胸やけの症状はなく、脳梗塞や心臓のバイアスピリンなどを飲んでいる」',
-            badge: '無症候性潰瘍予防',
-            desc: '抗血小板薬・NSAIDsによる消化管出血の再発予防',
-            weights: { lda_prevent: 75, gerd_severe: -25, gerd_maint: -20, hp: -30 }
+            id: 'sglt2_opt_sym_obese',
+            label: '「体重やお腹周りを落としたいと言われている、健診で脂肪肝を指摘された」',
+            badge: '肥満・代謝異常',
+            desc: '内臓脂肪蓄積・インスリン抵抗性優位の2型糖尿病',
+            weights: { dm2_obese: 80, dm2_elderly: -40, hf_hfs_all: -15 }
           },
           {
-            id: 'sym_vono_hp',
-            label: '「健康診断や胃カメラでピロリ菌がいると言われて、1週間だけ飲む」',
-            badge: 'ピロリ除菌主訴',
-            desc: 'ヘリコバクター・ピロリ除菌治療',
-            weights: { hp: 95, gerd_severe: -40, lda_prevent: -40, gerd_maint: -40 }
+            id: 'sglt2_opt_sym_ckd',
+            label: '「自覚症状はないが、健診で尿蛋白や腎臓の数値が悪いと言われた」',
+            badge: '慢性腎臓病兆候',
+            desc: '無症候性に進行する糸球体障害とeGFR低下の進行抑制',
+            weights: { ckd_proteinuria: 80, dm2_obese: 10, hf_hfs_all: 10 }
+          },
+          {
+            id: 'sglt2_opt_sym_elderly',
+            label: '「最近食が細く痩せてきた、喉が渇いてトイレがとても近い」',
+            badge: '高血糖・脱水リスク',
+            desc: 'インスリン分泌能低下、高齢者における脱水・ケトアシドーシス厳重注意期',
+            weights: { dm2_elderly: 75, dm1_adjunct: 40, dm2_obese: -40 }
+          }
+        ]
+      },
+      {
+        id: 'sglt2_q3_dose_spec',
+        title: 'Q3. 処方箋情報：用量または保険適応上の特徴はどれですか？',
+        subtitle: '用量（5mg vs 10mg）や病名背景の確認',
+        options: [
+          {
+            id: 'sglt2_opt_dose_10mg',
+            label: 'フォシーガ 10mg / ジャディアンス 10mg（標準維持量）',
+            badge: '心不全・CKD・糖尿病標準',
+            desc: '心不全・CKDでは10mg固定。糖尿病では5mgから増量された用量',
+            weights: { hf_hfs_all: 50, ckd_proteinuria: 50, dm2_obese: 40 }
+          },
+          {
+            id: 'sglt2_opt_dose_5mg',
+            label: 'フォシーガ 5mg（開始用量または1型糖尿病適応）',
+            badge: '1型DMまたは導入初期',
+            desc: '1型糖尿病では原則5mg（ケトアシドーシス防止）、または慎重導入時',
+            weights: { dm1_adjunct: 70, dm2_elderly: 40, hf_hfs_all: -20 }
+          },
+          {
+            id: 'sglt2_opt_dose_skip',
+            label: '処方箋の用量詳細は不明 / スキップ',
+            badge: '不明',
+            desc: 'スキップして診断結果を算出します',
+            weights: {}
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'hf_hfs_all',
+        cardNum: 1,
+        name: '慢性心不全（HFrEF ＆ HFpEF全般）',
+        subType: '🫀 左室駆出率を問わない心血管死・心不全入院リスク抑制（Fantastic 4の一角）',
+        baseProb: 30,
+        criteria: 'フォシーガ 10mg または ジャディアンス 10mg（糖尿病合併の有無を問わず）',
+        reason: '浸透圧利尿・心筋エネルギー代謝改善・ナトリウム利尿により左室充満圧を下げ、心不全入院を有意に低減します。',
+        keyPoint: '脱水・過度な血圧低下、利尿薬との併用による起立性低血圧、ケトアシドーシス',
+        treatment: {
+          pathology: '心不全では近位尿細管でのNa-H交換輸送体（NHE3）活性が亢進し体液貯留を助長。SGLT2阻害はNHE3も間接的に抑制し、心臓への前負荷・後負荷を同時に軽減し、心筋アポトーシスを阻止します。',
+          rationale: '循環器内科処方でエンレストやメインテート、MRAと併用されている場合は、血糖降下目的ではなく心不全生命予後改善目的（GDMT）です。',
+          firstLine: 'フォシーガ 10mg 1日1回 または ジャディアンス 10mg 1日1回（eGFR 20 mL/min/1.73m²以上で開始可能・心不全適応）',
+          combination: 'ARNI（エンレスト）＋ β遮断薬（メインテート/アーチスト）＋ MRA（スピロノラクトン）との4剤併用が最も予後良好。',
+          contra: '重篤な腎不全（透析中・末期腎不全）では有効性未確立のため非推奨。尿路性敗血症・重篤な性器感染症時は一時休薬。',
+          targets: '心不全悪化による入院回避、NYHA心機能分類の改善、BNPの安定、適正体重の維持（浮腫なし）。',
+          guidance: '🗣️ 服薬指導：「喉の渇きを感じる前に適度な水分補給（コップ1〜2杯多め）を心がけてください。尿量が増えますが脱水を防ぐためです」「立ちくらみや強い倦怠感が出たときはご連絡ください」'
+        }
+      },
+      {
+        id: 'ckd_proteinuria',
+        cardNum: 16,
+        name: '慢性腎臓病（CKD：蛋白尿・アルブミン尿陽性期）',
+        subType: '🧪 eGFR低下遅延・末期腎不全（透析）移行阻止（腎保護適応）',
+        baseProb: 25,
+        criteria: 'フォシーガ 10mg ＋ ARB（オルメテック/アジルバ）またはACEi併用',
+        reason: '輸入細動脈を収縮させて糸球体過剰濾過・高血圧を是正し、長期的なeGFR低下速度を劇的に抑制します。',
+        keyPoint: '投与初期の初期eGFR低下（Initial Dip：約30%以内なら可逆的で正常反応）、脱水、尿路感染'
+      },
+      {
+        id: 'dm2_obese',
+        cardNum: 13,
+        name: '2型糖尿病（インスリン抵抗性・肥満・脂肪肝型）',
+        subType: '🍬 尿中糖排泄によるカロリーロス・体重減少・脂肪肝改善',
+        baseProb: 25,
+        criteria: 'SGLT2阻害薬 ＋ メトホルミン（メトグルコ）併用',
+        reason: '1日あたり約200〜300kcal（約60〜80g）のブドウ糖を尿中に排泄し、体重減少とインスリン抵抗性是正をもたらします。',
+        keyPoint: '性器感染症（カンジダ等）、頻尿、陰部清潔保持、炭水化物極端制限時のケトアシドーシス'
+      },
+      {
+        id: 'dm2_elderly',
+        cardNum: 13,
+        name: '2型糖尿病（インスリン分泌不全・非肥満・高齢者型）',
+        subType: '👴 脱水・サルコペニア・正常血糖ケトアシドーシス厳重警戒期',
+        baseProb: 15,
+        criteria: 'DPP-4阻害薬やSU薬極少量併用下のSGLT2阻害薬処方',
+        reason: '血糖降下は得られるものの、高齢者では食欲低下・脱水・筋肉量減少（サルコペニア）のリスクが高まります。',
+        keyPoint: 'シックデイ時の必ずの休薬、体重過度減少、脱水による脳梗塞リスク'
+      },
+      {
+        id: 'dm1_adjunct',
+        cardNum: 13,
+        name: '1型糖尿病（インスリン併用下のアドオン療法）',
+        subType: '💉 インスリン頻回注射併用下での血糖日内変動抑制（5mg限定）',
+        baseProb: 5,
+        criteria: 'インスリン頻回投与 ＋ フォシーガ 5mg（10mgへの増量不可・要インスリン継続）',
+        reason: 'インスリン必要量を減らし血糖乱高下を抑制しますが、正常血糖ケトアシドーシス（euDKA）リスクが最も高いため厳重管理が必要です。',
+        keyPoint: 'インスリンの勝手な減量・中断の絶対厳禁、悪心・嘔吐・倦怠感発現時の血中ケトン体測定'
+      }
+    ]
+  },
+
+  // 3. メインテート / アーチスト（β遮断薬）
+  bisoprolol: {
+    aliases: ['メインテート', 'ビソプロロール', 'アーチスト', 'カルベジロール', 'セロケン', 'メトプロロール', 'アルマール', 'アロチノロール', 'テノーミン', 'アテノロール'],
+    name: 'メインテート / β遮断薬',
+    category: 'β受容体遮断薬（交感神経抑制・心筋保護薬）',
+    questions: [
+      {
+        id: 'biso_q1_combo',
+        title: 'Q1. 処方箋情報：以下の併用薬は含まれていますか？（最も当てはまるものを選択）',
+        subtitle: '併用薬から「心不全」「不整脈」「虚血」「高血圧」「振戦」を鑑別します',
+        options: [
+          {
+            id: 'biso_opt_hf',
+            label: 'エンレスト（ARNI） / スピロノラクトン（MRA） / フォシーガ（SGLT2i）',
+            badge: '心不全GDMT',
+            desc: '低用量から慎重漸増。心拍数を抑えて心筋酸素消費量を減らし心不全予後を改善',
+            weights: { hf_bisop: 80, af_rate: 15, ihd_angina: 30, hyper_htn: -30, tremor: -40 }
+          },
+          {
+            id: 'biso_opt_doac',
+            label: 'リクシアナ / エリキュース / イグザレルト（DOAC 抗凝固薬）',
+            badge: '心房細動（Af）併用',
+            desc: '脳梗塞予防の抗凝固薬と、心房細動の心拍数コントロール（レートコントロール）目的',
+            weights: { af_rate: 85, hf_bisop: 25, ihd_angina: 15, hyper_htn: -30, tremor: -40 }
+          },
+          {
+            id: 'biso_opt_angina',
+            label: 'ニトロペン / アイトロール（硝酸薬） または バイアスピリン＋スタチン',
+            badge: '虚血性心疾患（IHD）併用',
+            desc: '労作性狭心症や心筋梗塞後。心筋酸素需要抑制と再発予防',
+            weights: { ihd_angina: 80, hf_bisop: 35, af_rate: 10, hyper_htn: -10, tremor: -35 }
+          },
+          {
+            id: 'biso_opt_htn_mono',
+            label: 'アムロジピン（CCB） または ARB（オルメテック等）との併用',
+            badge: '高血圧併用',
+            desc: '頻脈傾向の高血圧、若年性交感神経過緊張型高血圧',
+            weights: { hyper_htn: 70, ihd_angina: 20, af_rate: 15, tremor: -20 }
+          },
+          {
+            id: 'biso_opt_none',
+            label: '循環器系薬剤の併用はなく、アルマール等の単剤処方',
+            badge: '単剤処方',
+            desc: '手の震え（本態性振戦）または精神的緊張・動悸',
+            weights: { tremor: 75, graves: 40, hyper_htn: 30 }
+          }
+        ]
+      },
+      {
+        id: 'biso_q2_dose',
+        title: 'Q2. 処方箋情報：メインテートの用量はどれですか？',
+        subtitle: '心不全では「微量開始（0.625mg）」、不整脈・高血圧では「2.5〜5mg」が基本です',
+        options: [
+          {
+            id: 'biso_opt_low_start',
+            label: '0.625mg 〜 1.25mg / 日（極微量〜微量）',
+            badge: '心不全導入・漸増初期',
+            desc: '導入初期の一時的な心機能抑制（心不全悪化）を避けるための慎重開始量',
+            weights: { hf_bisop: 75, af_rate: -20, hyper_htn: -40, ihd_angina: 10 }
+          },
+          {
+            id: 'biso_opt_mid_dose',
+            label: '2.5mg 〜 5mg / 日（標準維持量）',
+            badge: '不整脈・狭心症・高血圧維持',
+            desc: '心拍数コントロール（目標60〜70bpm）や降圧のための標準投与量',
+            weights: { af_rate: 55, ihd_angina: 50, hyper_htn: 45, hf_bisop: 35 }
+          },
+          {
+            id: 'biso_opt_high_dose',
+            label: '10mg / 日（心不全最大目標用量 または 難治性頻脈）',
+            badge: '最大用量',
+            desc: 'ガイドライン目標用量（Target Dose）達成、または難治性頻拍',
+            weights: { hf_bisop: 60, af_rate: 45, ihd_angina: 30 }
+          },
+          {
+            id: 'biso_opt_dose_unknown',
+            label: '用量は確認中 / 不明',
+            badge: '不明',
+            desc: '用量情報なしで問診から推論を継続します',
+            weights: {}
+          }
+        ]
+      },
+      {
+        id: 'biso_q3_patient',
+        title: 'Q3. 🗣️【患者への問診・主訴】患者さんの自覚症状や訴えはどれに最も近いですか？',
+        subtitle: '自覚症状の聴取により病態サブタイプを決定付けます',
+        options: [
+          {
+            id: 'biso_opt_sym_arrhythmia',
+            label: '「脈が飛ぶ、胸が突然ドキドキしてリズムがバラバラになる感じがする」',
+            badge: '心房細動・不整脈兆候',
+            desc: '不規則な頻拍発作による動悸・胸部不快感',
+            weights: { af_rate: 85, hf_bisop: 20, ihd_angina: 10, tremor: -40 }
+          },
+          {
+            id: 'biso_opt_sym_angina',
+            label: '「急ぎ足で歩いたり階段を上がると、胸が締め付けられるように痛む」',
+            badge: '労作性狭心症徴候',
+            desc: '心筋虚血に伴う典型的胸痛症状（労作時に出現し安静で軽快）',
+            weights: { ihd_angina: 85, hf_bisop: 30, af_rate: 10, tremor: -40 }
+          },
+          {
+            id: 'biso_opt_sym_tremor',
+            label: '「文字を書くときやコップを持つときに、手や指先が小刻みに震える」',
+            badge: '本態性振戦兆候',
+            desc: 'β2受容体を介した骨格筋紡錘の過剰興奮による動作時振戦',
+            weights: { tremor: 90, hyper_htn: -20, hf_bisop: -40, af_rate: -40 }
+          },
+          {
+            id: 'biso_opt_sym_graves',
+            label: '「暑がりになった、首の前が腫れている、手が震えて安静時でも脈が速い」',
+            badge: 'バセドウ病・甲状腺中毒症',
+            desc: '甲状腺ホルモン過剰による全身のβ受容体感受性亢進と頻拍',
+            weights: { graves: 85, hyper_htn: 30, tremor: 30, hf_bisop: -20 }
+          },
+          {
+            id: 'biso_opt_sym_htn',
+            label: '「健康診断で血圧と脈拍が両方高いと言われた、自覚症状は特にない」',
+            badge: '交感神経性高血圧',
+            desc: '若年・中年層に多い交感神経過緊張による安静時心拍数高値・高血圧',
+            weights: { hyper_htn: 75, hf_bisop: -10, tremor: -20 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'hf_bisop',
+        cardNum: 1,
+        name: '慢性心不全（HFrEF：心拍数管理 ＆ 心筋保護）',
+        subType: '🫀 安静時心拍数60bpm目標 / 突然死予防・生命予後改善（GDMT標準治療）',
+        baseProb: 30,
+        criteria: 'メインテート 0.625mgから開始し、2〜4週ごとに2.5〜5mg（最大10mg）へ漸増',
+        reason: '交感神経過剰刺激による心筋細胞死・線維化・致死性不整脈を遮断し、心筋酸素消費量を抑制して予後を大幅に改善します。',
+        keyPoint: '徐脈（HR < 50bpm）、房室ブロック、導入初期の一時的うっ血悪化（息切れ・体重増）、気管支喘息禁忌',
+        treatment: {
+          pathology: '持続的な交感神経亢進はβ1受容体のダウンレギュレーション、心筋カルシウム過負荷、心筋細胞アポトーシスを招きます。β遮断薬の長期投与によりβ受容体が再発現（アップレギュレーション）し、心室リモデリングが劇的に逆転（リバースリモデリング）します。',
+          rationale: '微量（0.625〜1.25mg）で開始され、エンレストやMRAと併用されている場合は典型的な心不全導入プロトコルです。',
+          firstLine: 'メインテート 1回0.625mg 1日1回から開始。血圧・心拍数・うっ血徴候を確認しながら2〜4週間隔で漸増し、忍容性のある最大目標用量（5〜10mg/日）を目指す。',
+          combination: 'エンレスト ＋ スピロノラクトン ＋ SGLT2阻害薬（Fantastic 4）。頻脈が残存（HR ≥ 75）ならコララン（イバブラジン）併用。',
+          contra: '【絶対禁忌】：気管支喘息・高度徐脈（HR < 50）・第II度以上の房室ブロック・心原性ショック・非代償性急性心不全うっ血期。',
+          targets: '安静時心拍数：55〜65 bpm（β遮断薬の効果指標）、NYHA心機能の改善、BNPの低下。',
+          guidance: '🗣️ 服薬指導：「飲み始めの1〜2週間は少しだるさや息切れを感じることがありますが、心臓を休ませて長生きするための薬です。絶対に自己判断で中断しないでください（急に止めると危険なリバウンド頻拍を招きます）」「脈拍を朝測って50回未満の時はご相談ください」'
+        }
+      },
+      {
+        id: 'af_rate',
+        cardNum: 2,
+        name: '心房細動（Af：レートコントロール）',
+        subType: '💓 房室伝導抑制による頻脈改善 ＆ 心筋症予防（DOAC併用）',
+        baseProb: 25,
+        criteria: 'ビソプロロール 2.5〜5mg ＋ DOAC（リクシアナ/エリキュース等）併用',
+        reason: '心房細動時の急速な心室応答を房室結節の不応期延長により抑制し、頻脈誘発性心筋症を防ぐ標準治療です。',
+        keyPoint: '脈拍数（安静時 < 80〜110bpm目標）、過度な徐脈、抗凝固薬の確実な連日服用確認'
+      },
+      {
+        id: 'ihd_angina',
+        cardNum: 4,
+        name: '虚血性心疾患（労作性狭心症 ＆ 心筋梗塞後）',
+        subType: '🩸 心筋酸素需要抑制 ＆ 梗塞後突然死予防（二次予防の要）',
+        baseProb: 20,
+        criteria: 'メインテート 2.5〜5mg ＋ アスピリン ＋ スタチン（＋硝酸薬）',
+        reason: '運動負荷時の心拍数および血圧上昇を抑え、冠血流需要バランスを改善して狭心発作を未然に防ぎます。',
+        keyPoint: '早朝・労作時の胸部圧迫感の頻度、発作時のニトロペン使用手順確認'
+      },
+      {
+        id: 'hyper_htn',
+        cardNum: 3,
+        name: '交感神経過緊張型高血圧（若年・頻脈性高血圧）',
+        subType: '⚡ 精神的緊張・早朝頻脈を伴う高心拍出性高血圧',
+        baseProb: 15,
+        criteria: 'メインテート 2.5〜5mg または アーチスト 10〜20mg（ARB併用）',
+        reason: '交感神経亢進による安静時頻脈（HR > 80）と心拍出量増加を是正し、血管床を保護します。',
+        keyPoint: '若年層のアドヒアランス維持、急な服薬中断によるリバウンド高血圧'
+      },
+      {
+        id: 'tremor',
+        cardNum: 25,
+        name: '本態性振戦（手の震え）',
+        subType: '🤝 動作時・姿勢時振戦に対するβ2遮断による筋紡錘興奮抑制',
+        baseProb: 5,
+        criteria: 'アロチノロール（アルマール） 10〜20mg/日 分2',
+        reason: '骨格筋の末梢性β2受容体を遮断し、手指の小刻みな震えを対症的に著明軽快させます。',
+        keyPoint: 'コップの持ちやすさ・文字の書きやすさの評価、徐脈・立ちくらみ'
+      },
+      {
+        id: 'graves',
+        cardNum: 21,
+        name: '甲状腺機能亢進症（バセドウ病・甲状腺中毒症）',
+        subType: '🦋 β受容体感受性過剰亢進に伴う頻脈・動悸・振戦の急性期対症療法',
+        baseProb: 5,
+        criteria: 'プロプラノロール（インデラル）またはメインテート ＋ 抗甲状腺薬（メルカゾール）',
+        reason: '甲状腺ホルモン過剰による強烈な交感神経刺激症状（頻脈・動悸・発汗・手の震え）を速やかに鎮静化します。',
+        keyPoint: '甲状腺機能正常化に伴う漸減・中止計画、無顆粒球症（発熱・咽頭痛）の初期警戒'
+      }
+    ]
+  },
+
+  // 4. プレドニン / リンデロン（副腎皮質ステロイド）
+  prednisolone: {
+    aliases: ['プレドニン', 'プレドニゾロン', 'メドロール', 'メチルプレドニゾロン', 'リンデロン', 'ベタメタゾン', 'デカドロン', 'デキサメタゾン', 'ステロイド'],
+    name: 'プレドニン / 副腎皮質ステロイド',
+    category: '全身性副腎皮質ステロイド（強力な抗炎症・免疫抑制薬）',
+    questions: [
+      {
+        id: 'pred_q1_dose',
+        title: 'Q1. 処方箋情報：プレドニゾロン（プレドニン）の投与量はどれですか？',
+        subtitle: 'ステロイドは「投与量」によって対象疾患と臨床フェーズ（寛解導入 vs 維持）が決定的に異なります',
+        options: [
+          {
+            id: 'pred_opt_low_dose',
+            label: '1mg 〜 5mg / 日（極低用量〜低用量：生理的分泌量と同等）',
+            badge: '維持療法・ブリッジング',
+            desc: '関節リウマチ活動期ブリッジング、リウマチ性多発筋痛症維持、自己免疫維持期',
+            weights: { ra_active: 75, pmr: 70, sle_lupus: 20, ipf_cadm: -30, mg_crisis: 15, nephrotic_mcns: -40, asthma_severe: -20 }
+          },
+          {
+            id: 'pred_opt_mid_dose',
+            label: '10mg 〜 20mg / 日（中用量）',
+            badge: '中等度疾患・減量中',
+            desc: 'SLE活動期維持、間質性肺炎安定期、重症筋無力症初期増量期、EGPA維持',
+            weights: { sle_lupus: 60, mg_crisis: 55, egpa_vasculitis: 50, ra_active: 30, ipf_cadm: 35 }
+          },
+          {
+            id: 'pred_opt_high_dose',
+            label: '30mg 〜 60mg / 日（高用量：0.5〜1.0mg/kg/日）またはパルス後',
+            badge: '重症急性期・寛解導入',
+            desc: 'ループス腎炎、急速進行性間質性肺炎（CADM）、ネフローゼ症候群、EGPA急性期',
+            weights: { nephrotic_mcns: 80, sle_lupus: 70, ipf_cadm: 65, egpa_vasculitis: 60, asthma_severe: 40, ra_active: -40 }
+          },
+          {
+            id: 'pred_opt_short_burst',
+            label: '短期集中投与（例：20〜30mgを5〜7日間のみ内服して終了）',
+            badge: '急性増悪レスキュー',
+            desc: '気管支喘息急性増悪、COPD増悪に対する短期間バースト療法',
+            weights: { asthma_severe: 85, ra_active: -30, sle_lupus: -40, nephrotic_mcns: -30 }
+          }
+        ]
+      },
+      {
+        id: 'pred_q2_combo',
+        title: 'Q2. 処方箋情報：以下の特徴的な併用薬は含まれていますか？（最も当てはまるものを選択）',
+        subtitle: '免疫抑制薬や予防薬の組み合わせから正確な原疾患を特定します',
+        options: [
+          {
+            id: 'pred_opt_mtx',
+            label: 'リウマトレックス（MTX 週1回投与） または ケアラム/アザルフィジン',
+            badge: '関節リウマチ（RA）併用',
+            desc: 'MTXの効果発現（約4〜8週）までの炎症鎮静・疼痛軽減ブリッジング',
+            weights: { ra_active: 90, sle_lupus: -20, nephrotic_mcns: -40, mg_crisis: -30 }
+          },
+          {
+            id: 'pred_opt_lupus_combo',
+            label: 'プラケニル（ヒドロキシクロロキン） または セルセプト / プログラフ',
+            badge: 'SLE・ループス腎炎併用',
+            desc: '活動性SLEの臓器病変抑制およびステロイド減量目的',
+            weights: { sle_lupus: 90, nephrotic_mcns: 30, ra_active: -30, asthma_severe: -40 }
+          },
+          {
+            id: 'pred_opt_mestinon',
+            label: 'メスチノン（臭化ピリドスチグミン コリンエステラーゼ阻害薬）',
+            badge: '重症筋無力症（MG）併用',
+            desc: '神経筋接合部の伝達改善と筋力改善の対症療法併用',
+            weights: { mg_crisis: 95, ra_active: -40, sle_lupus: -30, asthma_severe: -40 }
+          },
+          {
+            id: 'pred_opt_antifibrotic',
+            label: 'オフェブ（ニンテダニブ） または ピレスパ（ピルフェニドン）',
+            badge: '特発性間質性肺炎併用',
+            desc: '抗線維化薬併用による肺機能低下遅延と線維化抑制',
+            weights: { ipf_cadm: 90, ra_active: -30, nephrotic_mcns: -40 }
+          },
+          {
+            id: 'pred_opt_bactram_pcp',
+            label: 'ダイフェン/バクタ（PCP予防） ＋ タケキャブ ＋ ボナロン/フォサマック',
+            badge: '高用量ステロイド副作用予防セット',
+            desc: '中〜高用量ステロイド長期投与に伴うPCP・潰瘍・骨粗鬆症の3大予防セット',
+            weights: { sle_lupus: 45, nephrotic_mcns: 45, ipf_cadm: 45, egpa_vasculitis: 45 }
+          },
+          {
+            id: 'pred_opt_inhaler',
+            label: 'レルベア / シムビコート / エナジア（吸入ステロイド配合剤）',
+            badge: '重症喘息併用',
+            desc: '気道局所の抗炎症吸入と経口ステロイドの併用',
+            weights: { asthma_severe: 80, egpa_vasculitis: 40, ra_active: -30 }
+          }
+        ]
+      },
+      {
+        id: 'pred_q3_patient',
+        title: 'Q3. 🗣️【患者への問診・主訴】患者さんの自覚症状や主訴はどれに最も近いですか？',
+        subtitle: '臨床症状の聞き取りから真の病態サブタイプを特定します',
+        options: [
+          {
+            id: 'pred_opt_sym_stiffness',
+            label: '「朝起きると両方の手や指がこわばって動かしにくい、関節が痛んで腫れている」',
+            badge: '関節リウマチ兆候',
+            desc: '多発性対称性滑膜炎による朝のこわばり（30分以上持続）と手指関節痛',
+            weights: { ra_active: 85, pmr: 40, sle_lupus: 20, mg_crisis: -30 }
+          },
+          {
+            id: 'pred_opt_sym_rash_fever',
+            label: '「顔の頬に赤い発疹（蝶形紅斑）が出る、日光に当たると熱が出る、口内炎ができる」',
+            badge: '全身性エリテマトーデス（SLE）兆候',
+            desc: '免疫複合体沈着と全身性自己抗体による皮膚粘膜・多臓器症状',
+            weights: { sle_lupus: 90, ra_active: -20, nephrotic_mcns: 20 }
+          },
+          {
+            id: 'pred_opt_sym_mg',
+            label: '「夕方になるとまぶたが下がって重くなる、物が二重に見える、噛むと疲れる」',
+            badge: '重症筋無力症（MG）兆候',
+            desc: '眼瞼下垂・複視・球麻痺（日内変動：朝軽快・夕方悪化、休息で回復）',
+            weights: { mg_crisis: 95, sle_lupus: -30, ra_active: -40 }
+          },
+          {
+            id: 'pred_opt_sym_cough_dyspnea',
+            label: '「乾いたコンコンという空咳がずっと続く、少し動くとすぐに息が切れる」',
+            badge: '間質性肺炎兆候',
+            desc: '肺間質の線維化とガス交換障害（労作時SpO2低下、乾性咳嗽）',
+            weights: { ipf_cadm: 90, asthma_severe: 15, ra_active: 10 }
+          },
+          {
+            id: 'pred_opt_sym_edema_severe',
+            label: '「足全体やすねが指で押すと戻らないほどパンパンにむくみ、体重が急増した」',
+            badge: '高度ネフローゼ症候群兆候',
+            desc: '大量蛋白尿（>3.5g/日）と低アルブミン血症による著明な全身浮腫',
+            weights: { nephrotic_mcns: 90, sle_lupus: 30, ra_active: -30 }
+          },
+          {
+            id: 'pred_opt_sym_numbness_wheeze',
+            label: '「喘息のようなゼーゼーした咳に加え、手や足先がしびれて感覚がない」',
+            badge: '好酸球性多発血管炎性肉芽腫症（EGPA）兆候',
+            desc: '好酸球増多、重症喘息、多発単神経炎（末梢神経障害）の合併',
+            weights: { egpa_vasculitis: 90, asthma_severe: 40, ra_active: -20 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'ra_active',
+        cardNum: 7,
+        name: '関節リウマチ（RA：活動期 ＆ ブリッジング期）',
+        subType: '🦴 MTX導入初期の炎症鎮静 ＆ 骨破壊阻止（プレドニン5mg以下短期間）',
+        baseProb: 25,
+        criteria: 'プレドニゾロン 2.5〜5mg/日 ＋ リウマトレックス（MTX 週1回投与）',
+        reason: 'アンカードラッグであるMTXが効果を発現するまでの1〜2ヶ月間の疼痛・滑膜炎を鎮静化するブリッジング療法です。',
+        keyPoint: '骨粗鬆症予防（ビタミンD/ビスホスホネート）、長期漫然投与の回避（MTX増量に伴い漸減中止）',
+        treatment: {
+          pathology: '滑膜の慢性炎症と破骨細胞活性化により軟骨・骨組織が不可逆的に破壊される自己免疫疾患。活動期にはTNF-α、IL-6などの炎症性サイトカインが過剰産生されます。',
+          rationale: 'MTX導入期に微量ステロイド（5mg以下）を併用し、関節痛とCRP・MMP-3を速やかにコントロールする標準プロトコルです。',
+          firstLine: 'メトトレキサート（リウマトレックス 週6〜8mgから開始し忍容性に応じ16mgまで増量）＋ プレドニン 2.5〜5mg/日（最大でも7.5mg以下）。',
+          combination: 'MTX効果不十分時は生物学的製剤（TNF阻害薬、IL-6阻害薬アクテムラ）またはJAK阻害薬を上乗せ。',
+          contra: '活動性感染症、重篤な肝障害・腎障害（MTX禁忌）、間質性肺炎急性期。',
+          targets: '臨床的寛解（DAS28 < 2.6 または CDAI ≤ 2.8）、CRP陰性化、関節変形進行ゼロ。',
+          guidance: '🗣️ 服薬指導：「MTXは週に決められた曜日だけ飲む特別な薬です。ステロイドは毎日同じ時間に飲んでください」「咳や微熱、口内炎が出たときはすぐに医療機関へご連絡ください」'
+        }
+      },
+      {
+        id: 'sle_lupus',
+        cardNum: 8,
+        name: '全身性エリテマトーデス（SLE：ループス腎炎 ＆ 活動期）',
+        subType: '🧪 多臓器病変・ループス腎炎活動期に対する強力な寛解導入・維持療法',
+        baseProb: 20,
+        criteria: 'プレドニン 0.5〜1mg/kg/日（またはステロイドパルス）＋ プラケニル ＋ セルセプト',
+        reason: '抗ds-DNA抗体や免疫複合体による糸球体障害・血管炎を強力に抑制し、不可逆的腎機能障害を阻止します。',
+        keyPoint: '日和見感染症（PCP予防：バクタ服用確認）、眼科定期受診（プラケニル網膜障害）、大腿骨頭壊死'
+      },
+      {
+        id: 'ipf_cadm',
+        cardNum: 11,
+        name: '間質性肺炎（特発性間質性肺炎 IPF / 抗MDA5抗体CADM）',
+        subType: '🫁 肺胞隔壁の線維化進行 ＆ 急速進行性急性増悪予防',
+        baseProb: 15,
+        criteria: 'プレドニン中〜高用量 ＋ オフェブ/ピレスパ（抗線維化薬）または免疫抑制薬併用',
+        reason: '過剰な免疫炎症カスケードを遮断し、肺線維化の急性進行と不可逆的呼吸不全を防止します。',
+        keyPoint: 'パルスオキシメーターでの労作時SpO2測定、空咳・発熱時の急性増悪警戒、感染予防'
+      },
+      {
+        id: 'mg_crisis',
+        cardNum: 26,
+        name: '重症筋無力症（MG：全身型 ＆ 眼筋型）',
+        subType: '👁️ 抗AChR抗体による神経筋接合部障害（複視・眼瞼下垂・易疲労性改善）',
+        baseProb: 15,
+        criteria: 'プレドニン少量漸増 ＋ メスチノン（コリンエステラーゼ阻害薬）＋ タクロリムス',
+        reason: '急激な高用量ステロイド導入による「初期増悪（early exacerbation）」を防ぐため少量から慎重漸増します。',
+        keyPoint: '導入初期の一時的な筋力低下・呼吸困難（初期増悪警戒）、コリン作動性クリーゼ鑑別'
+      },
+      {
+        id: 'nephrotic_mcns',
+        cardNum: 16,
+        name: '一次性ネフローゼ症候群（微小変化型ネフローゼ MCNS）',
+        subType: '💧 ポドサイト障害による大量蛋白尿に対するステロイド感受性寛解導入',
+        baseProb: 10,
+        criteria: 'プレドニン 0.8〜1.0mg/kg/日（40〜60mg/日）単独または免疫抑制薬併用',
+        reason: '微小変化型はステロイド反応性が極めて良好であり、約2〜4週間で完全寛解（尿蛋白陰性化）が得られます。',
+        keyPoint: '尿蛋白試験紙での自己測定、急激な利尿期における電解質異常・脱水、ステロイド減量時再発'
+      },
+      {
+        id: 'asthma_severe',
+        cardNum: 9,
+        name: '気管支喘息急性増悪（重症喘息発作レスキュー）',
+        subType: '🫁 気道炎症急性増悪に対する経口ステロイド短期間バースト療法',
+        baseProb: 10,
+        criteria: 'プレドニン 20〜30mg/日を5〜7日間のみ内服（漸減せずそのままスパッと終了）',
+        reason: '高用量吸入ステロイド（ICS）でも抑えきれない急性増悪時の好酸球性気道炎症を急速に沈静化します。',
+        keyPoint: '漫然と内服を継続しないこと（5〜7日でスパッと切る）、ICS/LABA吸入の継続指導'
+      },
+      {
+        id: 'egpa_vasculitis',
+        cardNum: 8,
+        name: '好酸球性多発血管炎性肉芽腫症（EGPA / チャーグ・ストラウス）',
+        subType: '⚡ 好酸球増多 ＆ 先行喘息 ＆ 多発単神経炎（しびれ）を伴う全身性壊死性血管炎',
+        baseProb: 5,
+        criteria: '高用量プレドニン（40〜60mg/日）＋ ヌーカラ（メポリズマブ 抗IL-5抗体）併用',
+        reason: '好酸球による血管壁浸潤・虚血性末梢神経障害を食い止め、下垂足・手指運動麻痺の不可逆的固定を防ぎます。',
+        keyPoint: '末梢血好酸球数（正常化の確認）、手足のしびれ・筋力低下の回復度評価'
+      }
+    ]
+  },
+
+
+
+  // 5. ボノプラザン（タケキャブ / P-CAB）
+  vonoprazan: {
+    aliases: ['タケキャブ', 'ボノプラザン', 'ネキシウム', 'エソメプラゾール', 'パリエット', 'ラベプラゾール', 'タケプロン', 'オメプラール', 'ppi', 'pcab'],
+    name: 'タケキャブ / P-CAB ＆ PPI',
+    category: '酸分泌抑制薬（カリウムイオン競合型アシッドブロッカー）',
+    questions: [
+      {
+        id: 'vono_q1_dose',
+        title: 'Q1. 処方箋情報：タケキャブの投与量はどれですか？',
+        subtitle: '10mgと20mgで「維持・予防」か「急性期治癒」かが一目で判別できます',
+        options: [
+          {
+            id: 'vono_opt_10mg',
+            label: '10mg / 日（低用量・維持用量）',
+            badge: '維持療法・出血予防',
+            desc: 'GERD維持療法、抗血栓薬（アスピリン/DOAC）やNSAIDs服用時の潰瘍再発予防',
+            weights: { lda_ulcer_prev: 65, nsaids_ulcer_prev: 60, gerd_severe: 25, pud_acute: -35, hp_eradic: -40 }
+          },
+          {
+            id: 'vono_opt_20mg',
+            label: '20mg / 日（高用量・初期治療用量）',
+            badge: '急性期治癒・重症GERD',
+            desc: '重症逆流性食道炎（Grade C/D）、胃・十二指腸潰瘍の初期治癒、ピロリ除菌',
+            weights: { gerd_severe: 75, pud_acute: 70, hp_eradic: 50, lda_ulcer_prev: -20, nsaids_ulcer_prev: -20 }
+          },
+          {
+            id: 'vono_opt_dose_unknown',
+            label: '用量は確認中 / 不明',
+            badge: '不明',
+            desc: '用量情報なしで併用薬から推論を継続します',
+            weights: {}
+          }
+        ]
+      },
+      {
+        id: 'vono_q2_combo',
+        title: 'Q2. 処方箋情報：以下の特徴的な併用薬は含まれていますか？（最も当てはまるものを選択）',
+        subtitle: '併用薬から投与目的（心血管薬の出血予防、鎮痛薬の胃荒れ予防、ピロリ除菌）を特定します',
+        options: [
+          {
+            id: 'vono_opt_lda_doac',
+            label: 'バイアスピリン / クロピドグレル / プラビックス / リクシアナ（抗血栓薬）',
+            badge: '抗血栓薬服用潰瘍予防',
+            desc: '冠動脈ステント後DAPTや脳梗塞・心房細動治療に伴う上部消化管出血ハイリスク管理',
+            weights: { lda_ulcer_prev: 90, nsaids_ulcer_prev: -20, gerd_severe: -20, pud_acute: 10 }
+          },
+          {
+            id: 'vono_opt_nsaids',
+            label: 'ロキソニン / セレコックス / ボルタレン（解熱鎮痛消炎薬 NSAIDs）',
+            badge: 'NSAIDs潰瘍予防',
+            desc: '変形性関節症や関節リウマチ等の長期NSAIDs服用に伴う胃粘膜病変予防',
+            weights: { nsaids_ulcer_prev: 90, lda_ulcer_prev: -20, gerd_severe: -20, pud_acute: 10 }
+          },
+          {
+            id: 'vono_opt_hp_pack',
+            label: 'サワシリン（アモキシシリン） ＋ クラリス（クラリスロマイシン）またはボノサップ',
+            badge: 'ヘリコバクター・ピロリ除菌',
+            desc: '酸を強力抑制して抗生剤の殺菌力を最大化する7日間の除菌パック',
+            weights: { hp_eradic: 95, gerd_severe: -40, pud_acute: -30, lda_ulcer_prev: -40 }
+          },
+          {
+            id: 'vono_opt_gi_only',
+            label: '上記の併用はなく、消化器症状のみまたは単剤処方',
+            badge: '消化器疾患単独',
+            desc: '逆流性食道炎（GERD）または胃・十二指腸潰瘍そのものの治療',
+            weights: { gerd_severe: 60, pud_acute: 55, lda_ulcer_prev: -30, nsaids_ulcer_prev: -30 }
+          }
+        ]
+      },
+      {
+        id: 'vono_q3_patient',
+        title: 'Q3. 🗣️【患者への問診・主訴】患者さんの自覚症状や訴えはどれに最も近いですか？',
+        subtitle: '症状の有無（自覚症状ゼロの予防投与 vs 激しい胸やけ・胃痛）を確認します',
+        options: [
+          {
+            id: 'vono_opt_sym_heartburn',
+            label: '「胸の真ん中が焼けるように熱い、酸っぱい液体が口まで上がってくる（呑酸）」',
+            badge: '逆流性食道炎（GERD）徴候',
+            desc: '胃酸の食道逆流に伴う胸やけ・胸部圧迫感・食道粘膜傷害',
+            weights: { gerd_severe: 85, pud_acute: 15, lda_ulcer_prev: -30, nsaids_ulcer_prev: -30 }
+          },
+          {
+            id: 'vono_opt_sym_epigastric',
+            label: '「空腹時や夜間にみぞおちがキューッと差し込むように痛む、食後に胃が痛む」',
+            badge: '消化性潰瘍徴候',
+            desc: '胃・十二指腸の活動性潰瘍による心窩部痛（十二指腸潰瘍は空腹時痛が典型的）',
+            weights: { pud_acute: 85, gerd_severe: 20, lda_ulcer_prev: 10 }
+          },
+          {
+            id: 'vono_opt_sym_no_symptom',
+            label: '「胃の症状は全くないが、強い血圧・心臓・痛み止め薬と一緒に出しておくと言われた」',
+            badge: '無症候性・予防投与',
+            desc: '抗血栓薬やNSAIDsによる無症候性消化管出血・潰瘍の一次・二次予防',
+            weights: { lda_ulcer_prev: 80, nsaids_ulcer_prev: 80, gerd_severe: -40, pud_acute: -40 }
           }
         ]
       }
@@ -6072,138 +6413,206 @@ const CLINICAL_WIZARD_DATA = {
     diseases: [
       {
         id: 'gerd_severe',
-        cardNum: 11,
-        name: '逆流性食道炎（急性期・重症）',
-        subType: '🔥 びらん性GERD（LA分類 Grade C/D）：強力即効胃酸分泌遮断',
-        baseProb: 35,
-        criteria: 'タケキャブ20mg 1日1回 4〜8週間',
-        reason: '酸による活性化が不要で服用初日から胃内pH>4を長時間維持し、重度びらんを治癒。',
-        keyPoint: '胸やけ・呑酸症状の消失度、治療期間（8週超で10mg減量検討）、下痢・皮疹'
-      },
-      {
-        id: 'lda_prevent',
-        cardNum: 11,
-        name: '低用量アスピリン / NSAIDs潰瘍予防',
-        subType: '🛡️ 抗血小板薬・NSAIDs長期服用に伴う消化性潰瘍の再発予防',
+        cardNum: 17,
+        name: '逆流性食道炎（GERD：Grade C/D 重症 ＆ びらん性食道炎）',
+        subType: '🍽️ 強力かつ持続的なpH上昇による食道粘膜治癒 ＆ 再発防止',
         baseProb: 30,
-        criteria: 'タケキャブ10mg 1日1回 ＋ バイアスピリン/NSAIDs',
-        reason: '胃粘膜プロスタグランジン枯渇下でも強力に酸を抑え黒色便・大出血を完全に防止。',
-        keyPoint: '黒色便（タール便）、胃部痛、貧血（立ちくらみ・めまい）'
+        criteria: 'タケキャブ 20mg 1日1回 4週間投与（改善後は10mg維持療法へ移行）',
+        reason: 'タケキャブは初回投与から強力に酸分泌を止め、夜間の酸逆流（Nocturnal Acid Breakthrough）を克服します。',
+        keyPoint: '治癒後の10mg維持療法への切り替え確認（漫然20mg継続の回避）、長期服用時の低Mg・骨折リスク',
+        treatment: {
+          pathology: '下部食道括約筋（LES）の弛緩や食道裂孔ヘルニアにより、強酸性の胃内容物が食道粘膜に逆流して重篤なびらん・潰瘍（Los Angeles分類 Grade C/D）を形成。バレット食道や食道腺癌のリスク因子となります。',
+          rationale: 'P-CABはPPIと異なり酸による活性化が不要で、初回服用からほぼ完全に胃酸を遮断できるため、難治性・重症GERDの第一選択薬です。',
+          firstLine: 'ボノプラザン（タケキャブ） 1回20mg 1日1回 4〜8週間投与。粘膜治癒後は10mg 1日1回で維持。',
+          combination: '夜間逆流・消化管運動低下がある場合は六君子湯（TJ-43）やガスモチン（モサプリド）を併用。',
+          contra: 'アタザナビル（レイアタッツ）、リルピビリン（エジュラント）投与中の患者（胃酸低下により抗ウイルス薬の血中濃度低下のため絶対禁忌）。',
+          targets: '自覚症状（胸やけ・呑酸）の完全消失、内視鏡検査での食道びらんの治癒（Grade 0）。',
+          guidance: '🗣️ 服薬指導：「食後すぐに横にならないよう注意し、就寝時は頭側を少し高く（10〜15cm）保つと逆流を防げます」「脂っこい食事や柑橘類、カフェインの過剰摂取は控えましょう」'
+        }
       },
       {
-        id: 'gerd_maint',
-        cardNum: 11,
-        name: '逆流性食道炎（維持療法・NERD）',
-        subType: '🍽️ びらん治癒後の再発防止 ＆ 非びらん性胃食道逆流症（NERD）',
+        id: 'lda_ulcer_prev',
+        cardNum: 17,
+        name: '抗血栓薬服用時における消化管潰瘍・出血予防',
+        subType: '🩸 抗血小板薬（バイアスピリン）やDOAC服用中の致死的消化管出血阻止',
         baseProb: 25,
-        criteria: 'タケキャブ10mg 1日1回 長期処方',
-        reason: '中止すると高率に再発する食道粘膜障害を低用量で安全に長期寛解維持。',
-        keyPoint: '長期服用時の低Mg血症、骨折リスク、ビタミンB12吸収低下'
+        criteria: 'タケキャブ 10mg 1日1回（またはネキシウム 10〜20mg）連日継続投与',
+        reason: '抗血栓薬服用患者における消化性潰瘍既往や高齢者での致死的吐下血リスクを有意に低下させます。',
+        keyPoint: '出血既往の有無、黒色便（タール便）・立ちくらみの定期確認、抗血栓薬の中止時における本剤終了検討'
       },
       {
-        id: 'hp',
-        cardNum: 11,
-        name: 'ヘリコバクター・ピロリ感染症',
-        subType: '🦠 ヘリコバクター・ピロリ除菌療法（胃潰瘍・萎縮性胃炎）',
+        id: 'nsaids_ulcer_prev',
+        cardNum: 17,
+        name: 'NSAIDs長期投与時における胃潰瘍・十二指腸潰瘍予防',
+        subType: '🦴 関節痛・慢性疼痛治療に伴うNSAIDs潰瘍の確実なブロック',
+        baseProb: 20,
+        criteria: 'タケキャブ 10mg 1日1回 ＋ NSAIDs（ロキソニン/セレコックス等）併用',
+        reason: 'プロスタグランジン合成阻害による胃粘膜血流低下および局所刺激による潰瘍発生を酸抑制で防御します。',
+        keyPoint: 'NSAIDsが頓用になった際の漫然投与の見直し、心窩部痛の有無'
+      },
+      {
+        id: 'pud_acute',
+        cardNum: 17,
+        name: '胃潰瘍 ＆ 十二指腸潰瘍活動期（PUD急性期）',
+        subType: '🍽️ 急速なpH上昇による局所止血 ＆ 潰瘍組織の完全治癒（期間限定投与）',
+        baseProb: 15,
+        criteria: 'タケキャブ 20mg 1日1回（胃潰瘍は最大8週間、十二指腸潰瘍は最大6週間限定）',
+        reason: '胃内pHを迅速に6以上に保つことでペプシン活性を失活させ、血小板凝集を促進して止血と組織修復を加速します。',
+        keyPoint: '保険適応期間の厳守（胃潰瘍8週、十二指腸潰瘍6週）、改善後の治癒確認とピロリ菌検査'
+      },
+      {
+        id: 'hp_eradic',
+        cardNum: 17,
+        name: 'ヘリコバクター・ピロリ除菌療法',
+        subType: '🦠 ボノサップパック等による7日間の強力酸遮断 ＆ 抗菌薬シナジー療法',
         baseProb: 10,
-        criteria: 'ボノサップパック（またはタケキャブ20mg分2＋抗菌薬2種） 7日間',
-        reason: 'アモキシシリン・クラリスロマイシンの抗菌力を最大化する胃内pH上昇を達成。',
-        keyPoint: '7日間の確実な服薬完遂（耐性菌防止）、味覚異常、下痢・軟便'
+        criteria: 'タケキャブ 20mg ＋ アモキシシリン 750mg ＋ クラリスロマイシン 200〜400mg 1日2回 7日間',
+        reason: '強力な酸抑制によりクラリスロマイシンの酸分解を防ぎ、アモキシシリンのMIC（最小発育阻止濃度）を改善し除菌成功率を飛躍させます。',
+        keyPoint: '7日間の確実な完全服薬完遂（飲み忘れによる耐性化防止）、軟便・下痢・味覚異常の事前説明'
       }
     ]
   },
 
-  // 6. アムロジピン
+  // 6. アムロジピン / シルニジピン（カルシウム拮抗薬 CCB）
   amlodipine: {
-    aliases: ['アムロジピン', 'ノルバスク', 'amlodipine'],
-    name: 'アムロジピン（ノルバスク）',
-    category: 'ジヒドロピリジン系Ca拮抗薬（L型）',
+    aliases: ['アムロジピン', 'ノルバスク', 'アムロジン', 'シルニジピン', 'アテレック', 'ニフェジピン', 'アダラート', 'アジルバ配合', 'ccb'],
+    name: 'アムロジピン / シルニジピン（CCB）',
+    category: 'ジヒドロピリジン系カルシウム拮抗薬（強力な末梢血管拡張薬）',
     questions: [
       {
-        id: 'q1_combo',
-        title: 'Q1. 処方箋情報：以下の併用薬は含まれていますか？',
+        id: 'ccb_q1_type',
+        title: 'Q1. 処方箋情報：処方されているカルシウム拮抗薬の種類と特徴はどれですか？',
+        subtitle: 'アムロジピン（L型特異的）か、シルニジピン（L/N型デュアル遮断）かで臨床的狙いが異なります',
         options: [
           {
-            id: 'arb_combo',
-            label: 'アジルバ / ミカルディス / オルメテック（ARB降圧薬併用）',
-            badge: '標準的2剤併用',
-            desc: '相乗降圧効果と、CCBの下肢浮腫副作用をARBが軽減',
-            weights: { htn: 65, cad: 15, stroke: 10 }
+            id: 'ccb_opt_amlo',
+            label: 'アムロジピン（ノルバスク/アムロジン） 2.5mg 〜 10mg / 日',
+            badge: '標準L型CCB',
+            desc: '長時間作用型。エビデンス豊富な降圧標準薬、脳卒中予防・血管拡張作用',
+            weights: { htn_elderly: 75, vasospastic_angina: 65, ckd_cilnidipine: -30, tachy_htn: 20 }
           },
           {
-            id: 'cad_statin',
-            label: 'バイアスピリン / クロピドグレル ＋ 強力スタチン（冠動脈疾患既往）',
-            badge: '冠攣縮予防 ＆ 虚血性心疾患',
-            desc: '冠動脈拡張作用による労作・安静時狭心発作予防',
-            weights: { cad: 65, htn: 20, stroke: 10 }
+            id: 'ccb_opt_cilni',
+            label: 'シルニジピン（アテレック） 5mg 〜 20mg / 日',
+            badge: 'L/N型デュアルCCB',
+            desc: '交感神経終末のN型チャネルも遮断。反射性頻脈を起こさず、腎糸球体内圧を低下',
+            weights: { ckd_cilnidipine: 90, tachy_htn: 75, htn_elderly: 40, vasospastic_angina: 30 }
           },
           {
-            id: 'stroke_combo',
-            label: 'プラビックス（クロピドグレル） または シロスタゾール（脳梗塞再発予防）',
-            badge: '脳血管障害再発予防',
-            desc: '脳卒中ガイドラインで推奨されるCCBによる血圧日内変動抑制',
-            weights: { stroke: 60, htn: 25, cad: 10 }
+            id: 'ccb_opt_nife_cr',
+            label: 'ニフェジピンCR（アダラートCR） 20mg 〜 40mg / 日',
+            badge: '強力血管拡張CCB',
+            desc: '強力な降圧・冠動脈拡張作用。重度高血圧や冠攣縮性狭心症に汎用',
+            weights: { vasospastic_angina: 80, htn_elderly: 60, ckd_cilnidipine: -20 }
           }
         ]
       },
       {
-        id: 'q2_patient',
-        title: 'Q2. 🗣️【患者への問診・確認】薬だけでは特定できない場合の症状確認（当てはまる自覚症状・主訴を選択）',
+        id: 'ccb_q2_combo',
+        title: 'Q2. 処方箋情報：以下の併用薬は含まれていますか？（最も当てはまるものを選択）',
+        subtitle: '併用薬から「狭心症」「本態性高血圧」「腎症合併」を特定します',
         options: [
           {
-            id: 'sym_amlo_spasm',
-            label: '「夜中や明け方に胸がギューッと苦しくなって目が覚めることがある」',
-            badge: '冠攣縮性狭心症疑い',
-            desc: '早朝の冠動脈攣縮（スパスム）による胸痛発作',
-            weights: { cad: 75, htn: 10, stroke: -10 }
+            id: 'ccb_opt_nitrate',
+            label: 'ニトロペン舌下錠 / フランドルテープ / アイトロール（硝酸薬）',
+            badge: '狭心症併用',
+            desc: '冠血管拡張薬併用。冠動脈攣縮（スパズム）の予防および発作頓服',
+            weights: { vasospastic_angina: 90, htn_elderly: -20, ckd_cilnidipine: -20 }
           },
           {
-            id: 'sym_amlo_htn',
-            label: '「胸の苦しさや症状はなく、健康診断や家庭血圧が高い」',
-            badge: '本態性高血圧',
-            desc: '自覚症状に乏しい末梢血管抵抗性高血圧',
-            weights: { htn: 60, cad: -20, stroke: 10 }
+            id: 'ccb_opt_arb_mono',
+            label: 'アジルバ / オルメテック等のARBとの2剤併用（または合剤配合錠）',
+            badge: '第一選択降圧コンビ',
+            desc: 'ガイドライン推奨の標準降圧併用。血管拡張とRAAS抑制の相乗効果',
+            weights: { htn_elderly: 75, ckd_cilnidipine: 50, vasospastic_angina: 20 }
           },
           {
-            id: 'sym_amlo_stroke',
-            label: '「以前に脳梗塞や脳出血を起こしたことがある、手足にしびれがある」',
-            badge: '脳卒中既往',
-            desc: '脳卒中二次予防のための厳格降圧',
-            weights: { stroke: 70, htn: 20, cad: -10 }
+            id: 'ccb_opt_none',
+            label: '降圧薬はCCB単剤のみ処方されている',
+            badge: '単剤治療',
+            desc: '高齢者収縮期高血圧の初期導入または軽症高血圧',
+            weights: { htn_elderly: 65, vasospastic_angina: 30 }
+          }
+        ]
+      },
+      {
+        id: 'ccb_q3_patient',
+        title: 'Q3. 🗣️【患者への問診・主訴】患者さんの自覚症状や困りごとはどれですか？',
+        subtitle: '胸痛の時間帯（深夜・早朝の安静時発作）が冠攣縮鑑別の最重要ポイントです',
+        options: [
+          {
+            id: 'ccb_opt_sym_night_chest',
+            label: '「深夜や明け方の寝ている時に、胸が締め付けられるように苦しくなって目が覚める」',
+            badge: '冠攣縮性狭心症徴候',
+            desc: '早朝・就寝時の安静時冠動脈スパズム（一過性完全閉塞）による胸痛発作',
+            weights: { vasospastic_angina: 95, htn_elderly: -30, ckd_cilnidipine: -30 }
+          },
+          {
+            id: 'ccb_opt_sym_no_symptom',
+            label: '「胸の痛みは全くなく、上の血圧だけが高いと言われた」',
+            badge: '無症候性・収縮期高血圧',
+            desc: '大動脈の硬化に伴う孤立性収縮期高血圧（高齢者に好発）',
+            weights: { htn_elderly: 80, ckd_cilnidipine: 30, vasospastic_angina: -30 }
+          },
+          {
+            id: 'ccb_opt_sym_proteinuria',
+            label: '「血圧に加えて尿に蛋白が出ていると言われ、腎臓を保護する薬と言われた」',
+            badge: '腎保護・アルブミン尿改善',
+            desc: '交感神経過緊張と糸球体内圧亢進（シルニジピン適応）',
+            weights: { ckd_cilnidipine: 90, htn_elderly: 30, vasospastic_angina: -20 }
           }
         ]
       }
     ],
     diseases: [
       {
-        id: 'htn',
+        id: 'htn_elderly',
         cardNum: 3,
-        name: '本態性高血圧症',
-        subType: '🩸 末梢血管抵抗増大・早朝高血圧（最もエビデンス豊富な第一選択薬）',
-        baseProb: 50,
-        criteria: 'アムロジピン 2.5mg〜5mg（重症時10mg）',
-        reason: '血管平滑筋のL型Caチャネルを遮断し末梢血管抵抗を減少。半減期約36時間で24時間安定降圧。',
-        keyPoint: '下肢浮腫（夕方の足のむくみ・靴がきつい）、歯肉肥厚、顔面紅潮'
+        name: '本態性高血圧症（高齢者 ＆ 動脈硬化型・収縮期単独高血圧）',
+        subType: '🩸 末梢血管抵抗増大・大動脈コンプライアンス低下に対する第一選択降圧',
+        baseProb: 35,
+        criteria: 'アムロジピン 2.5〜5mg 1日1回（効果不十分時10mgへ増量）',
+        reason: '強力かつ安定した24時間降圧作用を示し、脳卒中・心血管イベント発症を有意に抑制します。',
+        keyPoint: '下腿浮腫（夕方の靴下の跡、毛細血管圧上昇による）、歯肉肥厚、過度な降圧・めまい',
+        treatment: {
+          pathology: '加齢に伴う中膜のコラーゲン沈着と弾性線維断裂により大動脈の伸展性が著明低下。脈波伝播速度（PWV）が上昇し、反射波が心室収縮期に早期到達することで「収縮期血圧のみが特異的に上昇（孤立性収縮期高血圧）」します。',
+          rationale: '高齢者の収縮期高血圧に対して、CCBは心血管死・脳卒中予防のエビデンスが最も強固な第一選択薬です。',
+          firstLine: 'アムロジピン 1回2.5〜5mg 1日1回朝食後。目標血圧（75歳未満は130/80未満、75歳以上は140/90未満）に応じて10mgまで増量。',
+          combination: '目標未達時はARB（オルメテック/アジルバ）を併用。さらに未達ならサイアザイド系利尿薬追加。',
+          contra: '重篤な大動脈弁狭窄症（過度な後負荷低下による虚血リスク）、妊婦・授乳婦（禁忌）。',
+          targets: '診察室血圧 < 130/80 mmHg（75歳以上は < 140/90 mmHg）、家庭血圧 < 125/75 mmHg。',
+          guidance: '🗣️ 服薬指導：「夕方になると足の甲やすねがむくむことがありますが、心臓ではなく薬による血管の広がりが原因のことがあります」「立ち上がるときのふらつきに注意してください」'
+        }
       },
       {
-        id: 'cad',
+        id: 'vasospastic_angina',
         cardNum: 4,
-        name: '虚血性心疾患（狭心症）',
-        subType: '🫀 冠動脈拡張 ＆ 後負荷軽減による心筋虚血予防',
+        name: '冠攣縮性狭心症（異型狭心症・冠動脈スパズム）',
+        subType: '💓 深夜・早朝安静時の一過性冠動脈完全攣縮に対する絶対的第一選択治療',
         baseProb: 30,
-        criteria: 'アムロジピン 5mg〜10mg ＋ 抗血小板薬',
-        reason: '大型冠動脈の攣縮を予防し、大動脈圧を下げて心筋酸素需要を低下。',
-        keyPoint: '労作時胸痛の頻度、ニトロペン携帯確認'
+        criteria: 'アムロジピン 5〜10mg または ニフェジピンCR 20〜40mg 就寝前投与（＋発作時ニトロペン）',
+        reason: '血管平滑筋の過剰収縮（攣縮）を直接かつ強力に弛緩させ、夜間・早朝の狭心発作を完全に遮断します。β遮断薬単独投与は攣縮を悪化させるため禁忌。',
+        keyPoint: '就寝前服用（早朝の発作時間帯に血中濃度ピークを合わせる）、禁煙指導（喫煙は最大の攣縮誘発因子）'
       },
       {
-        id: 'stroke',
-        cardNum: 5,
-        name: '脳梗塞後遺症 ＆ 再発予防',
-        subType: '🧠 血圧変動性（BP Variability）抑制による脳血管障害再発阻止',
+        id: 'ckd_cilnidipine',
+        cardNum: 16,
+        name: '糖尿病性腎症 ＆ 蛋白尿合併高血圧（交感神経亢進型）',
+        subType: '🧪 N型CCBによる糸球体輸出細動脈拡張 ＆ 糸球体内圧低下作用',
         baseProb: 20,
-        criteria: 'アムロジピン ＋ 抗血小板薬',
-        reason: '血圧の急峻なスパイクやモーニングサージを抑え脳卒中再発を最も強力に抑制。',
-        keyPoint: '家庭血圧の朝晩の差、起立時ふらつき'
+        criteria: 'シルニジピン（アテレック） 10〜20mg 1日1回朝食後 ＋ ARB併用',
+        reason: '輸入細動脈だけでなく、N型受容体を介して輸出細動脈も拡張させるため、糸球体内圧を下げて尿蛋白・アルブミン漏出を減らします。',
+        keyPoint: '脈拍数（反射性頻脈の抑制確認）、尿蛋白定量値の推移、降圧効果'
+      },
+      {
+        id: 'tachy_htn',
+        cardNum: 3,
+        name: '交感神経活性型高血圧（早朝頻脈合併高血圧）',
+        subType: '⚡ アムロジピンによる反射性頻脈を回避するN型CCB選択期',
+        baseProb: 15,
+        criteria: 'シルニジピン 10mg 1日1回（安静時脈拍 > 75bpmの患者）',
+        reason: '交感神経終末からのノルアドレナリン放出を抑え、降圧に伴う心拍数増加（反射性頻脈）を惹起しません。',
+        keyPoint: '心拍数の安定性、家庭血圧における早朝サージの抑制'
       }
     ]
   },
@@ -6212,397 +6621,562 @@ const CLINICAL_WIZARD_DATA = {
   colchicine: {
     aliases: ['コルヒチン', 'colchicine'],
     name: 'コルヒチン',
-    category: '微小管重合阻害薬（好中球遊走抑制）',
+    category: '微小管重合阻害薬（好中球遊走・インフラマソーム阻害薬）',
     questions: [
       {
-        id: 'q1_dose_regimen',
+        id: 'col_q1_regimen',
         title: 'Q1. 処方箋情報：コルヒチンの用法・用量はどれですか？',
+        subtitle: '用法（発作時頓服 vs 毎日連日服用）によって疾患・病態が決定的に異なります',
         options: [
           {
-            id: 'fmf_daily',
-            label: '1日0.5mg〜1.5mg 毎日定期服用（発熱・腹痛発作の予防）',
-            badge: '家族性地中海熱 FMF',
-            desc: '周期的な高熱（38〜40℃）と腹膜炎痛。連日服用でアミロイドーシス阻止',
-            weights: { fmf: 85, gout_attack: -40, behcet: 10 }
+            id: 'col_opt_prn',
+            label: '頓服（発作予兆時：1回0.5mgを違和感時に1回のみ服用）',
+            badge: '痛風発作予兆期',
+            desc: '足の親指の付け根のムズムズ・違和感発現後できるだけ早く内服して大発作を阻止',
+            weights: { gout_prodrome: 95, gout_urate_cover: -30, fmf_serositis: -40, behcet_syndrome: -40 }
           },
           {
-            id: 'gout_prn',
-            label: '0.5mg 頓用（痛風発作の予兆時：チクチク・違和感時に1錠）',
-            badge: '痛風発作予兆期（頓用）',
-            desc: '尿酸結晶に対する好中球遊走を早期遮断し大発作を完全ブロック',
-            weights: { gout_attack: 85, fmf: -40, behcet: -30 }
+            id: 'col_opt_daily_low',
+            label: '連日投与（1日0.5mg 1日1回連日服用）',
+            badge: '発作予防カバレッジ または 軽度FMF',
+            desc: '尿酸降下薬導入初期の発作予防（ペントアップ発作カバー）、またはFMF維持',
+            weights: { gout_urate_cover: 75, fmf_serositis: 60, behcet_syndrome: 45, gout_prodrome: -30 }
           },
           {
-            id: 'behcet_daily',
-            label: '1日0.5mg〜1.0mg 連日分2 ＋ 口腔内潰瘍・皮膚症状あり',
-            badge: 'ベーチェット病',
-            desc: 'アフタ性口内炎、外陰部潰瘍、結節性紅斑の対症療法',
-            weights: { behcet: 75, fmf: -20, gout_attack: -35 }
+            id: 'col_opt_daily_high',
+            label: '連日高用量（1日1.0mg 〜 1.5mg 分2〜分3 連日服用）',
+            badge: '自己炎症疾患（FMF / ベーチェット）',
+            desc: '家族性地中海熱（FMF）の発熱阻止・アミロイドーシス予防、ベーチェット病',
+            weights: { fmf_serositis: 90, behcet_syndrome: 80, gout_urate_cover: -20, gout_prodrome: -40 }
           }
         ]
       },
       {
-        id: 'q2_patient',
-        title: 'Q2. 🗣️【患者への問診・確認】薬だけでは特定できない場合の症状確認（当てはまる自覚症状・主訴を選択）',
+        id: 'col_q2_combo',
+        title: 'Q2. 処方箋情報：以下の併用薬は含まれていますか？',
+        subtitle: '尿酸降下薬が併用されているか、免疫性疾患の併用薬かを確認します',
         options: [
           {
-            id: 'sym_col_gout',
-            label: '「足の親指の付け根がむずがゆい、ピリピリして発作が起きそうな気がする」',
-            badge: '痛風発作予兆',
-            desc: '痛風発作の前兆期の特異的自覚症状',
-            weights: { gout_attack: 85, fmf: -40, behcet: -30 }
+            id: 'col_opt_uric_acid',
+            label: 'フェブリク（フェブキソスタット） / ユリス / ザイロリック（尿酸降下薬）',
+            badge: '高尿酸血症治療薬併用',
+            desc: '尿酸値を下げる治療の開始期。急激な尿酸値変動による発作誘発をコルヒチンでカバー',
+            weights: { gout_urate_cover: 95, gout_prodrome: 20, fmf_serositis: -40, behcet_syndrome: -30 }
           },
           {
-            id: 'sym_col_fmf',
-            label: '「1〜3日続く原因不明の高熱とお腹や胸の激痛を周期的に繰り返す」',
-            badge: '周期性発熱・漿膜炎（FMF）',
-            desc: '家族性地中海熱の典型的発作症状',
-            weights: { fmf: 90, gout_attack: -40, behcet: -20 }
+            id: 'col_opt_nsaids',
+            label: 'ロキソニン / ボルタレン（NSAIDs大量併用：痛風発作極期）',
+            badge: '発作初期治療併用',
+            desc: '発症してしまった痛風発作の激痛をNSAIDsパルスで鎮痛',
+            weights: { gout_prodrome: 70, gout_urate_cover: 20, fmf_serositis: -20 }
           },
           {
-            id: 'sym_col_behcet',
-            label: '「口内炎が何度もできる、皮膚に痛い赤いしこり（結節性紅斑）ができる」',
-            badge: 'アフタ口内炎・紅斑（ベーチェット）',
-            desc: 'ベーチェット病の粘膜皮膚症候',
-            weights: { behcet: 85, fmf: -25, gout_attack: -35 }
+            id: 'col_opt_none',
+            label: '尿酸治療薬の併用はなく、コルヒチン単剤の連日処方',
+            badge: '単剤連日処方',
+            desc: '家族性地中海熱（FMF）またはベーチェット病の標準維持療法',
+            weights: { fmf_serositis: 85, behcet_syndrome: 75, gout_prodrome: -30 }
+          }
+        ]
+      },
+      {
+        id: 'col_q3_patient',
+        title: 'Q3. 🗣️【患者への問診・主訴】患者さんの自覚症状や困りごとはどれですか？',
+        subtitle: '関節炎の部位と「周期性発熱・口内炎」の有無を聞き取ります',
+        options: [
+          {
+            id: 'col_opt_sym_toe_pain',
+            label: '「足の親指の付け根が赤く腫れ上がり、風が吹いても飛び上がるほど痛い」',
+            badge: '急性痛風関節炎',
+            desc: '尿酸塩結晶沈着に伴う好中球貪食・インフラマソーム活性化による激痛',
+            weights: { gout_prodrome: 85, gout_urate_cover: 70, fmf_serositis: -40 }
+          },
+          {
+            id: 'col_opt_sym_fmf_fever',
+            label: '「1〜3日続く原因不明の高熱と、激しいお腹や胸の痛みが定期的に繰り返される」',
+            badge: '家族性地中海熱（FMF）徴候',
+            desc: 'MEFV遺伝子変異によるインフラマソーム制御不全に伴う周期性漿膜炎・発熱',
+            weights: { fmf_serositis: 95, behcet_syndrome: 20, gout_prodrome: -50 }
+          },
+          {
+            id: 'col_opt_sym_behcet_aphtha',
+            label: '「口の中に痛い口内炎が何度もできる、陰部に潰瘍ができる、目がかすむ」',
+            badge: 'ベーチェット病徴候',
+            desc: '好中球過剰活性化による再発性アフタ性潰瘍・ブドウ膜炎・皮膚結節',
+            weights: { behcet_syndrome: 95, fmf_serositis: 30, gout_prodrome: -50 }
           }
         ]
       }
     ],
     diseases: [
       {
-        id: 'gout_attack',
-        cardNum: 8,
-        name: '高尿酸血症 ＆ 痛風',
-        subType: '🦶 痛風発作予兆頓用（発作阻止） または 尿酸降下薬導入初期の併用',
-        baseProb: 45,
-        criteria: 'コルヒチン0.5mg 痛風発作の予兆時（チクチクした違和感）に1回1錠頓用',
-        reason: '関節腔内の尿酸結晶に対する好中球の走化性・貪食を遮断し、大発作への進展を未然防止。',
-        keyPoint: '発作が本格化してからでは無効（NSAIDsパルスへ）、多量服用禁止（1回1錠厳守）、下痢'
-      },
-      {
-        id: 'fmf',
-        cardNum: 39,
-        name: '家族性地中海熱（FMF）',
-        subType: '🧬 MEFV遺伝子変異：インフラマソーム過剰活性化遮断 ＆ アミロイドーシス予防',
+        id: 'gout_prodrome',
+        cardNum: 14,
+        name: '痛風発作予兆期（ムズムズ期・発現後超早期頓服）',
+        subType: '🦶 違和感・ムズムズ発現時の好中球遊走阻止による大発作未然防止',
         baseProb: 35,
-        criteria: 'コルヒチン0.5mg〜1.5mg/日 毎日欠かさず生涯連日服用（小児〜成人）',
-        reason: '好中球のインフラマソーム活性化を阻害し発熱・腹痛発作を90%以上抑制、腎アミロイドーシス死を防止。',
-        keyPoint: '絶対に飲み忘れないこと（アドヒアランス低下で発作再発）、下痢・腹痛、定期尿蛋白検査'
+        criteria: 'コルヒチン 0.5mg（1錠）発作予兆時に1回のみ服用（漫然連用厳禁）',
+        reason: '好中球の微小管重合を阻害して局所への好中球浸潤とインフラマソーム活性化を食い止め、激痛大発作を未然に防ぎます。',
+        keyPoint: '発作が本格化（極期）してからのコルヒチン多量服用は無効かつ下痢等の毒性リスク大（極期はNSAIDsパルスへ切り替え）',
+        treatment: {
+          pathology: '関節腔内に析出した尿酸一ナトリウム（MSU）結晶を好中球が貪食。NLRP3インフラマソームが活性化されIL-1βが大量放出され、激痛と発赤・熱感を伴う急性関節炎が惹起されます。',
+          rationale: '「発作の気配（ピリピリ・ムズムズ）」を感じた段階で0.5mgを早期内服することで、好中球遊走を未然に遮断します。',
+          firstLine: '痛風発作予兆期：コルヒチン 0.5mgを1回のみ頓服。',
+          combination: '本格発症時（痛風発作極期）：ナイキサンやロキソニン等のNSAIDsを高用量短期投与（NSAIDsパルス療法）。',
+          contra: '重篤な肝障害・腎障害患者でのCYP3A4阻害薬（クラリスロマイシン等）やP糖蛋白阻害薬併用時は【絶対禁忌】。',
+          targets: '痛風大発作への進展阻止、尿酸降下薬導入後の血清尿酸値 < 6.0 mg/dL。',
+          guidance: '🗣️ 服薬指導：「足の指に違和感（ピリピリ・ムズムズ）を感じたら、我慢せずできるだけ早く1錠飲んでください。激痛になってから何錠も飲むと激しい下痢を起こすだけで効きません」'
+        }
       },
       {
-        id: 'behcet',
-        cardNum: 38,
-        name: 'ベーチェット病',
-        subType: '🩹 好中球機能亢進抑制（再発性アフタ性口内炎・結節性紅斑・関節炎）',
-        baseProb: 20,
-        criteria: 'コルヒチン0.5mg〜1.0mg/日 毎日服用',
-        reason: '好中球の遊走能・活性酸素産生を抑え皮膚粘膜病変や関節炎の頻度を軽減。',
-        keyPoint: '口内炎・外陰部潰瘍の改善度、下痢・悪心、精子形成能低下（可逆的）'
-      }
-    ]
-  },
-
-  // 8. ダイフェン / バクタ
-  bactram: {
-    aliases: ['ダイフェン', 'バクタ', 'st合剤', 'bactram'],
-    name: 'ダイフェン / バクタ（ST合剤）',
-    category: '葉酸合成・還元阻害配合抗菌薬',
-    questions: [
-      {
-        id: 'q1_dose_regimen',
-        title: 'Q1. 処方箋情報：ダイフェンの処方用法・用量はどれですか？',
-        options: [
-          {
-            id: 'pcp_prevent',
-            label: '1日1回1錠 または 週2〜3日（隔日・月水金） 1回1〜2錠',
-            badge: 'ニューモシスチス肺炎（PCP）予防',
-            desc: 'プレドニン20mg以上長期、免疫抑制薬、抗がん剤治療中の感染予防',
-            weights: { pcp_prev: 85, pcp_treat: -40, uti: -30 }
-          },
-          {
-            id: 'pcp_treat',
-            label: '1日9〜12錠（分3〜4）の高用量処方',
-            badge: 'PCP治療期（急性期）',
-            desc: '発熱・乾性咳嗽・呼吸不全を伴うPCP発症時の緊急大量治療',
-            weights: { pcp_treat: 90, pcp_prev: -40, uti: -35 }
-          },
-          {
-            id: 'uti_combo',
-            label: '1日2回 1回1〜2錠（通常抗菌薬用量・5〜7日間）',
-            badge: '尿路感染症・前立腺炎',
-            desc: '難治性大腸菌・キノロン耐性尿路感染症の標的治療',
-            weights: { uti: 80, pcp_prev: -35, pcp_treat: -35 }
-          }
-        ]
-      },
-      {
-        id: 'q2_patient',
-        title: 'Q2. 🗣️【患者への問診・確認】薬だけでは特定できない場合の症状確認（当てはまる自覚症状・主訴を選択）',
-        options: [
-          {
-            id: 'sym_st_prev',
-            label: '「ステロイドや免疫の薬をたくさん飲んでいるため、肺炎予防として出された」',
-            badge: 'PCP一次予防',
-            desc: '免疫低下時の日和見感染予防（自覚症状なし）',
-            weights: { pcp_prev: 85, pcp_treat: -40, uti: -30 }
-          },
-          {
-            id: 'sym_st_treat',
-            label: '「高熱とひどい乾いた咳、息苦しさで苦しくて受診した」',
-            badge: 'PCP急性呼吸不全',
-            desc: 'ニューモシスチス肺炎の治療期症状',
-            weights: { pcp_treat: 90, pcp_prev: -40, uti: -35 }
-          },
-          {
-            id: 'sym_st_uti',
-            label: '「おしっこをするときに痛む（排尿痛）、残尿感や頻尿がある」',
-            badge: '膀胱炎・尿路感染症状',
-            desc: '複雑性尿路感染症の主訴',
-            weights: { uti: 85, pcp_prev: -35, pcp_treat: -35 }
-          }
-        ]
-      }
-    ],
-    diseases: [
-      {
-        id: 'pcp_prev',
-        cardNum: 18,
-        name: '免疫不全状態 ＆ PCP一次予防',
-        subType: '🛡️ ステロイド・免疫抑制療法に伴うニューモシスチス肺炎（PCP）発症予防',
-        baseProb: 65,
-        criteria: 'ダイフェン1錠 連日または週2〜3日 ＋ プレドニン等併用',
-        reason: '日和見感染であるPCP（旧カリニ肺炎）の致死率は20〜40%。低用量連日/間欠投与で100%近く予防可能。',
-        keyPoint: '薬疹・発疹（スティーブンス・ジョンソン症候群初期兆候）、高K血症、血小板減少'
-      },
-      {
-        id: 'pcp_treat',
-        cardNum: 24,
-        name: 'ニューモシスチス肺炎（PCP：治療）',
-        subType: '🫁 重篤な日和見呼吸器感染症の第一選択治療',
-        baseProb: 20,
-        criteria: 'ダイフェン高用量（9〜12錠/日） ＋ ステロイド併用（低酸素血症時）',
-        reason: '葉酸合成系を2段階ブロックして原因菌を強力殺菌。',
-        keyPoint: '高K血症（トリメトプリムのENaC遮断によるK排泄抑制）、皮疹、骨髄抑制、腎障害'
-      },
-      {
-        id: 'uti',
+        id: 'gout_urate_cover',
         cardNum: 14,
-        name: '複雑性尿路感染症 ＆ 前立腺炎',
-        subType: '🚽 前立腺組織移行性の高さを活かしたキノロン耐性菌感染治療',
-        baseProb: 15,
-        criteria: 'ダイフェン 1回1〜2錠 1日2回 1〜2週間',
-        reason: '前立腺組織・尿中への移行濃度が極めて高く、薬剤感受性結果に基づく的確な除菌。',
-        keyPoint: '排尿痛・残尿感の消失、十分な飲水励行（結晶尿防止）'
-      }
-    ]
-  },
-
-  // 9. サインバルタ
-  duloxetine: {
-    aliases: ['サインバルタ', 'デュロキセチン', 'duloxetine'],
-    name: 'サインバルタ（デュロキセチン）',
-    category: 'SNRI（セロトニン・ノルアドレナリン再取り込み阻害薬）',
-    questions: [
-      {
-        id: 'q1_combo_clinic',
-        title: 'Q1. 処方箋情報：処方箋の発行診療科や併用薬の特徴はどれですか？',
-        options: [
-          {
-            id: 'dm_pain',
-            label: '糖尿病内科処方 ＋ 血糖降下薬併用（足先・足裏のジンジン・ピリピリ痛）',
-            badge: '糖尿病性神経障害疼痛',
-            desc: '下肢のしびれ・自発痛に対する第一選択薬',
-            weights: { dm_neuro: 75, fms: 10, psy: -25, chronic_pain: 10 }
-          },
-          {
-            id: 'ortho_fms',
-            label: '整形外科 / ペインクリニック処方 ＋ セレコックス/リリカ併用（全身・腰・膝の痛み）',
-            badge: '線維筋痛症 / 慢性腰痛症 / OA',
-            desc: '下行性疼痛抑制系を賦活して難治性慢性疼痛を緩和',
-            weights: { fms: 60, chronic_pain: 65, dm_neuro: -20, psy: -30 }
-          },
-          {
-            id: 'psy_mdd',
-            label: '心療内科 / 精神科処方 ＋ 睡眠薬や抗不安薬併用（気分の落ち込み・意欲低下）',
-            badge: '大うつ病性障害',
-            desc: '意欲・気力を向上させ身体の痛みを伴ううつ病にも奏功',
-            weights: { psy: 80, dm_neuro: -35, fms: -30, chronic_pain: -30 }
-          }
-        ]
-      },
-      {
-        id: 'q2_patient',
-        title: 'Q2. 🗣️【患者への問診・確認】薬だけでは特定できない場合の症状確認（当てはまる自覚症状・主訴を選択）',
-        options: [
-          {
-            id: 'sym_dul_dm',
-            label: '「足の裏や指先がジンジン・ピリピリして痛む、正座のあとのようなしびれがある」',
-            badge: '糖尿病性末梢神経痛',
-            desc: '高血糖に伴う末梢神経障害の痛み',
-            weights: { dm_neuro: 75, fms: 10, psy: -25, chronic_pain: 10 }
-          },
-          {
-            id: 'sym_dul_pain',
-            label: '「腰や膝の痛みが数ヶ月以上続いている、全身のあちこちが痛い」',
-            badge: '慢性腰痛・線維筋痛症',
-            desc: '下行性疼痛抑制系低下に伴う中枢性慢性痛',
-            weights: { chronic_pain: 70, fms: 65, dm_neuro: -20, psy: -30 }
-          },
-          {
-            id: 'sym_dul_psy',
-            label: '「気分が沈む、何をやっても楽しくない、やる気が出ない、眠れない」',
-            badge: '大うつ病性障害',
-            desc: '抑うつ気分・意欲低下・興味消失',
-            weights: { psy: 85, dm_neuro: -35, fms: -30, chronic_pain: -30 }
-          }
-        ]
-      }
-    ],
-    diseases: [
-      {
-        id: 'dm_neuro',
-        cardNum: 14,
-        name: '糖尿病性神経障害疼痛',
-        subType: '⚡ 下行性疼痛抑制系賦活による末梢神経障害性自発痛・アロディニア遮断',
-        baseProb: 35,
-        criteria: 'サインバルタ 20mg朝から開始 ➔ 40〜60mgへ漸増（糖尿病内科）',
-        reason: '脊髄後角の後角細胞におけるノルアドレナリン・セロトニン再取り込みを阻害し痛みの伝達を抑制。',
-        keyPoint: '初期の悪心・嘔吐（食後服用徹底）、眠気、ふらつき、起立性低血圧'
-      },
-      {
-        id: 'chronic_pain',
-        cardNum: 14,
-        name: '慢性腰痛症 ＆ 変形性関節症（OA）',
-        subType: '🦴 痛みの慢性化・中枢性感作（Central Sensitization）の解除',
+        name: '尿酸降下薬導入期における痛風発作予防（コルヒチン・カバー）',
+        subType: '🦶 フェブリク導入初期（3〜6ヶ月間）のペントアップ発作阻止',
         baseProb: 30,
-        criteria: 'サインバルタ 20〜60mg 朝食後（整形外科処方）',
-        reason: '局所の消炎鎮痛薬（NSAIDs）で取りきれない中枢性の慢性疼痛シグナルを脳・脊髄レベルで鎮痛。',
-        keyPoint: '急な中止による離脱症状（めまい・シャンピリ感：1週間以上かけて漸減）'
+        criteria: 'コルヒチン 0.5mg 1日1回連日 ＋ フェブリク（フェブキソスタット）少量漸増併用',
+        reason: '尿酸降下薬開始に伴う血清尿酸値の急激な低下により関節内結晶が剥離し発作が誘発される（ペントアップ発作）のを確実に防ぎます。',
+        keyPoint: '血清尿酸値が安定するまでの3〜6ヶ月限定投与、長期漫然投与の回避'
       },
       {
-        id: 'psy',
-        cardNum: 6,
-        name: 'うつ病（身体症状・意欲低下型）',
-        subType: '🧠 意欲低下・精神運動制止 ＆ 身体の痛みを伴う大うつ病性障害',
-        baseProb: 25,
-        criteria: 'サインバルタ 40〜60mg 朝食後（精神科・心療内科）',
-        reason: 'ノルアドレナリンを増やして気力・集中力を高め、うつ病に伴う身体愁訴も一括改善。',
-        keyPoint: '賦活症候群（初期の焦燥感・不安増強）、血圧上昇、排尿障害'
+        id: 'fmf_serositis',
+        cardNum: 8,
+        name: '家族性地中海熱（FMF：自己炎症性疾患）',
+        subType: '🧬 周期性発熱 ＆ 腹膜炎/胸膜炎発作阻止 ＆ アミロイドA（AA）沈着予防',
+        baseProb: 20,
+        criteria: 'コルヒチン 0.5〜1.5mg/日 連日定時服用（生涯継続）',
+        reason: 'パイリン（Pyrin）異常による自然免疫インフラマソームの自律暴走を抑え、発熱発作を9割以上抑制し、致命的アミロイドーシスを防ぎます。',
+        keyPoint: '一生涯の確実な服薬継続（発作がなくなっても勝手に中断しない：中断でアミロイドーシス進行）、下痢・腹痛'
       },
       {
-        id: 'fms',
-        cardNum: 14,
-        name: '線維筋痛症',
-        subType: '⚡ 全身の難治性広範疼痛 ＆ 疲労感・睡眠障害',
-        baseProb: 10,
-        criteria: 'サインバルタ ＋ プレガバリン（リリカ）併用',
-        reason: '中枢性疼痛感作を改善し線維筋痛症ガイドラインで推奨される標準薬。',
-        keyPoint: '全身のこわばり・疲労感の推移、眠気'
+        id: 'behcet_syndrome',
+        cardNum: 8,
+        name: 'ベーチェット病（難治性皮膚粘膜症状・関節炎型）',
+        subType: '👄 再発性アフタ性口内炎 ＆ 外陰部潰瘍 ＆ 結節性紅斑の寛解維持',
+        baseProb: 15,
+        criteria: 'コルヒチン 0.5〜1.0mg/日 連日分服',
+        reason: '好中球の過剰な遊走能・貪食能を抑制し、難治性有痛性口内炎や皮膚結節病変の再発を予防します。',
+        keyPoint: '口内炎・外陰部潰瘍の出現頻度、眼病変（ブドウ膜炎）発現時の眼科受診'
       }
     ]
   },
 
-  // 10. サムスカ
+  // 8. ダイフェン / バクタ（ST合剤）
+  bactram: {
+    aliases: ['ダイフェン', 'バクタ', 'st合剤', 'スルファメトキサゾール', 'トリメトプリム', 'bactram'],
+    name: 'ダイフェン / バクタ（ST合剤）',
+    category: '葉酸代謝拮抗抗菌薬（PCP予防・治療 ＆ 難治性感染症薬）',
+    questions: [
+      {
+        id: 'st_q1_dose',
+        title: 'Q1. 処方箋情報：バクタ（またはダイフェン）の投与量はどれですか？',
+        subtitle: '「予防用量（1日1錠または週2〜3日）」と「治療用量（1日9〜12錠）」で雲泥の差があります',
+        options: [
+          {
+            id: 'st_opt_prev_dose',
+            label: '1日1錠連日 または 1回2錠を週2〜3日（極低用量・予防用量）',
+            badge: 'PCP日和見感染予防',
+            desc: 'ステロイド高用量や免疫抑制薬投与下でのニューモシスチス肺炎（PCP）発症予防',
+            weights: { pcp_prophylaxis: 95, pcp_treatment: -50, uti_complex: -20 }
+          },
+          {
+            id: 'st_opt_treat_dose',
+            label: '1日9錠 〜 12錠 分3〜分4（超高用量・治療用量）',
+            badge: '活動性PCP治療',
+            desc: 'すでに発症したニューモシスチス肺炎に対する標準治療用量（トリメトプリム15〜20mg/kg/日）',
+            weights: { pcp_treatment: 95, pcp_prophylaxis: -50, uti_complex: -30 }
+          },
+          {
+            id: 'st_opt_uti_dose',
+            label: '1回1〜2錠 1日2回 連日（標準抗菌用量：計2〜4錠/日）',
+            badge: '複雑性尿路感染症・前立腺炎',
+            desc: '腎盂腎炎、慢性前立腺炎、MRSA感染症、腸チフス等の治療',
+            weights: { uti_complex: 90, pcp_prophylaxis: -20, pcp_treatment: -40 }
+          }
+        ]
+      },
+      {
+        id: 'st_q2_combo',
+        title: 'Q2. 処方箋情報：以下の特徴的な併用薬は含まれていますか？',
+        subtitle: '高用量ステロイドや抗がん剤が併用されていればPCP予防です',
+        options: [
+          {
+            id: 'st_opt_high_steroid',
+            label: 'プレドニン 20mg以上 / 免疫抑制薬（プログラフ/セルセプト等）/ 抗がん剤',
+            badge: '免疫抑制療法下',
+            desc: '細胞性免疫（CD4陽性T細胞）低下に対する必須の一次予防レジメン',
+            weights: { pcp_prophylaxis: 90, pcp_treatment: 10, uti_complex: -40 }
+          },
+          {
+            id: 'st_opt_urology',
+            label: 'ハルナール / ユリーフ（排尿障害薬）または泌尿器科処方',
+            badge: '泌尿器科処方',
+            desc: '前立腺肥大症に伴う尿路うっ滞と複雑性膀胱炎・前立腺炎',
+            weights: { uti_complex: 90, pcp_prophylaxis: -40, pcp_treatment: -40 }
+          },
+          {
+            id: 'st_opt_none',
+            label: '上記は見当たらず、単独処方または一般内科処方',
+            badge: '一般感染症',
+            desc: '各種感染症治療または状況確認中',
+            weights: { uti_complex: 45, pcp_prophylaxis: 30 }
+          }
+        ]
+      },
+      {
+        id: 'st_q3_patient',
+        title: 'Q3. 🗣️【患者への問診・主訴】患者さんの自覚症状や訴えはどれですか？',
+        subtitle: '自覚症状の有無（予防投与なら無症状）を確認します',
+        options: [
+          {
+            id: 'st_opt_sym_no_symptom',
+            label: '「肺炎の症状は全くなく、強いステロイド薬を飲む間はカビの予防に飲むと言われた」',
+            badge: '無症候性・一次予防',
+            desc: '日和見真菌（Pneumocystis jirovecii）肺炎の未然防止',
+            weights: { pcp_prophylaxis: 95, pcp_treatment: -50, uti_complex: -40 }
+          },
+          {
+            id: 'st_opt_sym_severe_cough',
+            label: '「高熱が出て、乾いた激しい咳と息苦しさがあり、動くと酸素濃度が急激に下がる」',
+            badge: '活動性肺炎徴候',
+            desc: '急速に低酸素血症（SpO2低下）が進行するニューモシスチス肺炎発症期',
+            weights: { pcp_treatment: 95, pcp_prophylaxis: -40, uti_complex: -30 }
+          },
+          {
+            id: 'st_opt_sym_dysuria',
+            label: '「おしっこをするときに痛む、残尿感がある、熱が出て腰や下腹部が重だるい」',
+            badge: '尿路感染症・前立腺炎徴候',
+            desc: 'グラム陰性桿菌（大腸菌等）による複雑性尿路感染症',
+            weights: { uti_complex: 95, pcp_prophylaxis: -40, pcp_treatment: -40 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'pcp_prophylaxis',
+        cardNum: 8,
+        name: '免疫抑制下におけるニューモシスチス肺炎（PCP）発症予防',
+        subType: '🛡️ プレドニン20mg以上または免疫抑制薬投与下の致死性日和見肺炎阻止',
+        baseProb: 50,
+        criteria: 'バクタ配合錠 1日1錠連日 または 1回2錠 週2〜3日（透析患者は週2回1錠）',
+        reason: '細胞性免疫不全下で致命率が高いニューモシスチス真菌の増殖を葉酸合成・還元二重阻害により100%近く予防します。',
+        keyPoint: '発熱・皮疹（重症薬疹スティーブンス・ジョンソン症候群SJS初期サイン）、血清K値上昇（トリメトプリムのアミロライド様作用）、血球減少',
+        treatment: {
+          pathology: 'プレドニン換算 ≥ 20mg/日を4週間以上投与、またはタクロリムス・シクロホスファミド併用時、CD4陽性T細胞数が著明減少し、常在真菌Pneumocystis jiroveciiが肺胞内で爆発的に増殖して致死的なびまん性肺胞傷害をきたします。',
+          rationale: '微量（1日1錠または隔日投与）で処方されている場合は、感染症治療ではなくガイドライン推奨のPCP一次予防レジメンです。',
+          firstLine: 'バクタ配合錠 1日1錠（または1回2錠 週2回）。アレルギー時はサムチレール（アトバコン）またはベナンバックス吸入へ変更。',
+          combination: '高用量ステロイド長期投与時は骨粗鬆症予防（ボナロン等）および胃潰瘍予防（タケキャブ）とセットで併用。',
+          contra: 'サルファ剤アレルギーの既往（絶対禁忌）、妊婦（催奇形性・新生児黄疸リスク）。',
+          targets: 'PCP発症ゼロ、β-D-グルカン正常値維持、有害事象（薬疹・高K血症）なし。',
+          guidance: '🗣️ 服薬指導：「免疫を下げる薬を飲んでいる間の特別なカビ予防薬です」「飲み始めの1〜2週間に皮膚のブツブツ・発熱・口内炎が出たときはすぐに内服を中止してご連絡ください」'
+        }
+      },
+      {
+        id: 'pcp_treatment',
+        cardNum: 11,
+        name: '活動性ニューモシスチス肺炎（PCP急性期治療）',
+        subType: '🫁 急速に進行する呼吸不全・低酸素血症に対する高用量集中治療',
+        baseProb: 25,
+        criteria: 'バクタ 9〜12錠/日 分3〜分4 ＋ プレドニン併用（PaO2 < 70 Torr時） 21日間',
+        reason: '真菌の葉酸合成系を強力にブロックし菌を死滅させます。菌崩壊による肺胞炎症増悪を防ぐため初期ステロイド併用が必須。',
+        keyPoint: '血清K値モニタリング（高カリウム血症必発）、輸液管理、21日間の確実な完遂'
+      },
+      {
+        id: 'uti_complex',
+        cardNum: 16,
+        name: '難治性・複雑性尿路感染症 ＆ 慢性前立腺炎',
+        subType: '🚽 前立腺組織移行性に優れた葉酸代謝拮抗抗菌治療',
+        baseProb: 25,
+        criteria: 'バクタ 1回1〜2錠 1日2回（計2〜4錠/日） 7〜14日間',
+        reason: 'トリメトプリムは脂溶性が高く前立腺組織や酸性尿路に高濃度移行し、耐性菌を含む起因菌を殺菌します。',
+        keyPoint: '十分な水分摂取（尿路結石・結晶尿防止）、腎機能に応じた投与量調節'
+      }
+    ]
+  },
+
+  // 9. サインバルタ / レクサプロ（SNRI / SSRI）
+  duloxetine: {
+    aliases: ['サインバルタ', 'デュロキセチン', 'レクサプロ', 'エスシタロプラム', 'ジェイゾロフト', 'セルトラリン', 'snri', 'ssri'],
+    name: 'サインバルタ / レクサプロ',
+    category: 'セロトニン・ノルアドレナリン再取り込み阻害薬（抗うつ ＆ 下行性疼痛抑制薬）',
+    questions: [
+      {
+        id: 'snri_q1_dept',
+        title: 'Q1. 処方箋情報：処方元の診療科や併用薬はどれですか？',
+        subtitle: 'サインバルタは精神科だけでなく「整形外科（腰痛/変形性関節症）」や「糖尿病内科（神経障害痛）」から極めて多く処方されます',
+        options: [
+          {
+            id: 'snri_opt_ortho',
+            label: '整形外科処方 / セレコックス等のNSAIDsやリリカ/タリージェ併用',
+            badge: '整形外科（慢性疼痛）',
+            desc: '3ヶ月以上続く慢性腰痛症、変形性膝関節症の中枢性感作疼痛',
+            weights: { clbp_oa: 85, fibromyalgia: 50, dpnp_pain: 20, mdd_depression: -40 }
+          },
+          {
+            id: 'snri_opt_dm',
+            label: '内科・糖尿病内科処方 / メトグルコやジャヌビア等の糖尿病薬併用',
+            badge: '糖尿病内科（神経障害）',
+            desc: '糖尿病性末梢神経障害に伴う手足のピリピリ・しびれ・夜間灼熱痛',
+            weights: { dpnp_pain: 90, clbp_oa: 15, mdd_depression: -30 }
+          },
+          {
+            id: 'snri_opt_psych',
+            label: '心療内科・精神科処方 / デパスや睡眠薬、抗不安薬併用',
+            badge: '精神科・心療内科',
+            desc: '大うつ病性障害、不安障害、意欲低下・感情麻痺の改善',
+            weights: { mdd_depression: 85, fibromyalgia: 40, clbp_oa: -30, dpnp_pain: -30 }
+          },
+          {
+            id: 'snri_opt_pain_clinic',
+            label: 'ペインクリニック処方 / トラマール配合錠等の鎮痛薬併用',
+            badge: 'ペインクリニック',
+            desc: '線維筋痛症、難治性神経障害性疼痛',
+            weights: { fibromyalgia: 85, clbp_oa: 60, dpnp_pain: 50 }
+          }
+        ]
+      },
+      {
+        id: 'snri_q2_patient',
+        title: 'Q2. 🗣️【患者への問診・主訴】患者さんの困りごと・主訴はどれに最も近いですか？',
+        subtitle: '患者さんの言葉から疼痛部位と精神症状の有無を特定します',
+        options: [
+          {
+            id: 'snri_opt_sym_feet_burning',
+            label: '「足の裏や足先がジンジン・ピリピリ痛む、布団が触れるだけでも痛くて眠れない」',
+            badge: '糖尿病性神経障害疼痛',
+            desc: '小径線維障害による異痛症（アロディニア）と夜間増悪する自発痛',
+            weights: { dpnp_pain: 95, clbp_oa: -20, mdd_depression: -40 }
+          },
+          {
+            id: 'snri_opt_sym_chronic_back',
+            label: '「湿布やロキソニンを何ヶ月も貼ったり飲んだりしても、腰や膝の重い痛みが治らない」',
+            badge: '慢性腰痛・変形性関節症',
+            desc: '末梢の炎症だけでなく中枢神経系の下行性疼痛抑制系減衰に伴う慢性痛',
+            weights: { clbp_oa: 90, fibromyalgia: 30, dpnp_pain: 10 }
+          },
+          {
+            id: 'snri_opt_sym_mood_depress',
+            label: '「気分がひどく落ち込む、何をするのも億劫でやる気が出ない、眠れない」',
+            badge: 'うつ状態・意欲低下',
+            desc: 'セロトニン・ノルアドレナリン神経伝達低下による感情・意欲・生体リズム障害',
+            weights: { mdd_depression: 95, clbp_oa: -40, dpnp_pain: -40 }
+          },
+          {
+            id: 'snri_opt_sym_whole_body',
+            label: '「首から背中、手足まで全身のあちこちが痛く、強い疲労感やこわばりがある」',
+            badge: '線維筋痛症徴候',
+            desc: '中枢性疼痛知覚過敏による全身性広範痛症',
+            weights: { fibromyalgia: 95, mdd_depression: 35, clbp_oa: 30 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'clbp_oa',
+        cardNum: 25,
+        name: '慢性腰痛症 ＆ 変形性膝関節症（中枢性感作慢性疼痛）',
+        subType: '🦴 通常の鎮痛薬抵抗性の慢性疼痛に対する下行性疼痛抑制系の賦活',
+        baseProb: 35,
+        criteria: 'サインバルタ 20mg朝食後開始 ➔ 1週以上あけて40〜60mg/日へ漸増',
+        reason: '脳から脊髄へ痛みのシグナルを抑え込む「下行性疼痛抑制系」のセロトニン・ノルアドレナリンを増やし、痛みのブレーキを強化します。',
+        keyPoint: '初期の悪心・胃部不快感（1〜2週で軽減）、眠気・ふらつき、急な服薬中断による離脱症状（シャンシャン感・めまい）',
+        treatment: {
+          pathology: '3ヶ月以上続く慢性痛では、局所の器質的病変だけでなく脊髄後角や脳の痛み受容ネットワークが過敏化（中枢性感作）。下行性疼痛抑制系が破綻して痛みのブレーキが効かなくなっています。',
+          rationale: '整形外科で処方され、患者が「腰や膝の長引く鈍痛」を訴えている場合は抗うつ目的ではなく中枢性鎮痛目的です。',
+          firstLine: 'デュロキセチン（サインバルタ） 1回20mg 1日1回朝食後から開始。悪心に注意しながら40〜60mgへ増量。',
+          combination: '末梢の炎症にはセレコックス等のNSAIDs、神経障害要素にはプレガバリン（リリカ）やタリージェ併用。',
+          contra: 'MAO阻害薬投与中（絶対禁忌）、高度肝機能障害・高度腎不全（eGFR < 30）、閉塞隅角緑内障。',
+          targets: '痛みスコア（NRS/VAS）の30%以上の改善、日常生活動作（歩行・睡眠）の回復。',
+          guidance: '🗣️ 服薬指導：「飲み始めの数日は少しムカムカ（吐き気）が出ることがありますが、胃薬と一緒に飲むか1週間ほどで自然と治まります」「痛みのブレーキを強める薬なので、効き目を実感するまで1〜2週間毎日続けてください」'
+        }
+      },
+      {
+        id: 'dpnp_pain',
+        cardNum: 13,
+        name: '糖尿病性末梢神経障害性疼痛（DPNP：しびれ・夜間自発痛）',
+        subType: '🍬 高血糖による細小血管虚血 ＆ 軸索変性に伴う耐え難い下肢疼痛改善',
+        baseProb: 30,
+        criteria: 'サインバルタ 20mg ➔ 40〜60mg/日 ＋ 血糖コントロール',
+        reason: '糖尿病の微小血管障害により傷ついた末梢神経からの異所性自発放電を中枢側で強力に遮断します。',
+        keyPoint: '夜間の足裏のピリピリ感・灼熱感の改善度、ふらつきによる高齢者の転倒予防'
+      },
+      {
+        id: 'mdd_depression',
+        cardNum: 25,
+        name: '大うつ病性障害（うつ病・うつ状態）',
+        subType: '🧠 セロトニン ＆ ノルアドレナリン再取り込み阻害による意欲・感情賦活',
+        baseProb: 20,
+        criteria: 'サインバルタ 20mg ➔ 40〜60mg/日 1日1回朝食後',
+        reason: '意欲や気力の回復に重要なノルアドレナリンも同時に増やすため、身体症状や意欲低下が目立つうつ病に優れた効果を示します。',
+        keyPoint: '若年者における賦活症候群（アクチベーション・焦燥感・希死念慮）、自己中断防止'
+      },
+      {
+        id: 'fibromyalgia',
+        cardNum: 25,
+        name: '線維筋痛症（全身性慢性広範痛症）',
+        subType: '⚡ 中枢性疼痛閾値の著明低下に対するノルアドレナリン・セロトニン賦活',
+        baseProb: 15,
+        criteria: 'サインバルタ 60mg/日 ＋ リリカ（プレガバリン）併用',
+        reason: '全身に多発する原因不明の慢性疼痛と疲労感に対し、ガイドラインで強く推奨される第一選択薬です。',
+        keyPoint: '全身の圧痛点・疲労感の評価、睡眠障害へのアプローチ'
+      }
+    ]
+  },
+
+  // 10. サムスカ（トルバプタン）
   tolvaptan: {
     aliases: ['サムスカ', 'トルバプタン', 'tolvaptan'],
     name: 'サムスカ（トルバプタン）',
-    category: 'バソプレシンV2受容体拮抗薬（自由水利尿薬）',
+    category: 'V2受容体拮抗薬（自由水排泄利尿薬）',
     questions: [
       {
-        id: 'q1_dose_clinic',
-        title: 'Q1. 処方箋情報：サムスカの処方用量と診療科はどちらですか？',
+        id: 'sam_q1_dose',
+        title: 'Q1. 処方箋情報：サムスカの投与量はどれですか？',
+        subtitle: '用量により「心不全・肝硬変（低用量）」か「ADPKD多発性のう胞腎（超高用量）」かが明確に分かれます',
         options: [
           {
-            id: 'hf_low_dose',
-            label: '3.75mg 〜 7.5mg 朝1回（循環器内科処方 ＋ ループ利尿薬併用）',
-            badge: '心不全難治性うっ血',
-            desc: '低Na血症を伴う難治性浮腫・肺うっ血。電解質を捨てずに水だけ排泄',
-            weights: { hf_edema: 85, adpkd: -50, cirrhosis_ascites: 15 }
+            id: 'sam_opt_low_hf',
+            label: '3.75mg 〜 7.5mg / 日（極低用量〜低用量）',
+            badge: '心不全 / 肝硬変 難治性体液貯留',
+            desc: 'ループ利尿薬抵抗性のうっ血・浮腫、または肝硬変の難治性腹水に対する自由水排泄',
+            weights: { hf_refractory: 75, cirrhosis_ascites_v2: 70, adpkd_cyst: -60, siadh_hyponatremia: 20 }
           },
           {
-            id: 'adpkd_high_dose',
-            label: '60mg 〜 120mg / 日 朝夕分2（腎臓専門医処方・超高用量）',
-            badge: '多発性嚢胞腎 ADPKD',
-            desc: '腎容積増大抑制・腎機能低下遅延目的（登録医師・患者登録制度）',
-            weights: { adpkd: 95, hf_edema: -50, cirrhosis_ascites: -40 }
+            id: 'sam_opt_mid_hf',
+            label: '15mg / 日（標準用量）',
+            badge: '心不全標準 / SIADH',
+            desc: '心不全うっ血改善の標準用量、またはSIADHに伴う低Na血症是正',
+            weights: { hf_refractory: 60, siadh_hyponatremia: 65, cirrhosis_ascites_v2: 30, adpkd_cyst: -50 }
           },
           {
-            id: 'cirrhosis_low',
-            label: '3.75mg〜7.5mg（消化器内科処方 ＋ スピロノラクトン併用）',
-            badge: '肝硬変性難治性腹水',
-            desc: 'ループ利尿薬・アルダクトン無効の難治性腹水の体液除去',
-            weights: { cirrhosis_ascites: 80, hf_edema: 15, adpkd: -50 }
+            id: 'sam_opt_high_adpkd',
+            label: '60mg 〜 120mg / 日（分2 朝・夕 高用量）',
+            badge: 'ADPKD（多発性のう胞腎）特異的高用量',
+            desc: '常染色体優性多発性のう胞腎（ADPKD）におけるのう胞増大阻止・腎容積増大抑制',
+            weights: { adpkd_cyst: 95, hf_refractory: -50, cirrhosis_ascites_v2: -50, siadh_hyponatremia: -40 }
           }
         ]
       },
       {
-        id: 'q2_patient',
-        title: 'Q2. 🗣️【患者への問診・確認】薬だけでは特定できない場合の症状確認（当てはまる自覚症状・主訴を選択）',
+        id: 'sam_q2_combo',
+        title: 'Q2. 処方箋情報：以下の併用薬は含まれていますか？',
+        subtitle: 'ループ利尿薬が併用されているか、肝庇護薬か、単剤かを確認します',
         options: [
           {
-            id: 'sym_tol_hf',
-            label: '「足やすねがひどくむくんで靴が入らない、利尿薬を飲んでも水が引かない」',
-            badge: '難治性心不全うっ血',
-            desc: '低Na血症を伴うループ抵抗性の体液過剰',
-            weights: { hf_edema: 85, adpkd: -50, cirrhosis_ascites: 15 }
+            id: 'sam_opt_loop_combo',
+            label: 'ラシックス / ルプラック / ダイアート（他の利尿薬と必ず併用）',
+            badge: '利尿薬併用（心不全/腹水適応）',
+            desc: '他の利尿薬（ループ利尿薬等）で効果不十分な場合にのみ併用が認められている保険適応要件',
+            weights: { hf_refractory: 80, cirrhosis_ascites_v2: 75, adpkd_cyst: -40 }
           },
           {
-            id: 'sym_tol_adpkd',
-            label: '「家族に腎臓に袋（嚢胞）ができる病気の人がいる、お腹が張って大きくなってきた」',
-            badge: 'ADPKD嚢胞腫大',
-            desc: '常染色体優性多発性嚢胞腎の遺伝歴と腹部膨満',
-            weights: { adpkd: 95, hf_edema: -50, cirrhosis_ascites: -40 }
+            id: 'sam_opt_liver_combo',
+            label: 'リーバクト（BCAA製剤） / ウルソ / スピロノラクトン併用（消化器内科処方）',
+            badge: '肝硬変腹水併用',
+            desc: '肝不全・低アルブミン血症に伴う難治性腹水コントロール',
+            weights: { cirrhosis_ascites_v2: 90, hf_refractory: -30, adpkd_cyst: -40 }
           },
           {
-            id: 'sym_tol_cirr',
-            label: '「お腹に水が溜まって苦しい（腹水）、肝臓が悪いと言われている」',
-            badge: '肝硬変難治性腹水',
-            desc: '肝不全による難治性腹水',
-            weights: { cirrhosis_ascites: 85, hf_edema: 15, adpkd: -50 }
+            id: 'sam_opt_adpkd_mono',
+            label: '他の利尿薬は併用せず、高用量サムスカ単剤または降圧薬のみ',
+            badge: 'ADPKD単剤治療',
+            desc: '腎のう胞上皮細胞のcAMP産生を特異的にブロックする長期治療',
+            weights: { adpkd_cyst: 90, hf_refractory: -40, cirrhosis_ascites_v2: -40 }
+          }
+        ]
+      },
+      {
+        id: 'sam_q3_patient',
+        title: 'Q3. 🗣️【患者への問診・主訴】患者さんの自覚症状や困りごとはどれですか？',
+        subtitle: '浮腫の部位やのう胞腎の指摘状況を確認します',
+        options: [
+          {
+            id: 'sam_opt_sym_hf_edema',
+            label: '「利尿薬を何種類も飲んでいるのに足がパンパンにむくみ、少し動くだけで息が苦しい」',
+            badge: 'ループ抵抗性うっ血',
+            desc: '電解質排泄型利尿薬の効果減弱と腎血流低下に伴う難治性うっ血',
+            weights: { hf_refractory: 90, cirrhosis_ascites_v2: 20, adpkd_cyst: -40 }
+          },
+          {
+            id: 'sam_opt_sym_ascites_huge',
+            label: '「お腹に水が溜まってパンパンに張り、靴下が履けない・息苦しい」',
+            badge: '難治性肝性腹水',
+            desc: '血清アルブミン低下・門脈圧亢進による難治性腹水',
+            weights: { cirrhosis_ascites_v2: 95, hf_refractory: 20, adpkd_cyst: -40 }
+          },
+          {
+            id: 'sam_opt_sym_adpkd',
+            label: '「両方の腎臓に水ぶくれ（のう胞）が無数にある難病で、腎臓が大きくなるのを防ぐと言われた」',
+            badge: 'ADPKD確定徴候',
+            desc: '遺伝性多発性のう胞腎。水分を1日3L以上補給しながらのう胞増大を抑制',
+            weights: { adpkd_cyst: 98, hf_refractory: -50, cirrhosis_ascites_v2: -50 }
           }
         ]
       }
     ],
     diseases: [
       {
-        id: 'hf_edema',
+        id: 'hf_refractory',
         cardNum: 1,
-        name: '慢性心不全（難治性うっ血）',
-        subType: '💧 低Na血症を伴うループ利尿薬抵抗性心不全うっ血（自由水利尿）',
-        baseProb: 50,
-        criteria: 'サムスカ 3.75〜7.5mg 朝 ＋ ループ利尿薬',
-        reason: 'Na等の電解質を排泄せず水だけを排泄するため、低Na血症や腎機能悪化を起こさずに強力な体液除去を達成。',
-        keyPoint: '極端な水分制限は高Na血症・急激脱水のリスク！（適度な飲水許可）、血清Na測定'
+        name: '心不全における難治性体液貯留（ループ利尿薬抵抗性うっ血）',
+        subType: '🫀 低Na血症を伴う難治性うっ血に対する電解質非排泄型水利尿',
+        baseProb: 40,
+        criteria: 'サムスカ 3.75〜7.5mg（最大15mg）1日1回 ＋ ループ利尿薬併用',
+        reason: '集合管のV2受容体をブロックし、Naなどの電解質を捨てずに水分のみ（自由水）を排泄するため、低Na血症や腎機能悪化を起こさずに強力な利尿をもたらします。',
+        keyPoint: '急激な血清Na上昇（浸透圧性脱髄症候群ODS防止のため24時間で12mEq/L以上の急上昇回避）、口渇・飲水管理',
+        treatment: {
+          pathology: '重症心不全では心拍出量低下により非浸透圧性にバソプレシン（抗利尿ホルモン ADH）が異常過剰分泌。集合管で水が過剰再吸収され「希釈性低Na血症」と「難治性うっ血」を形成。ループ利尿薬増量は腎機能障害と更なる低Na血症を招きます。',
+          rationale: '微量（3.75〜7.5mg）でラシックス等のループ利尿薬と併用されている場合は、電解質を温存しながら自由水のみを抜く心不全うっ血レスキュープロトコルです。',
+          firstLine: 'トルバプタン（サムスカ） 1回3.75〜7.5mg 1日1回朝食後。入院下または厳重な電解質管理下で開始。',
+          combination: '必ずループ利尿薬（ラシックス / ルプラック / ダイアート）と併用（単独投与は保険適応外）。',
+          contra: '口渇を感じない患者、水分摂取困難な患者（急激な高Na血症・脱水リスク）、重篤な高Na血症、妊婦。',
+          targets: 'うっ血徴候（浮腫・胸水・体重）の改善、血清Na濃度の正常化（急激な補正を避け緩やかに上昇）。',
+          guidance: '🗣️ 服薬指導：「尿の量がかなり増えます。喉が渇いたときは我慢せずに適度に水分を摂ってください」「急激に血中の塩分濃度が変わるのを防ぐため、決められた検査を必ず受けてください」'
+        }
       },
       {
-        id: 'adpkd',
-        cardNum: 21,
-        name: '常染色体優性多発性嚢胞腎（ADPKD）',
-        subType: '🫧 嚢胞上皮細胞増殖 ＆ 嚢胞液分泌抑制による腎腫大・腎機能低下阻止',
-        baseProb: 35,
-        criteria: 'サムスカ 60〜120mg/日 分2（朝・夕食後：高用量処方、腎臓専門医登録）',
-        reason: '嚢胞上皮のV2受容体を遮断してcAMP産生を阻害し、嚢胞の増大と末期腎不全移行を遅延。',
-        keyPoint: '多尿（1日4〜6L）・夜間頻尿、激しい口渇（脱水防止の大量飲水確認）、肝機能障害検査'
-      },
-      {
-        id: 'cirrhosis_ascites',
+        id: 'cirrhosis_ascites_v2',
         cardNum: 1,
-        name: '肝硬変に伴う難治性腹水',
+        name: '肝硬変に伴う難治性腹水（低Na血症期）',
         subType: '🍻 他の利尿薬抵抗性の難治性腹水に対する自由水排泄',
-        baseProb: 15,
-        criteria: 'サムスカ 3.75〜7.5mg ＋ スピロノラクトン（消化器内科）',
-        reason: 'アルブミン低下・二次性高アルドステロン下でも低Na血症を悪化させず腹水を縮小。',
-        keyPoint: '急激な脱水・肝性脳症兆候、血清Naモニタリング'
+        baseProb: 30,
+        criteria: 'サムスカ 3.75〜7.5mg ＋ スピロノラクトン ＋ ループ利尿薬併用',
+        reason: '低アルブミン血症下でも腎血流量を低下させずに腹水のみを減容し、頻回の腹水穿刺や低Na血症悪化を防ぎます。',
+        keyPoint: '急激な脱水・肝性脳症兆候の早期察知、血清Naモニタリング'
+      },
+      {
+        id: 'adpkd_cyst',
+        cardNum: 16,
+        name: '常染色体優性多発性のう胞腎（ADPKD）',
+        subType: '🧬 腎のう胞増大阻止 ＆ 腎容積増大抑制（高用量60〜120mg連日長期治療）',
+        baseProb: 20,
+        criteria: 'サムスカ 60mg/日（朝45mg/夕15mg）から開始し、90mg ➔ 120mg/日へ漸増',
+        reason: 'のう胞上皮細胞のバソプレシン受容体を阻害して細胞内cAMP産生を遮断し、のう胞の細胞増殖と液体分泌を強力にストップさせます。',
+        keyPoint: '1日多尿（約4〜6L/日）に伴う脱水防止（1日3〜4L以上の積極的飲水指導）、夜間頻尿対策'
+      },
+      {
+        id: 'siadh_hyponatremia',
+        cardNum: 29,
+        name: 'SIADH（抗利尿ホルモン不適合分泌症候群）',
+        subType: '🧪 不適切過剰なバソプレシン分泌に伴う希釈性低Na血症の是正',
+        baseProb: 10,
+        criteria: 'サムスカ 7.5〜15mg/日',
+        reason: '過剰分泌されたバソプレシンのV2受容体作用を直接ブロックし、水分を排泄して血清Na濃度を安全に正常化させます。',
+        keyPoint: '血清Na補正速度（過度な急速補正の厳重防止）、意識レベルのモニタリング'
       }
     ]
   }
 };
 
+
 // ウィザードの実行状態管理
 const wizardState = {
   activeKey: null,
   activeData: null,
+  currentQuestionIndex: 0,
+  history: [],
   selectedOptionIds: new Set(),
   customDrugs: []
 };
@@ -6631,10 +7205,9 @@ function selectWizardPrimaryDrug(drugName) {
       matchedKey = 'auto_' + query;
       const primaryDrugName = mapItem.drugs[0];
       
-      // 質問1: 処方サイン（併用薬・用量）
       const autoOptionsSign = mapItem.diffs.map((d, idx) => {
         const weights = {};
-        weights['auto_dis_' + idx] = 60;
+        weights['auto_dis_' + idx] = 70;
         return {
           id: 'auto_opt_sign_' + idx,
           label: d.criteria.replace(/【処方サイン】/, '').trim(),
@@ -6644,10 +7217,9 @@ function selectWizardPrimaryDrug(drugName) {
         };
       });
 
-      // 質問2: 🗣️ 患者への問診・自覚症状確認（薬だけで特定できない場合の決め手）
       const autoOptionsPatient = mapItem.diffs.map((d, idx) => {
         const weights = {};
-        weights['auto_dis_' + idx] = 75;
+        weights['auto_dis_' + idx] = 80;
         const mainSym = d.keyPoint.split('、')[0] || d.keyPoint;
         return {
           id: 'auto_opt_pat_' + idx,
@@ -6666,7 +7238,16 @@ function selectWizardPrimaryDrug(drugName) {
         baseProb: Math.round(100 / mapItem.diffs.length),
         criteria: d.criteria,
         reason: d.reason,
-        keyPoint: d.keyPoint
+        keyPoint: d.keyPoint,
+        treatment: {
+          pathology: `${d.name}に伴う病態変化：${d.subType}。体内の機能障害や受容体シグナル異常により臨床症状が発現します。`,
+          rationale: `【処方根拠】${d.criteria}。${d.reason}`,
+          firstLine: `【標準治療】${primaryDrugName}を中核としたガイドライン推奨の段階的薬物療法。`,
+          combination: `【併用推奨】病態に応じた相乗効果を狙う併用薬の選択。`,
+          contra: '重篤な肝・腎障害、薬物相互作用（CYP代謝等）、過敏症に留意。',
+          targets: '臨床症状の寛解、バイタルサイン・生化学検査値の目標値維持。',
+          guidance: `🗣️ 服薬指導：「${d.keyPoint}」\n🚨 疑義照会トリガー：副作用初期徴候や検査値異常発現時`
+        }
       }));
 
       matchedData = {
@@ -6676,11 +7257,13 @@ function selectWizardPrimaryDrug(drugName) {
           {
             id: 'auto_q1',
             title: `Q1. 処方箋情報：【${primaryDrugName}】の用量や併用薬の特徴はどれですか？`,
+            subtitle: '処方の組み合わせから病態を推定します',
             options: autoOptionsSign
           },
           {
             id: 'auto_q2',
-            title: `Q2. 🗣️【患者への問診・確認】薬だけでは特定できない場合の症状確認（当てはまる主訴を選択）`,
+            title: `Q2. 🗣️【患者への問診・確認】薬だけでは特定できない場合の主訴はどれですか？`,
+            subtitle: '患者さんの生の声から鑑別を確定します',
             options: autoOptionsPatient
           }
         ],
@@ -6712,27 +7295,29 @@ function selectWizardPrimaryDrug(drugName) {
         questions: [
           {
             id: 'ddb_q1',
-            title: `Q1. 処方箋情報：【${primaryName}】の用量・用法・処方特徴はどれですか？`,
+            title: `Q1. 処方箋情報：【${primaryName}】の用法・処方特徴はどれですか？`,
+            subtitle: '標準的な処方パターンを確認します',
             options: [
               {
                 id: 'ddb_opt1',
                 label: `標準的な用法・用量（${drugDbItem.char}）`,
                 badge: '適応病態',
                 desc: drugDbItem.desc,
-                weights: { ddb_dis: 70 }
+                weights: { ddb_dis: 80 }
               }
             ]
           },
           {
             id: 'ddb_q2',
             title: `Q2. 🗣️【患者への問診・確認】患者さんの自覚症状や主訴はどれですか？`,
+            subtitle: '困りごとや訴えを確認します',
             options: [
               {
                 id: 'ddb_opt_pat1',
                 label: `「${drugDbItem.char.split('！')[0]}」に関する症状や困りごとがある`,
                 badge: '自覚症状・主訴',
                 desc: `【確認事項・指導の急所】${drugDbItem.desc}`,
-                weights: { ddb_dis: 80 }
+                weights: { ddb_dis: 85 }
               }
             ]
           }
@@ -6746,7 +7331,16 @@ function selectWizardPrimaryDrug(drugName) {
             baseProb: 80,
             criteria: `【処方薬】${drugDbItem.name}（${drugDbItem.gen}）`,
             reason: drugDbItem.desc,
-            keyPoint: drugDbItem.char
+            keyPoint: drugDbItem.char,
+            treatment: {
+              pathology: `${drugDbItem.cat}における薬物動態・薬理機序：${drugDbItem.desc}`,
+              rationale: `【処方意義】${drugDbItem.char}`,
+              firstLine: `【標準治療】${drugDbItem.name}（${drugDbItem.gen}）の適正用量投与。基本用法：${drugDbItem.char}`,
+              combination: '【併用薬】病態に応じた推奨併用薬の段階的投与。',
+              contra: '添付文書記載の禁忌項目および重篤な臓器障害に注意。',
+              targets: '臨床検査指標の正常化、自覚症状の寛解。',
+              guidance: `🗣️ 服薬指導：「${drugDbItem.desc}」\n🚨 疑義照会トリガー：投与禁忌・併用禁忌の確認`
+            }
           }
         ]
       };
@@ -6761,6 +7355,8 @@ function selectWizardPrimaryDrug(drugName) {
   // 状態の更新
   wizardState.activeKey = matchedKey;
   wizardState.activeData = matchedData;
+  wizardState.currentQuestionIndex = 0;
+  wizardState.history = [];
   wizardState.selectedOptionIds.clear();
   wizardState.customDrugs = [];
 
@@ -6782,12 +7378,10 @@ function selectWizardPrimaryDrug(drugName) {
     badgeEl.innerHTML = `<span>💊 鑑別起点薬：<strong>${matchedData.name}</strong></span> <span style="font-size:0.75rem; background:#10b981; color:white; padding:2px 8px; border-radius:10px;">${matchedData.category}</span>`;
   }
 
-  // 質問カードの描画
-  renderWizardQuestions();
+  // アキネーター質問の描画 ＆ ゲージ初期化
+  renderAkinatorCurrentQuestion();
   renderWizardCustomDrugTags();
-
-  // Step 3（結果）も初期描画しておく
-  calculateWizardDiagnosis(false);
+  updateAkinatorGauge();
 
   // Step 2 へスムーズスクロール
   setTimeout(() => {
@@ -6795,59 +7389,211 @@ function selectWizardPrimaryDrug(drugName) {
   }, 100);
 }
 
-// 質問カードのレンダリング
-function renderWizardQuestions() {
-  const container = document.getElementById('wizardQuestionsContainer');
-  if (!container || !wizardState.activeData) return;
+// アキネーター型 1問1答ステージのレンダリング
+function renderAkinatorCurrentQuestion() {
+  const stage = document.getElementById('wizardQuestionStage');
+  const tracker = document.getElementById('wizardStepTracker');
+  const prevBtn = document.getElementById('wizardPrevBtn');
+  if (!stage || !wizardState.activeData) return;
 
   const data = wizardState.activeData;
-  let html = '';
+  const qIdx = wizardState.currentQuestionIndex;
+  const q = data.questions[qIdx];
 
-  data.questions.forEach((q, qIdx) => {
+  if (!q) {
+    // 全ての質問を完了した場合は自動的に結果画面を表示
+    calculateWizardDiagnosis(true);
+    return;
+  }
+
+  // トラッカー更新
+  if (tracker) {
+    const remain = data.questions.length - qIdx - 1;
+    tracker.innerHTML = `<span>❓ 第 ${qIdx + 1} 問 / 全 ${data.questions.length} 問 (推定残り ${remain} 問)</span>`;
+  }
+
+  // 戻るボタンの表示制御
+  if (prevBtn) {
+    prevBtn.style.display = wizardState.history.length > 0 ? 'inline-flex' : 'none';
+  }
+
+  // 質問カードのレンダリング
+  let html = `
+    <div class="wizard-stage-title-box">
+      <h3 class="wizard-stage-title">${q.title}</h3>
+      ${q.subtitle ? `<div class="wizard-stage-subtitle">💡 ${q.subtitle}</div>` : ''}
+    </div>
+    <div class="wizard-akinator-choices">
+  `;
+
+  q.options.forEach(opt => {
+    const isSelected = wizardState.selectedOptionIds.has(opt.id);
     html += `
-      <div class="wizard-question-card">
-        <div class="wizard-question-title">
-          <span>❓</span>
-          <span>${q.title}</span>
-        </div>
-        <div class="wizard-options-grid">
-    `;
-
-    q.options.forEach(opt => {
-      const isSelected = wizardState.selectedOptionIds.has(opt.id);
-      html += `
-        <div class="wizard-option-item ${isSelected ? 'selected' : ''}" onclick="toggleWizardOption('${q.id}', '${opt.id}')">
-          <div class="wizard-option-header">
-            <span class="wizard-option-label">${isSelected ? '✅ ' : '⬜ '}${opt.label}</span>
-            ${opt.badge ? `<span class="wizard-option-badge">${opt.badge}</span>` : ''}
+      <div class="wizard-akinator-btn ${isSelected ? 'selected' : ''}" onclick="wizardChooseOption('${opt.id}')">
+        <div class="wizard-btn-left">
+          <div class="wizard-btn-label">
+            <span>${isSelected ? '✅' : '⚪'}</span>
+            <span>${opt.label}</span>
           </div>
-          ${opt.desc ? `<div class="wizard-option-desc">${opt.desc}</div>` : ''}
+          ${opt.desc ? `<div class="wizard-btn-desc">${opt.desc}</div>` : ''}
         </div>
-      `;
-    });
-
-    html += `
-        </div>
+        ${opt.badge ? `<span class="wizard-btn-badge">${opt.badge}</span>` : ''}
       </div>
     `;
   });
 
-  container.innerHTML = html;
+  html += `
+      <!-- わからない・該当なし選択肢 -->
+      <div class="wizard-akinator-btn" onclick="wizardStepSkip()" style="border-style:dashed; opacity:0.85; background:#f8fafc;">
+        <div class="wizard-btn-left">
+          <div class="wizard-btn-label" style="color:#64748b;">
+            <span>⏩</span>
+            <span>該当なし / 分からない（この質問をとばす）</span>
+          </div>
+          <div class="wizard-btn-desc">この項目をとばして次の質問に進みます</div>
+        </div>
+        <span class="wizard-btn-badge" style="background:#cbd5e1;">スキップ</span>
+      </div>
+    </div>
+  `;
+
+  stage.innerHTML = html;
 }
 
-// 選択肢のON/OFF切り替え
-function toggleWizardOption(questionId, optionId) {
+// 選択肢をタップした時の処理（即座に確信度を上昇させて次へ進む）
+function wizardChooseOption(optionId) {
+  // 質問内の同一グループの選択肢をトグル
+  const data = wizardState.activeData;
+  const qIdx = wizardState.currentQuestionIndex;
+  const currentQ = data.questions[qIdx];
+
+  // 単一選択の場合は同じ質問の他オプションをクリア
+  currentQ.options.forEach(opt => {
+    if (opt.id !== optionId) {
+      wizardState.selectedOptionIds.delete(opt.id);
+    }
+  });
+
   if (wizardState.selectedOptionIds.has(optionId)) {
     wizardState.selectedOptionIds.delete(optionId);
   } else {
     wizardState.selectedOptionIds.add(optionId);
   }
 
-  // 質問カードを再描画（選択状態クラスの更新）
-  renderWizardQuestions();
+  // 履歴に追加
+  wizardState.history.push(qIdx);
 
-  // リアルタイムで判定結果を再計算してアニメーション更新
-  calculateWizardDiagnosis(false);
+  // 確信度ゲージをリアルタイム更新（グッと上がるアニメーション）
+  updateAkinatorGauge();
+
+  // 選択フィードバックのため180ms待ってからスムーズに次の質問へ遷移
+  setTimeout(() => {
+    wizardStepToNext();
+  }, 180);
+}
+
+// 次の質問へ進む
+function wizardStepToNext() {
+  const data = wizardState.activeData;
+  if (!data) return;
+
+  if (wizardState.currentQuestionIndex + 1 < data.questions.length) {
+    wizardState.currentQuestionIndex++;
+    renderAkinatorCurrentQuestion();
+    updateAkinatorGauge();
+  } else {
+    // 最後の質問まで終了したら結果画面を展開
+    calculateWizardDiagnosis(true);
+  }
+}
+
+// 前の質問に戻る
+function wizardStepToPrev() {
+  if (wizardState.history.length > 0) {
+    wizardState.currentQuestionIndex = wizardState.history.pop();
+    renderAkinatorCurrentQuestion();
+    updateAkinatorGauge();
+  }
+}
+
+// スキップ
+function wizardStepSkip() {
+  const qIdx = wizardState.currentQuestionIndex;
+  wizardState.history.push(qIdx);
+  wizardStepToNext();
+}
+
+// 確信度メーターのリアルタイム更新
+function updateAkinatorGauge() {
+  const data = wizardState.activeData;
+  if (!data) return;
+
+  const gaugeFill = document.getElementById('wizardGaugeFill');
+  const confText = document.getElementById('wizardConfidenceText');
+  const predText = document.getElementById('wizardPredictionText');
+
+  // スコア計算
+  const scores = {};
+  data.diseases.forEach(d => {
+    scores[d.id] = d.baseProb || 20;
+  });
+
+  // 選択肢の加算
+  data.questions.forEach(q => {
+    q.options.forEach(opt => {
+      if (wizardState.selectedOptionIds.has(opt.id) && opt.weights) {
+        for (const [disId, weight] of Object.entries(opt.weights)) {
+          if (scores[disId] !== undefined) {
+            scores[disId] += weight;
+          }
+        }
+      }
+    });
+  });
+
+  // 主訴によるベイズ加算
+  wizardState.customDrugs.forEach(cd => {
+    const cdLower = cd.toLowerCase();
+    data.diseases.forEach(d => {
+      const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
+      if (targetText.includes(cdLower)) {
+        scores[d.id] += 50;
+      }
+    });
+  });
+
+  // 負のスコア補正
+  data.diseases.forEach(d => {
+    scores[d.id] = Math.max(5, scores[d.id]);
+  });
+
+  // 合計スコア
+  let totalScore = 0;
+  data.diseases.forEach(d => {
+    totalScore += scores[d.id];
+  });
+
+  // 最有力候補の探索
+  let topDis = data.diseases[0];
+  let topProb = 0;
+  data.diseases.forEach(d => {
+    const prob = Math.round((scores[d.id] / totalScore) * 100);
+    if (prob > topProb) {
+      topProb = prob;
+      topDis = d;
+    }
+  });
+
+  // 質問の進捗に応じた確信度ブースト
+  const progressRatio = (wizardState.currentQuestionIndex + 1) / data.questions.length;
+  const baseConf = 25 + Math.round(progressRatio * 45);
+  const calculatedConfidence = Math.min(98, Math.max(baseConf, topProb));
+
+  if (gaugeFill) gaugeFill.style.width = `${calculatedConfidence}%`;
+  if (confText) confText.innerText = `${calculatedConfidence}%`;
+  if (predText && topDis) {
+    predText.innerHTML = `💡 現在の最有力予測：<strong>${topDis.name}</strong>（確信度 ${calculatedConfidence}%）`;
+  }
 }
 
 // フリー併用薬・主訴の追加
@@ -6862,6 +7608,7 @@ function addWizardCustomDrug() {
   }
   input.value = '';
   renderWizardCustomDrugTags();
+  updateAkinatorGauge();
   calculateWizardDiagnosis(false);
 }
 
@@ -6872,12 +7619,14 @@ function addWizardQuickSymptom(symptomText) {
     wizardState.customDrugs.push(symptomText);
   }
   renderWizardCustomDrugTags();
+  updateAkinatorGauge();
   calculateWizardDiagnosis(false);
 }
 
 function removeWizardCustomDrug(idx) {
   wizardState.customDrugs.splice(idx, 1);
   renderWizardCustomDrugTags();
+  updateAkinatorGauge();
   calculateWizardDiagnosis(false);
 }
 
@@ -6895,7 +7644,7 @@ function renderWizardCustomDrugTags() {
   }).join('');
 }
 
-// 確率計算と診断結果のレンダリング
+// 確率計算と教科書レベル詳細診断レポートのレンダリング
 function calculateWizardDiagnosis(isForced = false) {
   const data = wizardState.activeData;
   if (!data) return;
@@ -6912,7 +7661,7 @@ function calculateWizardDiagnosis(isForced = false) {
     scores[d.id] = d.baseProb || 20;
   });
 
-  // 選択肢による重み加算
+  // 選択肢の重み加算
   data.questions.forEach(q => {
     q.options.forEach(opt => {
       if (wizardState.selectedOptionIds.has(opt.id) && opt.weights) {
@@ -6925,45 +7674,35 @@ function calculateWizardDiagnosis(isForced = false) {
     });
   });
 
-  // フリー併用薬によるキーワードマッチ加算
-  // フリー追加（主訴・自覚症状 ＆ 併用薬）による超高精度ベイズマッチング
+  // 主訴によるベイズ加算
   wizardState.customDrugs.forEach(cd => {
     const cdLower = cd.toLowerCase();
-    
-    // 主訴キーワードの同義語・要素分解
     const keywords = [cdLower];
     if (cdLower.includes('こわばり')) keywords.push('こわばり', '関節', '朝');
-    if (cdLower.includes('胸痛')) keywords.push('胸痛', '胸部', '胸が痛', '胸が苦', '狭心');
-    if (cdLower.includes('息切れ') || cdLower.includes('動悸')) keywords.push('息切れ', '呼吸困難', '動悸', '起座呼吸', '心不全');
+    if (cdLower.includes('胸痛')) keywords.push('胸痛', '胸部', '胸が痛', '狭心');
+    if (cdLower.includes('息切れ') || cdLower.includes('動悸')) keywords.push('息切れ', '呼吸困難', '動悸', '心不全');
     if (cdLower.includes('むくみ') || cdLower.includes('浮腫')) keywords.push('むくみ', '浮腫', '体液貯留');
     if (cdLower.includes('しびれ') || cdLower.includes('ピリピリ')) keywords.push('しびれ', '神経障害', '感覚異常', '足裏');
     if (cdLower.includes('震え') || cdLower.includes('振戦')) keywords.push('震え', '振戦');
-    if (cdLower.includes('脱力') || cdLower.includes('こむら返り')) keywords.push('脱力', '低k', 'こむら返り', 'つる');
-    if (cdLower.includes('まぶた') || cdLower.includes('複視')) keywords.push('まぶた', '眼瞼', '複視', '重症筋無力症', '下垂');
-    if (cdLower.includes('胸やけ') || cdLower.includes('酸っぱい') || cdLower.includes('呑酸')) keywords.push('胸やけ', '呑酸', 'gerd', '逆流', '酸');
+    if (cdLower.includes('脱力') || cdLower.includes('こむら返り')) keywords.push('脱力', '低k', 'こむら返り');
+    if (cdLower.includes('まぶた') || cdLower.includes('複視')) keywords.push('まぶた', '眼瞼', '複視', '重症筋無力症');
+    if (cdLower.includes('胸やけ') || cdLower.includes('呑酸')) keywords.push('胸やけ', '呑酸', 'gerd', '逆流');
     if (cdLower.includes('腹水') || cdLower.includes('張り')) keywords.push('腹水', '腹囲', '肝硬変');
     if (cdLower.includes('咳')) keywords.push('咳', '咳嗽', '間質性肺炎', 'ipf');
-    if (cdLower.includes('赤み') || cdLower.includes('紅斑')) keywords.push('蝶形紅斑', '紅斑', '赤み', 'sle');
-    if (cdLower.includes('口内炎')) keywords.push('アフタ', '口内炎', 'ベーチェット');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
-      
       let matchedCount = 0;
       keywords.forEach(kw => {
-        if (targetText.includes(kw)) {
-          matchedCount++;
-        }
+        if (targetText.includes(kw)) matchedCount++;
       });
-
       if (matchedCount > 0) {
-        // 主訴・併用薬の合致度に応じて確率を急激ブースト（+50〜80点）
-        scores[d.id] += 50 + (matchedCount * 10);
+        scores[d.id] += 55 + (matchedCount * 12);
       }
     });
   });
 
-  // 負のスコアを補正（最低5点）
+  // 負のスコア補正
   data.diseases.forEach(d => {
     scores[d.id] = Math.max(5, scores[d.id]);
   });
@@ -6982,54 +7721,181 @@ function calculateWizardDiagnosis(isForced = false) {
     };
   }).sort((a, b) => b.prob - a.prob);
 
-  // レンダリング
-  let resultsHtml = '';
-  rankedDiseases.forEach((dis, rankIdx) => {
-    const isTop = rankIdx === 0;
-    const rankEmoji = rankIdx === 0 ? '🥇 第1位（最有力病態）' : (rankIdx === 1 ? '🥈 第2位（次点候補）' : '🥉 第3位');
+  const top = rankedDiseases[0];
+  const tr = top.treatment || {
+    pathology: top.reason,
+    rationale: top.criteria,
+    firstLine: 'ガイドライン推奨の標準薬物療法。',
+    combination: '相乗効果を狙う併用薬の段階的導入。',
+    contra: '禁忌項目・相互作用に留意。',
+    targets: '自覚症状の寛解・検査値目標の達成。',
+    guidance: top.keyPoint
+  };
 
-    resultsHtml += `
-      <div class="wizard-result-card ${isTop ? 'top-rank' : ''}">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:4px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <strong style="font-size:${isTop ? '1.05rem' : '0.92rem'}; color:${isTop ? '#065f46' : '#334155'};">
-              ${rankEmoji}：${dis.name}
-            </strong>
+  // 教科書レベル詳細レポートのレンダリング
+  let resultsHtml = `
+    <!-- 🥇 最有力病態サブタイプ 特大ヒーローカード -->
+    <div class="wizard-report-hero">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
+        <div>
+          <div class="wizard-report-rank-tag">
+            <span>🥇 最有力病態サブタイプ特定</span>
+            <span>|</span>
+            <span>確信度：${top.prob}%</span>
           </div>
-          <span style="font-size:0.95rem; font-weight:800; color:${isTop ? '#059669' : '#64748b'};">
-            確信度：${dis.prob}%
-          </span>
-        </div>
-
-        <div class="wizard-prob-bar-wrapper">
-          <div class="wizard-prob-bar-fill" style="width:${dis.prob}%; background:${isTop ? 'linear-gradient(90deg, #10b981, #059669)' : '#94a3b8'};"></div>
-        </div>
-
-        <div style="background:${isTop ? '#ffffff' : '#f8fafc'}; border:1px solid ${isTop ? '#a7f3d0' : '#e2e8f0'}; border-radius:8px; padding:12px 14px; margin-bottom:10px;">
-          <div style="font-size:0.88rem; font-weight:800; color:#065f46; margin-bottom:6px;">
-            🎯 特定された病態サブタイプ：${dis.subType}
-          </div>
-          <div style="font-size:0.82rem; color:#1e293b; line-height:1.5; margin-bottom:6px;">
-            <strong>💡 処方パターンの臨床的根拠：</strong>${dis.reason}
-          </div>
-          <div style="font-size:0.8rem; color:#b45309; background:#fffbeb; border:1px solid #fef3c7; border-radius:4px; padding:6px 10px; line-height:1.4;">
-            <strong>🚨 最優先確認事項（薬剤師の眼）：</strong>${dis.keyPoint}
+          <h2 class="wizard-report-title">${top.name}</h2>
+          <div class="wizard-report-subtype-pill">
+            🎯 特定された詳細病態：<strong>${top.subType}</strong>
           </div>
         </div>
-
-        <div style="display:flex; justify-content:flex-end;">
-          <button onclick="jumpToDiseaseCheckFromWizard(${dis.cardNum})" 
-                  style="background:${isTop ? '#059669' : '#f1f5f9'}; color:${isTop ? 'white' : '#475569'}; border:1px solid ${isTop ? '#059669' : '#cbd5e1'}; font-size:0.82rem; font-weight:700; padding:6px 14px; border-radius:6px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
-            🩺 この疾患の症状＆薬剤確認シートを見る ➔
-          </button>
+        <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:10px 16px; text-align:center;">
+          <div style="font-size:0.75rem; opacity:0.9;">AI特定確信度</div>
+          <div style="font-size:1.8rem; font-weight:900; color:#34d399;">${top.prob}%</div>
         </div>
       </div>
+    </div>
+
+    <!-- 教科書レベルの治療戦略 ＆ 臨床実践セクション群 -->
+    <div class="wizard-report-sections">
+
+      <!-- 1. 🩺 病態生理 ＆ 臨床像 -->
+      <div class="wt-card">
+        <div class="wt-header pathology">
+          <span>🩺</span>
+          <span>1. 病態生理 ＆ 臨床像（なぜこの病態と判定されたか）</span>
+        </div>
+        <div class="wt-body">
+          <p style="margin:0 0 8px 0; line-height:1.6;">${tr.pathology}</p>
+        </div>
+      </div>
+
+      <!-- 2. 🔬 診断の決め手 ＆ 処方鑑別ポイント -->
+      <div class="wt-card">
+        <div class="wt-header rationale">
+          <span>🔬</span>
+          <span>2. 処方サイン ＆ 診断根拠（行間を読む処方鑑別）</span>
+        </div>
+        <div class="wt-body">
+          <div style="margin-bottom:8px;">
+            <strong style="color:#854d0e;">💡 処方鑑別の決め手：</strong>${tr.rationale}
+          </div>
+          <div style="background:#fefce8; border:1px solid #fef08a; border-radius:6px; padding:8px 12px; font-size:0.83rem; color:#713f12;">
+            <strong>処方箋のサイン：</strong>${top.criteria}
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 💊 ガイドライン推奨 治療戦略 ＆ 標準処方設計 -->
+      <div class="wt-card">
+        <div class="wt-header treatment">
+          <span>💊</span>
+          <span>3. ガイドライン推奨 治療戦略 ＆ 標準処方プロトコル</span>
+        </div>
+        <div class="wt-body">
+          <div class="wt-treatment-grid">
+            <div class="wt-treatment-item first-line">
+              <div class="wt-item-label">
+                <span>🌟</span>
+                <span>【第一選択薬（First-line）＆ 標準レジメン】</span>
+              </div>
+              <div style="white-space:pre-line; line-height:1.5;">${tr.firstLine}</div>
+            </div>
+            <div class="wt-treatment-item combination">
+              <div class="wt-item-label">
+                <span>➕</span>
+                <span>【推奨併用薬（Add-on）＆ 治療ステップ】</span>
+              </div>
+              <div style="white-space:pre-line; line-height:1.5;">${tr.combination}</div>
+            </div>
+            <div class="wt-treatment-item contra">
+              <div class="wt-item-label">
+                <span>🚨</span>
+                <span>【禁忌・慎重投与・併用注意】</span>
+              </div>
+              <div style="white-space:pre-line; line-height:1.5; color:#9f1239;">${tr.contra}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 🎯 治療目標値 ＆ 臨床検査値モニタリング指標 -->
+      <div class="wt-card">
+        <div class="wt-header targets">
+          <span>🎯</span>
+          <span>4. 治療目標値 ＆ 臨床検査値モニタリング指標</span>
+        </div>
+        <div class="wt-body">
+          <div style="white-space:pre-line; line-height:1.55; color:#581c87;">${tr.targets}</div>
+        </div>
+      </div>
+
+      <!-- 5. 🗣️ 薬剤師の服薬指導急所 ＆ 疑義照会トリガー -->
+      <div class="wt-card">
+        <div class="wt-header guidance">
+          <span>🗣️</span>
+          <span>5. 薬剤師の服薬指導急所 ＆ 疑義照会トリガー</span>
+        </div>
+        <div class="wt-body">
+          <div style="white-space:pre-line; line-height:1.55; margin-bottom:10px;">${tr.guidance}</div>
+          <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:6px; padding:8px 12px; font-size:0.83rem; color:#9a3412;">
+            <strong>🚨 最優先確認事項（薬剤師の眼）：</strong>${top.keyPoint}
+          </div>
+        </div>
+      </div>
+
+      <!-- 疾患カードジャンプボタン -->
+      <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+        <button onclick="jumpToDiseaseCheckFromWizard(${top.cardNum})" 
+                class="wizard-action-btn-primary" style="font-size:0.95rem; padding:10px 24px; display:inline-flex; align-items:center; gap:8px;">
+          <span>🩺 この疾患の症状 ＆ 薬剤確認シートを開く ➔</span>
+        </button>
+      </div>
+
+    </div>
+  `;
+
+  // 鑑別候補（第2位、第3位）の比較カード
+  if (rankedDiseases.length > 1) {
+    resultsHtml += `
+      <div class="wizard-secondary-cards">
+        <div style="font-size:0.95rem; font-weight:800; color:#334155; margin-bottom:12px; display:flex; align-items:center; gap:6px;">
+          <span>🥈 鑑別すべき次点候補（もし上記の病態でない場合に考慮）：</span>
+        </div>
     `;
-  });
+
+    rankedDiseases.slice(1, 4).forEach((dis, rIdx) => {
+      const rankNum = rIdx + 2;
+      const rankBadge = rankNum === 2 ? '🥈 第2位' : (rankNum === 3 ? '🥉 第3位' : `第${rankNum}位`);
+      resultsHtml += `
+        <div class="wizard-secondary-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div style="font-size:0.92rem; font-weight:800; color:#1e293b;">
+              <span style="color:#64748b;">${rankBadge}：</span>${dis.name}
+            </div>
+            <span style="font-size:0.88rem; font-weight:800; color:#64748b;">確信度：${dis.prob}%</span>
+          </div>
+          <div style="font-size:0.82rem; color:#065f46; font-weight:700; margin:4px 0;">
+            サブタイプ：${dis.subType}
+          </div>
+          <div style="font-size:0.8rem; color:#475569; margin-bottom:6px;">
+            <strong>処方サイン：</strong>${dis.criteria}
+          </div>
+          <div style="display:flex; justify-content:flex-end;">
+            <button onclick="jumpToDiseaseCheckFromWizard(${dis.cardNum})" 
+                    style="background:#f1f5f9; color:#334155; border:1px solid #cbd5e1; font-size:0.78rem; font-weight:700; padding:4px 10px; border-radius:6px; cursor:pointer;">
+              確認シートを見る ➔
+            </button>
+          </div>
+        </div>
+      `
+    });
+
+    resultsHtml += `</div>`;
+  }
 
   resultsContainer.innerHTML = resultsHtml;
 
-  // ユーザーが判定ボタンを押した場合は、結果カードへスムーズスクロール
+  // スクロール
   if (isForced) {
     setTimeout(() => {
       step3.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -7049,6 +7915,8 @@ function jumpToDiseaseCheckFromWizard(cardNum) {
 function resetWizard() {
   wizardState.activeKey = null;
   wizardState.activeData = null;
+  wizardState.currentQuestionIndex = 0;
+  wizardState.history = [];
   wizardState.selectedOptionIds.clear();
   wizardState.customDrugs = [];
 
@@ -7152,4 +8020,3 @@ function clearWizardDrugInput() {
     input.focus();
   }
 }
-
