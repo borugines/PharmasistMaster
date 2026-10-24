@@ -4398,6 +4398,200 @@ tbody tr:hover { background-color: #f0fdf4; }
 }
 
 /* ========================================================
+   複合病態（マルチモビディティ）シンドローム解析スタイル
+   ======================================================== */
+.wizard-complex-hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e3a8a 100%);
+  color: #ffffff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  margin-bottom: 22px;
+  box-shadow: 0 6px 20px rgba(30, 27, 75, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+.wizard-complex-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, #ec4899, #8b5cf6);
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 800;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.35);
+}
+.wizard-complex-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.02em;
+  color: #f8fafc;
+}
+.wizard-complex-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.wizard-complex-pill {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 複合病態特有の3大セクションカード（問題・解決・確認事項） */
+.wc-cross-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+.wc-cross-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+  border: 1.5px solid;
+}
+.wc-cross-header {
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wc-cross-body {
+  padding: 16px 20px;
+  background: #ffffff;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #1e293b;
+}
+
+/* 1. 複合だからこその問題・ジレンマ */
+.wc-cross-card.issues {
+  border-color: #fca5a5;
+}
+.wc-cross-card.issues .wc-cross-header {
+  background: #fef2f2;
+  color: #991b1b;
+  border-bottom: 1.5px solid #fecaca;
+}
+.wc-issue-item {
+  background: #fff5f5;
+  border-left: 4px solid #ef4444;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 10px;
+}
+.wc-issue-title {
+  font-weight: 800;
+  color: #b91c1c;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+/* 2. 複合だからこその解決戦略（相乗効果・一石多鳥） */
+.wc-cross-card.solutions {
+  border-color: #86efac;
+}
+.wc-cross-card.solutions .wc-cross-header {
+  background: #f0fdf4;
+  color: #166534;
+  border-bottom: 1.5px solid #bbf7d0;
+}
+.wc-solution-item {
+  background: #f0fdf4;
+  border-left: 4px solid #10b981;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 10px;
+}
+.wc-solution-title {
+  font-weight: 800;
+  color: #047857;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+/* 3. 複合だからこその確認事項＆疑義照会トリガー（SADMANS等） */
+.wc-cross-card.checkpoints {
+  border-color: #fed7aa;
+}
+.wc-cross-card.checkpoints .wc-cross-header {
+  background: #fff7ed;
+  color: #9a3412;
+  border-bottom: 1.5px solid #ffedd5;
+}
+.wc-checkpoint-item {
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 10px;
+}
+.wc-checkpoint-title {
+  font-weight: 800;
+  color: #b45309;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+/* 個別病態のアコーディオン展開ヘッダー */
+.wc-disease-tab-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 24px 0 14px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #cbd5e1;
+}
+.wc-disease-subcard {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  background: #ffffff;
+}
+.wc-disease-subcard-header {
+  padding: 12px 18px;
+  background: #f8fafc;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.15s ease;
+  user-select: none;
+}
+.wc-disease-subcard-header:hover {
+  background: #f1f5f9;
+}
+.wc-disease-subcard-body {
+  padding: 18px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ========================================================
    ウィザード＆病態特定のスマートフォン最適化 (Mobile Responsive)
    ======================================================== */
 @media (max-width: 768px) {
@@ -42960,6 +43154,220 @@ function renderWizardCustomDrugTags() {
   }).join('');
 }
 
+
+// ========================================================
+// 🧬 複合病態（マルチモビディティ）シンドローム知識ベース
+// ========================================================
+const COMPLEX_SYNDROME_MAP = [
+  {
+    id: 'cardio_renal_metabolic',
+    title: '🫀×🧪×🍬 心腎代謝連関（Cardio-Renal-Metabolic：CRM）複合症候群',
+    desc: '心機能低下・糸球体障害・インスリン抵抗性が相互に悪循環を形成する現代医療の最重要複合病態',
+    matchTags: ['hf_ref', 'hf_pef', 'hf_refractory', 'ckd_proteinuria', 'ckd_dm_nephropathy', 'dm2_obese', 'dm2_elderly', 'dm1_adjunct', 'hf_hfs_all'],
+    crossIssues: [
+      {
+        title: '利尿（うっ血解除） vs 腎血流低下（Cr急上昇・AKI）の深刻なトレードオフ',
+        detail: '肺うっ血や浮腫を取るためにループ利尿薬を増量すると、有効循環血漿量が減少し急性腎障害（Initial DipやAKI）を惹起。逆に利尿を控えると心不全急性増悪で再入院を招く「心腎連関のジレンマ」が生じます。'
+      },
+      {
+        title: '心筋保護薬（ARNI / MRA）導入時の致死的「高カリウム血症」リスク',
+        detail: '心不全予後を劇的に改善するエビデンスがあるにもかかわらず、CKD（eGFR < 30〜45）が合併するとカリウム排泄能が低下。血清Kが5.5mEq/Lを超えて心室性不整脈の危険が高まり、薬を中止せざるを得ない事態に陥ります。'
+      },
+      {
+        title: 'SGLT2阻害薬 ＆ 利尿薬併用下における「正常血糖ケトアシドーシス（euDKA） ＆ 隠れ脱水」',
+        detail: '利尿薬とSGLT2阻害薬の併用下で感染症や食欲不振、下痢等の脱水が重なると、血糖値が高くない（200mg/dL以下）にもかかわらず致死的なケトアシドーシスを発症する危険が跳ね上がります。'
+      }
+    ],
+    crossSolutions: [
+      {
+        title: '多面的臓器保護薬（The Fantastic 4）による「心・腎・血糖の一石三鳥同時制御」',
+        detail: 'SGLT2阻害薬（フォシーガ/ジャディアンス）と選択的MRAは、血糖降下だけでなく「心不全死抑制」「eGFR低下抑制」「尿蛋白漏出抑制」を1剤で同時に達成。個々の病気ごとに薬を増やすのではなく、1剤で多臓器を守る処方設計が第一選択となります。'
+      },
+      {
+        title: 'ポリファーマシー是正：浸透圧利尿を活用した「ループ利尿薬の引き算減量」',
+        detail: 'SGLT2阻害薬の導入に伴い、過剰になっていたループ利尿薬（ラシックス等）を徐々に減量・整理。腎血流を維持しつつ低Na血症や電解質異常を防ぐスマートな処方適正化を行います。'
+      },
+      {
+        title: '「Initial Dip（初期の一過性eGFR低下）」の正しい許容と中止回避',
+        detail: 'SGLT2阻害薬やARNI開始後にeGFRが約30%程度一過性に低下するのは「糸球体過剰濾過が是正された正常な保護反応（Initial Dip）」です。慌てて中止せず維持することで、長期的な末期腎不全（透析）への移行を阻止できます。'
+      }
+    ],
+    crossCheckpoints: [
+      {
+        title: '🚨 SADMANS（シックデイ休薬ルール）の患者徹底指導',
+        detail: '発熱・下痢・嘔吐・食事摂取困難時は以下の薬剤を一時休薬：\n・S: SGLT2阻害薬（ケトアシドーシス・重症脱水防止）\n・A: ARNI / ACEi / ARB（急性腎不全防止）\n・D: 利尿薬 Diuretics（循環血漿量枯渇防止）\n・M: メトホルミン（乳酸アシドーシス防止）\n・N: NSAIDs（腎虚血防止）'
+      },
+      {
+        title: '🚨 電解質・腎機能の具体的疑義照会トリガー',
+        detail: '血清K値 > 5.5 mEq/L または 血清Crがベースラインから30%以上急増した場合は、MRAやARNIの一時減量・休薬、またはカリウム吸着薬（ロケルマ）併用を医師へ疑義照会。'
+      },
+      {
+        title: '🚨 相反する水分指導のバランス解決',
+        detail: '心不全の「水分制限（1〜1.5L/日）」とSGLT2iの「脱水予防飲水」の矛盾に対し、「喉が渇いたら我慢せずコップ1杯多めに飲む」「朝の体重測定で2日で2kg増えたら心不全悪化、急減したら脱水」という体重連動型指導を実施。'
+      }
+    ]
+  },
+  {
+    id: 'immuno_infection_bone',
+    title: '🛡️×🦴×🦠 自己免疫（RA/SLE） ＋ 高用量ステロイド ＋ 感染・骨粗鬆症複合リスク病態',
+    desc: '免疫炎症の鎮静と、それに伴う日和見感染・骨代謝破壊が隣り合わせのハイリスク複合病態',
+    matchTags: ['ra_active', 'sle_lupus', 'ipf_cadm', 'mg_crisis', 'egpa_vasculitis', 'nephrotic_mcns', 'pcp_prophylaxis'],
+    crossIssues: [
+      {
+        title: '自己免疫炎症の鎮静 vs 致死性日和見感染（PCP肺炎・真菌症）の誘発',
+        detail: '疾患活動性を抑えるためにプレドニンを中〜高用量投与すると、細胞性免疫（CD4陽性T細胞）が著明低下し、通常は無害な常在菌・真菌による致死的な日和見感染症を招きます。'
+      },
+      {
+        title: '急激な骨代謝破綻による「ステロイド性骨粗鬆症 ＆ 無症候性圧迫骨折」',
+        detail: 'ステロイド開始後わずか数ヶ月で破骨細胞活性化と骨芽細胞アポトーシスが生じ、骨密度が正常範囲であっても骨質劣化により脊椎圧迫骨折を多発します。'
+      },
+      {
+        title: 'NSAIDs長期併用下における「サイレント消化性潰瘍 ＆ 穿孔」',
+        detail: '関節痛鎮痛のためのNSAIDsとステロイドの併用は、胃粘膜防御を二重に破壊し、無症候性のまま突然の大量吐下血や消化管穿孔を引き起こします。'
+      }
+    ],
+    crossSolutions: [
+      {
+        title: '「ステロイド3大予防セット（感染・骨・胃）」の三位一体導入',
+        detail: 'プレドニン換算 ≥ 20mg/日投与時は、「バクタ配合錠（PCP予防）」＋「ビスホスホネート/ビタミンD（骨粗鬆症予防）」＋「タケキャブ/PPI（潰瘍予防）」をセットで併用し、医原性合併症を徹底的に未然遮断します。'
+      },
+      {
+        title: '免疫抑制薬（MTX/セルセプト/生物製剤）併用による「ステロイド早期スリム化」',
+        detail: 'ステロイド単独で粘るのではなく、早期から免疫抑制薬や分子標的薬を導入し、プレドニンを安全域（5mg/日以下）へ迅速に漸減するプロトコルを遵守します。'
+      }
+    ],
+    crossCheckpoints: [
+      {
+        title: '🚨 バクタ（ST合剤）による重症薬疹（SJS/TEN）の初期察知',
+        detail: '服用開始2〜4週目の「発熱」「全身の皮疹・紅斑」「口内炎」「眼の充血」は直ちに服薬中止し受診させる最重要警戒事項です。'
+      },
+      {
+        title: '🚨 ビスホスホネート製剤（ボナロン等）の確実な服用手順確認',
+        detail: '起床時空腹時にコップ1杯（180mL）の水で服用し、服用後30分間は横にならず水以外の飲食を避ける（食道潰瘍・吸収不良防止）。'
+      }
+    ]
+  },
+  {
+    id: 'cardio_thrombosis_ulcer',
+    title: '🩸×🍽️ 心血管血栓塞栓（Af/狭心症） ＋ 上部消化管出血ハイリスク複合病態',
+    desc: '抗凝固薬と抗血小板薬の重畳投与による大出血リスクと血栓予防のギリギリの綱渡り',
+    matchTags: ['af_rate', 'ihd_angina', 'vasospastic_angina', 'lda_ulcer_prev', 'gerd_severe'],
+    crossIssues: [
+      {
+        title: '血栓塞栓阻止（脳梗塞・ステント閉塞） vs 致死的消化管出血のジレンマ',
+        detail: '心房細動に対するDOAC（抗凝固薬）と、冠動脈PCI後の抗血小板薬を併用（DAT/TAT）すると、消化管出血リスクが単剤の3〜5倍に激増します。'
+      }
+    ],
+    crossSolutions: [
+      {
+        title: '早期ステップダウン療法（アスピリン早期中止 ＆ DOAC単剤化）',
+        detail: '最新ガイドラインに基づき、ステント留置後急性期を過ぎたらアスピリンを早期（1〜4週以内）に中止し、「DOAC ＋ P2Y12阻害薬（クロピドグレル等）」の2剤併用（DAT）へ、1年後にはDOAC単剤へ移行します。'
+      },
+      {
+        title: '酸分泌抑制薬（タケキャブ/ネキシウム）の確実な併用カバレッジ',
+        detail: '抗血栓薬併用期間中は強力な酸分泌抑制薬を継続投与し、びらん・潰瘍形成を確実に防御します。'
+      }
+    ],
+    crossCheckpoints: [
+      {
+        title: '🚨 黒色便（タール便）・ふらつき・貧血進行の定期確認',
+        detail: '胃痛がなくても出血しているケース（無痛性潰瘍出血）が多いため、「便の色が黒くなっていないか」「めまいや息切れが増えていないか」を毎回指導確認。'
+      },
+      {
+        title: '🚨 予定期間を過ぎた抗血小板薬の漫然併用に対する疑義照会',
+        detail: 'PCI後1年以上経過してもアスピリンとDOACが漫然と両方処方され続けている場合、出血リスク低減のためDOAC単剤化への変更を処方医へ提案。'
+      }
+    ]
+  },
+  {
+    id: 'metabolic_gout_renal',
+    title: '🦶×🩸×🧪 生活習慣病 ＋ 高尿酸血症・痛風 ＋ 腎機能低下複合病態',
+    desc: '尿酸沈着・動脈硬化・糸球体障害が連鎖し、薬剤選択を誤ると痛風発作や腎機能低下を招く複合病態',
+    matchTags: ['gout_prodrome', 'gout_urate_cover', 'htn_elderly', 'resist_htn', 'ckd_proteinuria', 'ckd_dm_nephropathy'],
+    crossIssues: [
+      {
+        title: '利尿薬による高尿酸血症悪化 ＆ 痛風発作誘発',
+        detail: '降圧のために安易にサイアザイド系利尿薬やループ利尿薬を併用すると、尿酸再吸収が亢進して血清尿酸値が跳ね上がり、激痛発作を誘発します。'
+      },
+      {
+        title: '発作極期のNSAIDs大量投与による不可逆的腎機能障害（AKI）',
+        detail: '腎硬化症・CKD合併患者の痛風発作にロキソニン等のNSAIDsを高用量パルス投与すると、輸入細動脈が攣縮し重篤な急性腎障害を招きます。'
+      }
+    ],
+    crossSolutions: [
+      {
+        title: '尿酸排泄促進作用を持つ降圧薬「ロサルタン（ニューロタン）」の選定',
+        detail: 'ARBの中でもロサルタンは特異的に腎近位尿細管のURAT1を阻害し尿中尿酸排泄を促進。降圧と尿酸低下を1剤で同時に達成（一石二鳥）します。'
+      },
+      {
+        title: '腎機能低下例における発作治療の工夫（コルヒチン予兆期 ＆ 微量ステロイド）',
+        detail: 'CKD患者ではNSAIDsを避け、コルヒチン予兆期服薬またはプレドニン少量（10〜15mg）短期頓用で腎機能を痛めずに発作を沈静化します。'
+      }
+    ],
+    crossCheckpoints: [
+      {
+        title: '🚨 利尿薬からロサルタンまたはCCBへの処方最適化提案',
+        detail: 'サイアザイド系利尿薬が痛風患者に併用されている場合、尿酸を上げないシルニジピンやロサルタンへの変更を提案。'
+      }
+    ]
+  },
+  {
+    id: 'neuro_psych_chronic_pain',
+    title: '🧠×🦴×⚡ 慢性難治性疼痛 ＋ 神経障害 ＋ 抑うつ・睡眠障害複合病態',
+    desc: '末梢組織の炎症から中枢神経の感作（痛みのブレーキ低下）へと移行し、不眠や意欲低下が重なる複合病態',
+    matchTags: ['clbp_oa', 'dpnp_pain', 'mdd_depression', 'fibromyalgia'],
+    crossIssues: [
+      {
+        title: '中枢抑制薬（SNRI ＋ α2δリガンド）の重畳による「過度なふらつき・転倒骨折」',
+        detail: 'サインバルタとリリカ（プレガバリン）の併用は鎮痛効果が高い一方、めまい・眠気・運動失調が増強し、特に高齢者で夜間トイレ時の転倒・大腿骨骨折リスクが急増します。'
+      }
+    ],
+    crossSolutions: [
+      {
+        title: '下行性疼痛抑制系賦活による「効かないNSAIDsの段階的中止」',
+        detail: '3ヶ月以上続く中枢性感作痛にはNSAIDsは無効かつ胃・腎毒性があるため、サインバルタの効果発現に伴いNSAIDsをスパッと中止します。'
+      }
+    ],
+    crossCheckpoints: [
+      {
+        title: '🚨 服薬開始初期のふらつき確認 ＆ 急な自己中断（離脱症状）防止指導',
+        detail: '「手すりを使って立ち上がる」「急に飲むのをやめるとシャンシャン感・めまい・吐き気が出るため自己中断しない」ことを指導。'
+      }
+    ]
+  }
+];
+
+// 複合病態シンドロームの検出関数
+function detectComplexSyndrome(rankedDiseases, selectedOptionIds, customDrugs) {
+  if (!rankedDiseases || rankedDiseases.length === 0) return null;
+
+  // 上位候補のID一覧
+  const topIds = rankedDiseases.slice(0, 3).map(d => d.id);
+  const allIds = rankedDiseases.map(d => d.id);
+
+  // マッチするシンドロームを探索
+  for (const syn of COMPLEX_SYNDROME_MAP) {
+    const matchedComponents = [];
+    syn.matchTags.forEach(tag => {
+      const found = rankedDiseases.find(d => d.id === tag);
+      if (found && !matchedComponents.some(c => c.id === found.id)) {
+        matchedComponents.push(found);
+      }
+    });
+
+    // 2つ以上の構成病態が該当する場合、複合病態として認定！
+    if (matchedComponents.length >= 2) {
+      return {
+        ...syn,
+        components: matchedComponents.slice(0, 3)
+      };
+    }
+  }
+
+  return null;
+}
+
+
 // 確率計算と教科書レベル詳細診断レポートのレンダリング
 function calculateWizardDiagnosis(isForced = false) {
   const data = wizardState.activeData;
@@ -43038,175 +43446,332 @@ function calculateWizardDiagnosis(isForced = false) {
   }).sort((a, b) => b.prob - a.prob);
 
   const top = rankedDiseases[0];
-  const tr = top.treatment || {
-    pathology: top.reason,
-    rationale: top.criteria,
-    firstLine: 'ガイドライン推奨の標準薬物療法。',
-    combination: '相乗効果を狙う併用薬の段階的導入。',
-    contra: '禁忌項目・相互作用に留意。',
-    targets: '自覚症状の寛解・検査値目標の達成。',
-    guidance: top.keyPoint
-  };
 
-  // 教科書レベル詳細レポートのレンダリング
-  let resultsHtml = `
-    <!-- 🥇 最有力病態サブタイプ 特大ヒーローカード -->
-    <div class="wizard-report-hero">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
-        <div>
-          <div class="wizard-report-rank-tag">
-            <span>🥇 最有力病態サブタイプ特定</span>
-            <span>|</span>
-            <span>確信度：${top.prob}%</span>
-          </div>
-          <h2 class="wizard-report-title">${top.name}</h2>
-          <div class="wizard-report-subtype-pill">
-            🎯 特定された詳細病態：<strong>${top.subType}</strong>
-          </div>
-        </div>
-        <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:10px 16px; text-align:center;">
-          <div style="font-size:0.75rem; opacity:0.9;">AI特定確信度</div>
-          <div style="font-size:1.8rem; font-weight:900; color:#34d399;">${top.prob}%</div>
-        </div>
-      </div>
-    </div>
+  // 🧬 複合病態シンドロームの検出
+  const complexSyndrome = detectComplexSyndrome(rankedDiseases, wizardState.selectedOptionIds, wizardState.customDrugs);
 
-    <!-- 教科書レベルの治療戦略 ＆ 臨床実践セクション群 -->
-    <div class="wizard-report-sections">
+  let resultsHtml = '';
 
-      <!-- 1. 🩺 病態生理 ＆ 臨床像 -->
-      <div class="wt-card">
-        <div class="wt-header pathology">
-          <span>🩺</span>
-          <span>1. 病態生理 ＆ 臨床像（なぜこの病態と判定されたか）</span>
-        </div>
-        <div class="wt-body">
-          <p style="margin:0 0 8px 0; line-height:1.6;">${tr.pathology}</p>
-        </div>
-      </div>
-
-      <!-- 2. 🔬 診断の決め手 ＆ 処方鑑別ポイント -->
-      <div class="wt-card">
-        <div class="wt-header rationale">
-          <span>🔬</span>
-          <span>2. 処方サイン ＆ 診断根拠（行間を読む処方鑑別）</span>
-        </div>
-        <div class="wt-body">
-          <div style="margin-bottom:8px;">
-            <strong style="color:#854d0e;">💡 処方鑑別の決め手：</strong>${tr.rationale}
-          </div>
-          <div style="background:#fefce8; border:1px solid #fef08a; border-radius:6px; padding:8px 12px; font-size:0.83rem; color:#713f12;">
-            <strong>処方箋のサイン：</strong>${top.criteria}
-          </div>
-        </div>
-      </div>
-
-      <!-- 3. 💊 ガイドライン推奨 治療戦略 ＆ 標準処方設計 -->
-      <div class="wt-card">
-        <div class="wt-header treatment">
-          <span>💊</span>
-          <span>3. ガイドライン推奨 治療戦略 ＆ 標準処方プロトコル</span>
-        </div>
-        <div class="wt-body">
-          <div class="wt-treatment-grid">
-            <div class="wt-treatment-item first-line">
-              <div class="wt-item-label">
-                <span>🌟</span>
-                <span>【第一選択薬（First-line）＆ 標準レジメン】</span>
-              </div>
-              <div style="white-space:pre-line; line-height:1.5;">${tr.firstLine}</div>
-            </div>
-            <div class="wt-treatment-item combination">
-              <div class="wt-item-label">
-                <span>➕</span>
-                <span>【推奨併用薬（Add-on）＆ 治療ステップ】</span>
-              </div>
-              <div style="white-space:pre-line; line-height:1.5;">${tr.combination}</div>
-            </div>
-            <div class="wt-treatment-item contra">
-              <div class="wt-item-label">
-                <span>🚨</span>
-                <span>【禁忌・慎重投与・併用注意】</span>
-              </div>
-              <div style="white-space:pre-line; line-height:1.5; color:#9f1239;">${tr.contra}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. 🎯 治療目標値 ＆ 臨床検査値モニタリング指標 -->
-      <div class="wt-card">
-        <div class="wt-header targets">
-          <span>🎯</span>
-          <span>4. 治療目標値 ＆ 臨床検査値モニタリング指標</span>
-        </div>
-        <div class="wt-body">
-          <div style="white-space:pre-line; line-height:1.55; color:#581c87;">${tr.targets}</div>
-        </div>
-      </div>
-
-      <!-- 5. 🗣️ 薬剤師の服薬指導急所 ＆ 疑義照会トリガー -->
-      <div class="wt-card">
-        <div class="wt-header guidance">
-          <span>🗣️</span>
-          <span>5. 薬剤師の服薬指導急所 ＆ 疑義照会トリガー</span>
-        </div>
-        <div class="wt-body">
-          <div style="white-space:pre-line; line-height:1.55; margin-bottom:10px;">${tr.guidance}</div>
-          <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:6px; padding:8px 12px; font-size:0.83rem; color:#9a3412;">
-            <strong>🚨 最優先確認事項（薬剤師の眼）：</strong>${top.keyPoint}
-          </div>
-        </div>
-      </div>
-
-      <!-- 疾患カードジャンプボタン -->
-      <div style="display:flex; justify-content:flex-end; margin-top:8px;">
-        <button onclick="jumpToDiseaseCheckFromWizard(${top.cardNum})" 
-                class="wizard-action-btn-primary" style="font-size:0.95rem; padding:10px 24px; display:inline-flex; align-items:center; gap:8px;">
-          <span>🩺 この疾患の症状 ＆ 薬剤確認シートを開く ➔</span>
-        </button>
-      </div>
-
-    </div>
-  `;
-
-  // 鑑別候補（第2位、第3位）の比較カード
-  if (rankedDiseases.length > 1) {
+  // ==========================================
+  // 【複合病態が検出された場合のスペシャルレンダリング】
+  // ==========================================
+  if (complexSyndrome) {
     resultsHtml += `
-      <div class="wizard-secondary-cards">
-        <div style="font-size:0.95rem; font-weight:800; color:#334155; margin-bottom:12px; display:flex; align-items:center; gap:6px;">
-          <span>🥈 鑑別すべき次点候補（もし上記の病態でない場合に考慮）：</span>
+      <!-- 🧬 複合病態シンドローム 特大ヒーローカード -->
+      <div class="wizard-complex-hero">
+        <div class="wizard-complex-badge">
+          <span>🧬 複合病態（マルチモビディティ）シンドローム特定</span>
+          <span>|</span>
+          <span>総合判定確信度：${top.prob}%</span>
         </div>
+        <h2 class="wizard-complex-title">${complexSyndrome.title}</h2>
+        <p style="font-size:0.92rem; opacity:0.95; margin:0 0 12px 0; line-height:1.5;">${complexSyndrome.desc}</p>
+        
+        <div style="font-size:0.8rem; font-weight:800; color:#cbd5e1; margin-bottom:4px;">
+          🔗 検出された構成病態クラスター（患者に併存している病態群）：
+        </div>
+        <div class="wizard-complex-pills">
+          ${complexSyndrome.components.map((c, cIdx) => `
+            <span class="wizard-complex-pill">
+              <strong>${cIdx === 0 ? '🫀 主病態' : '🧪 併存病態'}: ${c.name}</strong>
+              <span style="opacity:0.8; font-size:0.75rem;">(${c.prob}%)</span>
+            </span>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- 複合病態だからこその3大セクション（問題・解決・確認事項） -->
+      <div class="wc-cross-grid">
+
+        <!-- 1. 🔥 複合だからこその問題・ジレンマ・リスク -->
+        <div class="wc-cross-card issues">
+          <div class="wc-cross-header">
+            <span>🔥</span>
+            <span>1. 複合病態特有の問題 ＆ 治療ジレンマ（相互作用の落とし穴）</span>
+          </div>
+          <div class="wc-cross-body">
+            ${complexSyndrome.crossIssues.map(issue => `
+              <div class="wc-issue-item">
+                <div class="wc-issue-title">
+                  <span>⚡</span>
+                  <span>${issue.title}</span>
+                </div>
+                <div style="font-size:0.84rem; color:#475569; line-height:1.5;">${issue.detail}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- 2. 💡 複合だからこその解決戦略（相乗効果・処方最適化） -->
+        <div class="wc-cross-card solutions">
+          <div class="wc-cross-header">
+            <span>💡</span>
+            <span>2. 複合病態特有の解決戦略 ＆ 一石多鳥の処方最適化</span>
+          </div>
+          <div class="wc-cross-body">
+            ${complexSyndrome.crossSolutions.map(sol => `
+              <div class="wc-solution-item">
+                <div class="wc-solution-title">
+                  <span>✨</span>
+                  <span>${sol.title}</span>
+                </div>
+                <div style="font-size:0.84rem; color:#334155; line-height:1.5;">${sol.detail}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- 3. 🚨 複合だからこその臨床確認事項 ＆ 疑義照会トリガー（SADMANS等） -->
+        <div class="wc-cross-card checkpoints">
+          <div class="wc-cross-header">
+            <span>🚨</span>
+            <span>3. 複合病態特有の臨床確認事項 ＆ 疑義照会トリガー（薬剤師の眼）</span>
+          </div>
+          <div class="wc-cross-body">
+            ${complexSyndrome.crossCheckpoints.map(cp => `
+              <div class="wc-checkpoint-item">
+                <div class="wc-checkpoint-title">
+                  <span>📋</span>
+                  <span>${cp.title}</span>
+                </div>
+                <div style="font-size:0.84rem; color:#451a03; line-height:1.55; white-space:pre-line;">${cp.detail}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 個別病態をおろそかにしない！各構成病態の完全教科書レポート -->
+      <div class="wc-disease-tab-header">
+        <span>📚</span>
+        <span>各病態をおろそかにしない！構成病態ごとの完全教科書レポート（全 ${complexSyndrome.components.length} 疾患）</span>
+      </div>
     `;
 
-    rankedDiseases.slice(1, 4).forEach((dis, rIdx) => {
-      const rankNum = rIdx + 2;
-      const rankBadge = rankNum === 2 ? '🥈 第2位' : (rankNum === 3 ? '🥉 第3位' : `第${rankNum}位`);
+    // 各構成病態を一切妥協せずフル出力！
+    complexSyndrome.components.forEach((dis, cIdx) => {
+      const tr = dis.treatment || {
+        pathology: dis.reason,
+        rationale: dis.criteria,
+        firstLine: 'ガイドライン推奨の標準薬物療法。',
+        combination: '相乗効果を狙う併用薬の段階的導入。',
+        contra: '禁忌項目・相互作用に留意。',
+        targets: '自覚症状の寛解・検査値目標の達成。',
+        guidance: dis.keyPoint
+      };
+
+      const roleBadge = cIdx === 0 ? '🥇 主病態' : `🥈 併存病態 ${cIdx}`;
+
       resultsHtml += `
-        <div class="wizard-secondary-card">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-            <div style="font-size:0.92rem; font-weight:800; color:#1e293b;">
-              <span style="color:#64748b;">${rankBadge}：</span>${dis.name}
+        <div class="wc-disease-subcard">
+          <div class="wc-disease-subcard-header" onclick="toggleSubcardBody('subcard_body_${dis.id}')">
+            <div>
+              <span style="background:${cIdx === 0 ? '#059669' : '#3b82f6'}; color:white; font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:10px; margin-right:6px;">
+                ${roleBadge}
+              </span>
+              <strong style="font-size:1.05rem; color:#1e293b;">${dis.name}</strong>
+              <span style="font-size:0.85rem; color:#64748b; margin-left:8px;">確信度：${dis.prob}%</span>
             </div>
-            <span style="font-size:0.88rem; font-weight:800; color:#64748b;">確信度：${dis.prob}%</span>
+            <div style="font-size:0.82rem; color:#059669; font-weight:700;">
+              <span>詳細レポートを開閉 ▼</span>
+            </div>
           </div>
-          <div style="font-size:0.82rem; color:#065f46; font-weight:700; margin:4px 0;">
-            サブタイプ：${dis.subType}
-          </div>
-          <div style="font-size:0.8rem; color:#475569; margin-bottom:6px;">
-            <strong>処方サイン：</strong>${dis.criteria}
-          </div>
-          <div style="display:flex; justify-content:flex-end;">
-            <button onclick="jumpToDiseaseCheckFromWizard(${dis.cardNum})" 
-                    style="background:#f1f5f9; color:#334155; border:1px solid #cbd5e1; font-size:0.78rem; font-weight:700; padding:4px 10px; border-radius:6px; cursor:pointer;">
-              確認シートを見る ➔
-            </button>
+
+          <div id="subcard_body_${dis.id}" class="wc-disease-subcard-body">
+            <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:10px 14px; margin-bottom:14px;">
+              <span style="font-size:0.92rem; font-weight:800; color:#065f46;">
+                🎯 特定された詳細病態：${dis.subType}
+              </span>
+            </div>
+
+            <!-- 治療戦略セクション群 -->
+            <div class="wizard-report-sections">
+              <div class="wt-card">
+                <div class="wt-header pathology"><span>🩺</span><span>1. 病態生理 ＆ 臨床像</span></div>
+                <div class="wt-body"><p style="margin:0; line-height:1.6;">${tr.pathology}</p></div>
+              </div>
+              <div class="wt-card">
+                <div class="wt-header rationale"><span>🔬</span><span>2. 処方サイン ＆ 診断根拠</span></div>
+                <div class="wt-body">
+                  <div style="margin-bottom:6px;"><strong style="color:#854d0e;">💡 鑑別の決め手：</strong>${tr.rationale}</div>
+                  <div style="background:#fefce8; border:1px solid #fef08a; border-radius:6px; padding:6px 10px; font-size:0.83rem; color:#713f12;">
+                    <strong>処方サイン：</strong>${dis.criteria}
+                  </div>
+                </div>
+              </div>
+              <div class="wt-card">
+                <div class="wt-header treatment"><span>💊</span><span>3. ガイドライン推奨 治療戦略 ＆ 標準処方設計</span></div>
+                <div class="wt-body">
+                  <div class="wt-treatment-grid">
+                    <div class="wt-treatment-item first-line">
+                      <div class="wt-item-label"><span>🌟</span><span>【第一選択薬（First-line）＆ 用量】</span></div>
+                      <div style="white-space:pre-line; line-height:1.5;">${tr.firstLine}</div>
+                    </div>
+                    <div class="wt-treatment-item combination">
+                      <div class="wt-item-label"><span>➕</span><span>【推奨併用薬（Add-on）】</span></div>
+                      <div style="white-space:pre-line; line-height:1.5;">${tr.combination}</div>
+                    </div>
+                    <div class="wt-treatment-item contra">
+                      <div class="wt-item-label"><span>🚨</span><span>【禁忌・慎重投与】</span></div>
+                      <div style="white-space:pre-line; line-height:1.5; color:#9f1239;">${tr.contra}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="wt-card">
+                <div class="wt-header targets"><span>🎯</span><span>4. 治療目標値 ＆ 臨床検査値モニタリング指標</span></div>
+                <div class="wt-body"><div style="white-space:pre-line; line-height:1.55; color:#581c87;">${tr.targets}</div></div>
+              </div>
+              <div class="wt-card">
+                <div class="wt-header guidance"><span>🗣️</span><span>5. 薬剤師の服薬指導急所 ＆ 疑義照会トリガー</span></div>
+                <div class="wt-body">
+                  <div style="white-space:pre-line; line-height:1.55; margin-bottom:8px;">${tr.guidance}</div>
+                  <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:6px; padding:6px 10px; font-size:0.83rem; color:#9a3412;">
+                    <strong>🚨 最優先確認事項：</strong>${dis.keyPoint}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+              <button onclick="jumpToDiseaseCheckFromWizard(${dis.cardNum})" 
+                      style="background:#059669; color:white; border:none; padding:8px 16px; border-radius:6px; font-weight:700; font-size:0.84rem; cursor:pointer;">
+                🩺 この疾患の症状＆薬剤確認シートを見る ➔
+              </button>
+            </div>
           </div>
         </div>
-      `
+      `;
     });
 
-    resultsHtml += `</div>`;
+  } else {
+    // ==========================================
+    // 【単一病態の場合の標準詳細レンダリング】
+    // ==========================================
+    const tr = top.treatment || {
+      pathology: top.reason,
+      rationale: top.criteria,
+      firstLine: 'ガイドライン推奨の標準薬物療法。',
+      combination: '相乗効果を狙う併用薬の段階的導入。',
+      contra: '禁忌項目・相互作用に留意。',
+      targets: '自覚症状の寛解・検査値目標の達成。',
+      guidance: top.keyPoint
+    };
+
+    resultsHtml += `
+      <!-- 🥇 最有力病態サブタイプ 特大ヒーローカード -->
+      <div class="wizard-report-hero">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
+          <div>
+            <div class="wizard-report-rank-tag">
+              <span>🥇 最有力病態サブタイプ特定</span>
+              <span>|</span>
+              <span>確信度：${top.prob}%</span>
+            </div>
+            <h2 class="wizard-report-title">${top.name}</h2>
+            <div class="wizard-report-subtype-pill">
+              🎯 特定された詳細病態：<strong>${top.subType}</strong>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:10px 16px; text-align:center;">
+            <div style="font-size:0.75rem; opacity:0.9;">AI特定確信度</div>
+            <div style="font-size:1.8rem; font-weight:900; color:#34d399;">${top.prob}%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 教科書レベルの治療戦略 ＆ 臨床実践セクション群 -->
+      <div class="wizard-report-sections">
+        <div class="wt-card">
+          <div class="wt-header pathology"><span>🩺</span><span>1. 病態生理 ＆ 臨床像（なぜこの病態と判定されたか）</span></div>
+          <div class="wt-body"><p style="margin:0 0 8px 0; line-height:1.6;">${tr.pathology}</p></div>
+        </div>
+        <div class="wt-card">
+          <div class="wt-header rationale"><span>🔬</span><span>2. 処方サイン ＆ 診断根拠（行間を読む処方鑑別）</span></div>
+          <div class="wt-body">
+            <div style="margin-bottom:8px;"><strong style="color:#854d0e;">💡 処方鑑別の決め手：</strong>${tr.rationale}</div>
+            <div style="background:#fefce8; border:1px solid #fef08a; border-radius:6px; padding:8px 12px; font-size:0.83rem; color:#713f12;">
+              <strong>処方箋のサイン：</strong>${top.criteria}
+            </div>
+          </div>
+        </div>
+        <div class="wt-card">
+          <div class="wt-header treatment"><span>💊</span><span>3. ガイドライン推奨 治療戦略 ＆ 標準処方プロトコル</span></div>
+          <div class="wt-body">
+            <div class="wt-treatment-grid">
+              <div class="wt-treatment-item first-line">
+                <div class="wt-item-label"><span>🌟</span><span>【第一選択薬（First-line）＆ 標準レジメン】</span></div>
+                <div style="white-space:pre-line; line-height:1.5;">${tr.firstLine}</div>
+              </div>
+              <div class="wt-treatment-item combination">
+                <div class="wt-item-label"><span>➕</span><span>【推奨併用薬（Add-on）＆ 治療ステップ】</span></div>
+                <div style="white-space:pre-line; line-height:1.5;">${tr.combination}</div>
+              </div>
+              <div class="wt-treatment-item contra">
+                <div class="wt-item-label"><span>🚨</span><span>【禁忌・慎重投与・併用注意】</span></div>
+                <div style="white-space:pre-line; line-height:1.5; color:#9f1239;">${tr.contra}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wt-card">
+          <div class="wt-header targets"><span>🎯</span><span>4. 治療目標値 ＆ 臨床検査値モニタリング指標</span></div>
+          <div class="wt-body"><div style="white-space:pre-line; line-height:1.55; color:#581c87;">${tr.targets}</div></div>
+        </div>
+        <div class="wt-card">
+          <div class="wt-header guidance"><span>🗣️</span><span>5. 薬剤師の服薬指導急所 ＆ 疑義照会トリガー</span></div>
+          <div class="wt-body">
+            <div style="white-space:pre-line; line-height:1.55; margin-bottom:10px;">${tr.guidance}</div>
+            <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:6px; padding:8px 12px; font-size:0.83rem; color:#9a3412;">
+              <strong>🚨 最優先確認事項（薬剤師の眼）：</strong>${top.keyPoint}
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+          <button onclick="jumpToDiseaseCheckFromWizard(${top.cardNum})" 
+                  class="wizard-action-btn-primary" style="font-size:0.95rem; padding:10px 24px; display:inline-flex; align-items:center; gap:8px;">
+            <span>🩺 この疾患の症状 ＆ 薬剤確認シートを開く ➔</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 鑑別候補（第2位、第3位）の比較カード -->
+      ${rankedDiseases.length > 1 ? `
+        <div class="wizard-secondary-cards">
+          <div style="font-size:0.95rem; font-weight:800; color:#334155; margin-bottom:12px; display:flex; align-items:center; gap:6px;">
+            <span>🥈 鑑別すべき次点候補（もし上記の病態でない場合に考慮）：</span>
+          </div>
+          ${rankedDiseases.slice(1, 4).map((dis, rIdx) => {
+            const rankNum = rIdx + 2;
+            const rankBadge = rankNum === 2 ? '🥈 第2位' : (rankNum === 3 ? '🥉 第3位' : `第${rankNum}位`);
+            return `
+              <div class="wizard-secondary-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                  <div style="font-size:0.92rem; font-weight:800; color:#1e293b;">
+                    <span style="color:#64748b;">${rankBadge}：</span>${dis.name}
+                  </div>
+                  <span style="font-size:0.88rem; font-weight:800; color:#64748b;">確信度：${dis.prob}%</span>
+                </div>
+                <div style="font-size:0.82rem; color:#065f46; font-weight:700; margin:4px 0;">
+                  サブタイプ：${dis.subType}
+                </div>
+                <div style="font-size:0.8rem; color:#475569; margin-bottom:6px;">
+                  <strong>処方サイン：</strong>${dis.criteria}
+                </div>
+                <div style="display:flex; justify-content:flex-end;">
+                  <button onclick="jumpToDiseaseCheckFromWizard(${dis.cardNum})" 
+                          style="background:#f1f5f9; color:#334155; border:1px solid #cbd5e1; font-size:0.78rem; font-weight:700; padding:4px 10px; border-radius:6px; cursor:pointer;">
+                    確認シートを見る ➔
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      ` : ''}
+    `;
   }
 
   resultsContainer.innerHTML = resultsHtml;
@@ -43218,6 +43783,18 @@ function calculateWizardDiagnosis(isForced = false) {
     }, 80);
   }
 }
+
+// サブカードの開閉トグル
+function toggleSubcardBody(elementId) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+  } else {
+    el.style.display = 'none';
+  }
+}
+
 
 // ウィザードから疾患確認カードへのジャンプ
 function jumpToDiseaseCheckFromWizard(cardNum) {

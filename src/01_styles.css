@@ -4384,6 +4384,200 @@ tbody tr:hover { background-color: #f0fdf4; }
 }
 
 /* ========================================================
+   複合病態（マルチモビディティ）シンドローム解析スタイル
+   ======================================================== */
+.wizard-complex-hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e3a8a 100%);
+  color: #ffffff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  margin-bottom: 22px;
+  box-shadow: 0 6px 20px rgba(30, 27, 75, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+.wizard-complex-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, #ec4899, #8b5cf6);
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 800;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.35);
+}
+.wizard-complex-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.02em;
+  color: #f8fafc;
+}
+.wizard-complex-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.wizard-complex-pill {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 複合病態特有の3大セクションカード（問題・解決・確認事項） */
+.wc-cross-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+.wc-cross-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+  border: 1.5px solid;
+}
+.wc-cross-header {
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wc-cross-body {
+  padding: 16px 20px;
+  background: #ffffff;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #1e293b;
+}
+
+/* 1. 複合だからこその問題・ジレンマ */
+.wc-cross-card.issues {
+  border-color: #fca5a5;
+}
+.wc-cross-card.issues .wc-cross-header {
+  background: #fef2f2;
+  color: #991b1b;
+  border-bottom: 1.5px solid #fecaca;
+}
+.wc-issue-item {
+  background: #fff5f5;
+  border-left: 4px solid #ef4444;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 10px;
+}
+.wc-issue-title {
+  font-weight: 800;
+  color: #b91c1c;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+/* 2. 複合だからこその解決戦略（相乗効果・一石多鳥） */
+.wc-cross-card.solutions {
+  border-color: #86efac;
+}
+.wc-cross-card.solutions .wc-cross-header {
+  background: #f0fdf4;
+  color: #166534;
+  border-bottom: 1.5px solid #bbf7d0;
+}
+.wc-solution-item {
+  background: #f0fdf4;
+  border-left: 4px solid #10b981;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 10px;
+}
+.wc-solution-title {
+  font-weight: 800;
+  color: #047857;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+/* 3. 複合だからこその確認事項＆疑義照会トリガー（SADMANS等） */
+.wc-cross-card.checkpoints {
+  border-color: #fed7aa;
+}
+.wc-cross-card.checkpoints .wc-cross-header {
+  background: #fff7ed;
+  color: #9a3412;
+  border-bottom: 1.5px solid #ffedd5;
+}
+.wc-checkpoint-item {
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 10px;
+}
+.wc-checkpoint-title {
+  font-weight: 800;
+  color: #b45309;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+/* 個別病態のアコーディオン展開ヘッダー */
+.wc-disease-tab-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 24px 0 14px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #cbd5e1;
+}
+.wc-disease-subcard {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  background: #ffffff;
+}
+.wc-disease-subcard-header {
+  padding: 12px 18px;
+  background: #f8fafc;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.15s ease;
+  user-select: none;
+}
+.wc-disease-subcard-header:hover {
+  background: #f1f5f9;
+}
+.wc-disease-subcard-body {
+  padding: 18px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ========================================================
    ウィザード＆病態特定のスマートフォン最適化 (Mobile Responsive)
    ======================================================== */
 @media (max-width: 768px) {
