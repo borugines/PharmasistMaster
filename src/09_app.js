@@ -363,6 +363,7 @@ const DRUG_DB = [
   { name: "コランチル", gen: "ジサイクロミン/乾燥水酸化Alゲル/水酸化Mg", cat: "139. 消化器 / 制酸・鎮痙配合剤", char: "即時胃酸中和 ＆ 胃痙攣直接鎮痛！緑内障・前立腺肥大・キレート相互作用に厳戒", desc: "抗コリン薬ジサイクロミン（鎮痙）＋水酸化Al/水酸化Mg（制酸・排便バランス相殺）の古典的配合顆粒。胃炎・胃潰瘍の急な胃痛・さしこみ痛を即座に中和鎮痛。抗コリン作用により【閉塞隅角緑内障・前立腺肥大排尿障害は絶対禁忌】！Al・Mgを含むため【透析患者禁忌】およびニューキノロン・テトラサイクリン・チラージンSとの【金属キレート吸収阻害（2時間以上間隔空け）】が必須。", gId: "c11", cSec: "sec-gi" },
   { name: "グリチロン", gen: "グリチルリチン酸/グリシン/DL-メチオニン", cat: "140. 肝臓・皮膚科 / 抗炎症・解毒配合剤", char: "甘草成分で肝機能改善＆円形脱毛症！漢方薬併用の【偽アルドステロン症・低K】厳戒", desc: "グリチルリチン酸（抗炎症・肝保護）に副作用軽減のグリシン・メチオニンを配合。慢性肝疾患のALT/AST改善、皮膚炎・円形脱毛症（セファランチン併用）に適応。11β-HSD2阻害によりコルチゾールが蓄積し【偽アルドステロン症（低K血症・脱力感・血圧上昇・浮腫）】を惹起。甘草含有漢方薬（芍薬甘草湯等）や利尿薬との併用に厳重警戒。アルドステロン症・低K血症・ミオパチー禁忌。", gId: "c15", cSec: "sec-gi" },
   { name: "フィコンパ", gen: "ペランパネル水和物", cat: "141. 精神神経 / 新規抗てんかん薬（AMPA阻害）", char: "世界初のAMPA受容体拮抗薬！難治性てんかんの切り札＆1日1回就寝前（攻撃性に注意）", desc: "選択的AMPA型グルタミン酸受容体拮抗薬。グルタミン酸による神経過剰興奮をシナプス後膜で直接遮断。部分発作（単剤・併用）および全般強直間代発作（併用）に適応。半減期約105時間の超持続型で1日1回就寝前服用。めまい・眠気・ふらつきのほか【易怒性・攻撃性・敵意等の精神症状】に厳重警戒（家族からの聞き取り重要）。カルバマゼピン併用で濃度半減（CYP3A誘導）。", gId: "c6", cSec: "sec-psy" },
+  { name: "ヘキザック", gen: "クロルヘキシジングルコン酸塩", cat: "142. 外用消毒薬 / ビグアナイド系殺菌消毒薬", char: "皮膚ケラチン吸着で持続殺菌No.1！【濃度別厳守（0.02%〜1%）】＆内耳・脳神経絶対禁忌", desc: "ビグアナイド系外用殺菌消毒薬。細菌細胞膜破壊により広範な殺菌効果と優れた皮膚残留持続性を発揮。濃度別使い分けが超重要：①粘膜・創傷部・口腔内は【0.02%（250倍希釈）】、②手指・正常皮膚は【0.1〜0.5%】、③手術野・CVC穿刺部は【0.5〜1%エタノール液】。🚨【絶対禁忌】：不可逆的難聴・神経麻痺を起こすため「内耳・中耳・脳・脊髄神経・眼」への侵入は絶対厳禁！石けん（アニオン）併用で沈殿失活。アナフィラキシーショック注意。", gId: "c16", cSec: "sec-imm" },
 
 ];
 
@@ -515,6 +516,9 @@ const COMPOUNDING_MASTER = {
   "グリチルリチン酸": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 可", packText: "⚠️ 防湿", reason: "甘草成分。11β-HSD2阻害により偽アルドステロン症注意。漢方併用チェック必須。", alt: "普通錠粉砕" },
   "フィコンパ": { crush: "ok", susp: "ok", pack: "ok", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⭕ 可", reason: "普通錠（2mg/4mg）および細粒1%あり。フィルムコート錠で粉砕・簡易懸濁可能。半減期約105時間と超長いため就寝前1回服用厳守。めまい・易怒性（攻撃性）注意。", alt: "細粒1%、普通錠粉砕" },
   "ペランパネル": { crush: "ok", susp: "ok", pack: "ok", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⭕ 可", reason: "AMPA受容体拮抗薬。粉砕可能。就寝前服用。", alt: "細粒1%" },
+  "ヘキザック": { crush: "ng", susp: "ng", pack: "caution", crushText: "💧 外用消毒液", suspText: "❌ 内服不可", packText: "⚠️ 遮光密栓", reason: "外用殺菌消毒薬（原液5%/20%、希釈液0.1%/0.5%、エタノール液等）。内服不可。濃度別希釈調製厳守（創傷粘膜0.02%、手指0.1〜0.5%、手術野0.5〜1%アルコール）。🚨【絶対禁忌】：脳・脊髄神経組織、中耳・内耳（不可逆的感覚神経性難聴）、眼。普通石けん（陰イオン）で沈殿失活するため水洗徹底。", alt: "ポビドンヨード、消毒用エタノール" },
+  "クロルヘキシジン": { crush: "ng", susp: "ng", pack: "caution", crushText: "💧 外用消毒液", suspText: "❌ 内服不可", packText: "⚠️ 遮光密栓", reason: "ビグアナイド系外用消毒薬。濃度別使い分け（粘膜創傷0.02%、皮膚0.1〜0.5%、CVC/手術野0.5〜1%エタノール）。内耳・中耳（難聴）、脳脊髄神経、眼科禁忌。アニオン石けんで失活。", alt: "ポビドンヨード" },
+  "ヒビテン": { crush: "ng", susp: "ng", pack: "caution", crushText: "💧 外用消毒液", suspText: "❌ 内服不可", packText: "⚠️ 遮光密栓", reason: "クロルヘキシジン製剤。内服不可。濃度別調製（創傷0.02%）。内耳・脳神経絶対禁忌。普通石けんで沈殿。", alt: "ヘキザック、イソジン" },
   "タケルダ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "タケルダ配合錠": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "プラザキサ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿激", reason: "脱カプセル・粉砕絶対禁止（AUC急増で出血死）。極めて吸湿性が高くPTPシートのまま保管必須。", alt: "リクシアナOD錠、エリキュース" },
@@ -2565,6 +2569,37 @@ const DRUG_DIFF_MAP = [
         criteria: '【処方サイン】サインバルタ 20〜60mg 朝食後（精神科・心療内科処方）',
         reason: 'ノルアドレナリン神経を刺激して意欲・気力を向上させ、身体の痛みを伴ううつ病に著効',
         keyPoint: '血圧上昇、排尿障害（前立腺肥大注意）、賦活症候群（初期の焦燥感）'
+      }
+    ]
+  },
+
+  // 49. 外用殺菌消毒薬特性：クロルヘキシジングルコン酸塩（ヘキザック）
+  {
+    drugs: ['ヘキザック', 'クロルヘキシジン', 'ヒビテン', 'chlorhexidine'],
+    diffs: [
+      {
+        cardNum: 16,
+        name: '16. 手術野・血管カテーテル（CVC）挿入部消毒（0.5%〜1%アルコール液型）',
+        subType: '🩺 CDCガイドライン推奨：皮膚ケラチン吸着による最強の持続性殺菌 ＆ 血流感染防止',
+        criteria: '【処方サイン】ヘキザックAL液（0.5%/1%エタノール液） 手術野・穿刺部塗布',
+        reason: 'エタノールの即効的殺菌とクロルヘキシジンの持続的抗菌活性が相乗。カテーテル関連血流感染（CRBSI）を有意に低下',
+        keyPoint: '完全に乾燥してから穿刺（引火防止）、粘膜・傷口にはアルコール刺激のため使用不可'
+      },
+      {
+        cardNum: 16,
+        name: '16. 創傷部位・粘膜・熱傷消毒（0.02%超低濃度水溶液希釈型）',
+        subType: '💧 組織刺激性・アナフィラキシーショック防止：0.02%（250倍希釈）の厳格遵守',
+        criteria: '【処方サイン】ヘキザック5%原液を「250倍希釈」して0.02%液として調剤・交付',
+        reason: '粘膜や傷口は吸収されやすく過敏症・ショックが起きやすいため、有効かつ安全な限界濃度（0.02%）まで希釈して使用',
+        keyPoint: '5%原液の誤用絶対防止、希釈調製後の無菌性維持、ショック症状（蕁麻疹・呼吸困難）の監視'
+      },
+      {
+        cardNum: 16,
+        name: '16. 禁忌部位・配合変化鑑査（内耳難聴 ＆ 脳脊髄麻痺 ＆ 石けん失活）',
+        subType: '🚨 不可逆的神経感覚障害（感覚神経性難聴・髄膜炎）の絶対阻止 ＆ 陰イオン沈殿',
+        criteria: '【処方サイン】耳鼻科手術・脊椎麻酔・開頭術・眼科での処方、または石けん併用',
+        reason: '内耳・中耳へ侵入すると不可逆的難聴、脳・脊髄へ入ると永続的神経変性・麻痺を惹起。普通石けん（アニオン）で沈殿失活',
+        keyPoint: '耳鼻科・脳外科・眼科での使用厳禁（ポビドンヨード選択）、手洗い後は石けんを水で完全に洗い流す'
       }
     ]
   },
@@ -10500,8 +10535,196 @@ const CLINICAL_WIZARD_DATA = {
           firstLine: '1日1回就寝前（寝床に入る直前）服用。',
           combination: '細粒製剤による微量漸増（0.5〜1mg単位の慎重ステップアップ）。',
           contra: '朝食後や昼食後の日中服用。',
-          targets: '夜間および日中転倒ゼロ、ADL維持。',
-          guidance: '🗣️ 服薬指導フレーズ：「このお薬を飲むと少しめまいやふらつきが出やすくなりますので、必ず『お布団に入って寝る直前』にお飲みください。飲んだ後に起き上がって歩くとふらついて危ないですので、お薬を飲んだらそのままお休みになってくださいね。」'
+          targets: '夜間および日中転倒ゼロ、ADL維持。',        guidance: '🗣️ 服薬指導フレーズ：「このお薬を飲むと少しめまいやふらつきが出やすくなりますので、必ず『お布団に入って寝る直前』にお飲みください。飲んだ後に起き上がって歩くとふらついて危ないですので、お薬を飲んだらそのままお休みになってくださいね。」'
+        }
+      }
+    ]
+  },
+
+  // 36. 外用殺菌消毒薬（ヘキザック液/ヘキザックAL液：クロルヘキシジングルコン酸塩）
+  // 🌟 濃度別使い分け（0.02%創傷粘膜 vs 0.1〜0.5%皮膚 vs 0.5〜1%アルコール手術野） ＆ 内耳・脳脊髄絶対禁忌 ＆ 石けん沈殿失活
+  disinfect_hexack: {
+    aliases: ['ヘキザック', 'クロルヘキシジン', 'ヒビテン', 'hexack', 'chlorhexidine', '消毒', '消毒薬', '殺菌', 'cvc', '手術野', '希釈', '0.02%', '0.05%', '0.5%', '1%'],
+    name: '外用殺菌消毒薬（ヘキザック液/ヘキザックAL液：クロルヘキシジングルコン酸塩）',
+    category: '外用殺菌消毒薬（ビグアナイド系 / 濃度別レジメン ＆ 脳神経・内耳禁忌 ＆ 配合変化管理）',
+    questions: [
+      {
+        id: 'hex_q1_site_purpose',
+        title: 'Q1. 処方箋・使用指示：消毒を行う対象部位および臨床目的はどれですか？（最も当てはまるものを1つ選択）',
+        subtitle: 'ヘキザックは「使用部位によって至適濃度が10〜50倍も異なる」ため部位の特定が最重要です',
+        options: [
+          {
+            id: 'hex_opt_surgical_cvc',
+            label: '手術野正常皮膚、または中心静脈カテーテル（CVC）・動脈ライン挿入部位の皮膚消毒',
+            badge: '手術野・CVC穿刺部（0.5〜1%アルコール液）',
+            desc: '皮膚ケラチン吸着による持続的殺菌。カテーテル血流感染（CRBSI）防止のCDC推奨ゴールドスタンダード',
+            weights: { hexack_surgical_cvc_ethanol: 95, hexack_wound_mucosa_low_dose: -30, hexack_contraindication_ototoxicity_neuro: 20, hexack_soap_incompatibility_anion: 20 }
+          },
+          {
+            id: 'hex_opt_wound_mucosa',
+            label: '傷口（創傷面）、熱傷皮膚、粘膜部（外陰部等）、または口腔内殺菌消毒',
+            badge: '創傷部・粘膜（0.02%超低濃度水溶液）',
+            desc: '粘膜や傷口は組織障害とアナフィラキシーリスクが高いため、必ず0.02%（250倍希釈水溶液）を使用',
+            weights: { hexack_wound_mucosa_low_dose: 95, hexack_surgical_cvc_ethanol: -40, hexack_contraindication_ototoxicity_neuro: 20, hexack_soap_incompatibility_anion: 20 }
+          },
+          {
+            id: 'hex_opt_contraindicated_sites',
+            label: '耳（中耳・内耳・鼓膜穿孔）、脳外科・脊髄神経組織、眼（角膜）、または腰椎穿刺・硬膜外麻酔',
+            badge: '🚨 禁忌部位（不可逆的神経・感覚障害）',
+            desc: '内耳侵入で不可逆的感覚神経性難聴、脳脊髄侵入で永続的神経麻痺！使用は絶対禁忌（ポビドンヨード等へ変更）',
+            weights: { hexack_contraindication_ototoxicity_neuro: 95, hexack_surgical_cvc_ethanol: -40, hexack_wound_mucosa_low_dose: -40 }
+          },
+          {
+            id: 'hex_opt_hand_soap_incompat',
+            label: '手指衛生・医療従事者の手洗い、または普通石けん（固形・液体石けん）と併用している',
+            badge: '⚠️ 石けん配合変化（白濁沈殿・失活）',
+            desc: '陰イオン界面活性剤（普通石けん）とカチオン（クロルヘキシジン）が反応し沈殿して殺菌力がゼロになる',
+            weights: { hexack_soap_incompatibility_anion: 95, hexack_surgical_cvc_ethanol: 25, hexack_wound_mucosa_low_dose: 10 }
+          }
+        ]
+      },
+      {
+        id: 'hex_q2_concentration_audit',
+        title: 'Q2. 濃度鑑査・希釈計算：処方された製剤の濃度および希釈倍率はどれですか？',
+        subtitle: '5%原液のそのまま使用は化学熱傷・中毒の危険があり絶対不可です',
+        options: [
+          {
+            id: 'hex_opt_conc_alcohol_05_1',
+            label: '【0.5%〜1% エタノール液（ヘキザックAL等）】：速乾性エタノール基剤の手術野・穿刺部用製剤',
+            badge: '0.5〜1%アルコール液（手術野・CVC）',
+            desc: 'エタノールの即効性＋クロルヘキシジンの持続性。※粘膜・創傷には刺激が強いため使用禁止',
+            weights: { hexack_surgical_cvc_ethanol: 95, hexack_wound_mucosa_low_dose: -40 }
+          },
+          {
+            id: 'hex_opt_conc_water_002',
+            label: '【0.02%（200ppm）水溶液】：5%原液を「250倍希釈」（原液4mLを精製水で全量1000mLへ）',
+            badge: '0.02%水溶液（創傷・粘膜用）',
+            desc: '創傷や粘膜に対する国際的至適濃度。アナフィラキシーリスクを最小限に抑える濃度',
+            weights: { hexack_wound_mucosa_low_dose: 95, hexack_surgical_cvc_ethanol: -20 }
+          },
+          {
+            id: 'hex_opt_conc_water_01_05',
+            label: '【0.1%〜0.5% 水溶液】：手指消毒、器具消毒、正常皮膚の手術前処置用（10〜50倍希釈）',
+            badge: '0.1〜0.5%水溶液（手指・正常皮膚）',
+            desc: '正常皮膚に対する標準的濃度。広範な創傷には高すぎるため0.02%へ希釈',
+            weights: { hexack_surgical_cvc_ethanol: 80, hexack_soap_incompatibility_anion: 75 }
+          },
+          {
+            id: 'hex_opt_conc_5_raw_danger',
+            label: '【5%原液】：希釈せずそのまま原液を皮膚や患部に塗布しようとしている（危険指示）',
+            badge: '🚨 5%原液誤用アラート（化学熱傷）',
+            desc: '高濃度クロルヘキシジンは皮膚刺激・化学熱傷・接触皮膚炎・ショックの恐れ。直ちに希釈を指示',
+            weights: { hexack_wound_mucosa_low_dose: 85, hexack_contraindication_ototoxicity_neuro: 80 }
+          }
+        ]
+      },
+      {
+        id: 'hex_q3_medical_safety_audit',
+        title: 'Q3. 医療安全・調剤鑑査：最も厳重に監視・指導すべき安全管理項目はどれですか？',
+        subtitle: '医療事故（神経障害・難聴・アナフィラキシーショック）の完全阻止',
+        options: [
+          {
+            id: 'hex_opt_ototoxicity_deafness_prevent',
+            label: '【内耳毒性・難聴防止】：鼓膜穿孔のある患者や中耳炎手術、耳周囲の消毒での使用を禁止',
+            badge: '感覚神経性難聴防止（内耳禁忌）',
+            desc: '外耳道から中耳腔・内耳窓を経由してコルチ器を破壊し非可逆的難聴。耳科手術はポビドンヨードを使用',
+            weights: { hexack_contraindication_ototoxicity_neuro: 95 }
+          },
+          {
+            id: 'hex_opt_neurotoxicity_paralysis_prevent',
+            label: '【脳脊髄毒性・麻痺防止】：腰椎穿刺・硬膜外麻酔時に消毒液が神経腔内へ流入することを完全阻止',
+            badge: '永続的神経障害防止（脳脊髄禁忌）',
+            desc: 'クモ膜下腔・硬膜外腔への混入で化学的髄膜炎・対麻痺。穿刺部位は完全に乾燥させ、穿刺針への付着回避',
+            weights: { hexack_contraindication_ototoxicity_neuro: 95 }
+          },
+          {
+            id: 'hex_opt_anaphylaxis_history_check',
+            label: '【ショック既往問診】：過去に消毒薬（特にカテーテル用ゼリー等）で発疹・呼吸苦・血圧低下歴がないか',
+            badge: 'アナフィラキシーショック既往問診',
+            desc: 'クロルヘキシジン過敏症は心停止に至る重篤例あり。既往者は絶対禁忌',
+            weights: { hexack_wound_mucosa_low_dose: 90, hexack_contraindication_ototoxicity_neuro: 85 }
+          },
+          {
+            id: 'hex_opt_soap_washout_rule',
+            label: '【手洗い石けん完全洗浄】：普通石けんで手洗いした後、十分に水で洗い流してから消毒液を使用',
+            badge: '石けんアニオン完全洗い流し指導',
+            desc: '石けん成分が手に残っていると陽イオンのクロルヘキシジンが結合して失活するため流水洗浄を徹底',
+            weights: { hexack_soap_incompatibility_anion: 95 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'hexack_surgical_cvc_ethanol',
+        name: '手術野・血管カテーテル（CVC）挿入部消毒（0.5%〜1%アルコール液型）',
+        subType: '🩺 CDCガイドライン推奨：皮膚ケラチン吸着による最強の持続性殺菌 ＆ 血流感染防止',
+        baseProb: 35,
+        criteria: '【処方サイン】ヘキザックAL液（0.5%または1%エタノール液） 手術野・穿刺部位塗布',
+        reason: 'クロルヘキシジンは角質層のケラチンタンパクに強力に結合し、アルコール蒸発後も数時間から数日間にわたって残留抗菌効果（Residual Activity）を発揮するため、カテーテル関連血流感染（CRBSI）防止の第一選択薬です。',
+        keyPoint: '💡 完全に乾燥させてから穿刺（引火防止 ＆ 薬液侵入防止）。粘膜・創傷にはエタノール刺激で禁忌',
+        treatment: {
+          pathology: '中心静脈カテーテル挿入部や手術切開部における皮膚常在菌（表皮ブドウ球菌、黄色ブドウ球菌等）のカテーテル内腔沿道移行・血流感染。',
+          rationale: '【処方根拠】：ポビドンヨードと比較して持続殺菌力が高く、血液や有機物が存在しても抗菌力が低下しにくいため選定されます。',
+          firstLine: '0.5%〜1%クロルヘキシジングルコン酸塩エタノール液（ヘキザックAL等）を塗布し、完全に自然乾燥（約2分間）させる。',
+          combination: 'クロルヘキシジン含有ドレッシング材（CVC保護）。',
+          contra: '粘膜、創傷部、内耳・中耳、脳脊髄神経、眼、クロルヘキシジン過敏症。',
+          targets: 'CRBSI発症率ゼロ、手術部位感染（SSI）ゼロ。',
+          guidance: '🗣️ 医療安全・処置手順：「穿刺部位の中心から外側へ同心円状にしっかり塗り広げ、完全に乾くまで少なくとも2分間待ってください。生乾きの状態で針を刺すと、アルコールが皮下に入って激痛を生じたり、電気メス使用時に引火する危険があります。」'
+        }
+      },
+      {
+        id: 'hexack_wound_mucosa_low_dose',
+        name: '創傷面・熱傷皮膚・粘膜消毒（0.02%超低濃度水溶液希釈型）',
+        subType: '💧 組織刺激性・アナフィラキシーショック防止：0.02%（250倍希釈）の厳格遵守',
+        baseProb: 30,
+        criteria: '【処方サイン】ヘキザック5%液を250倍希釈調製（0.02%）、または0.02%水溶液処方',
+        reason: '皮膚バリアが破綻した創傷部や血管の豊富な粘膜面では、クロルヘキシジンが体内に吸収されやすく、アナフィラキシーショックの危険が高まります。有効殺菌性を保ちつつ安全域を確保できる限界濃度が「0.02%」です。',
+        keyPoint: '💡 【5%原液の誤用絶対禁止】！希釈計算：原液4mL ＋ 精製水で全量1000mL（250倍希釈）',
+        treatment: {
+          pathology: '開放創や熱傷面における細菌増殖と全身への菌血症リスク。粘膜組織への高濃度消毒薬曝露による化学的刺激・過敏反応。',
+          rationale: '【処方根拠】：健常皮膚用（0.1〜0.5%）をそのまま傷口に使うと激痛や肉芽形成阻害、ショックを起こすため、厳密に0.02%水溶液を調剤・交付します。',
+          firstLine: '0.02%クロルヘキシジン水溶液（5%原液を精製水で250倍に希釈調製）。',
+          combination: '生理食塩液による十分な創部洗浄。',
+          contra: '0.05%を超える高濃度液の粘膜・創傷部への使用、エタノール含有液の使用。',
+          targets: '創部感染制御、アナフィラキシーショックゼロ。',
+          guidance: '🗣️ 調剤鑑査・患者指導：「傷口や粘膜に使用する消毒液ですので、薄い濃度（0.02%）でお作りしています。濃い原液をそのまま使うと皮膚を痛めてしまいますので、お渡しした希釈液をそのままお使いください。万一、赤みやかゆみ、息苦しさが出た場合はすぐに使用を中止して洗い流してください。」'
+        }
+      },
+      {
+        id: 'hexack_contraindication_ototoxicity_neuro',
+        name: '🚨 禁忌部位アラート（脳・脊髄麻痺 ＆ 内耳感覚神経性難聴 ＆ 眼角膜障害）',
+        subType: '🚫 不可逆的神経変性・感音難聴・角膜潰瘍の完全阻止：ポビドンヨード等への即時変更',
+        baseProb: 20,
+        criteria: '【処方サイン】中耳炎手術、鼓膜切開、頭部・脊椎手術、腰椎穿刺、顔面眼周囲処置',
+        reason: 'クロルヘキシジンが内耳に流入すると前庭・蝸牛の有毛細胞（コルチ器）を直接破壊して「不可逆的な重度感覚神経性難聴」を惹起します。また脳・脊髄に入ると不可逆的対麻痺・髄膜炎、眼に入ると角膜混濁・失明を招くため、添付文書上【絶対禁忌】です。',
+        keyPoint: '💡 耳鼻咽喉科手術、脳外科手術、脊椎麻酔時は【ポビドンヨード】を選択！ヘキザックは絶対禁忌',
+        treatment: {
+          pathology: '内耳有毛細胞死滅による感音難聴、髄膜・神経軸索変性による下半身麻痺、角膜上皮剥脱。',
+          rationale: '【処方根拠】：神経組織や内耳、角膜に毒性を示さない消毒薬（ポビドンヨード等）へ即座に変更し、医療事故を未然に防止します。',
+          firstLine: '耳科手術・脳脊髄領域：ポビドンヨード（イソジン液等）へ変更。',
+          combination: '眼科手術：眼科用ポビドンヨード、生食洗浄。',
+          contra: '脳、脊髄、中耳、内耳、鼓膜穿孔部位、眼（角膜・結膜）。',
+          targets: '医原性難聴ゼロ、医原性神経麻痺ゼロ、角膜障害ゼロ。',
+          guidance: '🗣️ 疑義照会トリガー：「耳の処置や脳神経に近い手術部位では、クロルヘキシジンが侵入すると治らない難聴や神経麻痺を起こす危険があり禁忌に指定されています。耳や神経組織に触れても安全なポビドンヨード製剤への変更をお願いいたします。」'
+        }
+      },
+      {
+        id: 'hexack_soap_incompatibility_anion',
+        name: '⚠️ 配合変化・失活アラート（普通石けん・陰イオン性物質での沈殿失活防止）',
+        subType: '⚡ カチオン性（陽イオン）とアニオン性（陰イオン）の電気的中和・不溶性錯体形成',
+        baseProb: 15,
+        criteria: '【処方サイン】病棟や処置室で「普通石けんで手洗い直後にヘキザック使用」または配合指示',
+        reason: 'クロルヘキシジンはカチオン性（プラス電荷）化合物です。脂肪酸ナトリウム等の普通石けんや、CMC、アルギン酸ナトリウムなどの陰イオン（マイナス電荷）物質と混ざると、イオン結合して白濁・沈殿を形成し、殺菌有効成分が完全に失活します。',
+        keyPoint: '💡 手洗い指導の鉄則：石けんで手洗い ➔ 水で完全に洗い流して水分を拭き取る ➔ ヘキザックを使用！',
+        treatment: {
+          pathology: '不溶性塩形成による遊離クロルヘキシジン濃度の消失（消毒効果ゼロ状態での医療行為）。',
+          rationale: '【処方根拠】：物理化学的失活を防ぐため、陰イオン性物質の完全な排除および正しい手洗いシークエンスを確立します。',
+          firstLine: '石けん洗浄後の十分な流水すすぎ（最低15秒以上）の徹底。',
+          combination: '相性の良い非イオン性（ノニオン）界面活性剤配合製剤（ヘキザックスクラブ等）の採用。',
+          contra: '石けん水へのヘキザック直接混和、CMC・アルギン酸含有基剤との配合。',
+          targets: '殺菌消毒有効性100%維持、院内感染防止。',
+          guidance: '🗣️ 看護師・スタッフ向け指導：「普通の石けんとヘキザックが混ざると、お互いに打ち消し合って白く濁り、消毒効果が完全になくなってしまいます。石けんで手を洗った後は、石けん成分が手に残らないよう水でしっかり洗い流してからヘキザックを使ってくださいね。」'
         }
       }
     ]
@@ -11121,6 +11344,10 @@ function applyProfileWeights(scores) {
     if (scores['nephrotic_mcns'] !== undefined) scores['nephrotic_mcns'] += 85;
     if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 80;
   } else if (prof.dept === 'uro_derm') {
+    if (scores['hexack_surgical_cvc_ethanol'] !== undefined) scores['hexack_surgical_cvc_ethanol'] += 95;
+    if (scores['hexack_wound_mucosa_low_dose'] !== undefined) scores['hexack_wound_mucosa_low_dose'] += 90;
+    if (scores['hexack_contraindication_ototoxicity_neuro'] !== undefined) scores['hexack_contraindication_ototoxicity_neuro'] += 90;
+    if (scores['hexack_soap_incompatibility_anion'] !== undefined) scores['hexack_soap_incompatibility_anion'] += 85;
     if (scores['glycyron_alopecia_areata'] !== undefined) scores['glycyron_alopecia_areata'] += 95;
     if (scores['glycyron_pseudoaldosteronism_alert'] !== undefined) scores['glycyron_pseudoaldosteronism_alert'] += 80;
     if (scores['uti_complex'] !== undefined) scores['uti_complex'] += 90;
@@ -12002,6 +12229,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: '新規抗てんかん薬（選択的AMPA型グルタミン酸受容体非競合的拮抗薬）',
     reason: 'グルタミン酸のシナプス後膜AMPA受容体を直接阻害し、過剰な興奮性シグナル伝達と発作の全脳同期伝播を根元から遮断。半減期約105時間の超持続作用。',
     benefit: '【選定の決め手】：既存のNaチャネル遮断薬（テグレトール）やSV2A薬（イーケプラ）で十分な効果が得られない難治性てんかん（部分発作・強直間代発作）の切り札アドオンとして選定されます。※めまい・ふらつき防止のため【1日1回就寝前服用厳守】。大脳辺縁系作用による【易怒性・攻撃性・敵意等の精神行動変化（家族問診必須）】、およびカルバマゼピン併用時の濃度半減（CYP3A誘導）に厳重警戒が必要です。'
+  },
+  {
+    pattern: /ヘキザック|クロルヘキシジン|ヒビテン|hexack|chlorhexidine/,
+    name: 'クロルヘキシジングルコン酸塩（ヘキザック液/ヘキザックAL液）',
+    class: '外用殺菌消毒薬（ビグアナイド系 / 皮膚残留持続性殺菌薬）',
+    reason: '皮膚角質ケラチンに吸着結合して数時間〜数日間の持続殺菌効果を発揮。濃度別使い分けが厳格：創傷・粘膜は0.02%超低濃度（ショック防止）、手指0.1〜0.5%、手術野・CVC穿刺部は0.5〜1%エタノール液。',
+    benefit: '【選定の決め手】：カテーテル関連血流感染（CRBSI）や手術部位感染（SSI）防止において、ポビドンヨードを凌駕する強力な持続抗菌効果を期待して選定されます。※【絶対禁忌】：不可逆的難聴を起こすため「内耳・中耳」および永続的神経麻痺を起こす「脳・脊髄神経組織」への使用は絶対厳禁！普通石けん（陰イオン）併用で沈殿失活するため水洗の徹底が必須です。'
   }
 ];
 
@@ -12634,6 +12868,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('コランチル') || cdLower.includes('ジサイクロミン') || cdLower.includes('kolantyl') || cdLower.includes('胃痙攣') || cdLower.includes('制酸') || cdLower.includes('さしこみ痛') || cdLower.includes('キレート') || cdLower.includes('水酸化アルミニウム')) keywords.push('コランチル', 'ジサイクロミン', '胃炎', '胃潰瘍', '胃酸過多', '胃痙攣', 'さしこみ', '制酸剤', 'キレート', '緑内障', '透析', '排尿障害', 'ニューキノロン');
     if (cdLower.includes('グリチロン') || cdLower.includes('グリチルリチン') || cdLower.includes('glycyron') || cdLower.includes('甘草') || cdLower.includes('偽アルドステロン') || cdLower.includes('低カリウム') || cdLower.includes('円形脱毛症') || cdLower.includes('セファランチン')) keywords.push('グリチロン', 'グリチルリチン', '甘草', '偽アルドステロン症', '低カリウム血症', '低k', '脱力感', 'こむら返り', '円形脱毛症', 'セファランチン', 'alt', 'ast', '肝機能', '肝炎');
     if (cdLower.includes('フィコンパ') || cdLower.includes('ペランパネル') || cdLower.includes('fycompa') || cdLower.includes('perampanel') || cdLower.includes('ampa') || cdLower.includes('強直間代') || cdLower.includes('焦点発作') || cdLower.includes('攻撃性') || cdLower.includes('易怒性')) keywords.push('フィコンパ', 'ペランパネル', 'てんかん', '抗てんかん薬', '部分発作', '強直間代発作', 'ampa', 'グルタミン酸', '易怒性', '攻撃性', '就寝前', '半減期');
+    if (cdLower.includes('ヘキザック') || cdLower.includes('クロルヘキシジン') || cdLower.includes('ヒビテン') || cdLower.includes('hexack') || cdLower.includes('chlorhexidine') || cdLower.includes('消毒') || cdLower.includes('0.02%') || cdLower.includes('0.05%') || cdLower.includes('0.5%') || cdLower.includes('1%') || cdLower.includes('cvc') || cdLower.includes('内耳') || cdLower.includes('難聴') || cdLower.includes('石けん')) keywords.push('ヘキザック', 'クロルヘキシジン', 'ヒビテン', '消毒', '殺菌', 'cvc', '手術野', '希釈', '0.02%', '0.05%', '0.5%', '1%', '内耳', '難聴', '脳神経', '禁忌', '石けん', '失活', 'アナフィラキシー');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
