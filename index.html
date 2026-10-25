@@ -35461,6 +35461,7 @@ Ca拮抗薬による毛細血管内圧上昇に起因する浮腫が疑われま
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('チョコラA')">🧴 チョコラA (角化症/夜盲症)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コララン')">💓 コララン (If遮断/低血圧心不全)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ハイドレア')">🩸 ハイドレア (血小板増多/ET/PV)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('クリアナール')">🫁 クリアナール (COPD増悪予防/MUC5AC)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドパコール')">🧠 ドパコール (レボドパ)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メスチノン')">👁️ メスチノン (MG)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('オフェブ')">🫁 オフェブ (IPF)</button>
@@ -45001,6 +45002,131 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 18. クリアナール（フドステイン）
+  // 🌟 MUC5AC遺伝子発現阻害 ＆ COPD急性増悪予防薬（去痰薬3兄弟の最高峰）
+  fudosteine: {
+    aliases: ['クリアナール', 'フドステイン', 'clearnal', 'fudosteine', 'クリアナール錠'],
+    name: 'クリアナール（フドステイン錠200mg）',
+    category: 'システイン誘導体気道粘液正常化薬（MUC5AC遺伝子発現直接阻害 ＆ COPD増悪予防薬）',
+    questions: [
+      {
+        id: 'fud_q1_copd_symptom',
+        title: 'Q1. 処方箋情報：患者の基礎疾患・主訴（痰と呼吸器症状）はどれですか？',
+        subtitle: 'COPD（肺気腫）か、気管支拡張症かによって処方意図を特定します',
+        options: [
+          {
+            id: 'fud_opt_copd_mucus',
+            label: 'COPD（肺気腫・慢性気管支炎）：長年の喫煙歴、階段での息切れ、粘り気のある濃い痰が喉にへばりつく',
+            badge: 'COPD・気道粘液過分泌',
+            desc: 'MUC5AC遺伝子発現阻害による杯細胞過形成の萎縮。気道閉塞を解除し急性増悪を予防',
+            weights: { copd_hypersecretion: 95, bronchiectasis_sputum: -30, acute_bronchitis: -50 }
+          },
+          {
+            id: 'fud_opt_bronchiectasis',
+            label: '気管支拡張症：毎朝大量の喀痰（膿性痰・喀血既往）が出る。クラリス少量長期併用あり',
+            badge: '気管支拡張症',
+            desc: '自浄作用を失った拡張気管支への過剰粘液分泌を抑制し、緑膿菌等の二次感染を防止',
+            weights: { bronchiectasis_sputum: 95, copd_hypersecretion: -30, acute_bronchitis: -50 }
+          },
+          {
+            id: 'fud_opt_acute_cough',
+            label: '急性気管支炎・感冒後咳嗽：かぜの後に痰が切れずに咳が長引いている（喫煙歴・吸入薬なし）',
+            badge: '急性気管支炎',
+            desc: '急性炎症に伴う一時的な気道粘液過分泌の改善',
+            weights: { acute_bronchitis: 85, copd_hypersecretion: -60, bronchiectasis_sputum: -60 }
+          }
+        ]
+      },
+      {
+        id: 'fud_q2_combo_inhaler',
+        title: 'Q2. 処方箋情報：併用されている吸入薬や処方用量はどれですか？',
+        subtitle: 'COPD吸入薬の併用状況と投与回数（1日2回）のアドヒアランス設計を評価します',
+        options: [
+          {
+            id: 'fud_opt_combo_lama_laba',
+            label: 'LAMA/LABA吸入気管支拡張薬（スピリーバ、ウルティブロ、ビープラム等）が併用されている',
+            badge: 'COPD標準治療併用',
+            desc: '長時間作用性気管支拡張薬に上乗せし、肺過膨張と増悪入院を徹底阻止',
+            weights: { copd_hypersecretion: 90, bronchiectasis_sputum: 20 }
+          },
+          {
+            id: 'fud_opt_combo_macrolide',
+            label: 'マクロライド少量長期（クラリスロマイシン200mg 1日1回）が併用されている',
+            badge: '気道免疫修飾併用',
+            desc: '気管支拡張症やびまん性汎細気管支炎（DPB）に対する王道の抗炎症併用療法',
+            weights: { bronchiectasis_sputum: 90, copd_hypersecretion: 30 }
+          },
+          {
+            id: 'fud_opt_combo_single_bid',
+            label: 'クリアナール単独処方（1回400mg 2錠を1日2回 朝・夕食後）',
+            badge: '1日2回レジメン',
+            desc: 'ムコダイン（1日3回）と異なり1日2回投与で昼の飲み忘れを防止する服薬設計',
+            weights: { copd_hypersecretion: 40, acute_bronchitis: 40 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'copd_hypersecretion',
+        cardNum: 20,
+        name: '慢性閉塞性肺疾患（COPD：肺気腫・慢性気管支炎）の粘液過分泌 ＆ 急性増悪予防',
+        subType: '呼吸器内科専門外来型・MUC5AC粘液遺伝子直接阻害による杯細胞過形成萎縮 ＆ 増悪阻止レジメン',
+        baseProb: 35,
+        criteria: '【処方サイン】：呼吸器内科処方、長年の喫煙歴（30〜40 pack-years以上）、LAMA/LABA吸入薬併用、主訴「階段での息切れ、粘り気のある濃い痰」、1回400mg 1日2回朝夕食後。',
+        reason: 'タバコ煙や慢性好中球性炎症によって増殖した気道杯細胞（goblet cell）のMUC5AC遺伝子転写を直接阻害。痰の分泌工場そのものを萎縮させて気道閉塞を解除し、急性増悪（感染・呼吸不全入院）を有意に減少させる。',
+        keyPoint: '💡 なぜムコダインではなくクリアナールなのか？（決定打）：カルボシステイン（ムコダイン）が粘液構成比（フコース/シアル酸）を整えるのに対し、クリアナールは「粘液を作る杯細胞そのものを元栓から減らす」唯一の薬剤。臨床試験でCOPD年間増悪回数を有意に減らすエビデンスを持ち、1日2回投与でアドヒアランスが極めて高い。',
+        treatment: {
+          pathology: 'COPD患者の気道では、タバコ煙刺激により上皮増殖因子受容体（EGFR）シグナルが恒常的に活性化し、杯細胞が異常過形成。ゲル形成性粘液糖蛋白「MUC5AC」が過剰産生され、末梢気道が濃稠な痰で閉塞（Mucus plugging）。これが細菌感染の温床となり致死的な急性増悪を繰り返します。',
+          rationale: '【処方根拠】：フドステインはEGFRリン酸化以降のMUC5AC遺伝子プロモーター活性を強力に抑制し、粘液過分泌を根源から断ち切ります。さらに抗酸化作用により気道炎症を抑制します。',
+          firstLine: 'クリアナール錠200mg 1回2錠（400mg） 1日2回（朝・夕食後）。',
+          combination: 'LAMA/LABA配合吸入剤（スピオルト、ウルティブロ、ビープラム）、重症例ではICS/LAMA/LABAトリプル（テリルジー/エナジア）。',
+          contra: '重篤な肝機能障害。',
+          targets: 'CAT（COPDアセスメントテスト）スコア改善、喀痰喀出困難感の消失、年間急性増悪回数ゼロ。',
+          guidance: '🗣️ 服薬指導：「気道のネバネバした濃い痰をサラサラにするだけでなく、『痰が過剰に作られる工場（杯細胞）そのものを小さくする』特別な働きを持つお薬です。毎日続けることで気道の空気の通り道が広がり、急激な息苦しさや風邪による悪化（急性増悪）を強力に防ぎます。1日2回（朝・夕食後）ですので、飲み忘れなく続けましょう。」'
+        }
+      },
+      {
+        id: 'bronchiectasis_sputum',
+        cardNum: 20,
+        name: '気管支拡張症（Bronchiectasis）に伴う慢性喀痰貯留・自浄作用不全',
+        subType: '呼吸器専門外来型・拡張気管支の粘液分泌元栓遮断 ＆ 二次細菌感染（緑膿菌）予防レジメン',
+        baseProb: 30,
+        criteria: '【処方サイン】：呼吸器内科処方、胸部CTで不可逆的気管支拡張像、主訴「毎朝の多量な膿性痰・喀血既往」、マクロライド少量長期（クラリス200mg 1日1回）併用。',
+        reason: '構造的に拡張し線毛運動（自浄作用）を失った気管支内腔に過剰な粘液がプールされるのを、MUC5AC抑制により分泌段階からブロック。',
+        keyPoint: '💡 治療の急所：気管支拡張症では痰が溜まること自体が細菌（緑膿菌・インフルエンザ菌）の温床となり気道破壊を悪化させる。クリアナールで分泌を減らし、マクロライドで炎症を鎮静化する。',
+        treatment: {
+          pathology: '過去の重症肺炎や慢性感染により気管支壁の平滑筋・弾性線維が破壊され不可逆的に拡大。分泌物が滞留して慢性感染を惹起し、咳・多量排痰・血痰を反復します。',
+          rationale: '【処方根拠】：粘液過分泌を抑えることで気道内の痰貯留量を減らし、呼吸理学療法（排痰体位ドレナージ）の効果を高めます。',
+          firstLine: 'クリアナール錠200mg 1回2錠 1日2回。',
+          combination: 'クラリスロマイシン（クラリス200mg 1日1回）、去痰補助（ムコソルバン）。',
+          contra: '重度肝障害。',
+          targets: '1日喀痰量の半減、膿性痰から粘液性痰への性状改善、感染増悪の防止。',
+          guidance: '🗣️ 服薬指導：朝起きた時の体位ドレナージ（うつ伏せ等で痰を出しやすくする工夫）と十分な水分摂取の併用指導。'
+        }
+      },
+      {
+        id: 'acute_bronchitis',
+        cardNum: 20,
+        name: '急性気管支炎・感冒後咳嗽に伴う喀痰喀出困難',
+        subType: '一般内科型・急性気道炎症に伴う一時的喀痰過分泌の改善（対症療法）',
+        baseProb: 20,
+        criteria: '【処方サイン】：一般内科処方、感冒症状後の持続する湿性咳嗽、喫煙歴なし、胸部レントゲン正常。',
+        reason: '気道粘膜の一時的炎症による喀痰粘稠化を改善し、速やかな排痰を促す。',
+        keyPoint: '💡 監査ポイント：感冒後咳嗽では自然軽快も多いため、2〜3週間の短期投与で改善を確認する。',
+        treatment: {
+          pathology: 'ウイルス感染後の気道上皮一過性傷害により粘液分泌が亢進し、痰の粘稠度が増して咳受容体を刺激。',
+          rationale: '【処方根拠】：1日2回投与で患者のアドヒアランス良好に排痰をサポート。',
+          firstLine: 'クリアナール錠200mg 1回2錠 1日2回。',
+          combination: '鎮咳薬（アスベリン）、麦門冬湯。',
+          contra: '特になし。',
+          targets: '咳嗽・喀痰の完全消失。',
+          guidance: '🗣️ 服薬指導：うがいと加湿の励行指導。'
+        }
+      }
+    ]
   }
 };
 
@@ -45609,6 +45735,8 @@ function applyProfileWeights(scores) {
   } else if (prof.dept === 'resp') {
     if (scores['asthma_bronchial'] !== undefined) scores['asthma_bronchial'] += 95;
     if (scores['cerebro_vertigo'] !== undefined) scores['cerebro_vertigo'] -= 60;
+    if (scores['copd_hypersecretion'] !== undefined) scores['copd_hypersecretion'] += 95;
+    if (scores['bronchiectasis_sputum'] !== undefined) scores['bronchiectasis_sputum'] += 90;
   } else if (prof.dept === 'neuro') {
     if (scores['cerebro_vertigo'] !== undefined) scores['cerebro_vertigo'] += 95;
     if (scores['asthma_bronchial'] !== undefined) scores['asthma_bronchial'] -= 60;
@@ -46158,6 +46286,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: 'ARB（アンジオテンシンII受容体拮抗薬）',
     reason: '同効ARB群の中で最も受容体解離速度が遅く、最強の24時間持続降圧能を誇る薬剤。',
     benefit: '【選定の決め手】：早朝高血圧（Morning Surge）による心筋梗塞・脳卒中を確実に防ぐため、ARB群最強の降圧力を求めて選定されています。'
+  },
+  {
+    pattern: /クリアナール|フドステイン/,
+    name: 'フドステイン（クリアナール）',
+    class: '気道粘液正常化薬（システイン誘導体）',
+    reason: '気道上皮の杯細胞過形成を直接抑制し、粘液糖蛋白MUC5AC遺伝子の発現を転写レベルで遮断する唯一の分子。',
+    benefit: '【選定の決め手】：カルボシステイン（ムコダイン）と異なり、痰の分泌工場である杯細胞を根源から縮小させ、COPD急性増悪を有意に予防するエビデンスを有します。さらに1日2回投与で昼の服薬負担を軽減できるため選定されています。'
   },
   {
     pattern: /コララン|イバブラジン/,
@@ -46891,6 +47026,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('夜盲') || cdLower.includes('とり目') || cdLower.includes('暗い') || cdLower.includes('見えにくい')) keywords.push('夜盲症', '暗順応', '視物質', '角膜乾燥');
     if (cdLower.includes('心拍') || cdLower.includes('頻脈') || cdLower.includes('低血圧')) keywords.push('心拍数', '洞調律', '頻脈', '心不全', 'hcn');
     if (cdLower.includes('血小板') || cdLower.includes('多血') || cdLower.includes('潰瘍') || cdLower.includes('すね')) keywords.push('血小板', '本態性血小板血症', '真性多血症', '下腿', '皮膚潰瘍');
+    if (cdLower.includes('copd') || cdLower.includes('肺気腫') || cdLower.includes('痰') || cdLower.includes('喀痰') || cdLower.includes('気管支拡張')) keywords.push('copd', '肺気腫', '気管支拡張症', 'muc5ac', '杯細胞', '喀痰', '粘液');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
