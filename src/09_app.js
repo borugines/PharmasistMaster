@@ -8589,6 +8589,131 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 22. コムレクス（レボフロキサシン耳科用液1.5%）
+  // 🌟 約25年ぶりの抗菌点耳新薬（難治性耳漏中耳炎・外耳炎 ＆ 🚨 カロリックめまい防止耳浴指導）
+  comlex: {
+    aliases: ['コムレクス', 'レボフロキサシン耳科', 'comlex', 'levofloxacin otic', 'コムレクス耳科用液', 'コムレクス点耳'],
+    name: 'コムレクス（コムレクス耳科用液1.5%）',
+    category: '高濃度ニューキノロン系抗菌耳科用製剤（約25年ぶりの点耳新薬・難治性中耳炎/耳漏治療薬）',
+    questions: [
+      {
+        id: 'com_q1_symptom_site',
+        title: 'Q1. 処方箋情報：患部の病態・耳の症状はどれですか？',
+        subtitle: '耳だれ（中耳炎耳漏）か、耳の穴の痛み・痒み（外耳炎）かを確認します',
+        options: [
+          {
+            id: 'com_opt_otitis_media_drainage',
+            label: '化膿性中耳炎：耳だれ（耳漏・膿）が続いて止まらない、鼓膜穿孔・鼓膜チューブ留置、聞こえの低下',
+            badge: '難治性・遷延性中耳炎',
+            desc: '従来薬（タリビッド0.3%等）の5倍濃度（1.5%）で、耐性菌（緑膿菌・MRSA等）の耳漏を速やかに停止',
+            weights: { otitis_media_refractory: 95, otitis_externa: 40, caloric_vertigo_alert: -30 }
+          },
+          {
+            id: 'com_opt_otitis_externa',
+            label: '外耳炎：耳の穴が痛くて触れない、耳かきのしすぎ・プール後に黄色い分泌物と強いかゆみ',
+            badge: '外耳道炎',
+            desc: '外耳道皮膚の黄色ブドウ球菌・緑膿菌感染。局所高濃度除菌による速やかな消炎',
+            weights: { otitis_externa: 95, otitis_media_refractory: 30, caloric_vertigo_alert: -30 }
+          },
+          {
+            id: 'com_opt_cold_drop_dizzy',
+            label: '【🚨 必須服薬指導】：点耳薬を「冷たいまま」耳に入れて激しい回転性めまい（カロリック反応）を起こす危険',
+            badge: '🚨 冷体点耳めまい防止',
+            desc: '内耳半規管のリンパ対流による急性めまい・吐き気。手のひらで温めてから点耳する指導が必須',
+            weights: { caloric_vertigo_alert: 100, otitis_media_refractory: 40 }
+          }
+        ]
+      },
+      {
+        id: 'com_q2_prior_treatment',
+        title: 'Q2. 処方箋情報：これまでの治療歴や使用状況はどれですか？',
+        subtitle: '従来薬（タリビッド点耳）無効例と耳浴手技の理解を評価します',
+        options: [
+          {
+            id: 'com_opt_prior_ofloxacin_failure',
+            label: 'タリビッド点耳液（オフロキサシン0.3%）を使っていたが耳漏が治まらなかった（耐性菌疑い）',
+            badge: '従来薬無効・1.5%へステップアップ',
+            desc: '5倍の高濃度レボフロキサシンにより、耐性菌のMPC（耐性菌出現阻止濃度）を突破',
+            weights: { otitis_media_refractory: 90, otitis_externa: 30 }
+          },
+          {
+            id: 'com_opt_first_time_ear_drops',
+            label: '点耳薬の使用は今回が初めて（正しい「10分間耳浴」と「温め」の指導が必要）',
+            badge: '耳浴手技指導必須',
+            desc: '滴下後10分間横になって静止し、薬液を中耳腔へ浸透させる手技説明',
+            weights: { otitis_media_refractory: 50, caloric_vertigo_alert: 40 }
+          },
+          {
+            id: 'com_opt_bid_standard',
+            label: '1回6〜10滴を1日2回点耳（標準用法）',
+            badge: '1日2回標準レジメン',
+            desc: '高濃度の持続性により1日2回耳浴で高い細菌消失率を達成',
+            weights: { otitis_media_refractory: 40, otitis_externa: 40 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'otitis_media_refractory',
+        cardNum: 29,
+        name: '難治性・遷延性化膿性中耳炎（持続性耳漏・耐性菌緑膿菌/MRSA除菌レジメン）',
+        subType: '耳鼻咽喉科専門外来型・高濃度1.5%（従来比5倍）による局所MPC突破 ＆ 耳漏停止療法',
+        baseProb: 35,
+        criteria: '【処方サイン】：耳鼻咽喉科処方、主訴「耳だれ（耳漏）が止まらない、聞こえが悪い、耳の痛み」、タリビッド点耳無効例、鼓膜穿孔・換気チューブ留置、1回6〜10滴 1日2回点耳後10分間耳浴。',
+        reason: '従来の0.3%製剤の5倍濃度である1.5%レボフロキサシンにより、中耳腔局所で耐性菌（緑膿菌、黄色ブドウ球菌、肺炎球菌等）の耐性菌出現阻止濃度（MPC）を軽々と超える超高濃度を達成し、難治性耳漏を数日で乾燥・治癒させる。',
+        keyPoint: '💡 なぜタリビッドではなくコムレクスなのか？（約25年ぶりの新薬）：タリビッド（オフロキサシン0.3%）で止まらない難治性耳漏に対し、5倍の高濃度で一気に耐性菌を叩き潰す。局所投与のため全身への抗生剤曝露や腸内細菌叢破壊を避けられる。',
+        treatment: {
+          pathology: '中耳粘膜で緑膿菌やMRSA等のバイオフィルム形成菌が増殖し、持続的な粘膿性耳漏と伝音難聴を引き起こします。従来の低濃度点耳薬ではMIC（最小発育阻止濃度）を下回り耐性化を助長していました。',
+          rationale: '【処方根拠】：コムレクス1.5%点耳液は局所濃度を極限まで高め、耐性変異株の出現を抑えつつ迅速に細菌を消失させます。臨床試験での耳漏停止率は極めて高いエビデンスを示します。',
+          firstLine: 'コムレクス耳科用液1.5%（1回6〜10滴 1日2回点耳後、約10分間耳浴）。小児は適宜減量。',
+          combination: '吸引清掃（耳鼻科での耳漏吸引）、経口抗菌薬（重症時）。',
+          contra: 'キノロン系過敏症。',
+          targets: '点耳開始3〜5日以内の耳漏完全停止・中耳粘膜乾燥化、難聴の改善。',
+          guidance: '🗣️ 服薬指導の極意：「約25年ぶりに新しく出た非常に強力な耳のお薬です。従来の目薬・耳薬よりも有効成分が5倍濃く作られており、しつこい耳だれを短期間でピタッと止めます。点耳する際は、必ず容器を手で数分間握って『体温くらいに温めてから』入れてください。冷たいまま入れると急激なめまいを起こします。入れた後は悪い耳を上にして『10分間そのまま横になって（耳浴）』お薬を浸透させてください。」'
+        }
+      },
+      {
+        id: 'otitis_externa',
+        cardNum: 29,
+        name: '急性・慢性外耳道炎（限局性・びまん性外耳炎 / 耳かき過多・プール後感染）',
+        subType: '耳鼻咽喉科型・外耳道皮膚の黄色ブドウ球菌・緑膿菌局所高濃度殺菌レジメン',
+        baseProb: 30,
+        criteria: '【処方サイン】：耳鼻科受診、主訴「耳の穴が痛くて触れない、耳が痒い、黄色い分泌物」、耳かき過多や水泳後の感染、外耳道発赤・腫脹。',
+        reason: '外耳道皮膚の擦過傷から侵入した細菌を高濃度キノロンで局所除菌。',
+        keyPoint: '💡 治療の急所：外耳道は狭く皮膚が菲薄なため、綿棒等での過度な清掃を禁止し、1日2回の点耳耳浴で局所消炎を図る。',
+        treatment: {
+          pathology: '耳掃除の摩擦やプールの水浸入により外耳道皮膚バリアが破綻し、黄色ブドウ球菌や緑膿菌が感染して激しい自発痛・牽引痛を生じます。',
+          rationale: '【処方根拠】：高濃度レボフロキサシンの浸透により外耳道の発赤・腫脹を速やかに寛解。',
+          firstLine: 'コムレクス耳科用液1.5%（1回6〜10滴 1日2回点耳・耳浴）。',
+          combination: '鎮痛薬（ロキソニン/カロナール）。',
+          contra: '成分過敏症。',
+          targets: '耳痛・掻痒感の消失、外耳道上皮の治癒。',
+          guidance: '🗣️ 服薬指導：点耳期間中は耳掃除（綿棒・耳かき）を完全に中止するよう指導。'
+        }
+      },
+      {
+        id: 'caloric_vertigo_alert',
+        cardNum: 29,
+        name: '【🚨 必須服薬指導アラート】冷体点耳による激しい回転性めまい（カロリック反応）の防止',
+        subType: '重大指導警告・内耳リンパ液温度対流による急性めまい・悪心防止（体温加温の徹底）',
+        baseProb: 15,
+        criteria: '【指導サイン】：点耳薬の処方を受けた全患者、特に初回使用時。',
+        reason: '冷たい薬液が中耳腔に入ると外側半規管のリンパ液に温度勾配による対流が発生し、前庭眼反射（VOR）が異常興奮して激しい眼振・回転性めまい・嘔吐（カロリックテストめまい）を誘発する。',
+        keyPoint: '🗣️ 薬剤師の絶対指導：「点耳する前に、容器を手のひらで数分間握って体温程度に温めてから入れてください。冷たいまま耳に入れると、天井がグルグル回る激しいめまいを起こします。」',
+        treatment: {
+          pathology: '内耳半規管に急激な温度変化が加わると、内リンパ液の比重変化によりクプラが偏倚し、頭部が回転していないにもかかわらず脳に強烈な回転シグナルが送られます。',
+          rationale: '【未然防止の徹底】：体温と同等の温度（36℃前後）に温めてから点耳すれば、カロリック反応は100%防ぐことができます。',
+          firstLine: '手掌加温（手のひらで容器を包んで数分握る）の徹底指導。',
+          combination: 'もしめまいが起きた場合の安静指導（目を開けず頭を動かさず数分静止）。',
+          contra: '冷所保存直後の冷たい状態での点耳。',
+          targets: '薬原性カロリックめまい発生率ゼロ。',
+          guidance: '🗣️ 必須フレーズ：「冬場や室温で薬液が冷えている時は特にご注意ください。必ず手で握って人肌に温めてから耳に入れてくださいね。」'
+        }
+      }
+    ]
   }
 };
 
@@ -9198,6 +9323,8 @@ function applyProfileWeights(scores) {
     if (scores['zinc_taste_disorder'] !== undefined) scores['zinc_taste_disorder'] += 95;
     if (scores['stomatitis_chemo'] !== undefined) scores['stomatitis_chemo'] += 85;
     if (scores['pud_gastric_ulcer'] !== undefined) scores['pud_gastric_ulcer'] -= 60;
+    if (scores['otitis_media_refractory'] !== undefined) scores['otitis_media_refractory'] += 95;
+    if (scores['otitis_externa'] !== undefined) scores['otitis_externa'] += 90;
   } else if (prof.dept === 'resp') {
     if (scores['asthma_bronchial'] !== undefined) scores['asthma_bronchial'] += 95;
     if (scores['cerebro_vertigo'] !== undefined) scores['cerebro_vertigo'] -= 60;
@@ -9753,6 +9880,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: 'ARB（アンジオテンシンII受容体拮抗薬）',
     reason: '同効ARB群の中で最も受容体解離速度が遅く、最強の24時間持続降圧能を誇る薬剤。',
     benefit: '【選定の決め手】：早朝高血圧（Morning Surge）による心筋梗塞・脳卒中を確実に防ぐため、ARB群最強の降圧力を求めて選定されています。'
+  },
+  {
+    pattern: /コムレクス/,
+    name: 'レボフロキサシン耳科用液（コムレクス）',
+    class: 'ニューキノロン系抗菌耳科用製剤（1.5%製剤）',
+    reason: '約25年ぶりに登場した新薬。従来の点耳薬（タリビッド0.3%）の5倍に達する超高濃度1.5%製剤。',
+    benefit: '【選定の決め手】：タリビッドで除菌しきれず耳漏がダラダラ続く難治性中耳炎や緑膿菌感染に対し、局所超高濃度で耐性菌の壁を突破して耳漏を劇的に停止させるために選定されています。'
   },
   {
     pattern: /モサプリド|ガスモチン/,
@@ -10518,6 +10652,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('adhd') || cdLower.includes('不注意') || cdLower.includes('多動') || cdLower.includes('衝動') || cdLower.includes('うっかり') || cdLower.includes('ミス') || cdLower.includes('忘れ物') || cdLower.includes('イライラ') || cdLower.includes('怒り')) keywords.push('adhd', '不注意', '多動', '衝動', 'ミス', '忘れ物', 'ワーキングメモリ', 'カッとなる');
     if (cdLower.includes('便秘') || cdLower.includes('お通じ') || cdLower.includes('排便') || cdLower.includes('出ない') || cdLower.includes('張り')) keywords.push('便秘', '弛緩性', '大腸', '結腸', '蠕動', 'プロキネティクス', 'お通じ');
     if (cdLower.includes('もたれ') || cdLower.includes('胃もたれ') || cdLower.includes('排出') || cdLower.includes('胸やけ')) keywords.push('胃もたれ', '胃排出', '胸やけ', 'gerd', '逆流');
+    if (cdLower.includes('耳') || cdLower.includes('耳だれ') || cdLower.includes('耳漏') || cdLower.includes('中耳炎') || cdLower.includes('外耳炎') || cdLower.includes('耳浴')) keywords.push('耳漏', '中耳炎', '外耳炎', '耳だれ', '耳浴', '点耳', '点耳薬');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
