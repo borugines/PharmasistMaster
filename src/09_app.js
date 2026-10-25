@@ -355,6 +355,7 @@ const DRUG_DB = [
   { name: "サラジェン", gen: "ピロカルピン塩酸塩", cat: "125. 口腔乾燥症（放射線後 / SjS）", char: "頭頸部がん放射線後口渇の【唯一の適応薬】！著明な多汗に注意・喘息絶対禁忌", desc: "非選択的ムスカリン受容体作動薬。放射線治療後とシェーグレン症候群の両方に適応。唾液腺M3刺激で唾液分泌を強力促進。服用後30〜60分で服を着替えるほどの大汗（多汗）が出るが薬効のサイン。自己中断による虫歯多発を警告。気管支喘息は気道攣縮で絶対禁忌！", gId: "c16", cSec: "sec-imm" },
   { name: "エボザック / サリグレン", gen: "セビメリン塩酸塩水和物", cat: "125. 口腔乾燥症（SjS専用）", char: "M1/M3選択的作動薬！シェーグレン症候群専用（放射線後は適応外査定！）", desc: "キヌクリジン誘導体。ピロカルピンに比べ心臓M2への影響が少ない。適応は「シェーグレン症候群の口腔乾燥症状」のみ！頭頸部放射線後の患者に処方された場合は保険適応外（査定対象）。多汗に注意。気管支喘息絶対禁忌。", gId: "c16", cSec: "sec-imm" },
   { name: "サリベート", gen: "人工唾液エアゾール", cat: "125. 口腔乾燥症（局所スプレー）", char: "天然唾液に近い無機塩類スプレー！ムスカリン薬が使えない喘息患者の救世主", desc: "口腔内乾燥時に舌下・頬粘膜に直接1〜2回噴霧。全身性のコリン副作用（多汗・頻尿・腹痛）が一切なく、気管支喘息等でサラジェン・エボザックが禁忌の患者にも極めて安全。", gId: "c16", cSec: "sec-imm" },
+  { name: "プリモボラン", gen: "メテノロン酢酸エステル", cat: "128. 血液疾患 / 蛋白同化ステロイド", char: "再生不良性貧血の造血促進 ＆ 慢性消耗性疾患の蛋白同化！女性の不可逆的嗄声注意", desc: "蛋白同化ステロイド。男性化作用を弱め蛋白同化作用を特異的に強化。腎EPO産生促進と骨髄幹細胞直接刺激で赤血球・血小板を産生。女性で一度低くなった声（嗄声）は中止後も戻らない不可逆的変化！前立腺がん絶対禁忌。定期肝機能検査必須。", gId: "c16", cSec: "sec-imm" },
 
 ];
 
@@ -488,6 +489,8 @@ const COMPOUNDING_MASTER = {
   "サラジェン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 遮光防湿", reason: "普通錠。粉砕・簡易懸濁可能（苦味あり）。光・湿気で徐々に着色するため遮光防湿分包推奨。気管支喘息は気道攣縮で絶対禁忌！多汗副作用に留意。", alt: "普通錠粉砕、サリベートエアゾール（局所噴霧）" },
   "エボザック": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 防湿", reason: "普通錠。粉砕・簡易懸濁可能（苦味あり）。気管支喘息は絶対禁忌！放射線照射後には適応なし（シェーグレン症候群のみ適応）。多汗副作用に留意。", alt: "普通錠粉砕、サリグレン" },
   "サリグレン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 防湿", reason: "普通錠。粉砕・簡易懸濁可能（苦味あり）。気管支喘息は絶対禁忌！放射線照射後には適応なし（シェーグレン症候群のみ適応）。多汗副作用に留意。", alt: "普通錠粉砕、エボザック" },
+  "プリモボラン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 遮光防湿", reason: "普通錠。粉砕・簡易懸濁可能（遮光防湿保存推奨）。男性の前立腺がん絶対禁忌！女性の嗄声（声の低音化）は中止しても戻らない不可逆的変化のため即時報告を指導。定期肝機能検査。", alt: "普通錠粉砕" },
+  "メテノロン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 遮光防湿", reason: "普通錠。粉砕・簡易懸濁可能（遮光防湿保存推奨）。男性の前立腺がん絶対禁忌！女性の嗄声（声の低音化）は中止しても戻らない不可逆的変化のため即時報告を指導。定期肝機能検査。", alt: "普通錠粉砕" },
   "タケルダ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "タケルダ配合錠": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "プラザキサ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿激", reason: "脱カプセル・粉砕絶対禁止（AUC急増で出血死）。極めて吸湿性が高くPTPシートのまま保管必須。", alt: "リクシアナOD錠、エリキュース" },
@@ -9398,6 +9401,145 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 28. 蛋白同化ステロイド・造血促進薬（プリモボラン錠：メテノロン酢酸エステル）
+  // 🌟 再生不良性貧血EPO骨髄刺激 ＆ サルコペニア・消耗性疾患 ＆ 女性の不可逆的嗄声アラート ＆ 前立腺がん禁忌
+  anabolic_primobolan: {
+    aliases: ['プリモボラン', 'メテノロン', 'アナボリック', '蛋白同化ステロイド', '再生不良性貧血', 'primobolan', 'metenolone', '骨髄異形成', '造血刺激'],
+    name: '蛋白同化ステロイド・造血促進薬（プリモボラン錠：メテノロン酢酸エステル）',
+    category: '蛋白同化ステロイド（同化/男性化比向上アナボリックステロイド / 血液造血 ＆ 慢性消耗性疾患レジメン）',
+    questions: [
+      {
+        id: 'primo_q1_indication_pathology',
+        title: 'Q1. 処方箋情報：診療科と臨床適応症（血液内科の再生不良性貧血 vs 慢性消耗状態・骨粗鬆症）はどれですか？',
+        subtitle: '骨髄造血刺激（EPO産生＋幹細胞刺激）か蛋白異化抑制（サルコペニア・骨粗鬆症）かを鑑査します',
+        options: [
+          {
+            id: 'primo_opt_aa_mds_proper',
+            label: '血液内科処方：再生不良性貧血（AA）または骨髄異形成症候群（MDS）に伴う貧血・汎血球減少',
+            badge: '再生不良性貧血（造血幹細胞刺激）',
+            desc: '腎エリスロポエチン（EPO）分泌促進と骨髄造血幹細胞の直接刺激により赤血球・血小板を産生回復',
+            weights: { primobolan_aa_proper: 95, primobolan_cachexia_proper: 30, primobolan_female_voice_alert: 25 }
+          },
+          {
+            id: 'primo_opt_cachexia_sarcopenia',
+            label: '老年内科・透析・外科処方：慢性消耗性疾患、悪液質、重度サルコペニア、重症骨粗鬆症',
+            badge: '慢性消耗性疾患・蛋白同化',
+            desc: '蛋白異化（筋肉分解）を抑えて窒素平衡を改善。骨基質蛋白の合成を促進して骨粗鬆症を改善',
+            weights: { primobolan_cachexia_proper: 95, primobolan_aa_proper: 25, primobolan_female_voice_alert: 25 }
+          },
+          {
+            id: 'primo_opt_female_hoarseness_alert',
+            label: '【🚨 必須服薬指導・不可逆的副作用】：女性患者への投与時における「嗄声（声の低音化・声変わり）」の早期発見指導',
+            badge: '🚨 女性の不可逆的嗄声警告！',
+            desc: '女性で一度低くなった声は中止しても元に戻らない【不可逆的変化】！声のかすれ・低音化の即時報告を徹底指導',
+            weights: { primobolan_female_voice_alert: 100, primobolan_aa_proper: 35, primobolan_cachexia_proper: 35 }
+          },
+          {
+            id: 'primo_opt_prostate_cancer_contra',
+            label: '【🚨 禁忌鑑査・肝障害リスク】：男性の前立腺がん（絶対禁忌）および長期連用による肝機能障害・肝腫瘍',
+            badge: '🚨 前立腺がん禁忌・肝機能監視！',
+            desc: 'アンドロゲン依存性腫瘍（前立腺がん）は悪化のため絶対禁忌。定期的な肝機能採血・肝エコー検査の実施を確認',
+            weights: { primobolan_prostate_contra_alert: 100, primobolan_aa_proper: 20 }
+          }
+        ]
+      },
+      {
+        id: 'primo_q2_regimen_monitoring',
+        title: 'Q2. 併用薬剤とモニタリング計画：処方構成や血液検査の状況はどれですか？',
+        subtitle: '免疫抑制薬シナジーや定期肝機能モニタリングを評価します',
+        options: [
+          {
+            id: 'primo_opt_cyclosporine_combo',
+            label: '免疫抑制薬併用：シクロスポリン（ネオーラル）等との併用による骨髄造血再建ハイブリッド療法',
+            badge: '免疫抑制＋造血刺激併用',
+            desc: '自己免疫的骨髄抑制をシクロスポリンで抑え、プリモボランで造血をブーストする再生不良性貧血の標準レジメン',
+            weights: { primobolan_aa_proper: 90, primobolan_female_voice_alert: 30 }
+          },
+          {
+            id: 'primo_opt_liver_lipid_followup',
+            label: '定期モニタリング管理：AST/ALT/ビリルビンおよび脂質（HDL-C低下・LDL-C上昇）の定期採血確認',
+            badge: '肝機能・脂質定期モニタリング',
+            desc: '長期投与に伴う肝機能異常やペリオーシス・ヘパティス、動脈硬化リスクを未然に防止',
+            weights: { primobolan_prostate_contra_alert: 85, primobolan_aa_proper: 40 }
+          },
+          {
+            id: 'primo_opt_pediatric_growth_bone_age',
+            label: '小児・若年投与：骨端線早期閉鎖のリスク管理（定期的な手根骨X線による骨年齢モニタリング）',
+            badge: '骨端線早期閉鎖警戒',
+            desc: '骨伸長は促すが骨年齢の急速な進展により最終身長が低くなるリスクを厳重監視',
+            weights: { primobolan_cachexia_proper: 80 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'primobolan_aa_proper',
+        name: 'プリモボラン錠5mg（メテノロン酢酸エステル：再生不良性貧血・MDS造血刺激至適処方）',
+        matchRate: 98,
+        badge: '適正処方（骨髄造血促進アナボリック）',
+        rationale: '再生不良性貧血（AA）や骨髄異形成症候群（MDS）における造血刺激のキードラッグ。腎エリスロポエチン（EPO）分泌促進および骨髄造血幹細胞を直接刺激し、赤血球・血小板・好中球の産生を強力に底上げ。シクロスポリン（ネオーラル）との併用で高い寛解率を達成。',
+        treatment: {
+          pathology: '骨髄造血幹細胞の減少・機能低下により汎血球減少をきたす病態。メテノロンはアンドロゲン受容体を介して骨髄ストローマ細胞および造血幹細胞の増殖シグナルを活性化します。',
+          rationale: '男性化作用が弱く蛋白同化作用に優れるため長期使用に適する。効果判定には3〜6ヶ月の継続内服が必要。',
+          firstLine: 'プリモボラン錠5mg 1日10〜20mg（分2〜分3）。',
+          combination: 'シクロスポリン（ネオーラル）、ロミプロスチム（レボレード）。',
+          contra: '前立腺がん、重篤な肝障害、妊婦・授乳婦。',
+          targets: 'ヘモグロビン（Hb）上昇、輸血依存からの離脱、血小板数増加。',
+          guidance: '🗣️ 必須フレーズ：「骨髄の血液工場を元気づけて、赤血球や血小板を増やしてくれるお薬です。効果が出るまでに数ヶ月かかりますので、自己判断でやめずにコツコツ続けましょう。定期的に肝臓の血液検査を行いますね。」'
+        }
+      },
+      {
+        id: 'primobolan_cachexia_proper',
+        name: 'プリモボラン錠5mg（メテノロン酢酸エステル：慢性消耗性疾患・サルコペニア・骨粗鬆症蛋白同化療法）',
+        matchRate: 95,
+        badge: '慢性消耗・蛋白同化療法',
+        rationale: '慢性腎不全透析期、悪性腫瘍術後、重度サルコペニア、骨粗鬆症における蛋白異化（筋肉分解）抑制・骨基質合成促進。負の窒素平衡を正に転じさせ、除脂肪体重と筋力を回復。',
+        treatment: {
+          pathology: '慢性疾患による炎症性サイトカイン（TNF-α、IL-6）過剰でユビキチン・プロテアソーム系が活性化し、骨格筋蛋白が急速に分解される病態。メテノロンが筋蛋白合成を強力に促進します。',
+          rationale: 'テストステロンに比べ男性化作用が弱いため、女性や高齢者にも比較的安全に使用可能。',
+          firstLine: 'プリモボラン錠5mg 1日5〜15mg（分1〜分3）。',
+          combination: '高蛋白栄養療法、カルシウム・活性型ビタミンD3製剤、運動療法。',
+          contra: '前立腺がん、前立腺肥大（排尿障害）、重篤な心・肝・腎不全。',
+          targets: '体重・筋肉量増加、握力・ADL維持、骨密度改善。',
+          guidance: '🗣️ 患者指導：「筋肉や骨が衰えるのを防ぎ、体力をしっかり保つためのお薬です。栄養（特にたんぱく質）をしっかり摂りながら服用を続けましょう。」'
+        }
+      },
+      {
+        id: 'primobolan_female_voice_alert',
+        name: '【🚨 必須服薬指導アラート】：女性患者における「嗄声（声の低音化）」の不可逆性警告',
+        matchRate: 99,
+        badge: '🚨 不可逆的嗄声・早期発見！',
+        rationale: '女性への蛋白同化ステロイド投与時、声帯の肥厚による「声の低音化（嗄声・声変わり）」が出現することがあります。この嗄声は【投薬を中止しても元の声に戻らない不可逆的変化】であるため、かすれ声や低音化を自覚した段階で直ちに休薬・医師へ相談させる指導が絶対必須！',
+        treatment: {
+          pathology: '声帯粘膜および固有層のアンドロゲン受容体刺激により声帯筋・結合組織が肥厚し、不可逆的に基本周波数が低下（男性声化）。',
+          rationale: '早期に休薬しなければ一生声が元に戻りません。多毛やざ瘡、月経異常にも注意。',
+          firstLine: '嗄声自覚時の直ちの休薬 ＆ 主治医への即時報告指導。',
+          combination: '定期問診による声のモニタリング。',
+          contra: '嗄声出現後の漫然投与継続。',
+          targets: '不可逆的な重度嗄声発症ゼロ。',
+          guidance: '🗣️ 服薬指導の極意：「女性の方にとても大切なお知らせがあります。このお薬を飲んでいて『声がかすれる』『いつもより声が低くなった・野太くなった』と感じたときは、絶対に我慢して飲み続けず、すぐに飲むのをお休みして医師や薬剤師にご連絡ください。早めに気づいて対処することが何より大切です。」'
+        }
+      },
+      {
+        id: 'primobolan_prostate_contra_alert',
+        name: '【🚨 禁忌鑑査・肝障害アラート】：前立腺がん絶対禁忌 ＆ 長期連用時の肝機能・ペリオーシス監視',
+        matchRate: 96,
+        badge: '🚨 前立腺がん禁忌・肝監視',
+        rationale: 'アンドロゲン受容体を介するため、男性の前立腺がんは腫瘍増殖・転移を促進し【絶対禁忌】。前立腺肥大症では重篤な排尿困難・尿閉を誘発。長期連用では肝細胞障害、胆汁うっ滞、肝腺腫、ペリオーシス・ヘパティス（肝内血液充満性嚢胞破裂）のリスクがあるため定期検査が必須。',
+        treatment: {
+          pathology: '前立腺上皮細胞のアンドロゲン依存性増殖シグナル活性化。肝細胞での代謝負荷および毛細血管内皮障害による類洞拡張。',
+          rationale: '処方監査でお薬手帳や問診から前立腺がん病歴を必ず確認。3ヶ月ごとの肝機能検査の実施を追跡。',
+          firstLine: '前立腺がん患者への処方は即刻疑義照会（絶対禁忌）。',
+          combination: '定期的なAST/ALT/T-Bil、腹部エコー検査。',
+          contra: '前立腺悪性腫瘍、重篤な肝機能障害。',
+          targets: '禁忌投与事故ゼロ、肝障害・肝腫瘍の早期発見。',
+          guidance: '🗣️ 疑義照会フレーズ例：「男性患者様で前立腺がんの治療歴（またはPSA高値）がございます。プリモボランはアンドロゲン依存性腫瘍の増殖を促すため禁忌となっております。処方のご意向を確認させていただきたく存じます。」'
+        }
+      }
+    ]
   }
 };
 
@@ -10043,6 +10185,10 @@ function applyProfileWeights(scores) {
     if (scores['pv_polycythemia'] !== undefined) scores['pv_polycythemia'] += 90;
     if (scores['cml_leukemia'] !== undefined) scores['cml_leukemia'] += 85;
     if (scores['hydrea_leg_ulcer'] !== undefined) scores['hydrea_leg_ulcer'] += 80;
+    if (scores['primobolan_aa_proper'] !== undefined) scores['primobolan_aa_proper'] += 95;
+    if (scores['primobolan_cachexia_proper'] !== undefined) scores['primobolan_cachexia_proper'] += 70;
+    if (scores['primobolan_female_voice_alert'] !== undefined) scores['primobolan_female_voice_alert'] += 85;
+    if (scores['primobolan_prostate_contra_alert'] !== undefined) scores['primobolan_prostate_contra_alert'] += 80;
   }
 
   // 2. 年代による重み
@@ -10063,11 +10209,13 @@ function applyProfileWeights(scores) {
     if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 50;
     if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] += 50;
     if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] -= 45;
+    if (scores['primobolan_prostate_contra_alert'] !== undefined) scores['primobolan_prostate_contra_alert'] += 60;
   } else if (prof.gender === 'female') {
     if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 55;
     if (scores['ra_active'] !== undefined) scores['ra_active'] += 40;
     if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] -= 55;
     if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] -= 55;
+    if (scores['primobolan_female_voice_alert'] !== undefined) scores['primobolan_female_voice_alert'] += 90;
   }
 
   // 4. 検査値による決定的加算
@@ -10805,6 +10953,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: '口腔乾燥症用局所噴霧剤（人工唾液）',
     reason: '天然唾液に近い無機塩類・電解質組成。ムスカリン作動薬の内服が禁忌（喘息患者等）や多汗で使えない患者にも安全に局所湿潤を提供。',
     benefit: '【選定の決め手】：全身性のムスカリン副作用（多汗・頻尿・徐脈）を一切起こさず、外出時や就寝中の口腔乾燥・舌の痛みを局所スプレーで安全に潤すために選定されています。'
+  },
+  {
+    pattern: /プリモボラン|メテノロン/,
+    name: 'メテノロン酢酸エステル（プリモボラン錠5mg）',
+    class: '蛋白同化ステロイド（同化/男性化比向上アナボリックステロイド）',
+    reason: 'テストステロン誘導体。男性化作用を抑制し蛋白同化作用を特異的に強化。腎臓からのEPO分泌促進および骨髄造血幹細胞直接刺激により造血能を回復。',
+    benefit: '【選定の決め手】：再生不良性貧血（AA）やMDSにおいて免疫抑制療法と併用し骨髄造血を再建するため、または慢性消耗性疾患・サルコペニア・重度骨粗鬆症で筋肉量と骨基質を維持するために選定されています。※女性の不可逆的嗄声（声変わり）に厳重警戒！前立腺がん禁忌。'
   }
 ];
 
@@ -11429,6 +11584,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('エフメノ') || cdLower.includes('更年期') || cdLower.includes('ホットフラッシュ') || cdLower.includes('のぼせ') || cdLower.includes('エストラーナ') || cdLower.includes('メノエイド') || cdLower.includes('子宮') || cdLower.includes('hrt')) keywords.push('エフメノ', '更年期', 'ホットフラッシュ', 'のぼせ', 'エストラーナ', 'メノエイド', '子宮', 'hrt', 'プロゲステロン');
     if (cdLower.includes('キャブピリン') || cdLower.includes('タケルダ') || cdLower.includes('アスピリン合剤') || cdLower.includes('タケキャブ合剤') || cdLower.includes('配合錠') || cdLower.includes('lda')) keywords.push('キャブピリン', 'タケルダ', 'ボノプラザン', 'アスピリン', '有核二層錠', '低用量アスピリン', '潰瘍再発', '既往', '粉砕不可');
     if (cdLower.includes('サラジェン') || cdLower.includes('エボザック') || cdLower.includes('サリグレン') || cdLower.includes('ピロカルピン') || cdLower.includes('セビメリン') || cdLower.includes('シェーグレン') || cdLower.includes('口渇') || cdLower.includes('ドライマウス') || cdLower.includes('唾液') || cdLower.includes('サリベート') || cdLower.includes('多汗') || cdLower.includes('放射線')) keywords.push('サラジェン', 'エボザック', 'サリグレン', 'ピロカルピン', 'セビメリン', 'シェーグレン', '口渇', 'ドライマウス', '唾液', 'サリベート', '多汗', '放射線', '照射後', '口の渇き');
+    if (cdLower.includes('プリモボラン') || cdLower.includes('メテノロン') || cdLower.includes('再生不良性貧血') || cdLower.includes('アナボリック') || cdLower.includes('蛋白同化') || cdLower.includes('嗄声') || cdLower.includes('声変わり') || cdLower.includes('造血') || cdLower.includes('骨髄')) keywords.push('プリモボラン', 'メテノロン', '再生不良性貧血', 'アナボリック', '蛋白同化', '嗄声', '声の低音化', '造血', '骨髄', 'epo', 'サルコペニア', '消耗性');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
