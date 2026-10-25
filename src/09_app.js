@@ -7325,6 +7325,164 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 12. ポラプレジンク（プロマック錠 / 顆粒 / D錠）
+  // 🌟 耳鼻咽喉科・歯科口腔外科・消化器科・腫瘍科の代表的適応外/特殊処方
+  polaprezinc: {
+    aliases: ['ポラプレジンク', 'プロマック', 'プロマックD', 'プロマック顆粒', 'polaprezinc', 'promac', '亜鉛'],
+    name: 'ポラプレジンク（プロマック錠 / 顆粒 / D錠）',
+    category: '亜鉛含有胃粘膜防御薬 / 亜鉛補充療法薬',
+    questions: [
+      {
+        id: 'pola_q1_dept_symptom',
+        title: 'Q1. 処方箋情報：処方元の診療科と患者の主訴（症状）はどれですか？',
+        subtitle: '耳鼻咽喉科・歯科口腔外科か、消化器内科かによって狙いが大きく異なります',
+        options: [
+          {
+            id: 'pola_opt_taste_disorder',
+            label: '耳鼻科・内科処方：「味がしない・薄い・甘みや塩味がわからない」「舌がピリピリ」',
+            badge: '亜鉛欠乏性味覚障害',
+            desc: '味蕾細胞の新陳代謝障害。保険病名は胃潰瘍だが実態は亜鉛補充療法（適応外処方の代表例）',
+            weights: { zinc_taste_disorder: 95, pud_gastric_ulcer: -40, stomatitis_chemo: -30, cirrhosis_ammonia: -50 }
+          },
+          {
+            id: 'pola_opt_stomatitis',
+            label: '耳鼻科・腫瘍科・歯科処方：「口内炎が痛くて食事が摂れない」「抗がん剤/放射線治療中」',
+            badge: '口内炎・粘膜炎',
+            desc: 'がん化学療法や放射線に伴う難治性口内炎の組織修復・活性酸素消去（内服または含嗽）',
+            weights: { stomatitis_chemo: 95, zinc_taste_disorder: -20, pud_gastric_ulcer: -40, cirrhosis_ammonia: -50 }
+          },
+          {
+            id: 'pola_opt_gastric_ulcer',
+            label: '消化器内科・整形外科処方：「胃痛・みぞおちの痛み」「ロキソニンなどNSAIDsを長期内服」',
+            badge: '胃潰瘍・NSAIDs潰瘍',
+            desc: '本来の保険適応。胃粘膜の創傷治癒促進、局所PGE2産生亢進、抗酸化作用による胃保護',
+            weights: { pud_gastric_ulcer: 95, zinc_taste_disorder: -50, stomatitis_chemo: -40, cirrhosis_ammonia: -40 }
+          },
+          {
+            id: 'pola_opt_cirrhosis',
+            label: '肝臓内科処方：肝硬変の診断があり、血中アンモニア高値（ラクツロースやアミノレバール併用）',
+            badge: '肝硬変・高アンモニア血症',
+            desc: '尿素サイクルや筋肉グルタミン合成酵素の補因子である亜鉛を補充しアンモニア解毒能を改善',
+            weights: { cirrhosis_ammonia: 95, zinc_taste_disorder: 20, pud_gastric_ulcer: -40, stomatitis_chemo: -40 }
+          }
+        ]
+      },
+      {
+        id: 'pola_q2_combo_tests',
+        title: 'Q2. 処方箋情報：併用薬や検査値の特徴はどれですか？',
+        subtitle: '併用薬から背景にある病態をさらに特定します',
+        options: [
+          {
+            id: 'pola_opt_combo_taste_tests',
+            label: '血清亜鉛（Zn）値の測定履歴がある（Zn < 70 μg/dL）またはビタミン剤等の併用',
+            badge: '血清亜鉛低値確定',
+            desc: '低亜鉛血症（Zn < 60〜70 μg/dL）による味細胞再生不全が明確',
+            weights: { zinc_taste_disorder: 85, cirrhosis_ammonia: 40 }
+          },
+          {
+            id: 'pola_opt_combo_chemo',
+            label: '抗がん剤、放射線治療、またはアズレン・デキサメタゾン軟膏等の口腔用薬併用',
+            badge: 'がん治療・口腔ケア',
+            desc: 'がん治療誘発性口腔粘膜炎へのプロマック懸濁液うがい（含嗽療法）または内服',
+            weights: { stomatitis_chemo: 90, pud_gastric_ulcer: -30 }
+          },
+          {
+            id: 'pola_opt_combo_ppi_nsaids',
+            label: 'PPI/P-CAB（タケキャブ/ネキシウム）やNSAIDs（ロキソニン・セレコックス）併用',
+            badge: '潰瘍予防・治癒促進',
+            desc: '消化性潰瘍の強力な治癒促進またはNSAIDs潰瘍の併用防御',
+            weights: { pud_gastric_ulcer: 85, zinc_taste_disorder: -30 }
+          },
+          {
+            id: 'pola_opt_combo_none',
+            label: '他剤の併用はなくプロマック単剤のみ処方',
+            badge: '単剤治療',
+            desc: '耳鼻科での味覚障害単独治療、または軽度胃炎・胃粘膜保護',
+            weights: { zinc_taste_disorder: 40, pud_gastric_ulcer: 40 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'zinc_taste_disorder',
+        cardNum: 16,
+        name: '低亜鉛血症に伴う味覚障害（亜鉛欠乏性味覚障害）',
+        subType: '耳鼻咽喉科・歯科口腔外科・内科型・味蕾細胞ターンオーバー不全への亜鉛補充療法（代表的適応外処方）',
+        baseProb: 25,
+        criteria: '【処方サイン】：耳鼻科受診、主訴「味がしない・味が薄い・甘みや塩味がわからない」、血清亜鉛（Zn）< 70 μg/dL、胃症状なし。',
+        reason: '味細胞の寿命は約10〜12日と極めて短く、細胞分裂・RNA合成酵素（炭酸脱水酵素VI等）に亜鉛が必須。亜鉛欠乏で味蕾細胞が萎縮・脱落。',
+        keyPoint: '💡 処方監査・服薬指導の核心：保険病名は「胃潰瘍」で通すことが多いが実態は亜鉛補充。味蕾の新陳代謝には時間がかかるため「効果実感まで最低1〜3ヶ月」かかることを事前に説明し早期中断を防止する。',
+        treatment: {
+          pathology: '舌乳頭にある「味蕾（みらい）」を構成する味細胞は、約10〜12日の極めて急速なサイクルでターンオーバーしています。細胞分裂やDNA/RNA合成、味覚伝達酵素である炭酸脱水酵素VI（gustin）の活性発現には必須微量元素である「亜鉛（Zn）」が不可欠です。血清亜鉛値が70μg/dL未満に低下すると味細胞の新陳代謝が停止し味蕾が萎縮、味覚減退・脱失・自発性異常味覚を発症します。',
+          rationale: '【鑑別の決め手】：耳鼻咽喉科からプロマックが処方された場合の代表的病態。本来は胃潰瘍治療薬ですが、ポラプレジンクは「亜鉛・L-カルノシン錯体」であり、通常用量（150mg/日）で生体利用率の高い亜鉛が1日約34mg（純亜鉛換算で約17mg）含まれます。胃粘膜保護作用があり胃腸障害が少ない亜鉛補充薬として長年広く処方されています。',
+          firstLine: '【標準治療】：ポラプレジンク（プロマックD錠75mg 1回1錠 1日2回 朝食後・就寝前）。または低亜鉛血症適応を持つ酢酸亜鉛水和物（ノベルジン錠25mg/50mg）。',
+          combination: '【併用考慮】：ビタミンB12（メチコバール：末梢神経障害併発時）、漢方薬（麦門冬湯、当帰芍薬散、立効散）。',
+          contra: '重篤な肝機能障害。長期連用時の「銅欠乏症（貧血・白血球減少・神経障害）」に注意（亜鉛過剰摂取により腸管での銅吸収が阻害されるため）。',
+          targets: '血清亜鉛値 ≥ 80 μg/dL（理想は80〜130 μg/dL）。濾紙ディスク法・電気味覚検査での味覚閾値改善、食事摂取量の改善。',
+          guidance: '🗣️ 服薬指導の極意：「このお薬は胃薬として名前が知られていますが、実は『亜鉛』という舌の味を感じる細胞が生まれ変わるために不可欠な栄養素が豊富に含まれており、耳鼻科で味覚を治す特効薬として処方されています。舌の細胞が新しく生まれ変わるには時間がかかるため、効果を実感するまでに1ヶ月〜3ヶ月ほどかかります。『効かないから』と途中でやめずに、根気よく毎日続けていきましょう。」'
+        }
+      },
+      {
+        id: 'stomatitis_chemo',
+        cardNum: 16,
+        name: '難治性口内炎 / がん化学療法・放射線誘発性口腔粘膜炎',
+        subType: '腫瘍内科・耳鼻科・歯科口腔外科型・亜鉛局所創傷治癒 ＆ 活性酸素消去（内服/含嗽療法）',
+        baseProb: 25,
+        criteria: '【処方サイン】：がん化学療法中（抗がん剤処方あり）、頭頸部放射線治療中、耳鼻科/歯科口腔外科受診、激しい口腔内疼痛、プロマック顆粒/懸濁液でのうがい指示。',
+        reason: '放射線や抗がん剤によるフリーラジカル誘発性粘膜障害に対し、亜鉛・L-カルノシンの強力な抗酸化・局所創傷治癒・膜安定化作用が奏効。',
+        keyPoint: '💡 臨床的工夫：内服だけでなく、「プロマック顆粒0.5〜1.0gを生理食塩水や水に溶かして、数分間口の中に含んでから吐き出す（または飲み込む）プロマック含嗽（うがい液）」として院内処方・院外処方されるケースが多い。',
+        treatment: {
+          pathology: '抗がん剤（5-FU系、アントラサイクリン系等）や頭頸部放射線治療により、口腔粘膜基底細胞のDNA障害とフリーラジカルが大量発生し、広範なびらん・潰瘍・二次感染を伴う激痛性口内炎が引き起こされます。',
+          rationale: '【処方根拠】：ポラプレジンクを口腔内に滞留させることで、亜鉛が粘膜上皮細胞の増殖と遊走を促進し、L-カルノシンが抗酸化作用により粘膜障害を抑制します。MASCC/ISOOガイドライン等でも粘膜炎軽減効果が報告されています。',
+          firstLine: 'プロマック顆粒0.5g（またはプロマックD錠75mg）を生理食塩水約20mLに懸濁し、1日数回口腔内をゆすいで含嗽（可能なら嚥下）。',
+          combination: '半夏瀉心湯含嗽、アズレン含嗽用顆粒、デキサメタゾン口腔用軟膏（アフタゾロン）、キシロカインビスカス（疼痛緩和）。',
+          contra: '成分過敏症。',
+          targets: '口腔粘膜炎スケール（CTCAE Oral mucositis）Gradeの低下、経口摂取維持、鎮痛薬使用量の低減。',
+          guidance: '🗣️ 服薬指導：「お口の粘膜を直接保護して傷を早く治す効果があります。水またはぬるま湯に溶かして、できるだけお口の中に長く含んで患部に行き渡らせてからゆっくり飲み込んで（または吐き出して）ください。」'
+        }
+      },
+      {
+        id: 'pud_gastric_ulcer',
+        cardNum: 6,
+        name: '胃潰瘍 / NSAIDs・低用量アスピリン起因性胃粘膜病変',
+        subType: '消化器内科・一般内科型・組織修復・局所PGE2産生亢進・膜保護（本来の保険適応）',
+        baseProb: 25,
+        criteria: '【処方サイン】：消化器内科受診、心窩部痛、胃痛、内視鏡で活動性潰瘍、PPI/H2RA併用、またはロキソニン等NSAIDs併用。',
+        reason: '胃粘膜病巣部位に特異的に高濃度付着し、抗酸化・膜安定化・熱ショック蛋白質（Hsp70）誘導により潰瘍底の肉芽形成と上皮化を促進。',
+        keyPoint: '💡 処方鑑別：酸分泌抑制薬（PPI/P-CAB）が胃酸という「攻撃因子」を抑えるのに対し、プロマックは「防御因子」の最前線として潰瘍瘢痕の質（QOUH）を高める併用療法。',
+        treatment: {
+          pathology: 'ピロリ菌感染、胃酸過多、またはNSAIDsによるシクロオキシゲナーゼ阻害に伴う内因性プロスタグランジン（PGE2）減少により、胃粘膜微小循環が途絶し粘膜組織が壊死・脱落して潰瘍を形成します。',
+          rationale: '【処方根拠】：ポラプレジンクは潰瘍部位に長時間滞留し、局所の内因性PGE2産生を促進、白血球の遊走や活性酸素放出を抑制して良質な肉芽組織を形成します。',
+          firstLine: 'プロマックD錠75mg 1回1錠 1日2回（朝食後・就寝前）。',
+          combination: 'PPI（ネキシウム、タケプロン）、P-CAB（タケキャブ）、H2RA（ガスター）。ピロリ菌陽性時は除菌療法。',
+          contra: '重篤な肝障害。',
+          targets: '内視鏡的潰瘍治癒（H期からS2瘢痕期への到達）、心窩部痛の完全消失。',
+          guidance: '🗣️ 服薬指導：「胃の荒れた部分にピタッと直接くっついて、傷口を保護して修復を早めるお薬です。就寝前は胃酸が直接粘膜に触れやすいため、夜の分を忘れずに服用してください。」'
+        }
+      },
+      {
+        id: 'cirrhosis_ammonia',
+        cardNum: 16,
+        name: '肝硬変に伴う高アンモニア血症 / 亜鉛欠乏性肝機能障害',
+        subType: '消化器肝臓内科型・尿素サイクルおよび筋肉グルタミン合成酵素の亜鉛補因子賦活レジメン',
+        baseProb: 25,
+        criteria: '【処方サイン】：消化器内科（肝臓外来）処方、肝硬変（Child-Pugh B/C）、血中アンモニア上昇（NH3 > 80〜100 μg/dL）、ラクツロース/リファキシミン/分岐鎖アミノ酸（BCAA）併用。',
+        reason: '肝硬変では門脈圧亢進・低アルブミン血症・尿中排泄亢進で亜鉛が高度枯渇。アンモニア解毒酵素（オルニチントランスカルバミラーゼ、グルタミン合成酵素）が失活するため亜鉛補充が必要。',
+        keyPoint: '🚨 処方監査：肝硬変患者に胃薬としてプロマックが出ている場合、主目的は胃潰瘍ではなく「アンモニア解毒能の改善（肝性脳症予防）」であることが極めて多い。',
+        treatment: {
+          pathology: '肝硬変患者では消化管からの亜鉛吸収低下と尿中排泄亢進により、ほぼ全例で高度な低亜鉛血症を呈します。アンモニアを無毒な尿素に変換する肝臓の尿素回路酵素（オルニチントランスカルバミラーゼ等）や、骨格筋でアンモニアをトラップするグルタミン合成酵素は「亜鉛要求性酵素」であるため、亜鉛が欠乏するとアンモニア処理能が崩壊し高アンモニア血症・肝性脳症を惹起します。',
+          rationale: '【処方根拠】：ポラプレジンクの継続投与により血清亜鉛値を引き上げ、アンモニア代謝酵素の活性を賦活化させて血中アンモニア値を低下させます。',
+          firstLine: 'ポラプレジンク（プロマックD錠75mg 1回1錠 1日2回）または酢酸亜鉛（ノベルジン錠50mg）。',
+          combination: '合成二糖類（ラクツロース、モニラック）、難吸収性抗菌薬（リファキシミン：リフキシマ）、BCAA製剤（リーバクト、アミノレバール）。',
+          contra: '重篤な急性肝不全。',
+          targets: '血中アンモニア値 < 60〜80 μg/dL、羽ばたき振戦・睡眠覚醒リズム逆転の防止、血清亜鉛 ≥ 70 μg/dL。',
+          guidance: '🗣️ 服薬指導：「肝臓の働きをサポートし、体の中にアンモニアという毒素が溜まるのを防ぐために『亜鉛』を補給する目的で処方されています。毎日継続して飲むことが大切です。」'
+        }
+      }
+    ]
   }
 };
 
@@ -7406,7 +7564,8 @@ function buildUnifiedQuestions(primaryData) {
       { id: 'opt_dept_ortho', deptVal: 'ortho', label: '🦴 整形外科', desc: '変形性関節症、慢性腰痛症、骨粗鬆症など', badge: '整形外科' },
       { id: 'opt_dept_rheuma', deptVal: 'rheuma', label: '🧬 リウマチ・膠原病科', desc: '関節リウマチ、SLE、血管炎など', badge: 'リウマチ' },
       { id: 'opt_dept_psych', deptVal: 'psych', label: '🧠 心療内科・精神科', desc: 'うつ病、不安障害、線維筋痛症など', badge: '精神科' },
-      { id: 'opt_dept_uro_derm', deptVal: 'uro_derm', label: '🚽 泌尿器科・皮膚科', desc: '過活動膀胱、前立腺肥大、難治性ざ瘡など', badge: '泌尿・皮膚' }
+      { id: 'opt_dept_uro_derm', deptVal: 'uro_derm', label: '🚽 泌尿器科・皮膚科', desc: '過活動膀胱、前立腺肥大、難治性ざ瘡など', badge: '泌尿・皮膚' },
+      { id: 'opt_dept_ent_dent', deptVal: 'ent_dent', label: '👃 耳鼻咽喉科・歯科口腔外科', desc: '味覚障害、口内炎、アレルギー性鼻炎、めまいなど', badge: '耳鼻・歯科' }
     ]
   };
 
@@ -7891,6 +8050,9 @@ function applyProfileWeights(scores) {
     if (scores['lda_ulcer_prev'] !== undefined) scores['lda_ulcer_prev'] += 65;
     if (scores['nsaids_ulcer_prev'] !== undefined) scores['nsaids_ulcer_prev'] += 65;
     if (scores['hp_eradic'] !== undefined) scores['hp_eradic'] += 80;
+    if (scores['pud_gastric_ulcer'] !== undefined) scores['pud_gastric_ulcer'] += 85;
+    if (scores['cirrhosis_ammonia'] !== undefined) scores['cirrhosis_ammonia'] += 85;
+    if (scores['zinc_taste_disorder'] !== undefined) scores['zinc_taste_disorder'] -= 40;
   } else if (prof.dept === 'rheuma') {
     if (scores['ra_active'] !== undefined) scores['ra_active'] += 85;
     if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 85;
@@ -7913,6 +8075,10 @@ function applyProfileWeights(scores) {
     if (scores['eruptive_xanthoma'] !== undefined) scores['eruptive_xanthoma'] += 95;
     if (scores['cholestatic_pruritus'] !== undefined) scores['cholestatic_pruritus'] += 95;
     if (scores['hyper_tg_metabolic'] !== undefined) scores['hyper_tg_metabolic'] -= 80;
+  } else if (prof.dept === 'ent_dent') {
+    if (scores['zinc_taste_disorder'] !== undefined) scores['zinc_taste_disorder'] += 95;
+    if (scores['stomatitis_chemo'] !== undefined) scores['stomatitis_chemo'] += 85;
+    if (scores['pud_gastric_ulcer'] !== undefined) scores['pud_gastric_ulcer'] -= 60;
   }
 
   // 2. 年代による重み
@@ -8451,6 +8617,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: 'ARB（アンジオテンシンII受容体拮抗薬）',
     reason: '同効ARB群の中で最も受容体解離速度が遅く、最強の24時間持続降圧能を誇る薬剤。',
     benefit: '【選定の決め手】：早朝高血圧（Morning Surge）による心筋梗塞・脳卒中を確実に防ぐため、ARB群最強の降圧力を求めて選定されています。'
+  },
+  {
+    pattern: /ポラプレジンク|プロマック/,
+    name: 'ポラプレジンク（プロマック）',
+    class: '亜鉛含有胃粘膜防御薬 / 亜鉛補充療法薬',
+    reason: 'L-カルノシンと亜鉛のキレート錯体であり、胃粘膜保護と同時に生体利用率の高い亜鉛を安全に補給できる唯一無二の分子構造。',
+    benefit: '【選定の決め手】：酢酸亜鉛（ノベルジン）に比べて胃部不快感・悪心などの消化器副作用が極めて少なく、胃粘膜保護と味覚細胞ターンオーバー促進・アンモニア代謝賦活を極めてマイルドに両立できるため選定されています。'
   },
   {
     pattern: /ニューロタン|ロサルタン/,
@@ -9133,6 +9306,9 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('咳')) keywords.push('咳', '咳嗽', '間質性肺炎', 'ipf');
     if (cdLower.includes('黄色') || cdLower.includes('ブツブツ') || cdLower.includes('黄色腫') || cdLower.includes('発疹')) keywords.push('黄色腫', '黄色', 'ブツブツ', '丘疹', 'カイロミクロン');
     if (cdLower.includes('痒') || cdLower.includes('かゆみ') || cdLower.includes('そう痒')) keywords.push('そう痒', '痒み', 'オートタキシン', '胆汁うっ滞');
+    if (cdLower.includes('味') || cdLower.includes('味覚') || cdLower.includes('舌') || cdLower.includes('薄い') || cdLower.includes('苦い')) keywords.push('味覚', '味', '味覚障害', '亜鉛', '味蕾');
+    if (cdLower.includes('口内炎') || cdLower.includes('口が痛') || cdLower.includes('うがい') || cdLower.includes('粘膜炎')) keywords.push('口内炎', '粘膜炎', '含嗽', 'うがい', '口腔');
+    if (cdLower.includes('アンモニア') || cdLower.includes('肝性脳症')) keywords.push('アンモニア', '肝硬変', '尿素サイクル');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
@@ -9956,6 +10132,7 @@ function handlePrescriptionPaste() {
   else if (textLower.includes('精神') || textLower.includes('心療')) toggleProfileItem('dept', 'psych');
   else if (textLower.includes('腎臓') || textLower.includes('人工透析')) toggleProfileItem('dept', 'renal');
   else if (textLower.includes('泌尿器') || textLower.includes('皮膚')) toggleProfileItem('dept', 'uro_derm');
+  else if (textLower.includes('耳鼻') || textLower.includes('歯科') || textLower.includes('口腔')) toggleProfileItem('dept', 'ent_dent');
 
   // 年齢の認識
   const ageMatch = text.match(/(\d{1,3})\s*(?:歳|才)/);
