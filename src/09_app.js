@@ -8957,6 +8957,157 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 25. 更年期ホルモン補充療法（HRT：エフメノ / エストラーナ / メノエイド / ディビゲル）
+  // 🌟 天然型プロゲステロン ＆ 経皮エストロゲン（有子宮内膜保護 ＆ 乳がん血栓リスク不変 ＆ 就寝前服用）
+  hrt_efmeno: {
+    aliases: ['エフメノ', 'プロゲステロン', 'エストラーナ', 'メノエイド', 'ディビゲル', 'ジュリナ', 'hrt', '更年期', 'エストラジオール', 'エフメノカプセル', 'エストラーナテープ'],
+    name: '更年期ホルモン補充療法（HRT：エフメノ / エストラーナ / メノエイド）',
+    category: '女性ホルモン製剤（エストロゲン ＆ 天然型プロゲステロン / 更年期障害HRTレジメン）',
+    questions: [
+      {
+        id: 'hrt_q1_uterus_regimen',
+        title: 'Q1. 処方箋情報：患者に「子宮」はありますか？また処方形態はどれですか？',
+        subtitle: '有子宮女性への子宮内膜保護（エフメノ併用）か、子宮全摘（単独）かを確認します',
+        options: [
+          {
+            id: 'hrt_opt_with_uterus_efmeno',
+            label: '有子宮女性：ホットフラッシュ・不眠があり、エストロゲン（エストラーナ等）に「エフメノ」を併用',
+            badge: '有子宮HRT（天然型エフメノ併用）',
+            desc: 'エストロゲンで症状を抑え、エフメノで子宮体がんを予防。合成薬と違い乳がん・血栓リスクを増やさない',
+            weights: { hrt_uterus_efmeno_natural: 95, hrt_no_uterus_estrogen_only: -50, hrt_menoaid_patch: 40 }
+          },
+          {
+            id: 'hrt_opt_menoaid_all_in_one',
+            label: '有子宮女性：飲み薬が苦手、貼り薬1枚で完結させたい（週2回貼り替えのメノエイドコンビパッチ配合剤）',
+            badge: '貼付配合剤オールインワン',
+            desc: 'エストラジオールと黄体ホルモンが1枚に入った配合パッチ。内服不要で週2回貼り替えるだけ',
+            weights: { hrt_menoaid_patch: 95, hrt_uterus_efmeno_natural: 30, hrt_no_uterus_estrogen_only: -50 }
+          },
+          {
+            id: 'hrt_opt_no_uterus_estrogen',
+            label: '子宮全摘出後（無子宮女性）：子宮がんリスクがないため、エストロゲン単独投与（エストラーナテープのみ）',
+            badge: '無子宮・単独投与',
+            desc: '子宮内膜がないため黄体ホルモン併用は不要。不要なエフメノ投与を避ける適正処方',
+            weights: { hrt_no_uterus_estrogen_only: 95, hrt_uterus_efmeno_natural: -60, hrt_menoaid_patch: -60 }
+          },
+          {
+            id: 'hrt_opt_efmeno_bedtime_dizzy',
+            label: '【🚨 必須服薬指導】：エフメノを日中に飲んでしまい「強い眠気・ふらつき」が出るリスク（就寝前服用の徹底）',
+            badge: '🚨 エフメノ就寝前服用指導',
+            desc: '代謝物アロプレグナノロンがGABA受容体を刺激。日中内服による転倒・事故を防ぎ、夜間の睡眠改善に味方につける',
+            weights: { efmeno_bedtime_drowsiness_alert: 100, hrt_uterus_efmeno_natural: 40 }
+          }
+        ]
+      },
+      {
+        id: 'hrt_q2_route_risk',
+        title: 'Q2. 処方箋情報：投与経路（貼り薬 vs 飲み薬）や合併症状はどれですか？',
+        subtitle: '経皮吸収による血栓リスク低減と更年期の不眠・不安改善を評価します',
+        options: [
+          {
+            id: 'hrt_opt_transdermal_low_vte',
+            label: '経皮吸収型（エストラーナテープ / ディビゲル）：肝初回通過を回避し血栓症（VTE）や高中性脂肪（TG）リスク最小',
+            badge: '経皮投与・低血栓リスク',
+            desc: '経口薬と異なり肝臓での凝固因子・中性脂肪産生を刺激しないため、血栓症リスクが極めて低い',
+            weights: { hrt_uterus_efmeno_natural: 85, hrt_no_uterus_estrogen_only: 85 }
+          },
+          {
+            id: 'hrt_opt_insomnia_anxiety',
+            label: '更年期に伴う「中途覚醒・不眠・不安感・イライラ」が強く、エフメノの鎮静効果を期待',
+            badge: '睡眠改善・不安緩和メリット',
+            desc: 'エフメノの中枢鎮静作用により、更年期特有の睡眠障害を心地よく改善',
+            weights: { hrt_uterus_efmeno_natural: 90, efmeno_bedtime_drowsiness_alert: 30 }
+          },
+          {
+            id: 'hrt_opt_oral_julina',
+            label: '経口薬（ジュリナ錠0.5mg / プレマリン錠）：テープのかぶれ等により内服で管理',
+            badge: '経口エストロゲンレジメン',
+            desc: '低用量天然型エストラジオール内服による更年期コントロール',
+            weights: { hrt_uterus_efmeno_natural: 50 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'hrt_uterus_efmeno_natural',
+        cardNum: 13,
+        name: '有子宮女性の更年期障害HRT（エストラーナ ＋ エフメノ天然型プロゲステロン併用療法）',
+        subType: '産婦人科・更年期外来型・子宮内膜保護 ＆ 乳がん・血栓リスク不変の最新標準レジメン',
+        baseProb: 35,
+        criteria: '【処方サイン】：婦人科処方、更年期症状（ホットフラッシュ、発汗、動悸、不眠）、子宮あり、エストラーナテープ0.72mg（2日に1回下腹部に貼付）＋ エフメノカプセル100mg（1日1回就寝前）。',
+        reason: 'エストロゲン欠乏による血管運動神経症状をエストラーナで改善し、エストロゲン単独投与で起きる子宮内膜増殖症・子宮体がんをエフメノ（天然型プロゲステロン）で完全にブロック。合成黄体ホルモン（プロベラ）と異なり乳がん・血栓リスクを増やさない。',
+        keyPoint: '💡 処方医の選定意図（Why this drug?）：①「経皮エストロゲン（エストラーナ）」で血栓・脂質悪化リスクを最小化、②「天然型エフメノ」で乳がんリスクを増やさず子宮を保護、③エフメノのGABA作用で更年期の不眠・不安を解消する「現代HRTの理想的黄金コンビ」。',
+        treatment: {
+          pathology: '閉塞に伴う卵巣機能廃絶により血中エストラジオールが急減。視床下部GnRHサージが暴走し、自律神経失調症状（ホットフラッシュ、多汗、めまい、不眠）を惹起。有子宮女性でエストロゲン単独を補うと子宮内膜が持続増殖し子宮体がんリスクが急増します。',
+          rationale: '【最新エビデンス】：フランスE3N研究等の大規模疫学調査により、エストロゲンに天然型プロゲステロン（エフメノ）を併用したHRTは、合成プロゲスチン（プロベラ）と異なり乳がん発症リスクおよび静脈血栓症リスクを有意に増加させないことが確立しています。',
+          firstLine: 'エストラーナテープ0.72mg（2日に1回下腹部貼付） ＋ エフメノカプセル100mg（持続的投与法：毎日就寝前1カプセル）。周期性投与法ではエフメノ200mgを周期後半12〜14日間就寝前内服。',
+          combination: '皮膚かぶれ時はディビゲル1mg（1日1回塗布）へ変更。漢方薬（加味逍遙散、当帰芍薬散）。',
+          contra: '乳がん・子宮体がんの既往、急性動静脈血栓症、重篤な肝機能障害。',
+          targets: 'クッパーマン更年期指数（KI）の半減、ホットフラッシュの消失、睡眠の質の改善、子宮不正出血の制御。',
+          guidance: '🗣️ 服薬指導の極意：「エストラーナテープはお肌から女性ホルモンを補って、のぼせや急な汗をスーッと楽にする貼り薬です（下腹部に2日に1回貼り替え）。エフメノカプセルは子宮を守るための大切なお薬で、従来の薬と違って『乳がんや血栓のリスクを増やさない』最新の体に優しい天然ホルモンです。飲むと自然な眠気が出るため、必ず『夜寝る直前』に飲んで、ぐっすり眠るために役立ててください。」'
+        }
+      },
+      {
+        id: 'hrt_menoaid_patch',
+        cardNum: 13,
+        name: '有子宮女性のオールインワン貼付HRT（メノエイドコンビパッチ週2回貼付療法）',
+        subType: '婦人科型・エストロゲン＋黄体ホルモン配合パッチ（内服不要・週2回貼り替えレジメン）',
+        baseProb: 30,
+        criteria: '【処方サイン】：有子宮女性、内服薬の飲み忘れが多い、胃腸が弱い、メノエイドコンビパッチ（週2回、3〜4日毎に下腹部貼付）。',
+        reason: '1枚の貼付剤にエストラジオールと酢酸ノルエチステロンが配合されており、内服薬なしで子宮内膜保護と更年期症状改善を同時に達成。',
+        keyPoint: '💡 アドヒアランスの利点：カプセルを飲む必要がなく、週2回（例えば「月曜と木曜」）決まった曜日に貼り替えるだけで完結する手軽さ。',
+        treatment: {
+          pathology: '更年期症状の改善と子宮内膜保護を同時に図りつつ、肝臓への負担を避ける経皮吸収療法。',
+          rationale: '【処方根拠】：経口内服薬を毎日飲むのが負担な高齢・多剤併用患者に最適。',
+          firstLine: 'メノエイドコンビパッチ 1回1枚 週2回（3〜4日毎）下腹部に貼付。',
+          combination: '保湿剤（剥がした後の皮膚ケア）。',
+          contra: '乳がん、子宮体がん、血栓塞栓症。',
+          targets: '更年期症状の消失、月曜・木曜など固定サイクルによる貼り忘れゼロ。',
+          guidance: '🗣️ 服薬指導：胸には貼らず必ず下腹部に貼ること、貼り替える時は場所を少しずらすことを指導。'
+        }
+      },
+      {
+        id: 'hrt_no_uterus_estrogen_only',
+        cardNum: 13,
+        name: '子宮全摘（無子宮）女性の更年期障害HRT（エストロゲン単独療法：エストラーナテープ）',
+        subType: '婦人科・術後管理型・子宮がんリスクゼロのため黄体ホルモン併用不要レジメン',
+        baseProb: 30,
+        criteria: '【処方サイン】：婦人科処方、子宮筋腫等で子宮全摘出術後、ホットフラッシュ、エストラーナテープ単独（エフメノ併用なし）。',
+        reason: '子宮内膜が存在しないため、子宮内膜増殖症や子宮体がんのリスクが原理的にゼロ。不要な黄体ホルモンを併用せず、エストロゲン単独で安全に治療。',
+        keyPoint: '🚨 処方監査の急所：無子宮女性にエフメノやプロベラが出ていたら「不要な併用（過剰投与）」として疑義照会の対象！',
+        treatment: {
+          pathology: '子宮全摘出や両側卵巣摘出による急激なホルモン脱落症状。',
+          rationale: '【処方根拠】：子宮保護の必要がないため、最も純粋で安全なエストロゲン単独療法を行う。',
+          firstLine: 'エストラーナテープ0.72mg 1回1枚 2日に1回貼付。',
+          combination: '骨粗鬆症予防加療。',
+          contra: '活動性血栓症、乳がん。',
+          targets: '血管運動神経症状の完全寛解。',
+          guidance: '🗣️ 服薬指導：子宮を摘出されているため黄体ホルモンを飲む必要がなく、貼り薬だけで安全に治療できることを説明。'
+        }
+      },
+      {
+        id: 'efmeno_bedtime_drowsiness_alert',
+        cardNum: 13,
+        name: '【🚨 必須服薬指導アラート】エフメノの「就寝前服用」厳守（眠気・ふらつき防止 ＆ 睡眠改善）',
+        subType: '重大指導警告・アロプレグナノロン中枢GABA作用の逆利用と日中転倒・事故防止',
+        baseProb: 15,
+        criteria: '【指導サイン】：エフメノ処方患者、特に初回使用時。',
+        reason: 'エフメノの代謝産物アロプレグナノロンがGABA_A受容体を刺激し、服用後1〜2時間で一過性の強い眠気・ふらつき・めまいを惹起する。日中服用は自動車運転・歩行転倒の重大リスク。',
+        keyPoint: '🗣️ 薬剤師の絶対指導：「必ず夜、お布団に入る直前（就寝前）に飲んでください。飲むと眠気やふらつきが出やすいため、夜飲むことで更年期の寝つきの悪さを助けてくれます。朝や昼には絶対に飲まないでください。」',
+        treatment: {
+          pathology: '天然型プロゲステロンが脳内で5α還元酵素によりアロプレグナノロンに代謝され、ベンゾジアゼピン類似の神経抑制をもたらします。',
+          rationale: '【副作用の逆利用】：更年期女性の多くが訴える「中途覚醒」「不眠」に対し、睡眠薬を使わずに睡眠の質を向上させるポジティブな治療効果に転換できます。',
+          firstLine: '就寝直前服用の徹底指導。',
+          combination: '睡眠環境の調整。',
+          contra: '自動車運転前の服用、日中服用。',
+          targets: '日中ふらつき・転倒事故ゼロ、夜間中途覚醒の軽減。',
+          guidance: '🗣️ 必須フレーズ：「このお薬は飲むと自然に眠たくなってふらつくことがあります。ですから必ず『お布団に入る直前』にお飲みくださいね。朝や昼には飲まないようお気をつけください。」'
+        }
+      }
+    ]
   }
 };
 
@@ -9523,6 +9674,9 @@ function applyProfileWeights(scores) {
     if (scores['dpnp_pain'] !== undefined) scores['dpnp_pain'] += 85;
     if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 70;
     if (scores['mdd_depression'] !== undefined) scores['mdd_depression'] -= 50;
+    if (scores['hrt_uterus_efmeno_natural'] !== undefined) scores['hrt_uterus_efmeno_natural'] += 95;
+    if (scores['hrt_menoaid_patch'] !== undefined) scores['hrt_menoaid_patch'] += 90;
+    if (scores['hrt_no_uterus_estrogen_only'] !== undefined) scores['hrt_no_uterus_estrogen_only'] += 90;
   } else if (prof.dept === 'gi') {
     if (scores['cirrhosis_ascites'] !== undefined) scores['cirrhosis_ascites'] += 80;
     if (scores['cirrhosis_ascites_v2'] !== undefined) scores['cirrhosis_ascites_v2'] += 80;
@@ -10127,6 +10281,27 @@ const MOLECULE_RATIONALE_MAP = [
     class: 'ARB（アンジオテンシンII受容体拮抗薬）',
     reason: '同効ARB群の中で最も受容体解離速度が遅く、最強の24時間持続降圧能を誇る薬剤。',
     benefit: '【選定の決め手】：早朝高血圧（Morning Surge）による心筋梗塞・脳卒中を確実に防ぐため、ARB群最強の降圧力を求めて選定されています。'
+  },
+  {
+    pattern: /エフメノ|プロゲステロン/,
+    name: '天然型プロゲステロン（エフメノ）',
+    class: '経口天然型黄体ホルモン製剤',
+    reason: '日本初の経口天然型プロゲステロン。合成黄体ホルモン（プロベラ）と異なり乳がん・血栓症リスクを増やさずに子宮内膜を強力保護。',
+    benefit: '【選定の決め手】：有子宮女性の更年期HRTにおいて、エストロゲンによる子宮体がんリスクを防ぎつつ、乳がんリスクを増やさない現代の第一選択薬。代謝産物アロプレグナノロンによる睡眠改善効果も併せ持ちます。'
+  },
+  {
+    pattern: /エストラーナ|ディビゲル/,
+    name: '経皮エストラジオール（エストラーナテープ / ディビゲル）',
+    class: '経皮吸収型エストロゲン製剤',
+    reason: '肝臓の初回通過効果（ファーストパス）を完全に回避し、凝固因子や中性脂肪（TG）の産生を刺激しない。',
+    benefit: '【選定の決め手】：経口エストロゲン（プレマリン等）に比べ、深部静脈血栓症（VTE）や胆石、高中性脂肪血症のリスクが極めて低く、安全に更年期症状を寛解させるために選定されています。'
+  },
+  {
+    pattern: /メノエイド/,
+    name: 'メノエイドコンビパッチ',
+    class: 'エストロゲン・黄体ホルモン配合貼付剤',
+    reason: 'エストラジオールと酢酸ノルエチステロンが1枚に配合され、内服薬なしで週2回貼り替えるだけ。',
+    benefit: '【選定の決め手】：有子宮女性においてカプセルを飲む必要がなく、貼り薬1枚だけで更年期症状改善と子宮内膜保護が完結するため選定されています。'
   },
   {
     pattern: /アレジオン眼瞼|眼瞼クリーム/,
@@ -10916,6 +11091,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('耳') || cdLower.includes('耳だれ') || cdLower.includes('耳漏') || cdLower.includes('中耳炎') || cdLower.includes('外耳炎') || cdLower.includes('耳浴')) keywords.push('耳漏', '中耳炎', '外耳炎', '耳だれ', '耳浴', '点耳', '点耳薬');
     if (cdLower.includes('春季カタル') || cdLower.includes('石垣') || cdLower.includes('乳頭') || cdLower.includes('目のかゆみ') || cdLower.includes('結膜炎') || cdLower.includes('しみる')) keywords.push('春季カタル', '巨大乳頭', '石垣状', 'シールド潰瘍', 'タリムス', '結膜炎', 'しみる', '灼熱感');
     if (cdLower.includes('まぶた') || cdLower.includes('眼瞼') || cdLower.includes('クリーム') || cdLower.includes('目薬嫌') || cdLower.includes('目薬させない') || cdLower.includes('手の震え')) keywords.push('アレジオン眼瞼クリーム', 'まぶた', '眼瞼', '点眼拒絶', '手の震え', '経皮吸収');
+    if (cdLower.includes('エフメノ') || cdLower.includes('更年期') || cdLower.includes('ホットフラッシュ') || cdLower.includes('のぼせ') || cdLower.includes('エストラーナ') || cdLower.includes('メノエイド') || cdLower.includes('子宮') || cdLower.includes('hrt')) keywords.push('エフメノ', '更年期', 'ホットフラッシュ', 'のぼせ', 'エストラーナ', 'メノエイド', '子宮', 'hrt', 'プロゲステロン');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
