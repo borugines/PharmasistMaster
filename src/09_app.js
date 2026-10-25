@@ -7185,9 +7185,9 @@ const wizardState = {
     age: null,
     gender: null,
     labs: new Set(),
-    timeline: null,
-    days: null,
-    vitals: new Set()
+    change: null, // 'new' | 'do' | 'increase' | 'decrease'
+    days: null,   // 'short7' | '14' | 'long28' | 'as_needed'
+    vitals: new Set() // 'tachy', 'brady', 'obese', 'lean'
   }
 };
 
@@ -8455,6 +8455,226 @@ function detectAdherenceDesign(primaryDrug, customDrugs, rawText) {
 }
 
 // ========================================================
+// 処方変更ステータス（初処方・Do・増量・減量）の臨床評価エンジン
+// ========================================================
+function evaluatePrescriptionChange(changeType, primaryDrug, customDrugs, rankedDiseases, profile) {
+  const cType = changeType || (wizardState.patientProfile && wizardState.patientProfile.change) || 'do';
+  const drugName = primaryDrug || '処方薬';
+
+  if (cType === 'new') {
+    return {
+      type: 'new',
+      badge: '🆕 初処方（新規導入・急性期介入）',
+      title: `${drugName} の初処方に伴う臨床評価 ＆ 導入意図`,
+      intent: '【臨床意図】：疾患の新規発症、既存治療での目標未達に伴う新機序薬剤の追加、または急性増悪に対する初期治療介入です。',
+      alert: '🚨 医師・薬剤師の最重点警戒事項：服用開始後数日〜2週間以内に、初期特有の急性有害事象（過度な血圧低下・低血糖・ふらつき・アレルギー皮疹・消化器症状）が集中します。初期忍容性を確認し、自己中断を未然に防ぐ早期介入が必須です。'
+    };
+  } else if (cType === 'increase') {
+    return {
+      type: 'increase',
+      badge: '📈 増量処方（ステップアップ・目標達成追求）',
+      title: `${drugName} の増量に伴う臨床評価 ＆ タイトレーション意図`,
+      intent: '【臨床意図】：既存用量での効果不十分（血圧・血糖・心拍数・疼痛等の目標未達）、またはガイドライン推奨の目標用量（Target Dose）への計画的ステップアップです。',
+      alert: '🚨 医師・薬剤師の最重点警戒事項：用量増加により治療効果が高まる一方、血中濃度上昇に伴う「用量依存性毒性（徐脈・起立性低血圧・高カリウム血症・蓄積毒性）」の閾値を超える危険があります。増量後1〜2週間の効果と安全性の再判定が極めて重要です。'
+    };
+  } else if (cType === 'decrease') {
+    return {
+      type: 'decrease',
+      badge: '📉 減量処方（ステップダウン・副作用回避）',
+      title: `${drugName} の減量に伴う臨床評価 ＆ 減量意図`,
+      intent: '【臨床意図】：自覚症状としての副作用（めまい・ふらつき・浮腫等）の出現、過度な降圧や低血糖、または病態寛解に伴う計画的減量（安全マージン確保）です。',
+      alert: '🚨 医師・薬剤師の最重点警戒事項：薬剤の減量によって原疾患の症状（血圧リバウンド・狭心症発作・胃酸逆流・関節痛）が再燃していないか、また離脱症候群が生じていないかを慎重にモニタリングする必要があります。'
+    };
+  } else {
+    return {
+      type: 'do',
+      badge: '🔄 Do処方（同内容継続・安定維持）',
+      title: `${drugName} のDo処方に伴う臨床評価 ＆ 継続意図`,
+      intent: '【臨床意図】：現在の処方内容で症状および検査値が安定域に維持されており、忍容性が良好であると処方医が判断しています。',
+      alert: '💡 医師・薬剤師の最重点確認事項：目標値未達のまま漫然とDo処方が繰り返されていないか（臨床的イナーシャ）、また長期連用に伴う累積リスク（PPIの低Mg・骨折、利尿薬の高尿酸、残薬蓄積）がないかを定期的に確認するタイミングです。'
+    };
+  }
+}
+
+// ========================================================
+// 処方ステータス連動・服薬期間中フォローアップ計画（タイムライン生成）
+// ========================================================
+function generateFollowupTimeline(changeType, primaryDrug, customDrugs, rankedDiseases, profile) {
+  const cType = changeType || (wizardState.patientProfile && wizardState.patientProfile.change) || 'do';
+  const allTexts = [
+    (primaryDrug || ''),
+    ...(customDrugs || []),
+    (wizardState.rawPrescriptionText || '')
+  ].join(' ').toLowerCase();
+
+  const isAntihypertensive = /アムロジピン|アジルバ|オルメテック|ミカルディス|ブロプレス|ディオバン|ニューロタン|シルニジピン|メインテート|カルベジロール|エナラプリル/.test(allTexts);
+  const isHeartFailure = /エンレスト|サクビトリル|フォシーガ|ジャディアンス|スピロノラクトン|エプレレノン|メインテート|カルベジロール|フロセミド/.test(allTexts);
+  const isDiabetes = /フォシーガ|ジャディアンス|カナグル|トラゼンタ|ジャヌビア|エクア|テネリア|メトグルコ|メトホルミン|アマリール/.test(allTexts);
+  const isGERD = /タケキャブ|ボノプラザン|ネキシウム|エソメプラゾール|タケプロン|ランソプラゾール|パリエット/.test(allTexts);
+  const isPain = /リリカ|プレガバリン|タリージェ|ミロガバリン|サインバルタ|デュロキセチン|トラマール|トラムセット/.test(allTexts);
+  const isAnticoagulant = /エリキュース|リクシアナ|イグザレルト|プラザキサ|ワーファリン/.test(allTexts);
+
+  const steps = [];
+  let redFlag = '';
+
+  if (cType === 'new') {
+    // 【初処方タイムライン】
+    if (isHeartFailure || isAntihypertensive) {
+      steps.push({
+        when: 'Day 3〜5',
+        how: '📞 電話フォロー',
+        target: '初期忍容性確認（過度な低血圧・ふらつき・立ちくらみ）',
+        detail: '降圧薬や心不全薬開始直後の急激な血圧低下に伴うめまい、ふらつき、転倒リスクを早期確認。',
+        phrase: '『〇〇様、新しいお薬が始まって3〜4日目ですが、朝起き上がった時や立ち上がった時にクラクラしたり、ふらついたりしていませんか？』'
+      });
+      steps.push({
+        when: 'Day 7〜10',
+        how: '📞 電話 / 窓口',
+        target: '初期効果判定 ＆ 家庭血圧測定値の確認',
+        detail: '家庭血圧手帳の測定値（朝・就寝前）の推移を確認し、降圧効果と目標達成度を評価。',
+        phrase: '『ご自宅での朝と夜の血圧を記録されていますでしょうか？ お薬を始める前と比べて少し落ち着いてきましたか？』'
+      });
+      steps.push({
+        when: '次回受診前',
+        how: '🩺 次回窓口',
+        target: '臨床検査値モニタリング確認（血清K、Cr、eGFR）',
+        detail: 'ARB/ARNI/MRA導入に伴う高カリウム血症や急性腎不全（Initial Dipの許容度）の採血予定を確認。',
+        phrase: '『次回の受診時に、先生から血液検査（腎臓や塩分の検査）のお話はございましたか？』'
+      });
+      redFlag = '🚨 赤旗サイン（即時受診勧告）：安静時の激しい息切れ・動悸、失神・強いめまい、2〜3日で2kg以上の急激な体重増加（心不全悪化兆候）。';
+    } else if (isDiabetes) {
+      steps.push({
+        when: 'Day 3〜5',
+        how: '📞 電話フォロー',
+        target: '急性低血糖症状 ＆ 消化器・脱水症状の確認',
+        detail: '冷や汗、手指の震え、動悸などの低血糖症状、およびSGLT2開始時の頻尿・脱水、メトホルミンの下痢・腹痛を確認。',
+        phrase: '『急に手が震えたり、冷や汗が出たり、お腹が痛くなったりしていませんか？ 水分はしっかり摂れていますでしょうか？』'
+      });
+      steps.push({
+        when: 'Day 10〜14',
+        how: '📞 電話 / 窓口',
+        target: '血糖自己測定（SMBG）推移 ＆ 口渇・体重変化',
+        detail: '食前食後の血糖値推移、体重減少傾向、陰部のかゆみ（SGLT2尿路感染）の有無を確認。',
+        phrase: '『喉が渇きやすくなったり、お手洗いの回数が急に増えたりしていませんか？』'
+      });
+      steps.push({
+        when: '1〜2ヶ月後',
+        how: '🩺 次回受診時',
+        target: 'HbA1c値の推移 ＆ シックデイ・ルールの再確認',
+        detail: '治療効果（HbA1c）判定、発熱・下痢時のSADMANS休薬ルールの徹底。',
+        phrase: '『熱が出たり下痢をしたりしてご飯が食べられない時は、このお薬をお休みするお約束を覚えていますでしょうか？』'
+      });
+      redFlag = '🚨 赤旗サイン（即時受診勧告）：強い倦怠感や悪心・嘔吐を伴う激しい口渇（正常血糖ケトアシドーシス疑い）、意識混濁を伴う低血糖。';
+    } else if (isPain) {
+      steps.push({
+        when: 'Day 3〜5',
+        how: '📞 電話フォロー',
+        target: '中枢性副作用（眠気・ふらつき・めまい・嘔気）の確認',
+        detail: 'リリカやサインバルタ開始初期の眠気やふらつき、転倒注意の指導。',
+        phrase: '『日中に強い眠気が出たり、歩く時にフラフラしたりしていませんか？ 車の運転などは控えていただいていますでしょうか？』'
+      });
+      steps.push({
+        when: 'Day 14',
+        how: '📞 電話 / 窓口',
+        target: '疼痛スコア改善度（NRS評価） ＆ 末梢浮腫の確認',
+        detail: '痛みが10段階中何点まで軽減したか、足のすねのむくみ（リリカ性浮腫）の有無を確認。',
+        phrase: '『痛みを10点満点とすると、今何点くらいまで楽になりましたでしょうか？ 足のすねがむくんだりしていませんか？』'
+      });
+      redFlag = '🚨 赤旗サイン（即時受診勧告）：激しいめまい・転倒、全身の皮疹や発熱、極度の気分の落ち込み。';
+    } else if (isGERD) {
+      steps.push({
+        when: 'Day 3〜5',
+        how: '📞 電話フォロー',
+        target: '胸やけ・胃痛・呑酸の早期寛解確認',
+        detail: 'タケキャブ/PPI服用開始後の自覚症状の改善スピードを評価。',
+        phrase: '『胸のつかえや胸やけ、胃の痛みは少し軽くなってきましたでしょうか？ 夜はぐっすり眠れていますか？』'
+      });
+      steps.push({
+        when: 'Day 14〜28',
+        how: '🩺 次回窓口',
+        target: '症状完全寛解の確認 ＆ ステップダウン（維持減量）の検討',
+        detail: '急性期症状の消失確認、タケキャブ20mgから10mgへのステップダウン計画の確認。',
+        phrase: '『胸やけはすっかり良くなりましたか？ 症状が治まったら先生がお薬を減らす計画を立てておられるか確認してみましょう。』'
+      });
+      redFlag = '🚨 赤旗サイン（即時受診勧告）：黒色便（タール便）、コーヒー残渣様嘔吐、激しい背部痛（潰瘍穿孔・出血疑い）。';
+    } else {
+      steps.push({
+        when: 'Day 3〜5',
+        how: '📞 電話フォロー',
+        target: '初期アレルギー・消化器症状・忍容性確認',
+        detail: '皮疹、発熱、悪心、倦怠感などの初期有害事象の有無を確認。',
+        phrase: '『新しいお薬を飲み始めて数日経ちますが、かゆみや胃のムカムカなど、変わった症状はございませんか？』'
+      });
+      steps.push({
+        when: '次回調剤時',
+        how: '🩺 調剤窓口',
+        target: '治療効果の実感 ＆ アドヒアランス（飲み忘れ）確認',
+        detail: 'お薬を毎日忘れずに続けられたか、残薬の有無と症状改善度を確認。',
+        phrase: '『毎日無理なく続けられましたでしょうか？ 余っているお薬などはございませんか？』'
+      });
+      redFlag = '🚨 赤旗サイン（即時受診勧告）：全身の皮疹・紅斑、高熱、呼吸困難、顔面浮腫。';
+    }
+  } else if (cType === 'increase') {
+    // 【増量処方タイムライン】
+    steps.push({
+      when: 'Day 5〜7',
+      how: '📞 電話フォロー',
+      target: '増量に伴う急性副作用・用量依存性毒性の早期確認',
+      detail: '用量を増やした直後の過度な血圧低下、徐脈、低血糖、ふらつき、電解質変動の早期察知。',
+      phrase: '『お薬の量が増えてから約1週間経ちますが、急な立ちくらみや強い眠気、体のだるさなどはございませんか？』'
+    });
+    steps.push({
+      when: 'Day 14',
+      how: '🩺 窓口 / 電話',
+      target: '増量による治療目標達成度の判定',
+      detail: '血圧目標（125/75未満等）、血糖値、疼痛コントロールが改善したかを客観的に評価。',
+      phrase: '『お薬を増やしたことで、気になっていた症状のコントロールは良くなってきましたでしょうか？』'
+    });
+    redFlag = '🚨 赤旗サイン（即時受診勧告）：意識消失・失神、徐脈（脈拍50未満）、冷や汗を伴う激しい低血糖。';
+  } else if (cType === 'decrease') {
+    // 【減量処方タイムライン】
+    steps.push({
+      when: 'Day 7〜14',
+      how: '📞 電話 / 窓口',
+      target: '減量に伴う原疾患リバウンド・再燃の有無確認',
+      detail: '薬剤減量後の血圧上昇（リバウンド）、疼痛再発、胃酸逆流のぶり返しを慎重に追跡。',
+      phrase: '『お薬を減らしてから1〜2週間経ちますが、減らす前の症状（痛みや胸やけ、血圧の上昇）がぶり返してはいませんか？』'
+    });
+    steps.push({
+      when: '次回調剤時',
+      how: '🩺 次回窓口',
+      target: '減量状態での長期安定性確認 ＆ 副作用消失の確認',
+      detail: '減量によって気になっていた副作用（むくみ、ふらつき等）が消失したか、かつ病勢が安定しているか確認。',
+      phrase: '『お薬を減らしたことで、以前気になっていたむくみやふらつきは楽になりましたでしょうか？』'
+    });
+    redFlag = '🚨 赤旗サイン（即時受診勧告）：原疾患症状の急激な悪化、離脱症状による激しい不眠・振戦。';
+  } else {
+    // 【Do処方タイムライン】
+    steps.push({
+      when: '次回調剤時',
+      how: '🩺 調剤窓口',
+      target: '残薬確認（アドヒアランス評価） ＆ 漫然投与防止',
+      detail: '自宅での残薬数、飲み忘れがちな時間帯の把握、目標値未達のまま漫然と継続されていないかの確認。',
+      phrase: '『同じお薬が続いていますが、ご自宅にお薬が余っていませんか？ 飲み忘れてしまうタイミングなどはございませんか？』'
+    });
+    steps.push({
+      when: '3〜6ヶ月毎',
+      how: '🩺 定期窓口',
+      target: '長期連用に伴う累積リスク・定期採血の確認',
+      detail: '長期連用による骨代謝、電解質、肝腎機能、血清尿酸値等の年1〜2回の定期血液検査実施確認。',
+      phrase: '『最近、健康診断やかかりつけの先生のところで血液検査は受けられましたでしょうか？』'
+    });
+    redFlag = '🚨 赤旗サイン（即時受診勧告）：安定していた症状の急な再燃、原因不明の体重減少、黒色便。';
+  }
+
+  return {
+    changeType: cType,
+    steps: steps,
+    redFlag: redFlag
+  };
+}
+
+// ========================================================
 // 処方カスケード（医原性病態）検知エンジン
 // ※ 可能性を指摘する形式で協調的・疑義照会トリガーとして出力
 // ========================================================
@@ -9192,6 +9412,62 @@ function calculateWizardDiagnosis(isForced = false) {
     `;
   }
 
+  // 📋 処方変更ステータス（初処方・Do・増量・減量）の臨床評価カード
+  const changeEval = evaluatePrescriptionChange(wizardState.patientProfile && wizardState.patientProfile.change, data.name, wizardState.customDrugs, rankedDiseases, wizardState.patientProfile);
+  const changeEvalHtml = `
+    <div class="wizard-change-eval-card">
+      <div class="change-eval-header">
+        <div class="change-eval-title">
+          <span>📋</span>
+          <span>${changeEval.title}</span>
+        </div>
+        <span class="change-eval-badge">${changeEval.badge}</span>
+      </div>
+      <div class="change-eval-body">
+        <div class="change-eval-intent">${changeEval.intent}</div>
+        <div class="change-eval-alert">${changeEval.alert}</div>
+      </div>
+    </div>
+  `;
+
+  // 📅 服薬期間中フォローアップ計画（タイムライン形式）の生成
+  const followupPlan = generateFollowupTimeline(wizardState.patientProfile && wizardState.patientProfile.change, data.name, wizardState.customDrugs, rankedDiseases, wizardState.patientProfile);
+  const followupHtml = `
+    <div class="wizard-followup-timeline-card">
+      <div class="followup-header">
+        <div class="followup-title">
+          <span>📅</span>
+          <span>服薬期間中フォローアップ計画（処方変更連動タイムライン）</span>
+        </div>
+        <span class="followup-badge">${followupPlan.changeType === 'new' ? '初処方フォロー（Day 3〜7最重要）' : (followupPlan.changeType === 'increase' ? '増量後効果判定フォロー' : (followupPlan.changeType === 'decrease' ? '減量後リバウンド追跡' : 'Do処方・定期モニタリング'))}</span>
+      </div>
+      <p style="font-size:0.86rem; color:#065f46; margin:0 0 12px 0; line-height:1.5;">
+        処方変更ステータスと処方薬の特性に基づき、薬剤師が<strong>「いつ（適切な時期）」「何を」「どう患者に問いかけるか」</strong>の具体的なフォローアップ手順です。
+      </p>
+      <div class="followup-timeline-list">
+        ${followupPlan.steps.map(s => `
+          <div class="followup-step-item">
+            <div class="followup-step-time">
+              <span class="followup-time-when">${s.when}</span>
+              <span class="followup-time-how">${s.how}</span>
+            </div>
+            <div class="followup-step-content">
+              <div class="followup-step-target">
+                <span>🎯</span>
+                <span>${s.target}</span>
+              </div>
+              <div class="followup-step-detail">${s.detail}</div>
+              <div class="followup-phrase-box">
+                <strong>🗣️ 患者への問いかけフレーズ：</strong> ${s.phrase}
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="followup-redflag-box">${followupPlan.redFlag}</div>
+    </div>
+  `;
+
   // ⚠️ 処方カスケード可能性指摘の検出（断定せず可能性を指摘）
   const cascades = detectPrescriptionCascade(data.name, wizardState.selectedOptionIds, wizardState.customDrugs, rankedDiseases, wizardState.patientProfile);
   let cascadeHtml = '';
@@ -9254,7 +9530,7 @@ function calculateWizardDiagnosis(isForced = false) {
     `;
   }
 
-  resultsContainer.innerHTML = (stanceHtml + grayzoneHtml + cascadeHtml + negativeHtml + moleculeHtml + doseHtml + adherenceHtml + resultsHtml);
+  resultsContainer.innerHTML = (stanceHtml + changeEvalHtml + followupHtml + grayzoneHtml + cascadeHtml + negativeHtml + moleculeHtml + doseHtml + adherenceHtml + resultsHtml);
 
   // 患者向けやさしい言葉シートの生成と注入
   const patientContainer = document.getElementById('wizardPatientSheetContainer');
@@ -9490,15 +9766,15 @@ function handlePrescriptionPaste() {
     toggleProfileItem('vital', 'lean');
   }
 
-  // 時間軸（ステータス）の自動認識
-  if (/新規|初診|開始|導入/.test(text)) {
-    toggleProfileItem('timeline', 'new');
-  } else if (/維持|継続|定期/.test(text)) {
-    toggleProfileItem('timeline', 'stable');
-  } else if (/減量|ステップダウン|漸減/.test(text)) {
-    toggleProfileItem('timeline', 'taper');
-  } else if (/増量|タイトレーション|漸増/.test(text)) {
-    toggleProfileItem('timeline', 'titrate');
+  // 処方変更ステータス（初処方・Do・増量・減量）の自動認識
+  if (/初処方|新規|初診|開始|導入|初回/.test(text)) {
+    toggleProfileItem('change', 'new');
+  } else if (/増量|増量中|ステップアップ|漸増/.test(text)) {
+    toggleProfileItem('change', 'increase');
+  } else if (/減量|減量中|ステップダウン|漸減/.test(text)) {
+    toggleProfileItem('change', 'decrease');
+  } else if (/do|前回同様|維持|継続|定期/.test(text)) {
+    toggleProfileItem('change', 'do');
   }
 
   // 2. 薬剤名の抽出（CLINICAL_WIZARD_DATA、DRUG_DIFF_MAP、DRUG_DB）

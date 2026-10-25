@@ -202,14 +202,14 @@
               </div>
             </div>
 
-            <!-- 5. 処方ステータス（時間軸・過去履歴） -->
+            <!-- 5. 処方変更ステータス（初処方・Do・増量・減量） -->
             <div class="wizard-profile-row">
-              <span class="profile-row-label">⏳ 時間軸:</span>
+              <span class="profile-row-label">📋 処方変更:</span>
               <div class="profile-pills-wrap">
-                <button type="button" class="profile-pill timeline" id="prof_time_new" onclick="toggleProfileItem('timeline', 'new')">🆕 新規導入・初回処方</button>
-                <button type="button" class="profile-pill timeline" id="prof_time_stable" onclick="toggleProfileItem('timeline', 'stable')">🔄 継続・安定維持期</button>
-                <button type="button" class="profile-pill timeline" id="prof_time_taper" onclick="toggleProfileItem('timeline', 'taper')">📉 減量中・ステップダウン</button>
-                <button type="button" class="profile-pill timeline" id="prof_time_titrate" onclick="toggleProfileItem('timeline', 'titrate')">📈 増量中・タイトレーション</button>
+                <button type="button" class="profile-pill change" id="prof_change_new" onclick="toggleProfileItem('change', 'new')">🆕 初処方（新規導入・開始）</button>
+                <button type="button" class="profile-pill change" id="prof_change_do" onclick="toggleProfileItem('change', 'do')">🔄 Do処方（前回同内容・維持）</button>
+                <button type="button" class="profile-pill change" id="prof_change_increase" onclick="toggleProfileItem('change', 'increase')">📈 増量処方（増量・ステップアップ）</button>
+                <button type="button" class="profile-pill change" id="prof_change_decrease" onclick="toggleProfileItem('change', 'decrease')">📉 減量処方（減量・ステップダウン）</button>
               </div>
             </div>
 
