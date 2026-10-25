@@ -358,6 +358,8 @@ const DRUG_DB = [
   { name: "プリモボラン", gen: "メテノロン酢酸エステル", cat: "128. 血液疾患 / 蛋白同化ステロイド", char: "再生不良性貧血の造血促進 ＆ 慢性消耗性疾患の蛋白同化！女性の不可逆的嗄声注意", desc: "蛋白同化ステロイド。男性化作用を弱め蛋白同化作用を特異的に強化。腎EPO産生促進と骨髄幹細胞直接刺激で赤血球・血小板を産生。女性で一度低くなった声（嗄声）は中止後も戻らない不可逆的変化！前立腺がん絶対禁忌。定期肝機能検査必須。", gId: "c16", cSec: "sec-imm" },
   { name: "ヴォトリエント", gen: "パゾパニブ塩酸塩", cat: "135. 抗がん薬 / 分子標的薬（STS・RCC）", char: "悪性軟部腫瘍・腎細胞癌のマルチTKI！必ず【空腹時服用】＆PPI併用厳禁", desc: "VEGFR/PDGFR/c-Kit阻害薬。食後服用で血中濃度が約2倍に急増し致死的毒性（高血圧・QT延長・穿孔）の危険があるため「食前1時間または食後2時間」の空腹時服用厳守！胃酸で溶解するためPPI併用で吸収が約40%激減（効果消失・原則併用回避）。c-Kit阻害による毛髪の白毛化（白髪化）を事前告知指導。", gId: "c16", cSec: "sec-imm" },
   { name: "アダプチノール", gen: "ヘレニエン", cat: "136. 眼科疾患 / 網膜色素変性症", char: "網膜色素変性症の暗順応改善薬！視物質ロドプシン再合成を促進・遮光厳守", desc: "マリーゴールド由来キサントフィル誘導体（ジパルミチン酸ルテイン）。網膜桿体細胞の視物質ロドプシン再生を促進し暗順応時間を短縮。夜盲症（鳥目）の暗所視力を改善。光に極めて不安定なため粉砕・一包化時は【遮光分包・遮光袋調剤】が絶対必須！", gId: "c16", cSec: "sec-imm" },
+  { name: "イフェクサーSR", gen: "ベンラファキシン塩酸塩", cat: "137. 精神神経 / SNRI", char: "用量依存的デュアル作用！SSRI無効の意欲低下・重症うつ病に高用量賦活", desc: "低用量（〜75mg）はSSRI様、高用量（150〜225mg）で強力なノルアドレナリン再取り込み阻害を発揮。徐放性カプセルのため【噛み砕き・粉砕脱カプセル厳禁】。半減期が短く急な自己中断による【激しい離脱症状（めまい・シャンシャン感）】に厳重警戒。高用量時の血圧上昇モニタリング必須。※疼痛適応なし（うつ病のみ）。", gId: "c6", cSec: "sec-psy" },
+  { name: "アグリリン", gen: "アナグレリド塩酸塩水和物", cat: "138. 血液疾患 / 本態性血小板血症", char: "巨核球成熟を選択的阻害！非細胞毒性で若年の血小板血症第一選択＆心毒性注意", desc: "本態性血小板血症（ET）治療薬。巨核球の分化・成熟を選択的に抑制し血小板のみを減少（赤血球・白血球に影響なし）。DNA障害性がないため若年患者やハイドレア不耐（下腿潰瘍等）に最適。PDE3阻害作用を併有するため【動悸・頻脈・心不全・QT延長】に厳重警戒（重篤心不全禁忌）。妊婦禁忌・催奇形性あり。", gId: "c16", cSec: "sec-imm" },
 
 ];
 
@@ -500,6 +502,8 @@ const COMPOUNDING_MASTER = {
   "イフェクサー": { crush: "ng", susp: "warn", pack: "ok", crushText: "❌ 粉砕不可", suspText: "⚠️ 懸濁注意", packText: "⭕ 可", reason: "徐放性ミニペレット顆粒充填カプセル（SR製剤）。粉砕・噛み砕くと徐放性被膜が破壊され、急激な血中濃度上昇により重篤な悪心・嘔吐・QT延長・血圧急上昇のリスク。脱カプセルして顆粒を噛まずに服用することは可能。簡易懸濁時は温湯（55℃）で顆粒を壊さず速やかに注入通過させる。", alt: "脱カプセルして顆粒原形服用、または他剤（サインバルタ・レクサプロ等）" },
   "イフェクサーsr": { crush: "ng", susp: "warn", pack: "ok", crushText: "❌ 粉砕不可", suspText: "⚠️ 懸濁注意", packText: "⭕ 可", reason: "徐放性ミニペレット顆粒充填カプセル（SR製剤）。粉砕・噛み砕くと徐放性被膜が破壊され、急激な血中濃度上昇により重篤な悪心・嘔吐・QT延長・血圧急上昇のリスク。脱カプセルして顆粒を噛まずに服用することは可能。簡易懸濁時は温湯（55℃）で顆粒を壊さず速やかに注入通過させる。", alt: "脱カプセルして顆粒原形服用、または他剤（サインバルタ・レクサプロ等）" },
   "ベンラファキシン": { crush: "ng", susp: "warn", pack: "ok", crushText: "❌ 粉砕不可", suspText: "⚠️ 懸濁注意", packText: "⭕ 可", reason: "徐放性ミニペレット顆粒充填カプセル（SR製剤）。粉砕・噛み砕くと徐放性被膜が破壊され急激な血中濃度上昇の危険。原形服用厳守（簡易懸濁時は顆粒をすりつぶさない）。", alt: "脱カプセル原形服用、または他剤検討" },
+  "アグリリン": { crush: "ng", susp: "ng", pack: "caution", crushText: "❌ 粉砕不可", suspText: "❌ 懸濁不可", packText: "⚠️ 防湿", reason: "硬カプセル剤（0.5mg）。催奇形性・胎児毒性（妊婦禁忌）およびPDE3阻害作用を持つため、調剤者・介助者の曝露防止と吸収特性維持のため脱カプセル・粉砕不可（原形服用厳守）。本態性血小板血症治療薬。重度心不全禁忌。", alt: "原形服用厳守、嚥下困難時は他剤（ハイドレア錠剤等）検討" },
+  "アナグレリド": { crush: "ng", susp: "ng", pack: "caution", crushText: "❌ 粉砕不可", suspText: "❌ 懸濁不可", packText: "⚠️ 防湿", reason: "硬カプセル剤（0.5mg）。催奇形性（妊婦禁忌）およびPDE3阻害作用を持つため脱カプセル・粉砕不可（原形服用厳守）。本態性血小板血症治療薬。", alt: "原形服用厳守" },
   "タケルダ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "タケルダ配合錠": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "プラザキサ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿激", reason: "脱カプセル・粉砕絶対禁止（AUC急増で出血死）。極めて吸湿性が高くPTPシートのまま保管必須。", alt: "リクシアナOD錠、エリキュース" },
@@ -2550,6 +2554,29 @@ const DRUG_DIFF_MAP = [
         criteria: '【処方サイン】サインバルタ 20〜60mg 朝食後（精神科・心療内科処方）',
         reason: 'ノルアドレナリン神経を刺激して意欲・気力を向上させ、身体の痛みを伴ううつ病に著効',
         keyPoint: '血圧上昇、排尿障害（前立腺肥大注意）、賦活症候群（初期の焦燥感）'
+      }
+    ]
+  },
+
+  // 45. 本態性血小板血症特性：アナグレリド（アグリリン）
+  {
+    drugs: ['アグリリン', 'アナグレリド', 'anagrelide', 'agrylin'],
+    diffs: [
+      {
+        cardNum: 16,
+        name: '16. 本態性血小板血症（若年者・非白血病化・血小板選択的低下型）',
+        subType: '🩸 巨核球選択的成熟阻害：DNA障害性がなく白血病転化リスクを回避したい60歳未満の第一選択',
+        criteria: '【処方サイン】アグリリン 1日1.0mg（分2）朝夕食後開始 ➔ 1週以上あけて0.5mgずつ漸増',
+        reason: '巨核球の多倍数体化・分化成熟を特異的に抑制。赤血球・白血球に影響を与えず血小板のみをシャープに低下',
+        keyPoint: '初期の動悸・頻脈・血管拡張性頭痛（PDE3阻害作用）、緩徐な漸増（1週ごと0.5mg）、妊婦禁忌・避妊徹底'
+      },
+      {
+        cardNum: 16,
+        name: '16. ハイドレア不耐・抵抗性本態性血小板血症（救済切り替え型）',
+        subType: '🩹 ハイドレア難治性下腿潰瘍・色素沈着・骨髄抑制からのセカンドラインスイッチ',
+        criteria: '【処方サイン】ハイドレア投与中の下腿潰瘍発症または汎血球減少 ➔ アグリリンへ薬剤変更',
+        reason: 'ヒドロキシカルバミドの細胞毒性による難治性皮膚潰瘍を速やかに治癒させつつ、血小板数を適正コントロール（< 40万/μL）',
+        keyPoint: 'ハイドレア中止後の皮膚潰瘍治癒経過確認、心機能（心不全・不整脈）スクリーニング'
       }
     ]
   },
@@ -10033,8 +10060,196 @@ const CLINICAL_WIZARD_DATA = {
           firstLine: '主病名がうつ病・うつ状態であることの確認（疑義照会）。',
           combination: '疼痛主訴であればデュロキセチン（サインバルタ）への処方変更提案。',
           contra: '精神科疾患の既往・確定診断なしでの漫然とした疼痛目的処方。',
-          targets: '適正な保険適応遵守、患者病態に合致した至適SNRI選択。',
-          guidance: '🗣️ 薬歴・疑義確認：「同じSNRIでも、サインバルタは慢性腰痛や線維筋痛症の適応を持っていますが、イフェクサーはうつ病・うつ状態のみの適応です。痛みの治療目的で処方されている場合は、適応病名やデュロキセチンへの変更について主治医と確認・連携を図りましょう。」'
+          targets: '適正な保険適応遵守、患者病態に合致した至適SNRI選択。',        guidance: '🗣️ 薬歴・疑義確認：「同じSNRIでも、サインバルタは慢性腰痛や線維筋痛症の適応を持っていますが、イフェクサーはうつ病・うつ状態のみの適応です。痛みの治療目的で処方されている場合は、適応病名やデュロキセチンへの変更について主治医と確認・連携を図りましょう。」'
+        }
+      }
+    ]
+  },
+
+  // 32. 本態性血小板血症治療薬（アグリリンカプセル：アナグレリド塩酸塩水和物）
+  // 🌟 巨核球選択的成熟阻害 ＆ 非細胞毒性（若年第一選択） ＆ ハイドレア下腿潰瘍救済 ＆ PDE3阻害心毒性（動悸・頻脈・心不全禁忌）
+  et_agrylin: {
+    aliases: ['アグリリン', 'アナグレリド', 'agrylin', 'anagrelide', '本態性血小板血症', '血小板血症', 'et', '血小板増多', '巨核球'],
+    name: '本態性血小板血症治療薬（アグリリンカプセル：アナグレリド塩酸塩水和物）',
+    category: '血液疾患・骨髄増殖性腫瘍用薬（巨核球選択的成熟阻害薬 / 血小板減少・心毒性管理レジメン）',
+    questions: [
+      {
+        id: 'agr_q1_patient_profile',
+        title: 'Q1. 処方箋情報：患者背景および薬剤選定の主な理由はどれですか？（最も当てはまるものを1つ選択）',
+        subtitle: 'アグリリンは「若年者」や「ハイドレア不耐性（下腿潰瘍等）」において極めて重要な位置を占めます',
+        options: [
+          {
+            id: 'agr_opt_young_et',
+            label: '60歳未満の若年者・初発：白血病転化（AML化）や二次発がんリスクを回避したい本態性血小板血症',
+            badge: '若年者（非白血病化）第一選択',
+            desc: '細胞毒性（DNA障害性）がなく、長期服用による急性白血病移行のリスクが極めて低いため若年に推奨',
+            weights: { agrylin_et_firstline_young: 95, agrylin_hydrea_intolerance_switch: -30, agrylin_pde3_cardiotoxicity_alert: 20, agrylin_titration_teratogenicity: 30 }
+          },
+          {
+            id: 'agr_opt_hydrea_intolerance',
+            label: 'ハイドレア（ヒドロキシカルバミド）不耐性：難治性下腿潰瘍・色素沈着・骨髄抑制からの切り替え',
+            badge: 'ハイドレア不耐救済スイッチ',
+            desc: 'ハイドレアで生じた激痛下腿潰瘍を治癒させるため即座に休薬し、アグリリンへ変更して血小板を制御',
+            weights: { agrylin_hydrea_intolerance_switch: 95, agrylin_et_firstline_young: 20, agrylin_pde3_cardiotoxicity_alert: 20, agrylin_titration_teratogenicity: 20 }
+          },
+          {
+            id: 'agr_opt_cardiac_comorbidity',
+            label: '心血管疾患（心不全・不整脈・虚血性心疾患）の既往がある、または服用後に強い動悸・胸痛を訴えている',
+            badge: '🚨 循環器合併症・心毒性警戒',
+            desc: 'PDE3阻害作用により頻脈・心不全増悪リスクあり。重症心不全（NYHA III-IV）は禁忌！',
+            weights: { agrylin_pde3_cardiotoxicity_alert: 95, agrylin_et_firstline_young: -20, agrylin_hydrea_intolerance_switch: -20, agrylin_titration_teratogenicity: 20 }
+          },
+          {
+            id: 'agr_opt_titration_female',
+            label: '新規導入・漸増期（1日1.0mg開始）、または妊娠可能年齢の女性患者（催奇形性・避妊指導必須）',
+            badge: '💊 漸増管理 ＆ 妊婦禁忌',
+            desc: '急激な増量は動悸・頭痛を必発させるため0.5mg刻みで漸増。妊婦禁忌のため避妊の徹底確認が必須',
+            weights: { agrylin_titration_teratogenicity: 95, agrylin_et_firstline_young: 30, agrylin_hydrea_intolerance_switch: 10, agrylin_pde3_cardiotoxicity_alert: 25 }
+          }
+        ]
+      },
+      {
+        id: 'agr_q2_cardiac_safety',
+        title: 'Q2. 患者自覚症状・検査値：循環器系および血液検査の状況はどれですか？',
+        subtitle: 'アグリリン特有のホスホジエステラーゼ3（PDE3）阻害作用に伴う症状を評価します',
+        options: [
+          {
+            id: 'agr_opt_plt_isolated_high',
+            label: '赤血球・白血球は正常範囲内で、「血小板数のみが単独で著増（Plt > 60万〜100万/μL）」している',
+            badge: '血小板特異的成熟抑制',
+            desc: '巨核球に特異的に作用するため、他系列の血球を落とさずに血小板のみをシャープにコントロール可能',
+            weights: { agrylin_et_firstline_young: 90, agrylin_hydrea_intolerance_switch: 20 }
+          },
+          {
+            id: 'agr_opt_leg_skin_ulcer',
+            label: '下腿（くるぶし周辺やりんせつ部）に激痛を伴う治らない皮膚潰瘍・黒色壊死が認められる',
+            badge: '下腿難治性皮膚潰瘍（ハイドレア毒性）',
+            desc: 'ヒドロキシカルバミド特有の重篤副作用。ハイドレアを即刻中止しアグリリンへの変更が必要',
+            weights: { agrylin_hydrea_intolerance_switch: 95, agrylin_et_firstline_young: -10 }
+          },
+          {
+            id: 'agr_opt_palpitation_tachycardia',
+            label: '服用後から「心臓がドキドキする（動悸）」「脈が速い」「締め付けられるような頭痛・むくみ」がある',
+            badge: 'PDE3阻害症状（動悸・頭痛）',
+            desc: 'ミルリノン等と同様のPDE3阻害による血管拡張と心拍数増加。増量を緩徐にするかβ遮断薬併用を考慮',
+            weights: { agrylin_pde3_cardiotoxicity_alert: 95, agrylin_titration_teratogenicity: 30 }
+          },
+          {
+            id: 'agr_opt_pregnancy_planning',
+            label: '妊娠を希望している、または妊娠の可能性がある女性患者',
+            badge: '⚠️ 妊婦禁忌・避妊厳守',
+            desc: '催奇形性・胎児毒性があるため妊婦禁忌。投与中および投与中止後一定期間の確実な避妊を指導',
+            weights: { agrylin_titration_teratogenicity: 95, agrylin_et_firstline_young: -30 }
+          }
+        ]
+      },
+      {
+        id: 'agr_q3_titration_audit',
+        title: 'Q3. 薬剤師鑑査・調剤管理：調剤室および服薬指導で最も徹底すべき項目はどれですか？',
+        subtitle: '安全な用法用量プロトコルと調剤形態の確認',
+        options: [
+          {
+            id: 'agr_opt_target_platelet_40',
+            label: '【治療目標管理】：血栓症予防のため血小板数 40万/μL以下（または正常値）を目指す',
+            badge: 'Plt < 40万/μL 達成管理',
+            desc: '脳梗塞・心筋梗塞・下肢静脈血栓症を阻止するため、定期採血で血小板数をモニタリング',
+            weights: { agrylin_et_firstline_young: 90, agrylin_hydrea_intolerance_switch: 80 }
+          },
+          {
+            id: 'agr_opt_switch_ulcer_cure',
+            label: '【潰瘍治癒モニタリング】：ハイドレア中止後の下腿潰瘍の縮小・上皮化を確認',
+            badge: '皮膚潰瘍治癒経過モニタリング',
+            desc: 'アグリリン変更後数週間〜数ヶ月で潰瘍が治癒することを確認。皮膚科処置の併用',
+            weights: { agrylin_hydrea_intolerance_switch: 95 }
+          },
+          {
+            id: 'agr_opt_ecg_echo_screening',
+            label: '【循環器スクリーニング】：投与前の心電図（QT延長）・心エコー検査および心不全兆候の定期確認',
+            badge: '心機能・心電図スクリーニング',
+            desc: '心筋収縮力増強と不整脈リスクを回避するため、息切れ・浮腫・体重急増の早期発見を指導',
+            weights: { agrylin_pde3_cardiotoxicity_alert: 95 }
+          },
+          {
+            id: 'agr_opt_capsule_no_crush',
+            label: '【調剤形態確認】：0.5mg硬カプセルであり、脱カプセル・粉砕は行わず原形服用を徹底',
+            badge: '💊 カプセル原形服用厳守',
+            desc: '催奇形性・薬剤曝露防止および適正な血中動態維持のためカプセルを開けずに服用',
+            weights: { agrylin_titration_teratogenicity: 95 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'agrylin_et_firstline_young',
+        name: '本態性血小板血症（若年者・非白血病化・血小板特異的低下型：60歳未満第一選択）',
+        subType: '🩸 巨核球選択的成熟阻害：DNA障害性・白血病転化リスクのない若年本態性血小板血症の至適選択',
+        baseProb: 35,
+        criteria: '【処方サイン】アグリリン 1回0.5mg 1日2回（1.0mg/日）朝夕食後開始 ➔ 1週ごとに0.5mgずつ漸増',
+        reason: '巨核球の多倍数体化と分化成熟を選択的に阻害。リボヌクレオチド還元酵素を阻害するハイドレアのようなDNA障害性（細胞毒性）を持たないため、二次性白血病（AML）への移行リスクを懸念する60歳未満の若年患者に極めて適しています。',
+        keyPoint: '💡 赤血球・白血球を減少させずに血小板のみをシャープに抑制。目標血小板数40万/μL以下',
+        treatment: {
+          pathology: '骨髄増殖性腫瘍（MPN）であり、JAK2/CALR/MPL変異等を背景に巨核球が自律的過剰増殖。血小板数が著増し微小血管血栓症（頭痛・めまい・視覚異常）や大血管血栓塞栓症（脳梗塞・心筋梗塞）を惹起。',
+          rationale: '【処方根拠】：抗がん薬であるハイドレアを若年者に長期投与すると将来の急性白血病化が懸念されるため、血小板特異的かつ非細胞毒性のアグリリンが第一選択となります。',
+          firstLine: 'アナグレリド（アグリリンカプセル） 1回0.5mg 1日2回食後開始。1週間あけて0.5mgずつ漸増（維持量1〜3mg/日）。',
+          combination: 'バイアスピリン（低用量アスピリン 100mg/日）血栓予防併用。',
+          contra: '重度の心機能障害（NYHA III〜IVの重篤心不全）、妊婦・妊娠の可能性がある女性。',
+          targets: '血小板数 < 40万/μL、血栓症・出血合併症ゼロ。',
+          guidance: '🗣️ 服薬指導フレーズ：「血液中の血小板だけを穏やかに減らして、血管の中に血の塊ができるのを防ぐお薬です。細胞の遺伝子を傷つけるタイプのお薬ではないため、長く安心して続けられます。心臓が少しドキドキすることがありますので、脈が速くなったり息苦しさがあれば教えてくださいね。」'
+        }
+      },
+      {
+        id: 'agrylin_hydrea_intolerance_switch',
+        name: 'ハイドレア不耐性（下腿難治性皮膚潰瘍・骨髄抑制）からの救済切り替え',
+        subType: '🩹 難治性皮膚潰瘍の速やかな治癒 ＆ 安定した血小板数コントロールの両立',
+        baseProb: 30,
+        criteria: '【処方サイン】ハイドレア長期服用中に難治性下腿潰瘍・色素沈着・口内炎発症 ➔ アグリリンへスイッチ',
+        reason: 'ハイドレア（ヒドロキシカルバミド）の長期投与で生じる激痛を伴う下腿潰瘍は、ハイドレアを中止しない限り絶対に治癒しません。アグリリンへ速やかに切り替えることで潰瘍を治癒させつつ、血栓症リスクである血小板増多を安全に抑制します。',
+        keyPoint: '💡 ハイドレア即時中止、アグリリン切り替え後の下腿潰瘍上皮化確認、局所皮膚科処置連携',
+        treatment: {
+          pathology: 'ヒドロキシカルバミドが皮膚基底層のDNA合成を強く阻害し、外傷や圧迫を受けやすい下腿・くるぶし部に微小循環不全と難治性潰瘍を形成。',
+          rationale: '【処方根拠】：ハイドレアを中止すると血小板数が急激にリバウンド上昇して脳梗塞を起こす危険があるため、アナグレリドを速やかに導入して血小板増多をカバーしながら皮膚潰瘍を治癒に導きます。',
+          firstLine: 'ハイドレアの中止 ＋ アグリリンカプセル 0.5mg 1日2回より導入。',
+          combination: '皮膚潰瘍に対する局所軟膏処置（プロスタンディン軟膏、フィブラストスプレー等）。',
+          contra: '重度心不全。',
+          targets: '下腿皮膚潰瘍の完全上皮化・疼痛消失、血小板数40万/μL未満維持。',
+          guidance: '🗣️ 服薬指導フレーズ：「これまで飲まれていたお薬（ハイドレア）の影響で足のすねに傷が治りにくくなっていたため、足の傷を治すためにお薬をこちら（アグリリン）へ変更しました。新しいお薬で血小板をしっかりコントロールしながら、足の傷も徐々に良くなっていきますのでご安心くださいね。」'
+        }
+      },
+      {
+        id: 'agrylin_pde3_cardiotoxicity_alert',
+        name: '🚨 循環器毒性アラート（PDE3阻害に伴う動悸・頻脈・心不全リスク・重症心不全禁忌）',
+        subType: '⚡ ホスホジエステラーゼ3阻害作用：心筋収縮力増強・末梢血管拡張による心事故の回避',
+        baseProb: 20,
+        criteria: '【処方サイン】高齢者、心疾患既往（虚血性心疾患・心不全）、服用後の動悸・胸痛・浮腫発現',
+        reason: 'アナグレリドは強心薬（ミルリノン等）と同様にPDE3を阻害するため、陽性変力・変時作用を示し、動悸（約30〜40%）、頻脈、血管拡張性頭痛、心不全増悪、心室性不整脈、QT延長を惹起します。',
+        keyPoint: '💡 重篤な心不全（NYHA III〜IV）は禁忌！投与前心エコー・心電図必須、息切れ・浮腫・動悸の早期発見',
+        treatment: {
+          pathology: '心筋細胞内cAMP上昇によるCa流入増加（心筋収縮力・心拍数増加）と血管平滑筋弛緩（末梢血管拡張・反射性頻脈・頭痛）。',
+          rationale: '【処方根拠】：心疾患リスクの高い患者では、急激な増量を避け、症状に応じてβ遮断薬の併用やハイドレア/インターフェロンへの再変更を検討します。',
+          firstLine: '投与前の心機能評価（心エコー、BNP/NT-proBNP、安静時心電図）。',
+          combination: '頻脈・動悸に対する選択的β1遮断薬（ビソプロロール等）の慎重併用。',
+          contra: '高度心障害（NYHA III〜IVの重度心不全・コントロール不良の致死的不整脈）。',
+          targets: '心不全発症ゼロ、安静時心拍数 < 90bpm、QTc < 480ms。',
+          guidance: '🗣️ 服薬指導フレーズ：「このお薬は心臓の拍動を少し活発にする作用があるため、飲み始めに胸がドキドキしたり、脈が速くなったり、頭痛がすることがあります。階段を上ったときの息切れや、足のすねのむくみ、強い胸の痛みを感じた場合は、我慢せずすぐにご連絡ください。」'
+        }
+      },
+      {
+        id: 'agrylin_titration_teratogenicity',
+        name: '💊 漸増プロトコル遵守 ＆ 妊婦禁忌・催奇形性・カプセル適正管理',
+        subType: '📋 処方鑑査・服薬安全管理：0.5mg刻みの緩徐漸増 ＆ 確実な避妊指導 ＆ カプセル原形服用',
+        baseProb: 15,
+        criteria: '【処方サイン】開始時処方（1回0.5mg 1日2回）、若年女性患者、カプセル脱カプセル疑義',
+        reason: '初期から高用量を投与すると激しい動悸・頭痛で脱落するため、1週間以上あけて0.5mgずつステップアップします。動物実験で着床後死亡や催奇形性が確認されており妊婦絶対禁忌です。',
+        keyPoint: '💡 妊婦禁忌（投与中および中止後一定期間の避妊徹底）、脱カプセル・粉砕不可（カプセル原形服用）',
+        treatment: {
+          pathology: '胎児毒性・催奇形性リスク。急激な血中濃度上昇による有害事象の好発。',
+          rationale: '【処方根拠】：安全域を確保しながら目標血小板数（< 40万/μL）を達成するためのステップバイステップの用量調整。',
+          firstLine: '開始用量：1日1.0mg（1回0.5mgを朝夕食後2回）。1週以上の間隔で1日0.5mgずつ漸増。',
+          combination: '最大用量：1日5.0mg（単回最大2.5mg）。',
+          contra: '妊婦または妊娠している可能性のある女性（禁忌）。',
+          targets: 'アドヒアランス100%、副作用脱落ゼロ、計画的至適用量達成。',
+          guidance: '🗣️ 調剤・服薬指導フレーズ：「お体に少しずつ慣らしていくため、少ない量から始めて1週間以上様子を見ながらゆっくり増やしていきます。お腹の赤ちゃんに影響を与えるお薬ですので、妊娠中の方や妊娠のご予定がある方は服用できません。カプセルは開けたり噛んだりせず、そのままお水でお飲みください。」'
         }
       }
     ]
@@ -10689,6 +10904,10 @@ function applyProfileWeights(scores) {
     if (scores['votrient_ppi_interaction_alert'] !== undefined) scores['votrient_ppi_interaction_alert'] += 90;
     if (scores['votrient_hair_depigmentation_care'] !== undefined) scores['votrient_hair_depigmentation_care'] += 85;
   } else if (prof.dept === 'hema') {
+    if (scores['agrylin_et_firstline_young'] !== undefined) scores['agrylin_et_firstline_young'] += 95;
+    if (scores['agrylin_hydrea_intolerance_switch'] !== undefined) scores['agrylin_hydrea_intolerance_switch'] += 95;
+    if (scores['agrylin_pde3_cardiotoxicity_alert'] !== undefined) scores['agrylin_pde3_cardiotoxicity_alert'] += 85;
+    if (scores['agrylin_titration_teratogenicity'] !== undefined) scores['agrylin_titration_teratogenicity'] += 85;
     if (scores['et_thrombocythemia'] !== undefined) scores['et_thrombocythemia'] += 90;
     if (scores['pv_polycythemia'] !== undefined) scores['pv_polycythemia'] += 90;
     if (scores['cml_leukemia'] !== undefined) scores['cml_leukemia'] += 85;
@@ -10701,6 +10920,7 @@ function applyProfileWeights(scores) {
 
   // 2. 年代による重み
   if (prof.age === 'young') {
+    if (scores['agrylin_et_firstline_young'] !== undefined) scores['agrylin_et_firstline_young'] += 40;
     if (scores['hyper_htn'] !== undefined) scores['hyper_htn'] += 45;
     if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 45;
     if (scores['pa_adenoma'] !== undefined) scores['pa_adenoma'] += 35;
@@ -11489,6 +11709,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: 'SNRI（セロトニン・ノルアドレナリン再取り込み阻害薬 / 用量依存的デュアル作用）',
     reason: '低用量（〜75mg）では5-HT再取り込み阻害優位、中〜高用量（150〜225mg）で強力なNA（＋一部DA）再取り込み阻害を発揮。SSRI抵抗性の意欲低下・精神運動制止型うつ病を賦活。',
     benefit: '【選定の決め手】：セロトニン単独のSSRIで効果不十分な無気力・意欲低下に対し、高用量での強力なノルアドレナリン増強により気力と活動性を回復させるために選定されます。※サインバルタと異なり疼痛適応はなく純粋なうつ病治療薬です。徐放性カプセルのため噛み砕き・粉砕は絶対厳禁。半減期が短いため急な自己中断による激しい離脱症状（めまい・シャンシャン音・電撃感）と、高用量投与時の持続性血圧上昇に厳重警戒が必要です。'
+  },
+  {
+    pattern: /アグリリン|アナグレリド|agrylin|anagrelide/,
+    name: 'アナグレリド塩酸塩水和物（アグリリンカプセル0.5mg）',
+    class: '本態性血小板血症治療薬（巨核球選択的成熟抑制薬）',
+    reason: '巨核球の後期成熟・分化を選択的に阻害し血小板産生を抑制。DNA傷害性・細胞毒性を持たないため二次性白血病（AML転化）リスクが極めて低く、赤血球・白血球に影響を与えない。',
+    benefit: '【選定の決め手】：60歳未満の若年本態性血小板血症患者、またはハイドレア（ヒドロキシカルバミド）長期投与による難治性下腿皮膚潰瘍・骨髄抑制が生じた症例の第一選択・切り替え薬として選定されます。※PDE3阻害作用を持つため【動悸・頻脈・頭痛・心不全・QT延長】に厳重警戒（重症心不全禁忌）。妊婦禁忌・避妊徹底およびカプセル原形服用が必須です。'
   }
 ];
 
@@ -12117,6 +12344,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('ヴォトリエント') || cdLower.includes('パゾパニブ') || cdLower.includes('軟部肉腫') || cdLower.includes('悪性軟部') || cdLower.includes('腎細胞癌') || cdLower.includes('空腹時') || cdLower.includes('白髪') || cdLower.includes('白毛') || cdLower.includes('手足症候群') || cdLower.includes('tki') || cdLower.includes('マルチキナーゼ')) keywords.push('ヴォトリエント', 'パゾパニブ', '軟部肉腫', '悪性軟部腫瘍', '腎細胞癌', '空腹時', '白髪', '白毛化', '手足症候群', 'マルチキナーゼ', 'vegfr', 'c-kit', 'ppi併用');
     if (cdLower.includes('アダプチノール') || cdLower.includes('ヘレニエン') || cdLower.includes('網膜色素変性') || cdLower.includes('暗順応') || cdLower.includes('夜盲') || cdLower.includes('とり目') || cdLower.includes('鳥目') || cdLower.includes('ロドプシン') || cdLower.includes('遮光眼鏡')) keywords.push('アダプチノール', 'ヘレニエン', '網膜色素変性症', '暗順応', '夜盲症', 'とり目', 'ロドプシン', '遮光保存', '遮光分包', '視野狭窄');
     if (cdLower.includes('イフェクサー') || cdLower.includes('ベンラファキシン') || cdLower.includes('venlafaxine') || cdLower.includes('effexor') || cdLower.includes('シャンシャン') || cdLower.includes('離脱症状') || cdLower.includes('アクチベーション')) keywords.push('イフェクサー', 'ベンラファキシン', '大うつ病性障害', '意欲低下', '精神運動制止', '用量依存', '離脱症状', 'シャンシャン', '血圧上昇', '徐放性カプセル', 'srカプセル', '適応外');
+    if (cdLower.includes('アグリリン') || cdLower.includes('アナグレリド') || cdLower.includes('anagrelide') || cdLower.includes('agrylin') || cdLower.includes('血小板血症') || cdLower.includes('巨核球') || cdLower.includes('pde3')) keywords.push('アグリリン', 'アナグレリド', '本態性血小板血症', '血小板', '巨核球', 'pde3', '動悸', '頻脈', '心不全', 'ハイドレア', '下腿潰瘍', '催奇形性', '避妊');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
