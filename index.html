@@ -35466,6 +35466,7 @@ Ca拮抗薬による毛細血管内圧上昇に起因する浮腫が疑われま
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('インチュニブ')">🟢 インチュニブ (ADHD衝動性/α2A)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('モサプリド')">💩 モサプリド (便秘プロキネティクス/PD安全)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コムレクス')">👂 コムレクス (難治性中耳炎/1.5%点耳)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('タリムス')">👁️ タリムス (春季カタル/緑内障回避)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドパコール')">🧠 ドパコール (レボドパ)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メスチノン')">👁️ メスチノン (MG)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('オフェブ')">🫁 オフェブ (IPF)</button>
@@ -45612,6 +45613,131 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 23. タリムス（タクロリムス点眼液0.1%）
+  // 🌟 免疫抑制点眼薬（春季カタル ＆ ステロイド緑内障回避 ＆ 初期のしみる・灼熱感指導）
+  talymus: {
+    aliases: ['タリムス', 'タクロリムス点眼', 'talymus', 'tacrolimus ophthalmic', 'タリムス点眼液'],
+    name: 'タリムス（タリムス点眼液0.1%）',
+    category: '免疫抑制点眼剤（カルシニューリン阻害薬 / 春季カタル・難治性アレルギー性結膜炎治療薬）',
+    questions: [
+      {
+        id: 'tal_q1_symptom_site',
+        title: 'Q1. 処方箋情報：患部の病態・眼の症状はどれですか？',
+        subtitle: '春季カタル（まぶたの裏のブツブツ・角膜潰瘍）か、ステロイド緑内障の回避かを確認します',
+        options: [
+          {
+            id: 'tal_opt_vernal_keratoconjunctivitis',
+            label: '春季カタル：まぶたの裏の巨大なブツブツ（石垣状乳頭）、黒目の傷（角膜シールド潰瘍）、激しい目のかゆみ・眩しさ',
+            badge: '春季カタル（最重症アレルギー）',
+            desc: 'カルシニューリン阻害によりT細胞のサイトカイン産生を遮断。眼圧上昇なしに巨大乳頭と角膜潰瘍を鎮火',
+            weights: { vkc_spring_catarrh: 95, allergy_conjunctivitis_refractory: 60, stinging_sensation_alert: -30 }
+          },
+          {
+            id: 'tal_opt_steroid_sparing_glaucoma',
+            label: 'ステロイド離脱希望：強力なステロイド点眼（リンデロン等）連用による「眼圧上昇（ステロイド緑内障）」を回避したい',
+            badge: 'ステロイド緑内障回避',
+            desc: 'ステロイドと同等の抗炎症効果を持ちながら、眼圧上昇や白内障のリスクがゼロ。安全な離脱（スぺアリング）',
+            weights: { vkc_spring_catarrh: 95, allergy_conjunctivitis_refractory: 70, stinging_sensation_alert: -20 }
+          },
+          {
+            id: 'tal_opt_initial_stinging_pain',
+            label: '【💡 初回服薬指導必須】：点眼開始初期に「しみる・熱っぽく痛む・灼熱感」が出るリスクの事前説明',
+            badge: '💡 初期の刺激感・しみる指導',
+            desc: '知覚神経終末のサブスタンスP遊離による一過性の刺激感。数日〜1〜2週間で慣れるため中断防止が必須',
+            weights: { stinging_sensation_alert: 100, vkc_spring_catarrh: 40 }
+          }
+        ]
+      },
+      {
+        id: 'tal_q2_suspension_handling',
+        title: 'Q2. 処方箋情報：点眼手技やこれまでの治療歴はどれですか？',
+        subtitle: '懸濁液の振り混ぜ指導と通常抗アレルギー点眼無効例を評価します',
+        options: [
+          {
+            id: 'tal_opt_prior_antiallergy_failure',
+            label: 'パタノールやアレジオン等の通常の抗ヒスタミン点眼薬では全く効果がなかった',
+            badge: '通常点眼無効例',
+            desc: '肥満細胞のヒスタミンだけでなくT細胞主体の慢性アレルギー炎症のためタリムスが適応',
+            weights: { vkc_spring_catarrh: 85, allergy_conjunctivitis_refractory: 80 }
+          },
+          {
+            id: 'tal_opt_shake_well_suspension',
+            label: '白濁した懸濁液（サスペンション）のため、「点眼直前によく振る」手技指導を確認',
+            badge: '用時振り混ぜ指導',
+            desc: '有効成分が沈殿するため、点眼直前に容器をしっかり上下に振って均一にする',
+            weights: { vkc_spring_catarrh: 40, stinging_sensation_alert: 40 }
+          },
+          {
+            id: 'tal_opt_bid_standard',
+            label: '1回1滴 1日2回点眼（標準用法）',
+            badge: '1日2回標準レジメン',
+            desc: '朝・夕の1日2回点眼で高い有効性を維持',
+            weights: { vkc_spring_catarrh: 40 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'vkc_spring_catarrh',
+        cardNum: 14,
+        name: '春季カタル（Vernal Keratoconjunctivitis: VKC） / 角膜シールド潰瘍',
+        subType: '眼科専門外来型・ステロイド緑内障を回避しつつ巨大石垣状乳頭と角膜潰瘍を鎮火させるカルシニューリン阻害療法',
+        baseProb: 35,
+        criteria: '【処方サイン】：眼科処方、小児〜学童期男児（成人重症例も含む）、主訴「激しい目のかゆみ、眩しくて目が開けられない、ゴロゴロする」、上眼瞼結膜の巨大乳頭、角膜上皮障害、1回1滴 1日2回点眼。',
+        reason: 'T細胞のカルシニューリンを特異的に阻害し、IL-2、IL-4、IL-5などの炎症性サイトカイン産生を遮断。好酸球の浸潤と脱顆粒を強力に鎮静化し、眼圧上昇を起こさずに巨大乳頭を退縮させる。',
+        keyPoint: '💡 なぜステロイドではなくタリムスなのか？（決定打）：強力なステロイド点眼を続けると小児の約3割で「眼圧が急上昇して失明に至るステロイド緑内障」が発生する。タリムスはステロイド並みの消炎力を持ちながら眼圧上昇リスクがゼロであるため、小児の目を守るステロイド・スぺアリング（離脱）の絶対的切り札。',
+        treatment: {
+          pathology: 'Th2細胞の過剰な活性化により、上まぶたの裏（結膜）に石垣のような巨大乳頭が形成され、瞬目（まばたき）のたびに角膜上皮を擦過してシールド潰瘍や角膜プラークを形成し、視力障害や強い疼痛・羞明を惹起します。',
+          rationale: '【処方根拠】：タリムス点眼により巨大乳頭が平坦化し、角膜潰瘍が速やかに上皮化します。ステロイドのような眼圧上昇（緑内障）や白内障のリスクがありません。',
+          firstLine: 'タリムス点眼液0.1% 1回1滴 1日2回点眼（点眼直前によく振る）。',
+          combination: '抗アレルギー点眼薬（パタノール/アレジオン）、人工涙液（角膜保護）、重症時は初期のみ低濃度ステロイド点眼を短期併用。',
+          contra: '重篤な角膜真菌症、角膜ヘルペス（ウイルス感染）、細菌性結膜炎。',
+          targets: '角膜潰瘍の上皮化治癒、巨大乳頭の平坦化、眼圧正常（IOP < 21 mmHg）の維持。',
+          guidance: '🗣️ 服薬指導の極意：「アレルギーによる強い目の腫れや黒目の傷を治す特別なお薬です。ステロイドと違って『目の圧力（眼圧）が上がって緑内障になる心配がない』安全で優秀なお薬です。目薬が白く濁っているため、つける直前に容器をよく振ってから1滴入れてください。点眼後は目を静かに閉じ、目頭を1分間軽く押さえましょう。」'
+        }
+      },
+      {
+        id: 'allergy_conjunctivitis_refractory',
+        cardNum: 14,
+        name: '難治性アレルギー性結膜炎 / アトピー性角結膜炎（AKC）',
+        subType: 'アレルギー専門外来型・抗ヒスタミン点眼薬無効例の免疫抑制レジメン',
+        baseProb: 30,
+        criteria: '【処方サイン】：アトピー性皮膚炎合併例、抗ヒスタミン点眼薬抵抗性の頑固な結膜充血・掻痒感。',
+        reason: '局所免疫応答を分子標的レベルで制御し、角膜混濁を阻止。',
+        keyPoint: '💡 臨床的位置づけ：点眼ステロイドによる眼圧上昇既往があるアトピー患者の安全な長期維持療法。',
+        treatment: {
+          pathology: '慢性的な擦過とアレルギー炎症により結膜・角膜のバリアが破綻し、難治性の充血・角膜びらんを反復します。',
+          rationale: '【処方根拠】：好酸球遊走を阻害し、角膜合併症への進展を未然に防ぎます。',
+          firstLine: 'タリムス点眼液0.1% 1回1滴 1日2回。',
+          combination: '保湿点眼（ヒアルロン酸点眼）、顔面のアトピー皮膚炎加療（コレクチム/プロトピック）。',
+          contra: '活動性感染症。',
+          targets: '結膜充血スコア・掻痒感スコアの半減、ステロイドフリーの達成。',
+          guidance: '🗣️ 服薬指導：目を擦ると症状が悪化するため、点眼を継続して擦らない工夫を指導。'
+        }
+      },
+      {
+        id: 'stinging_sensation_alert',
+        cardNum: 14,
+        name: '【💡 初期服薬指導アラート】点眼初期の局所刺激感（しみる・灼熱感・眼痛）の事前説明',
+        subType: '初期ドロップアウト防止介入・感覚神経サブスタンスP遊離による一過性熱感（数日で慣れる説明）',
+        baseProb: 15,
+        criteria: '【指導サイン】：タリムス点眼液初回処方時。',
+        reason: '点眼開始直後に感覚神経終末からサブスタンスPが一過性に遊離し、しみる感じや熱感、軽度の痛みを自覚する。',
+        keyPoint: '🗣️ 服薬指導の極意：「最初の数日は少ししみる感じや温かくチクチクする感じが出ることがありますが、薬が効いている証拠で、数日から1〜2週間で必ず慣れていきます。『痛いから』と途中でやめずに続けてくださいね。」',
+        treatment: {
+          pathology: 'カルシニューリン阻害薬の初期刺激により三叉神経知覚枝終末から神経ペプチド（CGRP、サブスタンスP）が放出され、一過性の灼熱感やしみる感覚を生じます。',
+          rationale: '【事前説明の徹底】：事前に伝えておかないと「目に合わない危険な薬」と誤解されて初期脱落するため、薬剤師の最初の声かけが治療成功を左右します。',
+          firstLine: '初回交付時の丁寧な事前説明。',
+          combination: '点眼前に冷やした人工涙液をさすなどの工夫。',
+          contra: '自己判断での早期中断。',
+          targets: '初期刺激感による治療脱落率ゼロ。',
+          guidance: '🗣️ 必須フレーズ：「もし少ししみて痛がっても、お薬が頑張って効いているサインですのでご安心くださいね。数日でスッと楽になっていきます。」'
+        }
+      }
+    ]
   }
 };
 
@@ -46235,6 +46361,8 @@ function applyProfileWeights(scores) {
   } else if (prof.dept === 'eye') {
     if (scores['vitamin_a_deficiency'] !== undefined) scores['vitamin_a_deficiency'] += 95;
     if (scores['keratosis_dermatosis'] !== undefined) scores['keratosis_dermatosis'] -= 50;
+    if (scores['vkc_spring_catarrh'] !== undefined) scores['vkc_spring_catarrh'] += 95;
+    if (scores['allergy_conjunctivitis_refractory'] !== undefined) scores['allergy_conjunctivitis_refractory'] += 90;
   } else if (prof.dept === 'hema') {
     if (scores['et_thrombocythemia'] !== undefined) scores['et_thrombocythemia'] += 90;
     if (scores['pv_polycythemia'] !== undefined) scores['pv_polycythemia'] += 90;
@@ -46778,6 +46906,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: 'ARB（アンジオテンシンII受容体拮抗薬）',
     reason: '同効ARB群の中で最も受容体解離速度が遅く、最強の24時間持続降圧能を誇る薬剤。',
     benefit: '【選定の決め手】：早朝高血圧（Morning Surge）による心筋梗塞・脳卒中を確実に防ぐため、ARB群最強の降圧力を求めて選定されています。'
+  },
+  {
+    pattern: /タリムス/,
+    name: 'タクロリムス点眼液（タリムス）',
+    class: '免疫抑制点眼剤（カルシニューリン阻害薬）',
+    reason: 'T細胞のカルシニューリンを選択的に阻害し、ステロイドと同等の強力な抗アレルギー消炎作用を発揮しながら眼圧を一切上昇させない分子構造。',
+    benefit: '【選定の決め手】：小児の春季カタルにおいて、ステロイド点眼の長期連用による「ステロイド緑内障（高眼圧・失明危機）」を回避し、安全にステロイドから離脱（スぺアリング）させるために選定されています。'
   },
   {
     pattern: /コムレクス/,
@@ -47551,6 +47686,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('便秘') || cdLower.includes('お通じ') || cdLower.includes('排便') || cdLower.includes('出ない') || cdLower.includes('張り')) keywords.push('便秘', '弛緩性', '大腸', '結腸', '蠕動', 'プロキネティクス', 'お通じ');
     if (cdLower.includes('もたれ') || cdLower.includes('胃もたれ') || cdLower.includes('排出') || cdLower.includes('胸やけ')) keywords.push('胃もたれ', '胃排出', '胸やけ', 'gerd', '逆流');
     if (cdLower.includes('耳') || cdLower.includes('耳だれ') || cdLower.includes('耳漏') || cdLower.includes('中耳炎') || cdLower.includes('外耳炎') || cdLower.includes('耳浴')) keywords.push('耳漏', '中耳炎', '外耳炎', '耳だれ', '耳浴', '点耳', '点耳薬');
+    if (cdLower.includes('春季カタル') || cdLower.includes('石垣') || cdLower.includes('乳頭') || cdLower.includes('目のかゆみ') || cdLower.includes('結膜炎') || cdLower.includes('しみる')) keywords.push('春季カタル', '巨大乳頭', '石垣状', 'シールド潰瘍', 'タリムス', '結膜炎', 'しみる', '灼熱感');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
