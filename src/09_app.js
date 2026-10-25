@@ -66,6 +66,8 @@ const DRUG_DB = [
   { name: "エリキュース / リクシアナ", gen: "アピキサバン / エドキサバン", cat: "4. 心疾患 / 5. 脳血管", char: "心房細動の脳塞栓予防に選ばれるDOACの2強", desc: "エリキュースは1日2回で血中濃度の谷が浅く、腎機能低下時も減量して使いやすい。リクシアナは1日1回服薬でアドヒアランス最高。", gId: "c4", cSec: "sec-cv" },
   { name: "イグザレルト / プラザキサ", gen: "リバーロキサバン / ダビガトラン", cat: "4. 心疾患 / 5. 脳血管", char: "DOACの個性派（食直後服用 / 中和剤プリズバインドあり）", desc: "イグザレルトは空腹時だと吸収が悪いため必ず「食後服用」。プラザキサは直接トロンビン阻害薬で特異的中和剤があるが、吸湿性が強いためPTPシート管理必須。", gId: "c4", cSec: "sec-cv" },
   { name: "バイアスピリン", gen: "低用量アスピリン", cat: "4. 心 / 5. 脳血管", char: "川の流れが速い動脈を守る「抗血小板薬」の元祖", desc: "心筋梗塞や非心原性脳梗塞の再発予防。胃潰瘍予防にPPI併用が推奨される。100mgは抗血小板、330〜500mgなら解熱鎮痛という用量の違いを見逃すな！", gId: "c5", cSec: "sec-cv" },
+  { name: "キャブピリン配合錠", gen: "ボノプラザン 10mg / アスピリン 100mg", cat: "4. 心 / 5. 脳血管 / 消化器", char: "P-CAB＋腸溶性アスピリンの有核二層錠！粉砕・簡易懸濁は絶対厳禁！", desc: "胃・十二指腸潰瘍の【既往】がある患者のアスピリン潰瘍再発抑制に唯一適応。外層ボノプラザンが初回から強酸をブロックし、内核腸溶性アスピリンが小腸で溶出。粉砕すると胃内でアスピリンが溶出し重篤な胃出血を起こすため粉砕・一包化厳禁！", gId: "c5", cSec: "sec-cv" },
+  { name: "タケルダ配合錠", gen: "ランソプラザール 15mg / アスピリン 100mg", cat: "4. 心 / 5. 脳血管 / 消化器", char: "PPI＋腸溶性低用量アスピリン配合錠（有核錠のため粉砕不可）", desc: "低用量アスピリン服用時の潰瘍再発抑制。先行PPI合剤。キャブピリンと異なりランソプラザールはCYP2C19遺伝子多型により代謝速度・抑制力に個体差あり。粉砕不可。", gId: "c5", cSec: "sec-cv" },
     { name: "ニトロペン (舌下錠)", gen: "ニトログリセリン", cat: "4. 虚血性心疾患", char: "狭心症発作の絶対的レスキュー（立って飲むな・飲み込むな！）", desc: "冠動脈拡張と静脈還流量低減で発作を速効寛解。血圧低下による失神防止のため必ず「座るか横になって」舌下投与。飲み込むと肝初回通過効果で無効！5分間隔で2〜3回使っても治まらない胸痛は即119番（ACS疑い）！重度大動脈弁狭窄症（AS）では失神ショックの恐れがあり原則回避。", gId: "c4", cSec: "sec-cv" },
   { name: "ヘルベッサー", gen: "ジルチアゼム塩酸塩", cat: "4. 虚血性心疾患 / 不整脈", char: "冠攣縮性狭心症の主役 兼 上室性不整脈レート調整のCa拮抗薬", desc: "冠動脈平滑筋を強力に弛緩しスパスム（痙攣）を阻止。夜間〜早朝発作を防ぐため夕食後〜就寝前投与が合理的。房室伝導を抑えるため心房細動のレートコントロールにも頻用。非選択的β遮断薬単独は冠攣縮を誘発するため禁忌！", gId: "c4", cSec: "sec-cv" },
   { name: "ワーファリン", gen: "ワルファリンカリウム", cat: "4. 弁膜症 / 不整脈", char: "機械弁置換術後の絶対的守護神（DOAC絶対禁忌！PT-INR管理）", desc: "機械弁置換後や中等度以上僧帽弁狭窄症（MS）ではDOACは臨床試験で血栓・出血が激増し「絶対禁忌」！ワルファリンのみが適応。納豆・クロレラ・青汁のビタミンK厳禁。併用薬相互作用（ケアラム併用禁忌など）に厳重警戒。", gId: "c4", cSec: "sec-cv" },
@@ -478,6 +480,10 @@ const COMPOUNDING_MASTER = {
 
   // === 抗血栓薬 ===
   "バイアスピリン": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "腸溶錠。粉砕すると胃内で溶解し胃潰瘍・消化管出血。湿気で加水分解するため一包化厳禁（PTP保管）。", alt: "タケルダ配合錠、DOAC検討" },
+  "キャブピリン": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ボノプラザン10mg、内核腸溶性アスピリン100mg）。粉砕すると内核の腸溶皮膜が破壊され、胃内でアスピリンが溶出し重篤な胃潰瘍・消化管大出血の極期リスク！吸湿によりサリチル酸と酢酸に加水分解するため一包化厳禁（PTP保管）。潰瘍既往必須。", alt: "タケキャブOD錠＋バイアスピリン別包、またはDOAC/他の抗血小板薬検討" },
+  "キャブピリン配合錠": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ボノプラザン10mg、内核腸溶性アスピリン100mg）。粉砕すると内核の腸溶皮膜が破壊され、胃内でアスピリンが溶出し重篤な胃潰瘍・消化管大出血の極期リスク！吸湿によりサリチル酸と酢酸に加水分解するため一包化厳禁（PTP保管）。潰瘍既往必須。", alt: "タケキャブOD錠＋バイアスピリン別包、またはDOAC/他の抗血小板薬検討" },
+  "タケルダ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
+  "タケルダ配合錠": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "プラザキサ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿激", reason: "脱カプセル・粉砕絶対禁止（AUC急増で出血死）。極めて吸湿性が高くPTPシートのまま保管必須。", alt: "リクシアナOD錠、エリキュース" },
   "リクシアナ": { crush: "ok", susp: "ok", pack: "ok", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⭕ 可", reason: "普通錠・OD錠ともに粉砕・簡易懸濁可能。", alt: "OD錠" },
   "エリキュース": { crush: "ok", susp: "ok", pack: "ok", crushText: "⭕ 可", suspText: "⭕ 10分崩壊", packText: "⭕ 可", reason: "普通錠粉砕可能。温湯で速やかに崩壊懸濁。", alt: "普通錠粉砕" },
@@ -9108,6 +9114,145 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 26. 低用量アスピリン・潰瘍予防配合錠（キャブピリン配合錠 / タケルダ配合錠）
+  // 🌟 P-CAB / PPI ＋ 低用量アスピリン有核二層錠（粉砕絶対厳禁 ＆ 既往縛り ＆ CYP2C19多型克服）
+  cabpirin_takeruda: {
+    aliases: ['キャブピリン', 'タケルダ', 'キャブピリン配合錠', 'タケルダ配合錠', 'ボノプラザン・アスピリン', 'アスピリン配合錠', 'lda配合剤', 'タケキャブ合剤', 'バイアスピリン合剤', 'cabpirin', 'takeruda'],
+    name: '低用量アスピリン・潰瘍予防配合錠（キャブピリン / タケルダ）',
+    category: '抗血栓薬・消化性潰瘍再発抑制配合剤（P-CAB/PPI ＋ 抗血小板薬 / 有核二層錠）',
+    questions: [
+      {
+        id: 'cab_q1_indication_molecule',
+        title: 'Q1. 処方箋情報：患者の「消化性潰瘍（胃・十二指腸潰瘍）の既往歴」と選択薬剤はどれですか？',
+        subtitle: '保険適応の厳格な既往縛り（初発予防は査定対象）とP-CAB vs PPIの違いを鑑査します',
+        options: [
+          {
+            id: 'cab_opt_cabpirin_hx_ulcer',
+            label: '胃・十二指腸潰瘍の【既往あり】：再発リスクが高く、CYP2C19に左右されない「キャブピリン配合錠」が処方',
+            badge: '適正処方・キャブピリン（P-CAB合剤）',
+            desc: '外層ボノプラザン10mgが初回服用から胃酸を完全抑制し、内核腸溶性アスピリン100mgで血栓予防。既往あり適正',
+            weights: { cabpirin_hx_ulcer_proper: 95, takeruda_ppi_combo: 40, cabpirin_crush_alert: 20, no_ulcer_hx_off_label: -60 }
+          },
+          {
+            id: 'cab_opt_takeruda_ppi',
+            label: '胃・十二指腸潰瘍の【既往あり】：先行PPI合剤の「タケルダ配合錠（ランソプラザール15mg＋アスピリン100mg）」',
+            badge: 'タケルダ配合錠（PPI合剤）',
+            desc: '低用量アスピリン潰瘍再発抑制の先行配合錠。CYP2C19遺伝子多型（PM/EM）による酸抑制効果の個体差に留意',
+            weights: { takeruda_ppi_combo: 95, cabpirin_hx_ulcer_proper: 40, no_ulcer_hx_off_label: -60 }
+          },
+          {
+            id: 'cab_opt_no_ulcer_hx_warning',
+            label: '【🚨 保険査定リスク】：胃・十二指腸潰瘍の「既往がない」患者への初発予防目的での処方',
+            badge: '🚨 保険適応外・査定リスク！',
+            desc: '適応症は「胃潰瘍又は十二指腸潰瘍の既往がある患者」に限定。既往病名がない場合は返戻・査定対象となるため病名確認・疑義照会！',
+            weights: { no_ulcer_hx_off_label: 100, cabpirin_hx_ulcer_proper: -50 }
+          },
+          {
+            id: 'cab_opt_crush_request_ng',
+            label: '【🚨 調剤過誤・大出血リスク】：嚥下困難等により「粉砕調剤」または「一包化」の指示が出ている',
+            badge: '🚨 粉砕・一包化絶対厳禁！',
+            desc: '有核二層錠のため粉砕すると内核の腸溶性アスピリンが胃内で直接溶出し、急性胃潰瘍・消化管大出血の極期リスク！湿気で酢酸に加水分解',
+            weights: { cabpirin_crush_alert: 100, cabpirin_hx_ulcer_proper: 30 }
+          }
+        ]
+      },
+      {
+        id: 'cab_q2_clinical_rationale',
+        title: 'Q2. 患者背景・臨床的意図：なぜ単剤2剤（タケキャブ10mg＋バイアスピリン）ではなく「配合錠」にするのですか？',
+        subtitle: '服薬アドヒアランス向上と有核二層錠のドラッグデリバリー設計を評価します',
+        options: [
+          {
+            id: 'cab_opt_adherence_polypharmacy',
+            label: '服薬アドヒアランス改善：多剤併用（ポリファーマシー）患者で、1日1回1錠にまとめて飲み忘れ・脱落を防止',
+            badge: 'アドヒアランス向上・服薬継続',
+            desc: '抗血小板薬の中断はステント血栓症や脳梗塞再発に直結。タケキャブの飲み忘れによる潰瘍出血も同時に阻止',
+            weights: { cabpirin_hx_ulcer_proper: 90, takeruda_ppi_combo: 80 }
+          },
+          {
+            id: 'cab_opt_dual_layer_release',
+            label: '特殊な放出制御（有核二層錠）：外層（胃で即溶性ボノプラザン）➔ 内核（腸溶性アスピリン）のタイムリリース',
+            badge: '有核二層錠DDS特性',
+            desc: '先に胃内のpHを安全域まで急上昇させた後にアスピリンが小腸で吸収される理想的なドラッグデリバリーシステム',
+            weights: { cabpirin_hx_ulcer_proper: 90, cabpirin_crush_alert: 40 }
+          },
+          {
+            id: 'cab_opt_dose_trap_10mg',
+            label: '【用量鑑査】：タケキャブ含有量は「10mg（維持量）」である点を確認（GERD初期治療の20mgとは異なる）',
+            badge: 'タケキャブ10mg用量鑑査',
+            desc: 'キャブピリンのボノプラザンは潰瘍再発予防維持量の10mg。逆流性食道炎急性期等の20mg増量が必要な病態では単剤併用が適切',
+            weights: { cabpirin_hx_ulcer_proper: 85 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'cabpirin_hx_ulcer_proper',
+        name: 'キャブピリン配合錠（ボノプラザン10mg＋アスピリン100mg：低用量アスピリン潰瘍再発抑制の至適処方）',
+        matchRate: 98,
+        badge: '適正処方（P-CAB＋LDA有核二層錠）',
+        rationale: '胃・十二指腸潰瘍の既往を有する患者における心筋梗塞・脳梗塞再発予防。外層ボノプラザンがCYP2C19遺伝子多型の影響を受けず初回服用から強力に酸分泌を抑え、内核の腸溶性アスピリンによる潰瘍再発を鉄壁に防ぐ合理的合剤。',
+        treatment: {
+          pathology: '低用量アスピリンは全身性のCOX-1阻害（胃粘膜保護PG低下）および直接の局所粘膜刺激により高頻度に胃潰瘍・消化管出血を誘発します。P-CAB（ボノプラザン）はH+/K+-ATPaseをK+競合的に阻害し強酸を速効・持続的に抑制して潰瘍を予防します。',
+          rationale: '1日1回1錠で2剤のメリットを享受でき服薬アドヒアランスが飛躍的に向上。タケルダ（PPI）と異なり代謝酵素多型に左右されず確実な効果が得られます。',
+          firstLine: 'キャブピリン配合錠 1回1錠 1日1回食後。',
+          combination: '必要に応じて心血管二次予防薬（スタチン、β遮断薬、ACE阻害薬/ARB）。',
+          contra: 'アスピリン喘息、消化性潰瘍の活動期出血中、重篤な出血傾向、重篤な肝・腎不全。',
+          targets: '消化管出血ゼロ、心血管イベント再発ゼロ、服薬継続率100%。',
+          guidance: '🗣️ 必須フレーズ：「このお薬は心臓や脳の血管を守るお薬と、胃を守るお薬が1つに合体した特殊な錠剤です。砕いたり噛んだりすると胃を痛める原因になりますので、必ず噛まずにお水でそのまま飲み込んでくださいね。」'
+        }
+      },
+      {
+        id: 'cabpirin_crush_alert',
+        name: '【🚨 疑義照会必須】：キャブピリン配合錠・タケルダ配合錠の「粉砕調剤・一包化」指示トラップ',
+        matchRate: 99,
+        badge: '🚨 調剤事故・大出血リスク',
+        rationale: '有核二層錠（外層P-CAB/PPI、内核腸溶性アスピリン）。粉砕・すりつぶしを行うと腸溶皮膜が破壊され、胃内でアスピリンが直接高濃度に接触して急性胃潰瘍や穿孔・大出血を惹起します！簡易懸濁も不可。吸湿によりサリチル酸と酢酸に加水分解するためPTP管理必須。',
+        treatment: {
+          pathology: 'アスピリン原末が直接胃粘膜に触れると強い局所刺激と粘膜壊死を引き起こします。腸溶コーティングにより胃を通過して小腸で溶ける設計になっているため、粉砕は剤形設計の完全破壊となります。',
+          rationale: '即刻疑義照会！粉砕指示を中止し、タケキャブOD錠＋バイアスピリン（別包・嚥下可能なら）または他剤（DOAC等）への変更を提案します。',
+          firstLine: '即座に疑義照会（粉砕不可・原形服用または代替提案）。',
+          combination: 'タケキャブOD錠（またはネキシウム懸濁用顆粒）＋ 抗血小板薬個別対応。',
+          contra: '粉砕調剤、簡易懸濁法、無包装一包化。',
+          targets: '胃出血・潰瘍事故の未然完全防止。',
+          guidance: '🗣️ 疑義照会フレーズ例：「キャブピリン配合錠は有核二層錠で内核に腸溶性アスピリンを含有しているため、粉砕すると胃内でアスピリンが溶出し重篤な消化管潰瘍・出血を引き起こします。粉砕は不可ですので、原形服用いただくか、タケキャブOD錠とバイアスピリンの別調剤等への変更をご検討いただけませんでしょうか。」'
+        }
+      },
+      {
+        id: 'no_ulcer_hx_off_label',
+        name: '【🚨 保険査定・返戻リスク】：消化性潰瘍の既往病名なしにおけるキャブピリン・タケルダ投与',
+        matchRate: 96,
+        badge: '🚨 保険適応外・査定リスク',
+        rationale: '本剤の効能効果は「胃潰瘍又は十二指腸潰瘍の【既往がある患者】における、低用量アスピリン投与時における胃潰瘍又は十二指腸潰瘍の再発抑制」に厳格に限定されています。初発予防目的での処方や、潰瘍既往病名がない場合は審査支払機関で査定・返戻されます。',
+        treatment: {
+          pathology: '心血管疾患の予防で低用量アスピリンを開始する際、初発の消化管潰瘍予防としてキャブピリンを処方されるケースがありますが、既往がない場合は保険適用外となります。',
+          rationale: '病名漏れ（過去の潰瘍既往の記載漏れ）の確認、または初発予防であればバイアスピリン単剤 ＋ 保険適応のあるPPI/P-CAB（必要に応じて）の個別処方検討。',
+          firstLine: '既往歴のカルテ・問診確認 ＆ 疑義照会（病名確認）。',
+          combination: '既往がない場合の適切な処方見直し。',
+          contra: '既往のない初発予防への漫然投与（保険適応外）。',
+          targets: '返戻・査定ゼロ、適正保険診療。',
+          guidance: '🗣️ 処方医への確認：「キャブピリン配合錠の適応は『胃・十二指腸潰瘍の既往がある患者』に限定されております。患者様のカルテに潰瘍の既往歴の記載がございませんでしたので、既往病名の追加か処方のご意向を確認させていただきたくご連絡いたしました。」'
+        }
+      },
+      {
+        id: 'takeruda_ppi_combo',
+        name: 'タケルダ配合錠（ランソプラザール15mg＋アスピリン100mg：低用量アスピリン＋先行PPI配合錠）',
+        matchRate: 93,
+        badge: '先行PPI合剤（タケルダ）',
+        rationale: 'ランソプラザールとアスピリンの配合錠。キャブピリンと同様に有核二層錠であり粉砕不可。ランソプラザールはCYP2C19で代謝されるため、患者の代謝タイプ（PM/EM）により酸分泌抑制効果に個人差が生じる点に留意。',
+        treatment: {
+          pathology: 'CYP2C19の遺伝子多型において、Extensive Metabolizer（EM：急速代謝型）ではランソプラザールが速やかに分解され酸抑制が不十分になる場合があります。',
+          rationale: 'タケルダで胸焼けや胃部不快感が残る場合、CYP2C19の影響を受けないP-CAB配合のキャブピリン配合錠へのスイッチが極めて合理的です。',
+          firstLine: 'タケルダ配合錠 1回1錠 1日1回朝食後。',
+          combination: '効果不十分時はキャブピリン配合錠への切替検討。',
+          contra: '粉砕、簡易懸濁、アスピリン喘息。',
+          targets: '潰瘍再発予防、CYP2C19多型による効果不十分時のキャブピリン切替。',
+          guidance: '🗣️ 患者指導：「朝食後に1錠そのままお飲みください。砕いてはいけないお薬です。もし胃の痛みや胸焼けを感じる場合は医師・薬剤師にご相談ください。」'
+        }
+      }
+    ]
   }
 };
 
@@ -9662,6 +9807,9 @@ function applyProfileWeights(scores) {
     if (scores['paf_paroxysmal'] !== undefined) scores['paf_paroxysmal'] += 85;
     if (scores['vpc_ventricular'] !== undefined) scores['vpc_ventricular'] += 80;
     if (scores['hf_sinus_tachy'] !== undefined) scores['hf_sinus_tachy'] += 95;
+    if (scores['cabpirin_hx_ulcer_proper'] !== undefined) scores['cabpirin_hx_ulcer_proper'] += 95;
+    if (scores['cabpirin_crush_alert'] !== undefined) scores['cabpirin_crush_alert'] += 85;
+    if (scores['takeruda_ppi_combo'] !== undefined) scores['takeruda_ppi_combo'] += 85;
   } else if (prof.dept === 'ortho') {
     if (scores['clbp_oa'] !== undefined) scores['clbp_oa'] += 80;
     if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 65;
@@ -9690,6 +9838,9 @@ function applyProfileWeights(scores) {
     if (scores['zinc_taste_disorder'] !== undefined) scores['zinc_taste_disorder'] -= 40;
     if (scores['gerd_gastric_emptying'] !== undefined) scores['gerd_gastric_emptying'] += 90;
     if (scores['constipation_colonic_inertia'] !== undefined) scores['constipation_colonic_inertia'] += 85;
+    if (scores['cabpirin_hx_ulcer_proper'] !== undefined) scores['cabpirin_hx_ulcer_proper'] += 90;
+    if (scores['cabpirin_crush_alert'] !== undefined) scores['cabpirin_crush_alert'] += 90;
+    if (scores['takeruda_ppi_combo'] !== undefined) scores['takeruda_ppi_combo'] += 80;
   } else if (prof.dept === 'rheuma') {
     if (scores['ra_active'] !== undefined) scores['ra_active'] += 85;
     if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 85;
@@ -10470,6 +10621,20 @@ const MOLECULE_RATIONALE_MAP = [
     class: 'P-CAB（カリウムイオン競合型アシッドブロッカー）',
     reason: '酸による活性化が不要で、初回投与から最大胃酸抑制効果を発揮。CYP2C19遺伝子多型に左右されず、夜間酸逆流（NAB）を完全阻止。',
     benefit: '【選定の決め手】：従来のPPI（ネキシウム・タケプロン等）では抑えきれない「夜間の胸やけ・胃酸逆流」や「PPI抵抗性難治性GERD」を確実に鎮静化するため選ばれています。'
+  },
+  {
+    pattern: /キャブピリン/,
+    name: 'ボノプラザン・アスピリン配合錠（キャブピリン配合錠）',
+    class: 'P-CAB＋抗血小板薬配合剤（有核二層錠）',
+    reason: '外層ボノプラザン10mg（即溶性）＋ 内核腸溶性アスピリン100mgの二重防御DDS。CYP2C19遺伝子多型の影響を全く受けず、服用初日から夜間まで強力に酸を抑え込みアスピリン潰瘍再発を鉄壁防御。',
+    benefit: '【選定の決め手】：心筋梗塞・脳梗塞再発予防で低用量アスピリンが必須だが、胃潰瘍の既往がある患者に対し、1日1回1錠でアドヒアランス低下を防ぎつつ確実な潰瘍再発ゼロを達成するために選定されています。※有核二層錠のため粉砕・簡易懸濁は絶対厳禁！'
+  },
+  {
+    pattern: /タケルダ/,
+    name: 'ランソプラザール・アスピリン配合錠（タケルダ配合錠）',
+    class: 'PPI＋抗血小板薬配合剤（有核二層錠）',
+    reason: 'ランソプラザール15mg＋腸溶性アスピリン100mgの先行配合錠。低用量アスピリン服用時の胃・十二指腸潰瘍再発抑制。',
+    benefit: '【選定の決め手】：低用量アスピリンの胃粘膜障害を防ぎ服薬錠数を減らすために選定されています。CYP2C19代謝の影響を受けるため、効果不十分時はキャブピリンへの変更が検討されます。※粉砕不可。'
   }
 ];
 
@@ -11092,6 +11257,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('春季カタル') || cdLower.includes('石垣') || cdLower.includes('乳頭') || cdLower.includes('目のかゆみ') || cdLower.includes('結膜炎') || cdLower.includes('しみる')) keywords.push('春季カタル', '巨大乳頭', '石垣状', 'シールド潰瘍', 'タリムス', '結膜炎', 'しみる', '灼熱感');
     if (cdLower.includes('まぶた') || cdLower.includes('眼瞼') || cdLower.includes('クリーム') || cdLower.includes('目薬嫌') || cdLower.includes('目薬させない') || cdLower.includes('手の震え')) keywords.push('アレジオン眼瞼クリーム', 'まぶた', '眼瞼', '点眼拒絶', '手の震え', '経皮吸収');
     if (cdLower.includes('エフメノ') || cdLower.includes('更年期') || cdLower.includes('ホットフラッシュ') || cdLower.includes('のぼせ') || cdLower.includes('エストラーナ') || cdLower.includes('メノエイド') || cdLower.includes('子宮') || cdLower.includes('hrt')) keywords.push('エフメノ', '更年期', 'ホットフラッシュ', 'のぼせ', 'エストラーナ', 'メノエイド', '子宮', 'hrt', 'プロゲステロン');
+    if (cdLower.includes('キャブピリン') || cdLower.includes('タケルダ') || cdLower.includes('アスピリン合剤') || cdLower.includes('タケキャブ合剤') || cdLower.includes('配合錠') || cdLower.includes('lda')) keywords.push('キャブピリン', 'タケルダ', 'ボノプラザン', 'アスピリン', '有核二層錠', '低用量アスピリン', '潰瘍再発', '既往', '粉砕不可');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
