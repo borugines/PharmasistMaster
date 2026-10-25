@@ -4691,6 +4691,170 @@ tbody tr:hover { background-color: #f0fdf4; }
   color: #9d174d;
   box-shadow: 0 0 0 2px rgba(219, 39, 119, 0.25);
 }
+.profile-pill.days.active {
+  background: #f0f9ff;
+  border-color: #0284c7;
+  color: #0369a1;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.25);
+}
+.profile-pill.vital.active {
+  background: #fff1f2;
+  border-color: #e11d48;
+  color: #9f1239;
+  box-shadow: 0 0 0 2px rgba(225, 29, 72, 0.25);
+}
+
+/* ========================================================
+   処方カスケード（医原性病態）可能性指摘カードスタイル
+   ======================================================== */
+.wizard-cascade-card {
+  background: #fffaf0;
+  border: 2px solid #f97316;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.14);
+  animation: fadeInModal 0.3s ease-out;
+}
+.cascade-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed #fed7aa;
+}
+.cascade-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #9a3412;
+}
+.cascade-badge {
+  background: #ea580c;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+.cascade-item {
+  background: #ffffff;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.cascade-item:last-child {
+  margin-bottom: 0;
+}
+.cascade-item-trigger {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #c2410c;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cascade-item-desc {
+  font-size: 0.84rem;
+  color: #475569;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.cascade-item-action {
+  background: #fff7ed;
+  border-left: 3px solid #f97316;
+  padding: 6px 12px;
+  font-size: 0.81rem;
+  color: #7c2d12;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.5;
+}
+
+/* ========================================================
+   ネガティブ推論（処方されていない薬剤からの潜在合併症逆算）スタイル
+   ======================================================== */
+.wizard-negative-card {
+  background: #f8fafc;
+  border: 2px solid #6366f1;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12);
+  animation: fadeInModal 0.3s ease-out;
+}
+.negative-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed #c7d2fe;
+}
+.negative-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #3730a3;
+}
+.negative-badge {
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+.negative-item {
+  background: #ffffff;
+  border: 1px solid #e0e7ff;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.negative-item:last-child {
+  margin-bottom: 0;
+}
+.negative-item-trigger {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #4338ca;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.negative-item-desc {
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.negative-item-action {
+  background: #eef2ff;
+  border-left: 3px solid #6366f1;
+  padding: 6px 12px;
+  font-size: 0.81rem;
+  color: #312e81;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.5;
+}
 
 /* ========================================================
    鑑別グレーゾーン（除外診断・情報保留）アラートスタイル
@@ -34864,6 +35028,28 @@ Ca拮抗薬による毛細血管内圧上昇に起因する浮腫が疑われま
                 <button type="button" class="profile-pill timeline" id="prof_time_titrate" onclick="toggleProfileItem('timeline', 'titrate')">📈 増量中・タイトレーション</button>
               </div>
             </div>
+
+            <!-- 6. 処方日数マジック -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">📅 処方日数:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill days" id="prof_days_short7" onclick="toggleProfileItem('days', 'short7')">⚡ 7日以内短期（急性増悪・除菌）</button>
+                <button type="button" class="profile-pill days" id="prof_days_14" onclick="toggleProfileItem('days', '14')">🗓️ 14日分（新薬・導入評価期）</button>
+                <button type="button" class="profile-pill days" id="prof_days_long28" onclick="toggleProfileItem('days', 'long28')">⏳ 28日以上長期（慢性安定維持）</button>
+                <button type="button" class="profile-pill days" id="prof_days_as_needed" onclick="toggleProfileItem('days', 'as_needed')">🎯 頓服処方（痛風予兆・発作時）</button>
+              </div>
+            </div>
+
+            <!-- 7. バイタルサイン ＆ 体格 -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">💓 バイタル:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill vital" id="prof_vital_tachy" onclick="toggleProfileItem('vital', 'tachy')">💓 頻脈（HR > 80 bpm）</button>
+                <button type="button" class="profile-pill vital" id="prof_vital_brady" onclick="toggleProfileItem('vital', 'brady')">🫀 徐脈（HR < 50 bpm）</button>
+                <button type="button" class="profile-pill vital" id="prof_vital_obese" onclick="toggleProfileItem('vital', 'obese')">⚖️ 肥満（BMI ≥ 25）</button>
+                <button type="button" class="profile-pill vital" id="prof_vital_lean" onclick="toggleProfileItem('vital', 'lean')">🍃 やせ・フレイル（BMI < 18.5）</button>
+              </div>
+            </div>
           </div>
 
           <!-- アキネーター質問ステージ（JSで1問ずつ動的描画） -->
@@ -43296,7 +43482,10 @@ const wizardState = {
     dept: null,
     age: null,
     gender: null,
-    labs: new Set()
+    labs: new Set(),
+    timeline: null,
+    days: null,
+    vitals: new Set()
   }
 };
 
@@ -43802,47 +43991,131 @@ function applyProfileWeights(scores) {
   }
 
   // 4. 検査値による決定的加算
-  if (prof.labs.has('hba1c_norm')) {
+  if (prof.labs && prof.labs.has('hba1c_norm')) {
     // 非糖尿病：フォシーガ等の心不全/CKDが急上昇、糖尿病系は除外
     if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] -= 90;
     if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] -= 90;
     if (scores['hf_hfs_all'] !== undefined) scores['hf_hfs_all'] += 90;
     if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 90;
   }
-  if (prof.labs.has('hba1c_high')) {
+  if (prof.labs && prof.labs.has('hba1c_high')) {
     if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] += 80;
     if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] += 80;
     if (scores['dpnp_pain'] !== undefined) scores['dpnp_pain'] += 80;
     if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 75;
   }
-  if (prof.labs.has('k_low')) {
+  if (prof.labs && prof.labs.has('k_low')) {
     // 低K血症：原発性アルドステロン症ほぼ確定
     if (scores['pa_adenoma'] !== undefined) scores['pa_adenoma'] += 95;
     if (scores['cirrhosis_ascites'] !== undefined) scores['cirrhosis_ascites'] += 50;
   }
-  if (prof.labs.has('k_high')) {
+  if (prof.labs && prof.labs.has('k_high')) {
     if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 45;
     if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 55;
   }
-  if (prof.labs.has('egfr_low')) {
+  if (prof.labs && prof.labs.has('egfr_low')) {
     if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 85;
     if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 85;
     if (scores['hf_refractory'] !== undefined) scores['hf_refractory'] += 55;
   }
-  if (prof.labs.has('proteinuria')) {
+  if (prof.labs && prof.labs.has('proteinuria')) {
     if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 85;
     if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 85;
     if (scores['nephrotic_mcns'] !== undefined) scores['nephrotic_mcns'] += 80;
   }
-  if (prof.labs.has('bnp_high')) {
+  if (prof.labs && prof.labs.has('bnp_high')) {
     if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 90;
     if (scores['hf_pef'] !== undefined) scores['hf_pef'] += 85;
     if (scores['hf_refractory'] !== undefined) scores['hf_refractory'] += 85;
     if (scores['hf_hfs_all'] !== undefined) scores['hf_hfs_all'] += 85;
   }
-  if (prof.labs.has('ua_high')) {
+  if (prof.labs && prof.labs.has('ua_high')) {
     if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 85;
     if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] += 85;
+  }
+
+  // 5. 処方ステータス（時間軸）による重み
+  if (prof.timeline === 'new') {
+    if (scores['hp_eradic'] !== undefined) scores['hp_eradic'] += 45;
+    if (scores['pud_acute'] !== undefined) scores['pud_acute'] += 50;
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 45;
+  } else if (prof.timeline === 'stable') {
+    if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 40;
+    if (scores['hf_pef'] !== undefined) scores['hf_pef'] += 40;
+    if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] += 40;
+    if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] += 40;
+    if (scores['ihd_angina'] !== undefined) scores['ihd_angina'] += 40;
+    if (scores['hyper_htn'] !== undefined) scores['hyper_htn'] += 40;
+  } else if (prof.timeline === 'taper') {
+    if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 50;
+    if (scores['ra_active'] !== undefined) scores['ra_active'] += 50;
+    if (scores['egpa_vasculitis'] !== undefined) scores['egpa_vasculitis'] += 50;
+  } else if (prof.timeline === 'titrate') {
+    if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 50;
+    if (scores['hf_refractory'] !== undefined) scores['hf_refractory'] += 50;
+    if (scores['pa_adenoma'] !== undefined) scores['pa_adenoma'] += 40;
+  }
+
+  // 6. 処方日数マジック（短期 vs 長期 vs 頓服）による決定打
+  if (prof.days === 'short7') {
+    // 7日以内短期：ピロリ除菌、喘息バースト、急性胃潰瘍
+    if (scores['hp_eradic'] !== undefined) scores['hp_eradic'] += 95;
+    if (scores['asthma_burst'] !== undefined) scores['asthma_burst'] += 90;
+    if (scores['copd_exacerbation'] !== undefined) scores['copd_exacerbation'] += 85;
+    if (scores['pud_acute'] !== undefined) scores['pud_acute'] += 75;
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 60;
+    // 慢性維持病態は大幅減算
+    if (scores['hyper_htn'] !== undefined) scores['hyper_htn'] -= 50;
+    if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] -= 50;
+    if (scores['hf_pef'] !== undefined) scores['hf_pef'] -= 45;
+  } else if (prof.days === '14') {
+    // 14日分：新薬投与制限、急性期〜亜急性期移行
+    if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 25;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 25;
+  } else if (prof.days === 'long28') {
+    // 28日以上長期：慢性維持療法
+    if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 60;
+    if (scores['hf_pef'] !== undefined) scores['hf_pef'] += 60;
+    if (scores['ihd_angina'] !== undefined) scores['ihd_angina'] += 60;
+    if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] += 60;
+    if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] += 60;
+    if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 60;
+    if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 60;
+    if (scores['hyper_htn'] !== undefined) scores['hyper_htn'] += 60;
+    // 短期除菌や痛風頓服は除外
+    if (scores['hp_eradic'] !== undefined) scores['hp_eradic'] -= 95;
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] -= 80;
+  } else if (prof.days === 'as_needed') {
+    // 頓服処方：痛風予兆期、冠攣縮狭心症発作
+    if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 95;
+    if (scores['vasospastic_angina'] !== undefined) scores['vasospastic_angina'] += 70;
+    if (scores['hf_ref'] !== undefined) scores['hf_ref'] -= 70;
+    if (scores['hyper_htn'] !== undefined) scores['hyper_htn'] -= 70;
+  }
+
+  // 7. バイタルサイン ＆ 体格による重み付け
+  if (prof.vitals) {
+    if (prof.vitals.has('tachy')) {
+      // 頻脈（HR > 80）：心不全交感神経活性、心房細動頻脈
+      if (scores['hf_ref'] !== undefined) scores['hf_ref'] += 65;
+      if (scores['af_rate'] !== undefined) scores['af_rate'] += 85;
+      if (scores['hyper_htn'] !== undefined) scores['hyper_htn'] += 45;
+    }
+    if (prof.vitals.has('brady')) {
+      // 徐脈（HR < 50）：β遮断過量、洞不全、房室ブロック
+      if (scores['af_rate'] !== undefined) scores['af_rate'] -= 40;
+    }
+    if (prof.vitals.has('obese')) {
+      // 肥満（BMI ≥ 25）：インスリン抵抗性、メタボリック症候群
+      if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] += 85;
+      if (scores['hyper_htn'] !== undefined) scores['hyper_htn'] += 45;
+    }
+    if (prof.vitals.has('lean')) {
+      // やせ・低体重（BMI < 18.5）：フレイル・サルコペニア、心不全悪液質
+      if (scores['dm2_elderly'] !== undefined) scores['dm2_elderly'] += 75;
+      if (scores['hf_refractory'] !== undefined) scores['hf_refractory'] += 65;
+      if (scores['dm2_obese'] !== undefined) scores['dm2_obese'] -= 60;
+    }
   }
 }
 
@@ -44182,6 +44455,170 @@ function detectComplexSyndrome(rankedDiseases, selectedOptionIds, customDrugs) {
   return null;
 }
 
+
+// ========================================================
+// 処方カスケード（医原性病態）検知エンジン
+// ※ 可能性を指摘する形式で協調的・疑義照会トリガーとして出力
+// ========================================================
+function detectPrescriptionCascade(primaryDrug, selectedOptions, customDrugs, rankedDiseases, profile) {
+  const cascades = [];
+
+  // 全処方キーワード（小文字結合）
+  const allTexts = [
+    (primaryDrug || ''),
+    ...(customDrugs || []),
+    ...Array.from(selectedOptions || []).map(id => {
+      if (wizardState.activeData) {
+        for (const q of wizardState.activeData.questions) {
+          const opt = q.options.find(o => o.id === id);
+          if (opt) return `${opt.label} ${opt.desc || ''} ${opt.badge || ''}`;
+        }
+      }
+      return id;
+    })
+  ].join(' ').toLowerCase();
+
+  // 1. CCB + 利尿薬（CCB誘発性下腿浮腫 ➔ 利尿薬処方カスケード）
+  const hasCCB = /アムロジピン|ノルバスク|ニフェジピン|アダラート|シルニジピン|アジルバ配合|アテレック|コニール|カルブロック|バイロテンシン|エホニジピン|アロジピン/.test(allTexts);
+  const hasDiuretic = /フロセミド|ラシックス|アゾセミド|ルプラック|ダイアトール|トリクロルメチアジド|フルイトラン|スピロノラクトン|アルダクトン|サムスカ|トルバプタン/.test(allTexts);
+
+  if (hasCCB && hasDiuretic) {
+    cascades.push({
+      id: 'cascade_ccb_edema',
+      trigger: '【CCB（Ca拮抗薬） ＋ ループ利尿薬/サイアザイド】',
+      title: 'CCB誘発性下腿浮腫に対する利尿薬追加処方カスケードの可能性',
+      desc: 'アムロジピン等のジヒドロピリジン系CCBは、毛細血管前細動脈の選択的拡張に伴い毛細血管圧が上昇し、約5〜10%の頻度で「下腿浮腫（すね・足首のむくみ）」を誘発します。この浮腫を心不全悪化や腎機能低下による体液貯留と誤認し、ループ利尿薬やサイアザイド系が漫然と追加処方された可能性が疑われます。',
+      action: '💡【疑義照会・臨床確認トリガー】：BNP値の上昇や頸静脈怒張・肺うっ血等の心不全所見がない場合、利尿薬を追加するのではなく、CCBの減量、または細静脈も均等に拡張するARB/ACE阻害薬（またはARNI）への変更で下腿浮腫が消失することがあります。処方背景の確認を推奨します。'
+    });
+  }
+
+  // 2. NSAIDs + 降圧薬（NSAIDs昇圧作用 ➔ 降圧薬追加・増量カスケード）
+  const hasNSAIDs = /ロキソニン|ロキソプロフェン|セレコックス|セレコキシブ|ジクロフェナク|ボルタレン|メロキシカム|モービック|ナイキサン|ロキソ/.test(allTexts);
+  const hasAntihypertensive = /オルメテック|アジルバ|ミカルディス|ブロプレス|ディオバン|ニューロタン|イルベサルタン|テルミサルタン|メインテート|ビソプロロール|アムロジピン|カルベジロール|アーチスト/.test(allTexts);
+
+  if (hasNSAIDs && hasAntihypertensive) {
+    cascades.push({
+      id: 'cascade_nsaids_htn',
+      trigger: '【NSAIDs（解熱鎮痛消炎薬） ＋ 降圧薬】',
+      title: 'NSAIDsによる腎血流抑制・昇圧作用に対する降圧薬増量カスケードの可能性',
+      desc: 'NSAIDsの連用により腎臓の血管拡張性プロスタグランジン（PGE2/PGI2）合成が阻害され、腎動脈収縮とNa・水分貯留を招き、平均3〜5 mmHg（高齢者やCKD合併例では10 mmHg以上）の血圧上昇を引き起こします。鎮痛薬服用に伴う一時的な血圧上昇に対し、降圧薬が追加・増量された処方カスケードの可能性が疑われます。',
+      action: '💡【疑義照会・臨床確認トリガー】：整形外科の受診開始やNSAIDsの処方時期と血圧上昇のタイミングが一致していないかご確認ください。可能であればアセトアミノフェン（カロナール）への切り替え、または外用湿布薬への変更により、余分な降圧薬の整理・減量が可能となる場合があります。'
+    });
+  }
+
+  // 3. プレガバリン/ミロガバリン + 利尿薬（神経障害薬性浮腫 ➔ 利尿薬追加カスケード）
+  const hasGabapentinoid = /リリカ|プレガバリン|タリージェ|ミロガバリン|ガバペン/.test(allTexts);
+
+  if (hasGabapentinoid && hasDiuretic) {
+    cascades.push({
+      id: 'cascade_pregabalin_edema',
+      trigger: '【プレガバリン/ミロガバリン ＋ 利尿薬】',
+      title: 'ガバペンチノイド誘発性浮腫に対する利尿薬追加カスケードの可能性',
+      desc: 'プレガバリン（リリカ）やミロガバリン（タリージェ）等のCaチャネルα2δリガンドは、高頻度（約8〜15%）に末梢血管拡張と腎Na再吸収促進による「両側下肢の末梢性浮腫・体重増加」を引き起こします。これを心不全や腎不全による体液貯留と誤認して利尿薬が追加された処方カスケードの可能性が疑われます。',
+      action: '💡【疑義照会・臨床確認トリガー】：ガバペンチノイドによる浮腫はループ利尿薬に抵抗性（利尿薬を増やしてもむくみが引かない）を示す特徴があります。浮腫の出現時期がリリカ/タリージェの開始・増量と一致している場合、原因薬の減量または他系統鎮痛薬（サインバルタ等）への変更検討を推奨します。'
+    });
+  }
+
+  // 4. スルピリド/メトクロプラミド + 抗パーキンソン薬（薬剤性パーキンソニズム ➔ 抗パーキンソン薬追加カスケード）
+  const hasD2Blocker = /ドグマチール|スルピリド|プリンペラン|メトクロプラミド|ガスモチン|セレネース|ハロペリドール/.test(allTexts);
+  const hasAntiParkinson = /レボドパ|ドパコール|メネシット|マドパー|トリヘキシフェニジル|アーテン|アマンタジン|シンメトレル|プラミペキソール|ビ・シフロール|ロピニロール|レキップ/.test(allTexts);
+
+  if (hasD2Blocker && hasAntiParkinson) {
+    cascades.push({
+      id: 'cascade_drug_induced_parkinson',
+      trigger: '【ドパミンD2遮断胃腸薬/抗精神病薬 ＋ 抗パーキンソン病薬】',
+      title: '薬剤性パーキンソニズムに対する抗パーキンソン薬追加カスケードの可能性',
+      desc: '胃炎・食欲不振やうつ症状に頻用されるスルピリド（ドグマチール）や制吐薬メトクロプラミド（プリンペラン）は、中枢性ドパミンD2受容体を遮断し、「手の震え（振戦）」「すくみ足・小刻み歩行」「筋強剛」等の薬剤性パーキンソニズムを引き起こします。これを発症したパーキンソン病と誤診し、抗パーキンソン薬がカスケード処方された可能性が強く疑われます。',
+      action: '💡【疑義照会・臨床確認トリガー】：原因薬剤（スルピリド等）の中止・減量により、数週間〜数ヶ月で振戦やすくみ足が完全に消失する例が数多く報告されています。抗パーキンソン薬を導入する前に、胃腸薬・向精神薬の中止・変更が可能か処方医への情報提供・疑義照会を強く推奨します。'
+    });
+  }
+
+  return cascades;
+}
+
+// ========================================================
+// ネガティブ推論エンジン（あるはずの薬が入っていない理由からの逆算）
+// ========================================================
+function detectNegativeInference(primaryDrug, selectedOptions, customDrugs, rankedDiseases, profile) {
+  const negatives = [];
+
+  const allTexts = [
+    (primaryDrug || ''),
+    ...(customDrugs || []),
+    ...Array.from(selectedOptions || []).map(id => {
+      if (wizardState.activeData) {
+        for (const q of wizardState.activeData.questions) {
+          const opt = q.options.find(o => o.id === id);
+          if (opt) return `${opt.label} ${opt.desc || ''} ${opt.badge || ''}`;
+        }
+      }
+      return id;
+    })
+  ].join(' ').toLowerCase();
+
+  const topDisease = (rankedDiseases && rankedDiseases.length > 0) ? rankedDiseases[0] : null;
+
+  // 1. 糖尿病治療において第一選択の「メトホルミン」が入っていない
+  const hasDMTreatment = /フォシーガ|ジャディアンス|カナグル|シュアポスト|グラクティブ|ジャヌビア|エクア|ネシーナ|トラゼンタ|テネリア|スイニー|オングリザ|アマリール|グリミクロン|インスリン/.test(allTexts) || 
+                         (topDisease && topDisease.id && topDisease.id.includes('dm'));
+  const hasMetformin = /メトグルコ|メトホルミン|グリコラン/.test(allTexts);
+
+  if (hasDMTreatment && !hasMetformin) {
+    negatives.push({
+      id: 'neg_no_metformin',
+      trigger: '【糖尿病処方において「メトホルミン」が非処方】',
+      title: '第一選択薬メトホルミン不使用の背景：高度腎障害または超高齢・乳酸アシドーシス回避',
+      desc: '国内外の糖尿病ガイドラインで絶対的First-lineであるメトホルミンが処方されていない背景には、【eGFR < 30 mL/min/1.73m²の重度腎不全】、または【75歳以上の超高齢・フレイル・低栄養・脱水ハイリスク】の存在が強く示唆されます。',
+      action: '💡【臨床的示唆・確認ポイント】：メトホルミンは腎排泄型薬物であり、高度腎障害や組織低酸素状態では致死的な「乳酸アシドーシス」を招くため禁忌です。処方医はこれを回避するため、あえて胆汁排泄型DPP-4阻害薬（トラゼンタ等）や腎保護目的のSGLT2阻害薬等を選択していると考えられます。患者のeGFRや脱水歴をご確認ください。'
+    });
+  }
+
+  // 2. 心不全（HFrEF/虚血）において「β遮断薬」が入っていない
+  const hasHFTreatment = /エプレレノン|スピロノラクトン|セララ|エンレスト|フォシーガ|ジャディアンス|カルペリチド|フロセミド|ラシックス|アゾセミド/.test(allTexts) ||
+                         (topDisease && topDisease.id && (topDisease.id.includes('hf_') || topDisease.id.includes('ihd_')));
+  const hasBetaBlocker = /メインテート|ビソプロロール|アーチスト|カルベジロール|セロケン|ロプレソール/.test(allTexts);
+
+  if (hasHFTreatment && !hasBetaBlocker) {
+    negatives.push({
+      id: 'neg_no_beta_blocker',
+      trigger: '【心血管疾患において「β遮断薬（メインテート等）」が非処方】',
+      title: '標準治療β遮断薬不使用の背景：気管支喘息の合併または高度徐脈・房室ブロック',
+      desc: '心不全生命予後改善や虚血再発予防の絶対的標準薬（Fantastic 4）であるβ遮断薬が処方されていない背景には、【気管支喘息の合併（β2遮断による致死性気道痙攣が禁忌）】、または【高度徐脈（HR < 50 bpm）・洞不全・第II度以上房室ブロック】の存在が強く疑われます。',
+      action: '💡【臨床的示唆・確認ポイント】：気管支喘息患者には心臓選択的β1遮断薬であっても原則禁忌です。また冠攣縮性狭心症（異型狭心症）ではβ遮断単独でα受容体が優位となり冠動脈攣縮が悪化するため回避されます。患者の喘息既往・吸入薬処方歴や脈拍数をご確認ください。'
+    });
+  }
+
+  // 3. 心房細動（Af）でDOACではなく「ワーファリン」が処方されている
+  const hasWarfarin = /ワーファリン|ワルファリン/.test(allTexts);
+  const hasDOAC = /エリキュース|リクシアナ|イグザレルト|プラザキサ/.test(allTexts);
+  const isAfOrThrombosis = (topDisease && topDisease.id && topDisease.id.includes('af_')) || /心房細動|血栓|塞栓/.test(allTexts);
+
+  if (hasWarfarin && !hasDOAC && isAfOrThrombosis) {
+    negatives.push({
+      id: 'neg_warfarin_over_doac',
+      trigger: '【心房細動においてDOAC全盛期にあえて「ワーファリン」を選択】',
+      title: 'ワーファリン選択の背景：機械弁置換術後、中等度以上MS、または透析・末期腎不全',
+      desc: 'DOACが第一選択の現代において、頻回のINR採血や食事制限（納豆・クロレラ禁忌）が必要なワーファリンがあえて選ばれている背景には、【機械弁置換術後】、【中等度以上のリウマチ性僧帽弁狭窄症（MS）】、または【末期腎不全（透析患者 / eGFR < 15）】の存在が強く示唆されます。',
+      action: '💡【臨床的示唆・確認ポイント】：機械弁置換術後や弁膜症性AfではDOACの有効性が劣り血栓・出血が多発したため現在もDOACは禁忌であり「ワーファリン絶対適応」です。また透析患者でもDOACの多くが禁忌となるためワーファリンが選ばれます。患者の開心術歴（人工弁）や透析歴をご確認ください。'
+    });
+  }
+
+  // 4. 心不全（HFrEF）で「MRA（スピロノラクトン等）」が入っていない
+  const hasMRA = /スピロノラクトン|アルダクトン|エプレレノン|セララ|ケレンディア|フィネレノン/.test(allTexts);
+  const isHFrEF = (topDisease && topDisease.id === 'hf_ref') || /エンレスト|サクビトリル/.test(allTexts);
+
+  if (isHFrEF && !hasMRA && (profile && profile.labs && profile.labs.has('k_high'))) {
+    negatives.push({
+      id: 'neg_no_mra_hyperkalemia',
+      trigger: '【HFrEF治療において「MRA（ミネラルコルチコイド受容体拮抗薬）」が非処方】',
+      title: 'MRA不使用の背景：ベースラインの高カリウム血症（K > 5.0 mEq/L）またはeGFR低下',
+      desc: 'HFrEFの4本柱（Fantastic 4）であるMRAが導入されていない背景として、【血清K > 5.0 mEq/Lの高カリウム血症】または【eGFR < 30 mL/minの腎不全】の存在が裏付けられます。',
+      action: '💡【臨床的示唆・確認ポイント】：MRAは遠位尿細管でのNa-K交換を阻害し高K血症を悪化させるため、導入が意図的に見送られている状態です。カリウム吸着薬（ロケルマ）併用下での導入検討や、定期的な血清カリウム測定が推奨されます。'
+    });
+  }
+
+  return negatives;
+}
 
 // 確率計算と教科書レベル詳細診断レポートのレンダリング
 function calculateWizardDiagnosis(isForced = false) {
@@ -44651,7 +45088,69 @@ function calculateWizardDiagnosis(isForced = false) {
     `;
   }
 
-  resultsContainer.innerHTML = (grayzoneHtml + resultsHtml);
+  // ⚠️ 処方カスケード可能性指摘の検出（断定せず可能性を指摘）
+  const cascades = detectPrescriptionCascade(data.name, wizardState.selectedOptionIds, wizardState.customDrugs, rankedDiseases, wizardState.patientProfile);
+  let cascadeHtml = '';
+  if (cascades.length > 0) {
+    cascadeHtml = `
+      <div class="wizard-cascade-card">
+        <div class="cascade-header">
+          <div class="cascade-title">
+            <span>⚠️</span>
+            <span>処方カスケード（医原性病態）の可能性に関する留意事項</span>
+          </div>
+          <span class="cascade-badge">可能性を指摘・要確認</span>
+        </div>
+        <p style="font-size:0.86rem; color:#9a3412; margin:0 0 10px 0; line-height:1.5;">
+          現在の処方組み合わせから、ある薬剤の副作用に対して別の薬剤が追加された「処方カスケード」の可能性が疑われます。断定するものではありませんが、鑑別および疑義照会の参考としてご確認ください。
+        </p>
+        ${cascades.map(c => `
+          <div class="cascade-item">
+            <div class="cascade-item-trigger">
+              <span>⚡</span>
+              <span>${c.trigger}</span>
+            </div>
+            <strong style="font-size:0.92rem; color:#1e293b; display:block; margin-bottom:4px;">${c.title}</strong>
+            <div class="cascade-item-desc">${c.desc}</div>
+            <div class="cascade-item-action">${c.action}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // 🔍 ネガティブ推論（入っていない薬の理由逆算）の検出
+  const negatives = detectNegativeInference(data.name, wizardState.selectedOptionIds, wizardState.customDrugs, rankedDiseases, wizardState.patientProfile);
+  let negativeHtml = '';
+  if (negatives.length > 0) {
+    negativeHtml = `
+      <div class="wizard-negative-card">
+        <div class="negative-header">
+          <div class="negative-title">
+            <span>🔍</span>
+            <span>ネガティブ推論（処方されていない薬剤からの潜在合併症逆算）</span>
+          </div>
+          <span class="negative-badge">行間を読む処方推論</span>
+        </div>
+        <p style="font-size:0.86rem; color:#3730a3; margin:0 0 10px 0; line-height:1.5;">
+          ガイドライン標準薬が処方されていない「不在の事実」から、背景に存在する禁忌病態や潜在合併症を逆算推論しました。
+        </p>
+        ${negatives.map(n => `
+          <div class="negative-item">
+            <div class="negative-item-trigger">
+              <span>🔎</span>
+              <span>${n.trigger}</span>
+            </div>
+            <strong style="font-size:0.92rem; color:#1e293b; display:block; margin-bottom:4px;">${n.title}</strong>
+            <div class="negative-item-desc">${n.desc}</div>
+            <div class="negative-item-action">${n.action}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  resultsContainer.innerHTML = (grayzoneHtml + cascadeHtml + negativeHtml + resultsHtml);
 
   // 患者向けやさしい言葉シートの生成と注入
   const patientContainer = document.getElementById('wizardPatientSheetContainer');
@@ -44859,6 +45358,42 @@ function handlePrescriptionPaste() {
   }
   if (text.includes('bnp')) {
     toggleProfileItem('lab', 'bnp_high');
+  }
+
+  // 処方日数の自動認識
+  const daysMatch = text.match(/(\d{1,3})\s*(?:日分|日)/);
+  if (daysMatch) {
+    const daysNum = parseInt(daysMatch[1], 10);
+    if (daysNum <= 7) toggleProfileItem('days', 'short7');
+    else if (daysNum === 14) toggleProfileItem('days', '14');
+    else if (daysNum >= 28) toggleProfileItem('days', 'long28');
+  } else if (/頓服|頓用|発作時|予兆/.test(text)) {
+    toggleProfileItem('days', 'as_needed');
+  }
+
+  // バイタル・体格の自動認識
+  if (/頻脈/.test(text) || /(?:hr|心拍|脈拍)[:\s=]*([8-9]\d|1\d\d)/i.test(text)) {
+    toggleProfileItem('vital', 'tachy');
+  }
+  if (/徐脈/.test(text) || /(?:hr|心拍|脈拍)[:\s=]*([1-4]\d)/i.test(text)) {
+    toggleProfileItem('vital', 'brady');
+  }
+  if (/肥満/.test(text) || /bmi[:\s=]*(?:2[5-9]|[3-9]\d)/i.test(text)) {
+    toggleProfileItem('vital', 'obese');
+  }
+  if (/やせ|痩せ|フレイル|低体重/.test(text) || /bmi[:\s=]*(?:1[0-7]|18\.[0-4])/i.test(text)) {
+    toggleProfileItem('vital', 'lean');
+  }
+
+  // 時間軸（ステータス）の自動認識
+  if (/新規|初診|開始|導入/.test(text)) {
+    toggleProfileItem('timeline', 'new');
+  } else if (/維持|継続|定期/.test(text)) {
+    toggleProfileItem('timeline', 'stable');
+  } else if (/減量|ステップダウン|漸減/.test(text)) {
+    toggleProfileItem('timeline', 'taper');
+  } else if (/増量|タイトレーション|漸増/.test(text)) {
+    toggleProfileItem('timeline', 'titrate');
   }
 
   // 2. 薬剤名の抽出（CLINICAL_WIZARD_DATA、DRUG_DIFF_MAP、DRUG_DB）

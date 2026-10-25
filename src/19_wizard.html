@@ -212,6 +212,28 @@
                 <button type="button" class="profile-pill timeline" id="prof_time_titrate" onclick="toggleProfileItem('timeline', 'titrate')">📈 増量中・タイトレーション</button>
               </div>
             </div>
+
+            <!-- 6. 処方日数マジック -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">📅 処方日数:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill days" id="prof_days_short7" onclick="toggleProfileItem('days', 'short7')">⚡ 7日以内短期（急性増悪・除菌）</button>
+                <button type="button" class="profile-pill days" id="prof_days_14" onclick="toggleProfileItem('days', '14')">🗓️ 14日分（新薬・導入評価期）</button>
+                <button type="button" class="profile-pill days" id="prof_days_long28" onclick="toggleProfileItem('days', 'long28')">⏳ 28日以上長期（慢性安定維持）</button>
+                <button type="button" class="profile-pill days" id="prof_days_as_needed" onclick="toggleProfileItem('days', 'as_needed')">🎯 頓服処方（痛風予兆・発作時）</button>
+              </div>
+            </div>
+
+            <!-- 7. バイタルサイン ＆ 体格 -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">💓 バイタル:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill vital" id="prof_vital_tachy" onclick="toggleProfileItem('vital', 'tachy')">💓 頻脈（HR > 80 bpm）</button>
+                <button type="button" class="profile-pill vital" id="prof_vital_brady" onclick="toggleProfileItem('vital', 'brady')">🫀 徐脈（HR < 50 bpm）</button>
+                <button type="button" class="profile-pill vital" id="prof_vital_obese" onclick="toggleProfileItem('vital', 'obese')">⚖️ 肥満（BMI ≥ 25）</button>
+                <button type="button" class="profile-pill vital" id="prof_vital_lean" onclick="toggleProfileItem('vital', 'lean')">🍃 やせ・フレイル（BMI < 18.5）</button>
+              </div>
+            </div>
           </div>
 
           <!-- アキネーター質問ステージ（JSで1問ずつ動的描画） -->
