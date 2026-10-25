@@ -35453,6 +35453,8 @@ Ca拮抗薬による毛細血管内圧上昇に起因する浮腫が疑われま
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ミルタザピン')">💤 ミルタザピン (NaSSA)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('レルベア')">🫁 レルベア (吸入合剤)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('イリボー')">🚽 イリボー (5-HT3拮抗)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('フェノフィブラート')">🟡 フェノフィブラート (発疹性黄色腫)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ベザフィブラート')">🟣 ベザフィブラート (胆汁うっ滞性そう痒)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドパコール')">🧠 ドパコール (レボドパ)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メスチノン')">👁️ メスチノン (MG)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('オフェブ')">🫁 オフェブ (IPF)</button>
@@ -44047,6 +44049,164 @@ const CLINICAL_WIZARD_DATA = {
         keyPoint: '血清Na補正速度（過度な急速補正の厳重防止）、意識レベルのモニタリング'
       }
     ]
+  },
+
+  // 11. フィブラート系（フェノフィブラート / ペマフィブラート / ベザフィブラート）
+  // 🌟 皮膚科処方の重要盲点（発疹性黄色腫・難治性胆汁うっ滞性そう痒症）
+  fibrate: {
+    aliases: ['フェノフィブラート', 'リピディル', 'トライコア', 'ペマフィブラート', 'パルモディア', 'ベザフィブラート', 'ベザトール', 'fibrate', 'フィブラート'],
+    name: 'フィブラート系（フェノフィブラート / パルモディア / ベザトール）',
+    category: 'PPARαアゴニスト（高TG血症改善薬・皮膚科特殊処方）',
+    questions: [
+      {
+        id: 'fib_q1_dept_skin',
+        title: 'Q1. 処方箋情報：処方元の診療科と主訴（皮疹・症状）はどれですか？',
+        subtitle: '皮膚科からの処方か、内科からの処方かによって病態が180度変わります',
+        options: [
+          {
+            id: 'fib_opt_skin_xanthoma',
+            label: '皮膚科処方：背中やお尻、四肢に「黄色〜橙色の小丘疹（ブツブツ）」が多発',
+            badge: '発疹性黄色腫（超高TG）',
+            desc: 'TG > 1000 mg/dLの重度カイロミクロン血症に伴う真皮内脂質沈着。急性膵炎リスク極大',
+            weights: { eruptive_xanthoma: 95, hyper_tg_severe: 60, cholestatic_pruritus: -40, hyper_tg_metabolic: -50 }
+          },
+          {
+            id: 'fib_opt_skin_pruritus',
+            label: '皮膚科処方：抗ヒスタミン薬が効かない「難治性の激しい全身の痒み」（ベザトール処方）',
+            badge: '胆汁うっ滞性そう痒症',
+            desc: '肝機能異常（ALP/γ-GTP高値）やPBC合併。PXR刺激・オートタキシン（LPA産生）抑制目的',
+            weights: { cholestatic_pruritus: 95, pbc_cholestasis: 70, eruptive_xanthoma: -50, hyper_tg_metabolic: -50 }
+          },
+          {
+            id: 'fib_opt_im_high_tg',
+            label: '内科処方：健康診断や生活習慣病での中性脂肪高値（TG 150〜500 mg/dL前後）',
+            badge: '通常の高TG血症',
+            desc: 'メタボリックシンドローム、動脈硬化予防、脂肪肝改善目的の標準的内科治療',
+            weights: { hyper_tg_metabolic: 90, eruptive_xanthoma: -60, cholestatic_pruritus: -60 }
+          },
+          {
+            id: 'fib_opt_im_pancreatitis_prev',
+            label: '内科処方：過去に「急性膵炎」の既往がある、またはTG > 500〜1000 mg/dL',
+            badge: '膵炎二次予防',
+            desc: '乳び血清、急性膵炎の再発予防を目的とした強力なカイロミクロン低下療法',
+            weights: { hyper_tg_severe: 90, eruptive_xanthoma: 40, hyper_tg_metabolic: 20 }
+          }
+        ]
+      },
+      {
+        id: 'fib_q2_combo',
+        title: 'Q2. 処方箋情報：併用薬や検査値の特徴はどれですか？',
+        subtitle: '併用薬から背景にある肝・代謝疾患を特定します',
+        options: [
+          {
+            id: 'fib_opt_combo_udca',
+            label: 'ウルソ（ウルソデオキシコール酸）が併用されている、またはALP/γ-GTPが著明高値',
+            badge: '肝胆汁うっ滞連動',
+            desc: '原発性胆汁性胆管炎（PBC）や硬化性胆管炎に伴う止痒・肝保護',
+            weights: { cholestatic_pruritus: 85, eruptive_xanthoma: -40 }
+          },
+          {
+            id: 'fib_opt_combo_dm',
+            label: 'メトホルミンやSGLT2阻害薬、インスリン等の糖尿病治療薬が併用されている',
+            badge: '糖尿病性リポ蛋白異常',
+            desc: 'コントロール不良の糖尿病に伴う続発性高TG血症（VLDL過剰産生・LPL活性低下）',
+            weights: { eruptive_xanthoma: 65, hyper_tg_severe: 60, hyper_tg_metabolic: 40 }
+          },
+          {
+            id: 'fib_opt_combo_statin',
+            label: 'スタチン（ロスバスタチン・アトルバスタチン等）が併用されている',
+            badge: '混合型脂質異常症',
+            desc: '横紋筋融解症リスク（スタチン＋フィブラート併用注意）の監査が最重要',
+            weights: { hyper_tg_metabolic: 60, hyper_tg_severe: 40 }
+          },
+          {
+            id: 'fib_opt_combo_none',
+            label: '特に併用薬はなくフィブラート単剤',
+            badge: '単剤治療',
+            desc: '原発性高TG血症または皮膚科での単独止痒・皮疹治療',
+            weights: { eruptive_xanthoma: 30, cholestatic_pruritus: 30, hyper_tg_metabolic: 30 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'eruptive_xanthoma',
+        cardNum: 7,
+        name: '発疹性黄色腫（Eruptive Xanthoma）伴う重症高トリグリセリド血症',
+        subType: '皮膚科受診型・カイロミクロン血症 ＆ 急性膵炎超ハイリスク病態',
+        baseProb: 25,
+        criteria: '【皮膚科処方サイン】：皮膚科受診、背部・臀部・四肢伸側の黄色〜橙色丘疹多発、血清白濁（乳び）、血中TG ≥ 1,000〜2,000 mg/dL。',
+        reason: '中性脂肪が1,000mg/dLを超えるとカイロミクロンが毛細血管から血管外へ漏出し、真皮内マクロファージに貪食されて泡沫細胞化し黄色腫を形成。',
+        keyPoint: '🚨 最優先警戒：急性膵炎の超高リスク！皮膚病変の改善だけでなく、致死的な急性膵炎を未然遮断するための緊急介入。アルコール多飲や未治療糖尿病の併発を即時確認。',
+        treatment: {
+          pathology: '血中TGが1000mg/dLを超えると毛細血管内でLPL（リポ蛋白リパーゼ）の処理能力が飽和し、乳び（カイロミクロン）が血管外へ漏出。真皮マクロファージが貪食して黄色〜橙色の丘疹（発疹性黄色腫）を形成します。同時に膵毛細血管内で遊離脂肪酸が急増し、膵腺房細胞を直接障害して致死的な「急性膵炎」を誘発します。',
+          rationale: '【鑑別の決め手】：皮膚科でフィブラート系が処方された場合の代表的病態。背中やお尻の黄色いブツブツを主訴に皮膚科を受診し、採血でTG > 1000〜2000mg/dL以上の白濁乳び血清が確認されて即座に処方されます。',
+          firstLine: '【第一選択薬】：フェノフィブラート（リピディル錠106.6mg〜160mg/日）またはペマフィブラート（パルモディア錠0.2〜0.4mg/日）。PPARαを活性化しLPL発現亢進とアポC-III抑制によりTGを急降下させる。',
+          combination: '【併用推奨】：高純度EPA製剤（エパデール/ロトリガ）の併用、重症例ではインスリン持続静注（LPL活性化）。アルコールの絶対禁忌（完全断酒）。',
+          contra: '重篤な肝障害、胆嚢疾患（フィブラートは胆汁中コレステロール排泄を増やし胆石を誘発）、重度腎機能障害（フェノフィブラートは血清Cr上昇リスク）。',
+          targets: '血清TG < 500 mg/dL（急性膵炎発症の安全域閾値）への緊急低下、最終目標TG < 150 mg/dL。皮疹はTG低下に伴い数週間〜数ヶ月で完全消退。',
+          guidance: '🗣️ 服薬指導：「背中やお尻のブツブツは血液中の中性脂肪が非常に高くなったサインです。このお薬を飲むと皮疹は綺麗に治りますが、最も危険なのは『激しい腹痛（急性膵炎）』です。激しい胃やお腹の痛み、背中の痛みが出たら直ちに救急受診してください。また、お酒は急性膵炎の引き金になるため今日から絶対に禁止してください。」'
+        }
+      },
+      {
+        id: 'cholestatic_pruritus',
+        cardNum: 16,
+        name: '難治性胆汁うっ滞性皮膚そう痒症（Cholestatic Pruritus） / 結節性痒疹',
+        subType: '皮膚科専門外来型・PXR/PPARαアゴニストによるオートタキシン（LPA産生）抑制治療',
+        baseProb: 25,
+        criteria: '【皮膚科処方サイン】：皮膚科処方、ベザフィブラート（ベザトールSR 400mg/日）処方、抗ヒスタミン薬抵抗性の全身そう痒、肝胆道系酵素（ALP/γ-GTP）上昇、ウルソ併用。',
+        reason: '胆汁酸やリゾホスファチジン酸（LPA）の蓄積による中枢・末梢性激痒に対し、ベザフィブラートがPXR/PPARαを介してLPA産生酵素オートタキシンを阻害。',
+        keyPoint: '💡 臨床的背景：通常の抗ヒスタミン薬やステロイド外用薬が全く効かない「難治性掻痒症」に対し、皮膚科ガイドライン・肝臓学会ガイドラインに基づきベザフィブラートが特異的に奏効します。',
+        treatment: {
+          pathology: '原発性胆汁性胆管炎（PBC）や胆汁うっ滞性肝疾患では、血中にオートタキシン（Autotaxin）酵素とその産物であるリゾホスファチジン酸（LPA）が蓄積し、無髄C線維を直接刺激して通常の痒み止め（ヒスタミン受容体遮断薬）が全く効かない激しい皮膚そう痒を引き起こします。',
+          rationale: '【鑑別の決め手】：皮膚科で「ベザトールSR」が処方された場合の特異的病態。ベザフィブラートはPPARαだけでなくPXR（プレグナンX受容体）を強力に活性化し、血中オートタキシン活性を低下させLPA産生を抑制することで、難治性の痒みを劇的に鎮静化させます。',
+          firstLine: '【標準治療】：ベザフィブラート（ベザトールSR 400mg/日 分2）。胆汁うっ滞性そう痒症に対して日本肝臓学会PBCガイドラインでも推奨される標準的薬物療法。',
+          combination: '【併用推奨】：ウルソデオキシコール酸（ウルソ 600mg/日）、コレスチラミン（クエストラン：腸肝循環遮断・胆汁酸吸着）。',
+          contra: '重篤な腎機能障害（ベザフィブラートは腎排泄型のため横紋筋融解症リスク激増：血清Cr ≥ 2.0mg/dLで禁忌）。',
+          targets: 'VAS（Visual Analogue Scale）痒みスコアの50%以上改善、肝胆道系酵素（ALP、γ-GTP）の正常化、夜間睡眠障害の寛解。',
+          guidance: '🗣️ 服薬指導：「このお薬は本来は中性脂肪を下げるお薬ですが、肝臓から出る『強いかゆみの原因物質』をブロックする特別な効果があり、皮膚科の専門的な治療として処方されています。飲み続けることでしつこい痒みがすーっと軽くなってきます。手足の筋肉の痛みや赤褐色尿が出た場合はすぐにご連絡ください。」'
+        }
+      },
+      {
+        id: 'hyper_tg_severe',
+        cardNum: 7,
+        name: '重症高トリグリセリド血症（急性膵炎ハイリスク・二次予防）',
+        subType: '内科・代謝専門外来型・TG 500〜1000 mg/dL以上の膵炎阻止レジメン',
+        baseProb: 25,
+        criteria: '【処方サイン】：内科受診、TG ≥ 500〜1,000 mg/dL、フィブラート単剤または高純度EPA併用、急性膵炎既往あり。',
+        reason: '高カイロミクロン血症による膵微小循環障害と遊離脂肪酸毒性による膵壊死を阻止。',
+        keyPoint: '🚨 監査の急所：TG値が500mg/dLを超えたらスタチンよりもフィブラート系（フェノフィブラート/パルモディア）が絶対的First-line。急性膵炎既往の有無を確認。',
+        treatment: {
+          pathology: 'カイロミクロンやVLDLが著増し、膵毛細血管内で過剰に局所分解されて高濃度の遊離脂肪酸（FFA）が遊離。これが毛細血管内皮傷害と虚血、膵腺房細胞の自己消化を引き起こし急性膵炎を発症します。',
+          rationale: '【処方根拠】：動脈硬化予防（LDL低下）よりも「急性膵炎の阻止」を最優先とするため、スタチンではなくフィブラート系が第一選択となります。',
+          firstLine: '【第一選択】：フェノフィブラートまたはペマフィブラート。',
+          combination: '【併用推奨】：EPA/DHA製剤（ロトリガ）。',
+          contra: '胆石症、重度腎障害。',
+          targets: '速やかなTG < 500 mg/dLの達成。',
+          guidance: '🗣️ 服薬指導：脂質制限（脂っこい食事の回避）とアルコール完全制限の徹底指導。'
+        }
+      },
+      {
+        id: 'hyper_tg_metabolic',
+        cardNum: 7,
+        name: 'メタボリックシンドロームに伴う混合型高脂血症',
+        subType: '生活習慣病外来型・動脈硬化性疾患予防レジメン',
+        baseProb: 25,
+        criteria: '【処方サイン】：内科処方、TG 150〜400 mg/dL、HDL-C低下、肥満・脂肪肝合併。',
+        reason: 'インスリン抵抗性に伴う肝臓でのVLDL過剰産生と脂肪分解障害。',
+        keyPoint: '💡 処方監査：スタチンとの併用時は横紋筋融解症の初期症状（筋肉痛・脱力感・赤褐色尿）をモニタリング。',
+        treatment: {
+          pathology: '内臓脂肪蓄積により遊離脂肪酸が門脈経由で肝臓に過剰流入し、VLDLトリグリセリドの合成が亢進。同時に小型高比重LDL（sdLDL）が増加し動脈硬化を強力に促進します。',
+          rationale: '【処方根拠】：TG低下とHDL-C上昇を同時に図る標準的脂質異常症治療。',
+          firstLine: 'ペマフィブラート（パルモディア）またはフェノフィブラート。',
+          combination: 'スタチン（併用注意）、エゼチミブ。',
+          contra: '胆嚢疾患、重篤な腎障害。',
+          targets: '空腹時TG < 150 mg/dL、HDL-C ≥ 40 mg/dL。',
+          guidance: '🗣️ 服薬指導：食事療法・運動療法の徹底、筋肉痛や脱力感の早期察知。'
+        }
+      }
+    ]
   }
 };
 
@@ -44632,6 +44792,9 @@ function applyProfileWeights(scores) {
   } else if (prof.dept === 'uro_derm') {
     if (scores['uti_complex'] !== undefined) scores['uti_complex'] += 90;
     if (scores['behcet_syndrome'] !== undefined) scores['behcet_syndrome'] += 70;
+    if (scores['eruptive_xanthoma'] !== undefined) scores['eruptive_xanthoma'] += 95;
+    if (scores['cholestatic_pruritus'] !== undefined) scores['cholestatic_pruritus'] += 95;
+    if (scores['hyper_tg_metabolic'] !== undefined) scores['hyper_tg_metabolic'] -= 80;
   }
 
   // 2. 年代による重み
@@ -45850,6 +46013,8 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('胸やけ') || cdLower.includes('呑酸')) keywords.push('胸やけ', '呑酸', 'gerd', '逆流');
     if (cdLower.includes('腹水') || cdLower.includes('張り')) keywords.push('腹水', '腹囲', '肝硬変');
     if (cdLower.includes('咳')) keywords.push('咳', '咳嗽', '間質性肺炎', 'ipf');
+    if (cdLower.includes('黄色') || cdLower.includes('ブツブツ') || cdLower.includes('黄色腫') || cdLower.includes('発疹')) keywords.push('黄色腫', '黄色', 'ブツブツ', '丘疹', 'カイロミクロン');
+    if (cdLower.includes('痒') || cdLower.includes('かゆみ') || cdLower.includes('そう痒')) keywords.push('そう痒', '痒み', 'オートタキシン', '胆汁うっ滞');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
