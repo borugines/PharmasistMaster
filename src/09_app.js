@@ -360,6 +360,7 @@ const DRUG_DB = [
   { name: "アダプチノール", gen: "ヘレニエン", cat: "136. 眼科疾患 / 網膜色素変性症", char: "網膜色素変性症の暗順応改善薬！視物質ロドプシン再合成を促進・遮光厳守", desc: "マリーゴールド由来キサントフィル誘導体（ジパルミチン酸ルテイン）。網膜桿体細胞の視物質ロドプシン再生を促進し暗順応時間を短縮。夜盲症（鳥目）の暗所視力を改善。光に極めて不安定なため粉砕・一包化時は【遮光分包・遮光袋調剤】が絶対必須！", gId: "c16", cSec: "sec-imm" },
   { name: "イフェクサーSR", gen: "ベンラファキシン塩酸塩", cat: "137. 精神神経 / SNRI", char: "用量依存的デュアル作用！SSRI無効の意欲低下・重症うつ病に高用量賦活", desc: "低用量（〜75mg）はSSRI様、高用量（150〜225mg）で強力なノルアドレナリン再取り込み阻害を発揮。徐放性カプセルのため【噛み砕き・粉砕脱カプセル厳禁】。半減期が短く急な自己中断による【激しい離脱症状（めまい・シャンシャン感）】に厳重警戒。高用量時の血圧上昇モニタリング必須。※疼痛適応なし（うつ病のみ）。", gId: "c6", cSec: "sec-psy" },
   { name: "アグリリン", gen: "アナグレリド塩酸塩水和物", cat: "138. 血液疾患 / 本態性血小板血症", char: "巨核球成熟を選択的阻害！非細胞毒性で若年の血小板血症第一選択＆心毒性注意", desc: "本態性血小板血症（ET）治療薬。巨核球の分化・成熟を選択的に抑制し血小板のみを減少（赤血球・白血球に影響なし）。DNA障害性がないため若年患者やハイドレア不耐（下腿潰瘍等）に最適。PDE3阻害作用を併有するため【動悸・頻脈・心不全・QT延長】に厳重警戒（重篤心不全禁忌）。妊婦禁忌・催奇形性あり。", gId: "c16", cSec: "sec-imm" },
+  { name: "コランチル", gen: "ジサイクロミン/乾燥水酸化Alゲル/水酸化Mg", cat: "139. 消化器 / 制酸・鎮痙配合剤", char: "即時胃酸中和 ＆ 胃痙攣直接鎮痛！緑内障・前立腺肥大・キレート相互作用に厳戒", desc: "抗コリン薬ジサイクロミン（鎮痙）＋水酸化Al/水酸化Mg（制酸・排便バランス相殺）の古典的配合顆粒。胃炎・胃潰瘍の急な胃痛・さしこみ痛を即座に中和鎮痛。抗コリン作用により【閉塞隅角緑内障・前立腺肥大排尿障害は絶対禁忌】！Al・Mgを含むため【透析患者禁忌】およびニューキノロン・テトラサイクリン・チラージンSとの【金属キレート吸収阻害（2時間以上間隔空け）】が必須。", gId: "c11", cSec: "sec-gi" },
 
 ];
 
@@ -504,6 +505,9 @@ const COMPOUNDING_MASTER = {
   "ベンラファキシン": { crush: "ng", susp: "warn", pack: "ok", crushText: "❌ 粉砕不可", suspText: "⚠️ 懸濁注意", packText: "⭕ 可", reason: "徐放性ミニペレット顆粒充填カプセル（SR製剤）。粉砕・噛み砕くと徐放性被膜が破壊され急激な血中濃度上昇の危険。原形服用厳守（簡易懸濁時は顆粒をすりつぶさない）。", alt: "脱カプセル原形服用、または他剤検討" },
   "アグリリン": { crush: "ng", susp: "ng", pack: "caution", crushText: "❌ 粉砕不可", suspText: "❌ 懸濁不可", packText: "⚠️ 防湿", reason: "硬カプセル剤（0.5mg）。催奇形性・胎児毒性（妊婦禁忌）およびPDE3阻害作用を持つため、調剤者・介助者の曝露防止と吸収特性維持のため脱カプセル・粉砕不可（原形服用厳守）。本態性血小板血症治療薬。重度心不全禁忌。", alt: "原形服用厳守、嚥下困難時は他剤（ハイドレア錠剤等）検討" },
   "アナグレリド": { crush: "ng", susp: "ng", pack: "caution", crushText: "❌ 粉砕不可", suspText: "❌ 懸濁不可", packText: "⚠️ 防湿", reason: "硬カプセル剤（0.5mg）。催奇形性（妊婦禁忌）およびPDE3阻害作用を持つため脱カプセル・粉砕不可（原形服用厳守）。本態性血小板血症治療薬。", alt: "原形服用厳守" },
+  "コランチル": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 顆粒剤", suspText: "⭕ 懸濁可", packText: "⚠️ 防湿", reason: "配合顆粒剤（普通顆粒）。湿気や空気中CO2で成分変化しやすいため防湿分包推奨。簡易懸濁は温湯で分散するが不溶性制酸剤（Al/Mg）が沈殿しやすいため直前撹拌注入。閉塞隅角緑内障・排尿障害・透析禁忌！キレート形成薬（ニューキノロン等）と2時間以上あける。", alt: "細粒・顆粒原形服用、他剤（PPI・テプレノン等）検討" },
+  "コランチル配合顆粒": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 顆粒剤", suspText: "⭕ 懸濁可", packText: "⚠️ 防湿", reason: "配合顆粒剤。防湿保管。簡易懸濁は沈殿しやすいため直前撹拌。緑内障・前立腺肥大・透析禁忌。抗菌薬とのキレート相互作用に留意。", alt: "原形服用" },
+  "ジサイクロミン": { crush: "ok", susp: "ok", pack: "ok", crushText: "⭕ 可", suspText: "⭕ 懸濁可", packText: "⭕ 可", reason: "抗コリン性鎮痙薬。緑内障・前立腺肥大排尿障害禁忌。", alt: "他剤検討" },
   "タケルダ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "タケルダ配合錠": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "プラザキサ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿激", reason: "脱カプセル・粉砕絶対禁止（AUC急増で出血死）。極めて吸湿性が高くPTPシートのまま保管必須。", alt: "リクシアナOD錠、エリキュース" },
@@ -2554,6 +2558,29 @@ const DRUG_DIFF_MAP = [
         criteria: '【処方サイン】サインバルタ 20〜60mg 朝食後（精神科・心療内科処方）',
         reason: 'ノルアドレナリン神経を刺激して意欲・気力を向上させ、身体の痛みを伴ううつ病に著効',
         keyPoint: '血圧上昇、排尿障害（前立腺肥大注意）、賦活症候群（初期の焦燥感）'
+      }
+    ]
+  },
+
+  // 46. 制酸鎮痙配合剤特性：コランチル（ジサイクロミン/Al/Mg配合顆粒）
+  {
+    drugs: ['コランチル', 'コランチル配合顆粒', 'ジサイクロミン', 'kolantyl'],
+    diffs: [
+      {
+        cardNum: 11,
+        name: '11. 急性胃炎・胃潰瘍・胃酸過多（さしこみ痛・胃痙攣即時中和型）',
+        subType: '⚡ 化学的胃酸中和 ＋ 抗コリン直接鎮痙：急激な心窩部痛・キリキリ痛の即効鎮火',
+        criteria: '【処方サイン】コランチル配合顆粒 1回1g 1日3〜4回毎食後/食間、または頓服',
+        reason: 'Al/Mgが胃酸を瞬時に中和して胃内pHを上昇させ、ジサイクロミンが胃壁平滑筋の過剰攣縮を遮断して急な腹痛を速やかに解除',
+        keyPoint: '頓用効果、口渇・便秘・眠気（抗コリン作用）、Al（便秘）とMg（下痢）の相殺バランス'
+      },
+      {
+        cardNum: 11,
+        name: '11. 処方鑑査・禁忌 ＆ 薬物相互作用（キレート・緑内障・透析スクリーニング）',
+        subType: '🚨 多価陽イオンキレート阻害 ＆ 抗コリン禁忌 ＆ アルミニウム透析禁忌',
+        criteria: '【処方サイン】ニューキノロン/テトラサイクリン/チラージンS併用、または緑内障/透析歴',
+        reason: 'Al3+/Mg2+による難溶性キレート形成で併用薬の吸収が激減。抗コリン作用による眼圧上昇・尿閉誘発。透析でのAl蓄積脳症リスク',
+        keyPoint: '併用抗菌薬と2時間以上間隔空け指導、緑内障病名確認（閉塞隅角禁忌）、透析患者の疑義照会'
       }
     ]
   },
@@ -9856,400 +9883,196 @@ const CLINICAL_WIZARD_DATA = {
           firstLine: '遮光調剤（遮光分包紙、遮光小分け袋）の徹底。',
           combination: '保管場所（引き出しの中・日光を避ける）の生活指導。',
           contra: '透明分包での光照射放置。',
-          targets: '薬効力価100%維持、調剤品質の担保。',
-          guidance: '🗣️ 調剤・服薬指導フレーズ：「このお薬は光や太陽の光にとても弱く、光に当たるとお薬の成分が壊れて効き目がなくなってしまいます。飲む直前までシートから出さず、お渡しした茶色い遮光袋の中に入れて保管してくださいね。」'
-        }
-      },
-      {
-        id: 'adaptinol_low_vision_care',
-        name: '【ロービジョン支援】：網膜色素変性症の夜間歩行安全指導 ＆ 遮光眼鏡アプローチ',
-        matchRate: 95,
-        badge: 'ロービジョン生活安全支援',
-        rationale: '網膜色素変性症の患者は暗順応障害に加え、日中の強い光に対する「眩しさ（羞明）」や「視野狭窄」を伴います。薬物療法と並行して、短波長光（青色光）をカットしてコントラストを高める「医療用遮光眼鏡（CCPレンズ）」の活用や、夜間の小型LEDライト携帯など、日常生活の安全を守るロービジョンケアが極めて重要。',
-        treatment: {
-          pathology: '変性網膜では散乱光に対する感受性が高まり強い羞明を自覚。また桿体細胞死滅に伴い周辺視野から徐々に狭窄。',
-          rationale: '薬剤師が患者の生活環境の危険因子（段差、薄暗い廊下、夜間の交差点）を把握し、具体的安全策を提案。',
-          firstLine: '夜間照明・足元安全対策の指導 ＆ 遮光眼鏡の紹介。',
-          combination: '盲学校・ロービジョン外来・患者会情報提供。',
-          contra: '薄暗い場所での無理な夜間運転。',
-          targets: '転倒・衝突事故ゼロ、QOLと行動自立度の維持。',        guidance: '🗣️ 生活支援アドバイス：「夕方や夜間は足元の段差が見えにくくなり危険ですので、小さな懐中電灯を持ち歩いたり、お部屋の明かりを少し早めにつけるなど工夫してくださいね。日中の眩しさが気になる場合は、眼科さんで遮光眼鏡の相談もできますよ。」'
+          targets: '薬効力価100%維持、調剤品質の担保。',        guidance: '🗣️ 調剤・服薬指導フレーズ：「お体に少しずつ慣らしていくため、少ない量から始めて1週間以上様子を見ながらゆっくり増やしていきます。お腹の赤ちゃんに影響を与えるお薬ですので、妊娠中の方や妊娠のご予定がある方は服用できません。カプセルは開けたり噛んだりせず、そのままお水でお飲みください。」'
         }
       }
     ]
   },
 
-  // 31. 用量依存型SNRI（イフェクサーSRカプセル：ベンラファキシン塩酸塩）
-  // 🌟 低用量5-HT優位 vs 高用量NA賦活 ＆ 離脱症候群（シャンシャン感）厳重警戒 ＆ 徐放カプセル粉砕噛み砕き厳禁 ＆ 血圧上昇モニタリング
-  snri_effexor: {
-    aliases: ['イフェクサー', 'イフェクサーsr', 'ベンラファキシン', 'effexor', 'venlafaxine', 'snri', '抗うつ薬', 'うつ病', '離脱症状', 'シャンシャン'],
-    name: '用量依存型SNRI（イフェクサーSRカプセル：ベンラファキシン塩酸塩）',
-    category: '精神神経系用薬（SNRI / 用量依存的デュアル作用 ＆ 離脱症候群・徐放性管理レジメン）',
+  // 33. 制酸・鎮痙配合剤（コランチル配合顆粒：ジサイクロミン/乾燥水酸化Al/水酸化Mg）
+  // 🌟 化学的即時胃酸中和 ＆ 胃平滑筋直接鎮痙 ＆ 金属キレート形成（抗菌薬吸収阻害） ＆ 抗コリン禁忌（緑内障・前立腺肥大） ＆ 透析禁忌
+  gi_kolantyl: {
+    aliases: ['コランチル', 'コランチル配合顆粒', 'ジサイクロミン', 'kolantyl', '胃炎', '胃痙攣', '胃酸過多', '胃痛', '制酸剤', 'さしこみ'],
+    name: '制酸・鎮痙配合剤（コランチル配合顆粒：ジサイクロミン/Al/Mg）',
+    category: '消化器用薬（制酸・鎮痙配合薬 / 急性心窩部痛・キレート相互作用・抗コリン安全管理レジメン）',
     questions: [
       {
-        id: 'efx_q1_dose_phase',
-        title: 'Q1. 処方箋情報：処方用量および投与ステージはどれですか？（最も当てはまるものを1つ選択）',
-        subtitle: 'イフェクサーは用量によって作用プロファイル（5-HT優位 vs NA賦活）が劇的に変化します',
+        id: 'kol_q1_symptom_etiology',
+        title: 'Q1. 処方箋情報：処方目的および主な自覚症状はどれですか？（最も当てはまるものを1つ選択）',
+        subtitle: 'コランチルは「急激なキリキリ痛・胃痙攣」と「過剰胃酸の即時中和」に優れた即効性を持ちます',
         options: [
           {
-            id: 'efx_opt_high_dose',
-            label: '高用量維持期（1日150mg〜225mg）：SSRI無効例・重度意欲低下に対するNA強力賦活レジメン',
-            badge: '高用量（150〜225mg/日）NA賦活',
-            desc: '150mg以上でノルアドレナリン（＋一部ドパミン）再取り込み阻害が本格化。血圧上昇モニタリング必須',
-            weights: { mdd_effexor_high: 95, mdd_effexor_init: -30, effexor_taper_discontinuation: -20, effexor_pain_offlabel: -40 }
+            id: 'kol_opt_acute_spasm_pain',
+            label: '急性胃炎・胃潰瘍に伴う「キリキリと差し込む急激な胃痛・胃痙攣」に対する即効的鎮痛',
+            badge: '胃痙攣・さしこみ痛（直接鎮痙）',
+            desc: 'ジサイクロミンが胃壁平滑筋の攣縮を直接解除し、Al/Mgが過剰胃酸を瞬時に化学的中和',
+            weights: { kolantyl_acute_gastritis_spasm: 95, kolantyl_chelate_interaction_alert: 20, kolantyl_anticholinergic_contra_alert: 20, kolantyl_dialysis_renal_contra_alert: 15 }
           },
           {
-            id: 'efx_opt_init_dose',
-            label: '新規開始〜初期漸増期（1日37.5mg〜75mg）：不安焦燥・抑うつ気分へのSSRI様作用レジメン',
-            badge: '初期用量（37.5〜75mg/日）5-HT優位',
-            desc: '低用量域では主にセロトニン再取り込み阻害を発揮。初期の吐き気・若年者の賦活症候群に注意',
-            weights: { mdd_effexor_init: 95, mdd_effexor_high: 20, effexor_taper_discontinuation: -30, effexor_pain_offlabel: -40 }
+            id: 'kol_opt_hyperacidity_heartburn',
+            label: '胃酸過多症・胸やけ・胃部不快感（食間や夜間の胃酸逆流・胃痛に対する制酸維持）',
+            badge: '胃酸過多・胸やけ（即時制酸）',
+            desc: '水酸化Al（便秘型）と水酸化Mg（下痢型）の黄金比配合により、排便異常を相殺しながら胃内pHを上昇',
+            weights: { kolantyl_acute_gastritis_spasm: 90, kolantyl_chelate_interaction_alert: 25, kolantyl_anticholinergic_contra_alert: 15, kolantyl_dialysis_renal_contra_alert: 20 }
           },
           {
-            id: 'efx_opt_tapering_phase',
-            label: '減量・漸減期（以前の高用量から75mg➔37.5mgへステップダウン、または中止計画中）',
-            badge: '減量・中止フェーズ（離脱厳戒）',
-            desc: '抗うつ薬の中でも半減期が短く、急な減量で激しい離脱症状（めまい・シャンシャン感）が好発',
-            weights: { effexor_taper_discontinuation: 95, mdd_effexor_high: -20, mdd_effexor_init: 20, effexor_pain_offlabel: -30 }
+            id: 'kol_opt_chelate_risk',
+            label: 'ニューキノロン系抗菌薬（クラビット等）やテトラサイクリン系、甲状腺薬（チラージンS）が併用されている',
+            badge: '🚨 キレート相互作用（併用薬吸収阻害）',
+            desc: 'Al3+/Mg2+が難溶性金属キレートを形成し抗菌薬等の吸収を著明阻害。2時間以上の間隔空けが絶対必須',
+            weights: { kolantyl_chelate_interaction_alert: 95, kolantyl_acute_gastritis_spasm: -20, kolantyl_anticholinergic_contra_alert: 20, kolantyl_dialysis_renal_contra_alert: 20 }
           },
           {
-            id: 'efx_opt_ortho_pain_check',
-            label: '整形外科やペインクリニックからの処方、または慢性腰痛・関節痛など身体疼痛への処方疑い',
-            badge: '疼痛併存・適応外留意',
-            desc: '※注意：サインバルタと異なり、イフェクサーは日本国内で疼痛適応なし（適応はうつ病・うつ状態のみ）',
-            weights: { effexor_pain_offlabel: 95, mdd_effexor_high: -40, mdd_effexor_init: -30, effexor_taper_discontinuation: -30 }
+            id: 'kol_opt_glaucoma_dialysis_check',
+            label: '高齢者、緑内障、前立腺肥大症、または透析中・高度腎機能障害の既往がある患者',
+            badge: '⚠️ 禁忌病態スクリーニング',
+            desc: '閉塞隅角緑内障・排尿障害は抗コリンで失明・尿閉禁忌！透析患者はAl蓄積脳症・骨症で禁忌！',
+            weights: { kolantyl_anticholinergic_contra_alert: 85, kolantyl_dialysis_renal_contra_alert: 85, kolantyl_acute_gastritis_spasm: -30 }
           }
         ]
       },
       {
-        id: 'efx_q2_symptom_target',
-        title: 'Q2. 患者背景・主訴：どのような症状・臨床的課題が中心ですか？',
-        subtitle: '精神症状の質的評価と処方意図を照合します',
+        id: 'kol_q2_contraindication_audit',
+        title: 'Q2. 患者背景・合併症鑑査：処方鑑査における最重要チェック項目はどれですか？',
+        subtitle: '配合成分（ジサイクロミン / Al / Mg）特有の禁忌疾患をスクリーニングします',
         options: [
           {
-            id: 'efx_opt_apathy_retardation',
-            label: 'ベッドから起き上がれない・無気力・強い意欲低下・感情麻痺（SSRIで改善不十分だった）',
-            badge: '意欲低下・精神運動制止',
-            desc: 'ノルアドレナリン神経の賦活が不可欠な病態。イフェクサー高用量（150mg〜）が最も適したターゲット',
-            weights: { mdd_effexor_high: 90, mdd_effexor_init: 25, effexor_taper_discontinuation: -20 }
+            id: 'kol_opt_ocular_urological',
+            label: '【眼科・泌尿器禁忌】：閉塞隅角緑内障（眼圧急上昇）または前立腺肥大症等による排尿障害',
+            badge: '抗コリン禁忌（緑内障・尿閉）',
+            desc: 'ムスカリン受容体遮断により瞳孔散大・隅角閉塞を惹起し急性緑内障発作。排尿筋弛緩で完全尿閉リスク',
+            weights: { kolantyl_anticholinergic_contra_alert: 95, kolantyl_acute_gastritis_spasm: -40 }
           },
           {
-            id: 'efx_opt_anxiety_dysphoria',
-            label: '強い不安・焦燥感・憂うつ感・初期の睡眠困難（まずは副作用なく抗うつ治療を軌道に乗せたい）',
-            badge: '不安・焦燥・抑うつ導入',
-            desc: '37.5mg朝食後から開始し1週以上かけて75mgへ。初期消化器症状にはモサプリドや六君子湯併用も検討',
-            weights: { mdd_effexor_init: 90, mdd_effexor_high: 20, effexor_taper_discontinuation: -20 }
+            id: 'kol_opt_dialysis_renal_failure',
+            label: '【腎機能・透析禁忌】：血液透析・腹膜透析患者、または重篤な腎障害',
+            badge: '透析患者禁忌（Al脳症・高Mg血症）',
+            desc: 'アルミニウムが腎から排泄されず中枢神経に沈着し「透析脳症・アルミニウム骨症」を発症。Mg排泄遅延',
+            weights: { kolantyl_dialysis_renal_contra_alert: 95, kolantyl_acute_gastritis_spasm: -40 }
           },
           {
-            id: 'efx_opt_withdrawal_fear',
-            label: '飲み忘れ時に「頭の中でシャンシャン音が鳴る」「電撃痛のような痺れ」「激しいめまい・吐き気」が生じる',
-            badge: '離脱症候群（Discontinuation）',
-            desc: '急激なセロトニン・ノルアドレナリン濃度低下による離脱症状。絶対に自己中断せず数週間単位で漸減',
-            weights: { effexor_taper_discontinuation: 95, mdd_effexor_high: 10, mdd_effexor_init: 10 }
+            id: 'kol_opt_chelate_antibiotic_coadmin',
+            label: '【抗菌薬キレート相互作用】：クラビット（レボフロキサシン）やミノマイシンとの同時服用処方',
+            badge: '多価陽イオンキレート形成',
+            desc: '胃内で不溶性錯体を形成し、抗菌薬の血中濃度が70〜90%激減し感染症治療失敗・耐性菌誘導',
+            weights: { kolantyl_chelate_interaction_alert: 95 }
           },
           {
-            id: 'efx_opt_pain_somatic',
-            label: '長引く慢性腰痛・頸肩腕症候群・線維筋痛症などの難治性疼痛を抑えたい',
-            badge: '中枢性感作慢性疼痛（適応外）',
-            desc: 'SNRIの下行性疼痛抑制系賦活を狙うなら、日本で正式適応を有するサインバルタ（デュロキセチン）が推奨',
-            weights: { effexor_pain_offlabel: 90, mdd_effexor_high: -20 }
+            id: 'kol_opt_pure_spasm_gastritis',
+            label: '禁忌疾患はなく、激しい胃痛に対する対症療法・頓服として安全に処方されている',
+            badge: '適正胃痙攣処方',
+            desc: 'PPIやH2RAではカバーできない急性痙攣痛を速やかに沈静化',
+            weights: { kolantyl_acute_gastritis_spasm: 90, kolantyl_chelate_interaction_alert: -20 }
           }
         ]
       },
       {
-        id: 'efx_q3_pharmaceutical_safety',
-        title: 'Q3. 薬剤師鑑査・薬歴確認：調剤・服薬指導における最重要チェック項目はどれですか？',
-        subtitle: '製剤学的特性（SR徐放カプセル）と全身モニタリング（血圧・相互作用）の急所',
+        id: 'kol_q3_pharmaceutical_guidance',
+        title: 'Q3. 薬剤師服薬指導・調剤管理：患者指導で徹底すべき実践的ポイントはどれですか？',
+        subtitle: '効果的な服用タイミングと副作用の事前説明',
         options: [
           {
-            id: 'efx_opt_bp_monitoring',
-            label: '【血圧測定の実施】：150mg〜225mgの高用量投与時における「持続性血圧上昇・脈拍数増加」の監視',
-            badge: '🚨 血圧モニタリング（高用量）',
-            desc: 'NA再取り込み阻害による末梢血管収縮。高血圧既往患者では定期的な血圧測定と降圧薬調整が必要',
-            weights: { mdd_effexor_high: 95, mdd_effexor_init: 20 }
+            id: 'kol_opt_timing_between_meals',
+            label: '【服用タイミング】：胃痛時（頓服）または食間（食後2時間・胃が空っぽの酸度ピーク時）に服用',
+            badge: '食間・頓用タイミング指導',
+            desc: '胃内に食物がない時間帯に服用することで、胃酸の中和と平滑筋への直接作用を最大限に発揮',
+            weights: { kolantyl_acute_gastritis_spasm: 90 }
           },
           {
-            id: 'efx_opt_capsule_swallow_intact',
-            label: '【徐放性カプセル適正服用】：カプセルを噛み砕いたり粉砕・脱カプセルすりつぶしをしていないかの確認',
-            badge: '💊 徐放カプセル（噛み砕き厳禁）',
-            desc: 'ミニペレット徐放顆粒が破壊されると急速高濃度吸収され、重篤悪心・血圧急上昇・QT延長のリスク',
-            weights: { mdd_effexor_init: 85, mdd_effexor_high: 80 }
+            id: 'kol_opt_separate_2_hours',
+            label: '【服用間隔の徹底】：併用する抗菌薬や甲状腺ホルモン薬、骨粗鬆症薬と「2時間以上」間隔を空ける',
+            badge: '2時間以上間隔空け指導',
+            desc: '『抗生剤を飲んだ後は、少なくとも2時間あけてからコランチルをお飲みください』と具体的に指示',
+            weights: { kolantyl_chelate_interaction_alert: 95 }
           },
           {
-            id: 'efx_opt_adherence_no_skip',
-            label: '【服薬遵守・自己中断防止指導】：1回でも飲み忘れると不快な離脱症状が出るため定時服用を徹底指導',
-            badge: '⚠️ 自己中断・飲み忘れ防止徹底',
-            desc: '「治ったから」と自己判断で急に中止すると離脱症状が直撃。減量は医師・薬剤師と計画的に実施',
-            weights: { effexor_taper_discontinuation: 95, mdd_effexor_high: 30, mdd_effexor_init: 30 }
+            id: 'kol_opt_anticholinergic_side_effects',
+            label: '【抗コリン副作用説明】：口の渇き（口渇）、便秘、目のかすみ、軽い眠気の出現に留意',
+            badge: '抗コリン副作用（口渇・散瞳）',
+            desc: '唾液分泌抑制による口渇や毛様体筋麻痺による羞明・ピント調節障害。自動車運転注意',
+            weights: { kolantyl_anticholinergic_contra_alert: 90 }
           },
           {
-            id: 'efx_opt_indication_check',
-            label: '【適応症・疑義照会確認】：病名が「うつ病・うつ状態」であることを確認（疼痛適応での査定防止）',
-            badge: '📋 適応症鑑査（疼痛適応なし）',
-            desc: 'サインバルタの感覚で慢性疼痛病名のみで処方されると査定対象。精神科うつ病病名の有無をチェック',
-            weights: { effexor_pain_offlabel: 95 }
+            id: 'kol_opt_suspension_stir_stir',
+            label: '【調剤・簡易懸濁】：配合顆粒剤であり、簡易懸濁時はAl/Mgが沈殿しやすいため直前撹拌を指導',
+            badge: '防湿分包 ＆ 沈殿直前撹拌',
+            desc: '湿気やCO2で固化・難溶化しやすいため防湿保存。経管投与時は温湯で懸濁後直ちに注入',
+            weights: { kolantyl_acute_gastritis_spasm: 80 }
           }
         ]
       }
     ],
     diseases: [
       {
-        id: 'mdd_effexor_high',
-        name: '大うつ病性障害（SSRI抵抗性・意欲低下・精神運動制止型：高用量 150〜225mg/日）',
-        subType: '⚡ ノルアドレナリン強力賦活：無気力・エネルギー欠如・SSRI不十分例へのステップアップ',
+        id: 'kolantyl_acute_gastritis_spasm',
+        name: '急性胃炎・胃酸過多・胃痙攣（化学的即時中和 ＆ 抗コリン直接鎮痙）',
+        subType: '⚡ Al/Mg胃酸中和 ＋ ジサイクロミン平滑筋弛緩：激しい心窩部さしこみ痛の即効鎮火',
         baseProb: 35,
-        criteria: '【処方サイン】イフェクサーSR 150〜225mg/日 1日1回朝食後（精神科・心療内科）',
-        reason: '低用量域での5-HT阻害に加え、150mg以上でノルアドレナリン（＋一部ドパミン）再取り込みを強力に遮断し、前頭前皮質の神経伝達を劇的に回復させて意欲と活動性を賦活します。',
-        keyPoint: '💡 高用量時の血圧上昇（持続性高血圧）・心拍数増加モニタリング、噛み砕き厳禁',
+        criteria: '【処方サイン】コランチル配合顆粒 1回1g 1日3〜4回食後・食間、または胃痛時頓服',
+        reason: 'PPIやH2RAが胃酸分泌を止めるのに数時間かかるのに対し、Al/Mgは胃内の遊離塩酸を即座に化学的中和して胃内pHを3〜5へ引き上げ、ジサイクロミンが胃壁のムスカリン受容体を遮断して胃痙攣痛を直接解除します。',
+        keyPoint: '💡 水酸化Al（便秘）と水酸化Mg（下痢）の相殺で排便異常を起こしにくい。食間・頓服が効果的',
         treatment: {
-          pathology: '重症うつ病やSSRI抵抗性うつ病では、セロトニン単独の増強では意欲低下（Apathy）や精神運動制止が改善せず、前頭前野のノルアドレナリン・ドパミン神経伝達の枯渇が持続しています。',
-          rationale: '【処方根拠】：ベンラファキシンは用量依存的にノルアドレナリン再取り込み阻害作用が立ち上がる特性を持ち、150〜225mgの高用量域で強力な抗うつ・意欲回復効果を発揮します。',
-          firstLine: 'ベンラファキシン（イフェクサーSR） 1回150〜225mg 1日1回朝食後。',
-          combination: '抗不安薬（初期短期間）、睡眠薬、モサプリド（消化器症状時）。',
-          contra: 'MAO阻害薬投与中または投与中止後2週間以内（絶対禁忌・セロトニン症候群）、高度高血圧。',
-          targets: 'HAM-Dスコア寛解（意欲・社会的機能の回復）、血圧130/80mmHg未満維持。',
-          guidance: '🗣️ 服薬指導フレーズ：「お薬の量がしっかり効く量（150mg以上）に入ってきました。気力や行動力を力強く後押ししてくれるお薬です。血圧が少し上がりやすくなることがありますので、ご家庭でも定期的に血圧を測ってくださいね。カプセルは噛まずにそのまま飲み込んでください。」'
+          pathology: 'ストレスや暴飲暴食、胃粘膜刺激による迷走神経興奮（胃酸過多 ＆ 胃壁平滑筋の過度な攣縮）。',
+          rationale: '【処方根拠】：PPIのような酸分泌抑制薬だけでなく、すでに分泌されて胃粘膜を刺激している強酸を中和し、痛みの原因である筋肉のつりを止めるために選定されます。',
+          firstLine: 'コランチル配合顆粒 1回1g 1日3〜4回（毎食後または食間および就寝前）。',
+          combination: 'PPI（タケキャブ等）、胃粘膜保護薬（テプレノン、ムコスタ）。',
+          contra: '閉塞隅角緑内障、前立腺肥大排尿障害、透析患者。',
+          targets: '心窩部痛・さしこみ感の30分以内の完全消失、胃内環境の速やかな正常化。',
+          guidance: '🗣️ 服薬指導フレーズ：「胃酸をすばやく中和して胃の壁を守り、胃のキューッとした差し込むような痛みを和らげてくれるお薬です。胃痛がつらいときや、胃が空っぽになる食間にお飲みいただくと効果的です。お薬の性質上、口が少し渇いたり、便秘気味になることがあります。」'
         }
       },
       {
-        id: 'mdd_effexor_init',
-        name: '大うつ病性障害（初期導入・不安焦燥・身体愁訴優位型：37.5〜75mg/日）',
-        subType: '🧠 低用量セロトニン優位作用：安全な初期導入と認容性確保フェーズ',
+        id: 'kolantyl_chelate_interaction_alert',
+        name: '🚨 金属キレート相互作用アラート（ニューキノロン・テトラサイクリン・チラージンS 2時間空け）',
+        subType: '⚡ 多価陽イオン（Al3+/Mg2+）による錯体形成：併用薬の吸収激減・治療不全の阻止',
         baseProb: 30,
-        criteria: '【処方サイン】イフェクサーSR 37.5mg朝食後開始 ➔ 1週以上あけて75mg/日へ増量',
-        reason: '低用量域（37.5〜75mg）ではセロトニン再取り込み阻害が優位に働き、不安感や憂うつ気分を穏やかに改善します。',
-        keyPoint: '💡 開始初期の吐き気・胃部不快感（1〜2週で軽減）、若年者の賦活症候群（焦燥・パニック）注意',
+        criteria: '【処方サイン】クラビット、シプロキサン、ミノマイシン、チラージンS、ボナロン等の併用処方',
+        reason: 'コランチルに含まれる高濃度のアルミニウムおよびマグネシウムイオンが、抗菌薬や甲状腺ホルモン薬のキレート部位に配位結合して難溶性錯体を形成し、消化管からの吸収率を70〜90%低下させます。',
+        keyPoint: '💡 併用薬の服用前後「2時間以上（可能なら3〜4時間）」あけてコランチルを服用するよう厳格指導！',
         treatment: {
-          pathology: 'うつ病初期における中枢シナプス間隙のモノアミン枯渇。急激な用量増加は消化管5-HT3受容体刺激による悪心・嘔吐を誘発します。',
-          rationale: '【処方根拠】：1日1回37.5mgから慎重に開始し、徐放性製剤（SR）の血中濃度平坦化メリットを活かして認容性を高めながら75mgの通常維持量へステップアップします。',
-          firstLine: 'ベンラファキシン（イフェクサーSR） 1回37.5mg 1日1回朝食後（1週後より75mg）。',
-          combination: '制吐薬・胃運動改善薬（モサプリド、六君子湯）、頓服抗不安薬。',
-          contra: 'MAO阻害薬投与中（絶対禁忌）。',
-          targets: '初期脱落ゼロ、不安・抑うつ症状の寛解導入。',
-          guidance: '🗣️ 服薬指導フレーズ：「飲み始めの1週間ほどは少し胃がムカムカすることがありますが、体が慣れてくると自然に落ち着きます。カプセルの中の小さな粒がお腹の中でゆっくり溶けるよう工夫されていますので、噛み砕かずに水でそのままお飲みくださいね。」'
+          pathology: '多価金属陽イオンと薬剤分子のキレート錯体形成による消化管不透過。感染症治療失敗や甲状腺機能低下を惹起。',
+          rationale: '【処方根拠】：相互作用を回避するため、抗菌薬の血中移行が完了するまでコランチルの服用時間をずらします。',
+          firstLine: '抗菌薬投与から最低2時間以上間隔を空けてコランチルを服用。',
+          combination: '間隔管理が困難な場合は、キレートを形成しないH2RAやPPI単剤への処方変更を主治医へ提案。',
+          contra: 'ニューキノロン・テトラサイクリンとの同時一括服用。',
+          targets: '抗菌薬のバイオアベイラビリティ100%維持、感染症治癒。',
+          guidance: '🗣️ 服薬指導フレーズ：「一緒に処方されている抗生剤（クラビット等）とコランチルを同時に飲んでしまうと、抗生剤がお薬にくっついて体に吸収されなくなってしまいます。抗生剤を飲んだ後は、必ず2時間以上あけてからコランチルをお飲みくださいね。」'
         }
       },
       {
-        id: 'effexor_taper_discontinuation',
-        name: 'うつ病寛解期維持・再発予防（減量・中止ステップ / 離脱症候群厳重警戒）',
-        subType: '⚠️ 抗うつ薬屈指の離脱リスク：シャンシャン感・めまい・電撃痛を防ぐ超緩徐テーパリング',
+        id: 'kolantyl_anticholinergic_contra_alert',
+        name: '🚨 抗コリン禁忌スクリーニング（閉塞隅角緑内障・前立腺肥大排尿障害）',
+        subType: '⚠️ ジサイクロミン塩酸塩の抗ムスカリン作用：眼圧急上昇 ＆ 急性完全尿閉の回避',
         baseProb: 20,
-        criteria: '【処方サイン】以前の高用量から75mg➔37.5mgへ減量、または隔日投与などの漸減計画',
-        reason: 'ベンラファキシンは半減期が短く、急な休薬や減量でシナプス内モノアミンが急減し、激しい中断症候群（Discontinuation Syndrome）が発現します。',
-        keyPoint: '💡 自己中断絶対禁止！シャンシャン感（頭部パルス音）・浮動性めまい・発汗・焦燥への事前警告',
+        criteria: '【処方サイン】高齢男性、緑内障病名、排尿困難愁訴、前立腺肥大症治療薬（ハルナール等）併用',
+        reason: 'ジサイクロミンが瞳孔括約筋を弛緩させて散瞳を引き起こし、隅角を閉塞して眼圧を急上昇させ急性緑内障発作（失明リスク）を誘発します。また膀胱排尿筋を弛緩させ内尿道括約筋を収縮させるため重篤な尿閉をきたします。',
+        keyPoint: '💡 閉塞隅角緑内障・排尿障害は絶対禁忌！眼科受診歴・排尿状態の問診と疑義照会徹底',
         treatment: {
-          pathology: '長期服用により下方調節された受容体に対し、血中濃度が急減することでノルアドレナリン・セロトニン伝達が一時的に枯渇・乱高下し自律神経・感覚過敏症状が発生。',
-          rationale: '【処方根拠】：調子が良くなったからといって患者が自己判断で服薬を急に止めないよう強く指導し、数週間〜数ヶ月かけて段階的に漸減します。',
-          firstLine: 'イフェクサーSR 75mg ➔ 37.5mgへ減量（各ステップ最低2〜4週間以上維持）。',
-          combination: '必要に応じて半減期の長いSSRI（ジェイゾロフト等）へ一時置換して漸減するクロスオーバー法。',
-          contra: '急激な一括中止、患者判断での飛び飛び服用。',
-          targets: '離脱症状ゼロでの安全な服薬終了または最小用量維持。',
-          guidance: '🗣️ 服薬指導フレーズ：「症状が良くなっても、ご自身の判断でお薬を急にやめてしまうと、頭の中でシャンシャンと音が響いたり、強いめまいや吐き気、電撃が走るようなしびれが出ることがあります。お薬をやめるときは医師と相談しながら数週間〜数ヶ月かけて少しずつ減らしていきますので、毎日忘れずに飲み続けてくださいね。」'
+          pathology: '眼内房水流出障害による眼圧急亢進、および膀胱機能麻痺による尿貯留。',
+          rationale: '【処方根拠】：抗コリン成分を含まない制酸剤・粘膜保護薬（テプレノン、レバミピド、スクラルファート等）への代替を提案します。',
+          firstLine: '閉塞隅角緑内障または重度排尿障害が確認された場合は直ちに処方医へ疑義照会。',
+          combination: '抗コリン作用を持たないPPI（タケキャブ）または非抗コリン胃炎薬への変更提案。',
+          contra: '閉塞隅角緑内障、前立腺肥大等による排尿障害、重篤な心疾患、麻痺性イレウス。',
+          targets: '緑内障発作ゼロ、尿閉ゼロ。',
+          guidance: '🗣️ 疑義・問診確認：「この胃薬には胃の痙攣を抑える成分が入っていますが、目（緑内障）や前立腺の病気をお持ちの方にはお使いいただけない場合があります。眼科で緑内障と言われたことや、おしっこが出にくいといった症状はございませんか？」'
         }
       },
       {
-        id: 'effexor_pain_offlabel',
-        name: '慢性疼痛併存・適応外使用留意（※日本国内で疼痛適応なし・サインバルタ差別化）',
-        subType: '📋 処方鑑査・保険適応チェック：うつ病適応のみ（慢性腰痛・関節痛・線維筋痛症は適応外）',
+        id: 'kolantyl_dialysis_renal_contra_alert',
+        name: '⚠️ 透析・高度腎不全禁忌（アルミニウム蓄積脳症 ＆ 高マグネシウム血症）',
+        subType: '🚫 腎排泄不全に伴う重金属蓄積：不可逆的透析脳症・アルミニウム骨症の絶対阻止',
         baseProb: 15,
-        criteria: '【処方サイン】整形外科・ペインクリニックでの処方、または腰痛・神経障害性疼痛目的の処方疑い',
-        reason: '同じSNRIのサインバルタ（デュロキセチン）は慢性腰痛・変形性膝関節症・線維筋痛症の適応を持ちますが、イフェクサーは日本国内では「うつ病・うつ状態」のみの適応です。',
-        keyPoint: '💡 保険適応病名の確認（精神科うつ病病名が必須）、疼痛主訴時はサインバルタへの代替検討提案',
+        criteria: '【処方サイン】血液透析・腹膜透析患者、CKDステージG4〜G5（eGFR < 30mL/min）',
+        reason: '透析患者や高度腎不全患者ではアルミニウムやマグネシウムが体外へ排泄されず体内に蓄積します。特にアルミニウムは中枢神経系に蓄積して言語障害・認知症・痙攣を伴う「透析脳症」や、骨形成を阻害する「アルミニウム骨症」を引き起こすため原則禁忌です。',
+        keyPoint: '💡 透析患者は絶対禁忌！透析手帳・採血データ（eGFR・血清Mg）の確認と即時疑義照会',
         treatment: {
-          pathology: '下行性疼痛抑制系の賦活効果は期待できるものの、日本における臨床試験および薬事承認はうつ病に限定されています。',
-          rationale: '【処方根拠】：整形外科領域や慢性疼痛に対して疼痛目的のみで処方された場合、レセプト審査で査定（保険否認）となるリスクがあります。',
-          firstLine: '主病名がうつ病・うつ状態であることの確認（疑義照会）。',
-          combination: '疼痛主訴であればデュロキセチン（サインバルタ）への処方変更提案。',
-          contra: '精神科疾患の既往・確定診断なしでの漫然とした疼痛目的処方。',
-          targets: '適正な保険適応遵守、患者病態に合致した至適SNRI選択。',        guidance: '🗣️ 薬歴・疑義確認：「同じSNRIでも、サインバルタは慢性腰痛や線維筋痛症の適応を持っていますが、イフェクサーはうつ病・うつ状態のみの適応です。痛みの治療目的で処方されている場合は、適応病名やデュロキセチンへの変更について主治医と確認・連携を図りましょう。」'
-        }
-      }
-    ]
-  },
-
-  // 32. 本態性血小板血症治療薬（アグリリンカプセル：アナグレリド塩酸塩水和物）
-  // 🌟 巨核球選択的成熟阻害 ＆ 非細胞毒性（若年第一選択） ＆ ハイドレア下腿潰瘍救済 ＆ PDE3阻害心毒性（動悸・頻脈・心不全禁忌）
-  et_agrylin: {
-    aliases: ['アグリリン', 'アナグレリド', 'agrylin', 'anagrelide', '本態性血小板血症', '血小板血症', 'et', '血小板増多', '巨核球'],
-    name: '本態性血小板血症治療薬（アグリリンカプセル：アナグレリド塩酸塩水和物）',
-    category: '血液疾患・骨髄増殖性腫瘍用薬（巨核球選択的成熟阻害薬 / 血小板減少・心毒性管理レジメン）',
-    questions: [
-      {
-        id: 'agr_q1_patient_profile',
-        title: 'Q1. 処方箋情報：患者背景および薬剤選定の主な理由はどれですか？（最も当てはまるものを1つ選択）',
-        subtitle: 'アグリリンは「若年者」や「ハイドレア不耐性（下腿潰瘍等）」において極めて重要な位置を占めます',
-        options: [
-          {
-            id: 'agr_opt_young_et',
-            label: '60歳未満の若年者・初発：白血病転化（AML化）や二次発がんリスクを回避したい本態性血小板血症',
-            badge: '若年者（非白血病化）第一選択',
-            desc: '細胞毒性（DNA障害性）がなく、長期服用による急性白血病移行のリスクが極めて低いため若年に推奨',
-            weights: { agrylin_et_firstline_young: 95, agrylin_hydrea_intolerance_switch: -30, agrylin_pde3_cardiotoxicity_alert: 20, agrylin_titration_teratogenicity: 30 }
-          },
-          {
-            id: 'agr_opt_hydrea_intolerance',
-            label: 'ハイドレア（ヒドロキシカルバミド）不耐性：難治性下腿潰瘍・色素沈着・骨髄抑制からの切り替え',
-            badge: 'ハイドレア不耐救済スイッチ',
-            desc: 'ハイドレアで生じた激痛下腿潰瘍を治癒させるため即座に休薬し、アグリリンへ変更して血小板を制御',
-            weights: { agrylin_hydrea_intolerance_switch: 95, agrylin_et_firstline_young: 20, agrylin_pde3_cardiotoxicity_alert: 20, agrylin_titration_teratogenicity: 20 }
-          },
-          {
-            id: 'agr_opt_cardiac_comorbidity',
-            label: '心血管疾患（心不全・不整脈・虚血性心疾患）の既往がある、または服用後に強い動悸・胸痛を訴えている',
-            badge: '🚨 循環器合併症・心毒性警戒',
-            desc: 'PDE3阻害作用により頻脈・心不全増悪リスクあり。重症心不全（NYHA III-IV）は禁忌！',
-            weights: { agrylin_pde3_cardiotoxicity_alert: 95, agrylin_et_firstline_young: -20, agrylin_hydrea_intolerance_switch: -20, agrylin_titration_teratogenicity: 20 }
-          },
-          {
-            id: 'agr_opt_titration_female',
-            label: '新規導入・漸増期（1日1.0mg開始）、または妊娠可能年齢の女性患者（催奇形性・避妊指導必須）',
-            badge: '💊 漸増管理 ＆ 妊婦禁忌',
-            desc: '急激な増量は動悸・頭痛を必発させるため0.5mg刻みで漸増。妊婦禁忌のため避妊の徹底確認が必須',
-            weights: { agrylin_titration_teratogenicity: 95, agrylin_et_firstline_young: 30, agrylin_hydrea_intolerance_switch: 10, agrylin_pde3_cardiotoxicity_alert: 25 }
-          }
-        ]
-      },
-      {
-        id: 'agr_q2_cardiac_safety',
-        title: 'Q2. 患者自覚症状・検査値：循環器系および血液検査の状況はどれですか？',
-        subtitle: 'アグリリン特有のホスホジエステラーゼ3（PDE3）阻害作用に伴う症状を評価します',
-        options: [
-          {
-            id: 'agr_opt_plt_isolated_high',
-            label: '赤血球・白血球は正常範囲内で、「血小板数のみが単独で著増（Plt > 60万〜100万/μL）」している',
-            badge: '血小板特異的成熟抑制',
-            desc: '巨核球に特異的に作用するため、他系列の血球を落とさずに血小板のみをシャープにコントロール可能',
-            weights: { agrylin_et_firstline_young: 90, agrylin_hydrea_intolerance_switch: 20 }
-          },
-          {
-            id: 'agr_opt_leg_skin_ulcer',
-            label: '下腿（くるぶし周辺やりんせつ部）に激痛を伴う治らない皮膚潰瘍・黒色壊死が認められる',
-            badge: '下腿難治性皮膚潰瘍（ハイドレア毒性）',
-            desc: 'ヒドロキシカルバミド特有の重篤副作用。ハイドレアを即刻中止しアグリリンへの変更が必要',
-            weights: { agrylin_hydrea_intolerance_switch: 95, agrylin_et_firstline_young: -10 }
-          },
-          {
-            id: 'agr_opt_palpitation_tachycardia',
-            label: '服用後から「心臓がドキドキする（動悸）」「脈が速い」「締め付けられるような頭痛・むくみ」がある',
-            badge: 'PDE3阻害症状（動悸・頭痛）',
-            desc: 'ミルリノン等と同様のPDE3阻害による血管拡張と心拍数増加。増量を緩徐にするかβ遮断薬併用を考慮',
-            weights: { agrylin_pde3_cardiotoxicity_alert: 95, agrylin_titration_teratogenicity: 30 }
-          },
-          {
-            id: 'agr_opt_pregnancy_planning',
-            label: '妊娠を希望している、または妊娠の可能性がある女性患者',
-            badge: '⚠️ 妊婦禁忌・避妊厳守',
-            desc: '催奇形性・胎児毒性があるため妊婦禁忌。投与中および投与中止後一定期間の確実な避妊を指導',
-            weights: { agrylin_titration_teratogenicity: 95, agrylin_et_firstline_young: -30 }
-          }
-        ]
-      },
-      {
-        id: 'agr_q3_titration_audit',
-        title: 'Q3. 薬剤師鑑査・調剤管理：調剤室および服薬指導で最も徹底すべき項目はどれですか？',
-        subtitle: '安全な用法用量プロトコルと調剤形態の確認',
-        options: [
-          {
-            id: 'agr_opt_target_platelet_40',
-            label: '【治療目標管理】：血栓症予防のため血小板数 40万/μL以下（または正常値）を目指す',
-            badge: 'Plt < 40万/μL 達成管理',
-            desc: '脳梗塞・心筋梗塞・下肢静脈血栓症を阻止するため、定期採血で血小板数をモニタリング',
-            weights: { agrylin_et_firstline_young: 90, agrylin_hydrea_intolerance_switch: 80 }
-          },
-          {
-            id: 'agr_opt_switch_ulcer_cure',
-            label: '【潰瘍治癒モニタリング】：ハイドレア中止後の下腿潰瘍の縮小・上皮化を確認',
-            badge: '皮膚潰瘍治癒経過モニタリング',
-            desc: 'アグリリン変更後数週間〜数ヶ月で潰瘍が治癒することを確認。皮膚科処置の併用',
-            weights: { agrylin_hydrea_intolerance_switch: 95 }
-          },
-          {
-            id: 'agr_opt_ecg_echo_screening',
-            label: '【循環器スクリーニング】：投与前の心電図（QT延長）・心エコー検査および心不全兆候の定期確認',
-            badge: '心機能・心電図スクリーニング',
-            desc: '心筋収縮力増強と不整脈リスクを回避するため、息切れ・浮腫・体重急増の早期発見を指導',
-            weights: { agrylin_pde3_cardiotoxicity_alert: 95 }
-          },
-          {
-            id: 'agr_opt_capsule_no_crush',
-            label: '【調剤形態確認】：0.5mg硬カプセルであり、脱カプセル・粉砕は行わず原形服用を徹底',
-            badge: '💊 カプセル原形服用厳守',
-            desc: '催奇形性・薬剤曝露防止および適正な血中動態維持のためカプセルを開けずに服用',
-            weights: { agrylin_titration_teratogenicity: 95 }
-          }
-        ]
-      }
-    ],
-    diseases: [
-      {
-        id: 'agrylin_et_firstline_young',
-        name: '本態性血小板血症（若年者・非白血病化・血小板特異的低下型：60歳未満第一選択）',
-        subType: '🩸 巨核球選択的成熟阻害：DNA障害性・白血病転化リスクのない若年本態性血小板血症の至適選択',
-        baseProb: 35,
-        criteria: '【処方サイン】アグリリン 1回0.5mg 1日2回（1.0mg/日）朝夕食後開始 ➔ 1週ごとに0.5mgずつ漸増',
-        reason: '巨核球の多倍数体化と分化成熟を選択的に阻害。リボヌクレオチド還元酵素を阻害するハイドレアのようなDNA障害性（細胞毒性）を持たないため、二次性白血病（AML）への移行リスクを懸念する60歳未満の若年患者に極めて適しています。',
-        keyPoint: '💡 赤血球・白血球を減少させずに血小板のみをシャープに抑制。目標血小板数40万/μL以下',
-        treatment: {
-          pathology: '骨髄増殖性腫瘍（MPN）であり、JAK2/CALR/MPL変異等を背景に巨核球が自律的過剰増殖。血小板数が著増し微小血管血栓症（頭痛・めまい・視覚異常）や大血管血栓塞栓症（脳梗塞・心筋梗塞）を惹起。',
-          rationale: '【処方根拠】：抗がん薬であるハイドレアを若年者に長期投与すると将来の急性白血病化が懸念されるため、血小板特異的かつ非細胞毒性のアグリリンが第一選択となります。',
-          firstLine: 'アナグレリド（アグリリンカプセル） 1回0.5mg 1日2回食後開始。1週間あけて0.5mgずつ漸増（維持量1〜3mg/日）。',
-          combination: 'バイアスピリン（低用量アスピリン 100mg/日）血栓予防併用。',
-          contra: '重度の心機能障害（NYHA III〜IVの重篤心不全）、妊婦・妊娠の可能性がある女性。',
-          targets: '血小板数 < 40万/μL、血栓症・出血合併症ゼロ。',
-          guidance: '🗣️ 服薬指導フレーズ：「血液中の血小板だけを穏やかに減らして、血管の中に血の塊ができるのを防ぐお薬です。細胞の遺伝子を傷つけるタイプのお薬ではないため、長く安心して続けられます。心臓が少しドキドキすることがありますので、脈が速くなったり息苦しさがあれば教えてくださいね。」'
-        }
-      },
-      {
-        id: 'agrylin_hydrea_intolerance_switch',
-        name: 'ハイドレア不耐性（下腿難治性皮膚潰瘍・骨髄抑制）からの救済切り替え',
-        subType: '🩹 難治性皮膚潰瘍の速やかな治癒 ＆ 安定した血小板数コントロールの両立',
-        baseProb: 30,
-        criteria: '【処方サイン】ハイドレア長期服用中に難治性下腿潰瘍・色素沈着・口内炎発症 ➔ アグリリンへスイッチ',
-        reason: 'ハイドレア（ヒドロキシカルバミド）の長期投与で生じる激痛を伴う下腿潰瘍は、ハイドレアを中止しない限り絶対に治癒しません。アグリリンへ速やかに切り替えることで潰瘍を治癒させつつ、血栓症リスクである血小板増多を安全に抑制します。',
-        keyPoint: '💡 ハイドレア即時中止、アグリリン切り替え後の下腿潰瘍上皮化確認、局所皮膚科処置連携',
-        treatment: {
-          pathology: 'ヒドロキシカルバミドが皮膚基底層のDNA合成を強く阻害し、外傷や圧迫を受けやすい下腿・くるぶし部に微小循環不全と難治性潰瘍を形成。',
-          rationale: '【処方根拠】：ハイドレアを中止すると血小板数が急激にリバウンド上昇して脳梗塞を起こす危険があるため、アナグレリドを速やかに導入して血小板増多をカバーしながら皮膚潰瘍を治癒に導きます。',
-          firstLine: 'ハイドレアの中止 ＋ アグリリンカプセル 0.5mg 1日2回より導入。',
-          combination: '皮膚潰瘍に対する局所軟膏処置（プロスタンディン軟膏、フィブラストスプレー等）。',
-          contra: '重度心不全。',
-          targets: '下腿皮膚潰瘍の完全上皮化・疼痛消失、血小板数40万/μL未満維持。',
-          guidance: '🗣️ 服薬指導フレーズ：「これまで飲まれていたお薬（ハイドレア）の影響で足のすねに傷が治りにくくなっていたため、足の傷を治すためにお薬をこちら（アグリリン）へ変更しました。新しいお薬で血小板をしっかりコントロールしながら、足の傷も徐々に良くなっていきますのでご安心くださいね。」'
-        }
-      },
-      {
-        id: 'agrylin_pde3_cardiotoxicity_alert',
-        name: '🚨 循環器毒性アラート（PDE3阻害に伴う動悸・頻脈・心不全リスク・重症心不全禁忌）',
-        subType: '⚡ ホスホジエステラーゼ3阻害作用：心筋収縮力増強・末梢血管拡張による心事故の回避',
-        baseProb: 20,
-        criteria: '【処方サイン】高齢者、心疾患既往（虚血性心疾患・心不全）、服用後の動悸・胸痛・浮腫発現',
-        reason: 'アナグレリドは強心薬（ミルリノン等）と同様にPDE3を阻害するため、陽性変力・変時作用を示し、動悸（約30〜40%）、頻脈、血管拡張性頭痛、心不全増悪、心室性不整脈、QT延長を惹起します。',
-        keyPoint: '💡 重篤な心不全（NYHA III〜IV）は禁忌！投与前心エコー・心電図必須、息切れ・浮腫・動悸の早期発見',
-        treatment: {
-          pathology: '心筋細胞内cAMP上昇によるCa流入増加（心筋収縮力・心拍数増加）と血管平滑筋弛緩（末梢血管拡張・反射性頻脈・頭痛）。',
-          rationale: '【処方根拠】：心疾患リスクの高い患者では、急激な増量を避け、症状に応じてβ遮断薬の併用やハイドレア/インターフェロンへの再変更を検討します。',
-          firstLine: '投与前の心機能評価（心エコー、BNP/NT-proBNP、安静時心電図）。',
-          combination: '頻脈・動悸に対する選択的β1遮断薬（ビソプロロール等）の慎重併用。',
-          contra: '高度心障害（NYHA III〜IVの重度心不全・コントロール不良の致死的不整脈）。',
-          targets: '心不全発症ゼロ、安静時心拍数 < 90bpm、QTc < 480ms。',
-          guidance: '🗣️ 服薬指導フレーズ：「このお薬は心臓の拍動を少し活発にする作用があるため、飲み始めに胸がドキドキしたり、脈が速くなったり、頭痛がすることがあります。階段を上ったときの息切れや、足のすねのむくみ、強い胸の痛みを感じた場合は、我慢せずすぐにご連絡ください。」'
-        }
-      },
-      {
-        id: 'agrylin_titration_teratogenicity',
-        name: '💊 漸増プロトコル遵守 ＆ 妊婦禁忌・催奇形性・カプセル適正管理',
-        subType: '📋 処方鑑査・服薬安全管理：0.5mg刻みの緩徐漸増 ＆ 確実な避妊指導 ＆ カプセル原形服用',
-        baseProb: 15,
-        criteria: '【処方サイン】開始時処方（1回0.5mg 1日2回）、若年女性患者、カプセル脱カプセル疑義',
-        reason: '初期から高用量を投与すると激しい動悸・頭痛で脱落するため、1週間以上あけて0.5mgずつステップアップします。動物実験で着床後死亡や催奇形性が確認されており妊婦絶対禁忌です。',
-        keyPoint: '💡 妊婦禁忌（投与中および中止後一定期間の避妊徹底）、脱カプセル・粉砕不可（カプセル原形服用）',
-        treatment: {
-          pathology: '胎児毒性・催奇形性リスク。急激な血中濃度上昇による有害事象の好発。',
-          rationale: '【処方根拠】：安全域を確保しながら目標血小板数（< 40万/μL）を達成するためのステップバイステップの用量調整。',
-          firstLine: '開始用量：1日1.0mg（1回0.5mgを朝夕食後2回）。1週以上の間隔で1日0.5mgずつ漸増。',
-          combination: '最大用量：1日5.0mg（単回最大2.5mg）。',
-          contra: '妊婦または妊娠している可能性のある女性（禁忌）。',
-          targets: 'アドヒアランス100%、副作用脱落ゼロ、計画的至適用量達成。',
-          guidance: '🗣️ 調剤・服薬指導フレーズ：「お体に少しずつ慣らしていくため、少ない量から始めて1週間以上様子を見ながらゆっくり増やしていきます。お腹の赤ちゃんに影響を与えるお薬ですので、妊娠中の方や妊娠のご予定がある方は服用できません。カプセルは開けたり噛んだりせず、そのままお水でお飲みください。」'
+          pathology: '微量吸収されたAlが血液透析で除去されず生体内に蓄積。不可逆的な神経障害と骨軟化症を惹起。',
+          rationale: '【処方根拠】：アルミニウムやマグネシウムを含まないPPI（オメプラゾール、ボノプラザン等）やレバミピドへ即座に変更します。',
+          firstLine: '透析患者へのコランチル処方に対する即時疑義照会・処方削除提案。',
+          combination: '腎機能低下時も安全なプロトンポンプ阻害薬またはH2受容体拮抗薬（腎用量調整）への変更。',
+          contra: '透析療法を受けている患者（絶対禁忌）。',
+          targets: 'アルミニウム蓄積毒性ゼロ、高Mg血症ゼロ。',
+          guidance: '🗣️ 薬歴・疑義照会トリガー：「透析治療を受けられている患者様には、アルミニウムが体に溜まってしまう危険があるためコランチルは禁忌となっています。透析患者様にも安全に使える他の胃薬（タケキャブやムコスタ等）へのご変更を主治医の先生にご相談いたしますね。」'
         }
       }
     ]
@@ -10828,6 +10651,10 @@ function applyProfileWeights(scores) {
     if (scores['hrt_menoaid_patch'] !== undefined) scores['hrt_menoaid_patch'] += 90;
     if (scores['hrt_no_uterus_estrogen_only'] !== undefined) scores['hrt_no_uterus_estrogen_only'] += 90;
   } else if (prof.dept === 'gi') {
+    if (scores['kolantyl_acute_gastritis_spasm'] !== undefined) scores['kolantyl_acute_gastritis_spasm'] += 95;
+    if (scores['kolantyl_chelate_interaction_alert'] !== undefined) scores['kolantyl_chelate_interaction_alert'] += 90;
+    if (scores['kolantyl_anticholinergic_contra_alert'] !== undefined) scores['kolantyl_anticholinergic_contra_alert'] += 85;
+    if (scores['kolantyl_dialysis_renal_contra_alert'] !== undefined) scores['kolantyl_dialysis_renal_contra_alert'] += 85;
     if (scores['cirrhosis_ascites'] !== undefined) scores['cirrhosis_ascites'] += 80;
     if (scores['cirrhosis_ascites_v2'] !== undefined) scores['cirrhosis_ascites_v2'] += 80;
     if (scores['gerd_severe'] !== undefined) scores['gerd_severe'] += 70;
@@ -11716,6 +11543,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: '本態性血小板血症治療薬（巨核球選択的成熟抑制薬）',
     reason: '巨核球の後期成熟・分化を選択的に阻害し血小板産生を抑制。DNA傷害性・細胞毒性を持たないため二次性白血病（AML転化）リスクが極めて低く、赤血球・白血球に影響を与えない。',
     benefit: '【選定の決め手】：60歳未満の若年本態性血小板血症患者、またはハイドレア（ヒドロキシカルバミド）長期投与による難治性下腿皮膚潰瘍・骨髄抑制が生じた症例の第一選択・切り替え薬として選定されます。※PDE3阻害作用を持つため【動悸・頻脈・頭痛・心不全・QT延長】に厳重警戒（重症心不全禁忌）。妊婦禁忌・避妊徹底およびカプセル原形服用が必須です。'
+  },
+  {
+    pattern: /コランチル|ジサイクロミン|kolantyl/,
+    name: 'ジサイクロミン/乾燥水酸化Al/水酸化Mg（コランチル配合顆粒）',
+    class: '消化器用薬（制酸・鎮痙配合剤）',
+    reason: '乾燥水酸化Alゲルと水酸化Mgによる即時胃酸中和（下痢便秘相殺設計）に加え、抗コリン薬ジサイクロミンが胃壁平滑筋の攣縮を直接遮断して急な心窩部痛・胃痙攣を速効鎮痙。',
+    benefit: '【選定の決め手】：PPIが効き始めるまでの即効性制酸および胃痙攣・さしこみ痛の直接解除のために選定されます。※Al3+/Mg2+による【ニューキノロン・テトラサイクリン・チラージンSとの金属キレート吸収阻害（2時間以上間隔空け）】、ジサイクロミンによる【閉塞隅角緑内障・排尿障害禁忌】、およびアルミニウム蓄積による【透析患者絶対禁忌】に厳重警戒が必要です。'
   }
 ];
 
@@ -12345,6 +12179,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('アダプチノール') || cdLower.includes('ヘレニエン') || cdLower.includes('網膜色素変性') || cdLower.includes('暗順応') || cdLower.includes('夜盲') || cdLower.includes('とり目') || cdLower.includes('鳥目') || cdLower.includes('ロドプシン') || cdLower.includes('遮光眼鏡')) keywords.push('アダプチノール', 'ヘレニエン', '網膜色素変性症', '暗順応', '夜盲症', 'とり目', 'ロドプシン', '遮光保存', '遮光分包', '視野狭窄');
     if (cdLower.includes('イフェクサー') || cdLower.includes('ベンラファキシン') || cdLower.includes('venlafaxine') || cdLower.includes('effexor') || cdLower.includes('シャンシャン') || cdLower.includes('離脱症状') || cdLower.includes('アクチベーション')) keywords.push('イフェクサー', 'ベンラファキシン', '大うつ病性障害', '意欲低下', '精神運動制止', '用量依存', '離脱症状', 'シャンシャン', '血圧上昇', '徐放性カプセル', 'srカプセル', '適応外');
     if (cdLower.includes('アグリリン') || cdLower.includes('アナグレリド') || cdLower.includes('anagrelide') || cdLower.includes('agrylin') || cdLower.includes('血小板血症') || cdLower.includes('巨核球') || cdLower.includes('pde3')) keywords.push('アグリリン', 'アナグレリド', '本態性血小板血症', '血小板', '巨核球', 'pde3', '動悸', '頻脈', '心不全', 'ハイドレア', '下腿潰瘍', '催奇形性', '避妊');
+    if (cdLower.includes('コランチル') || cdLower.includes('ジサイクロミン') || cdLower.includes('kolantyl') || cdLower.includes('胃痙攣') || cdLower.includes('制酸') || cdLower.includes('さしこみ痛') || cdLower.includes('キレート') || cdLower.includes('水酸化アルミニウム')) keywords.push('コランチル', 'ジサイクロミン', '胃炎', '胃潰瘍', '胃酸過多', '胃痙攣', 'さしこみ', '制酸剤', 'キレート', '緑内障', '透析', '排尿障害', 'ニューキノロン');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
