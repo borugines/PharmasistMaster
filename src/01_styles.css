@@ -4671,6 +4671,79 @@ tbody tr:hover { background-color: #f0fdf4; }
   color: #9a3412;
   box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.25);
 }
+.profile-pill.timeline.active {
+  background: #fdf2f8;
+  border-color: #db2777;
+  color: #9d174d;
+  box-shadow: 0 0 0 2px rgba(219, 39, 119, 0.25);
+}
+
+/* ========================================================
+   鑑別グレーゾーン（除外診断・情報保留）アラートスタイル
+   ======================================================== */
+.wizard-grayzone-card {
+  background: #fffbeb;
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.15);
+  animation: fadeInModal 0.3s ease-out;
+}
+.gz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed #fde68a;
+}
+.gz-badge {
+  background: #d97706;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.gz-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #92400e;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.gz-candidates {
+  display: flex;
+  gap: 12px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+.gz-candidate-box {
+  background: #ffffff;
+  border: 1.5px solid #fde68a;
+  border-radius: 8px;
+  padding: 10px 14px;
+  flex: 1;
+  min-width: 220px;
+}
+.gz-key-question {
+  background: #fef3c7;
+  border-left: 4px solid #d97706;
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  margin-top: 10px;
+  font-size: 0.88rem;
+  color: #78350f;
+  line-height: 1.5;
+}
 .profile-reset-btn {
   background: none;
   border: none;

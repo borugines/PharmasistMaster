@@ -201,6 +201,17 @@
                 <button type="button" class="profile-pill lab" id="prof_lab_ua_high" onclick="toggleProfileItem('lab', 'ua_high')">高尿酸血症（UA>7.0）</button>
               </div>
             </div>
+
+            <!-- 5. 処方ステータス（時間軸・過去履歴） -->
+            <div class="wizard-profile-row">
+              <span class="profile-row-label">⏳ 時間軸:</span>
+              <div class="profile-pills-wrap">
+                <button type="button" class="profile-pill timeline" id="prof_time_new" onclick="toggleProfileItem('timeline', 'new')">🆕 新規導入・初回処方</button>
+                <button type="button" class="profile-pill timeline" id="prof_time_stable" onclick="toggleProfileItem('timeline', 'stable')">🔄 継続・安定維持期</button>
+                <button type="button" class="profile-pill timeline" id="prof_time_taper" onclick="toggleProfileItem('timeline', 'taper')">📉 減量中・ステップダウン</button>
+                <button type="button" class="profile-pill timeline" id="prof_time_titrate" onclick="toggleProfileItem('timeline', 'titrate')">📈 増量中・タイトレーション</button>
+              </div>
+            </div>
           </div>
 
           <!-- アキネーター質問ステージ（JSで1問ずつ動的描画） -->

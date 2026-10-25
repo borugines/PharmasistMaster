@@ -7599,6 +7599,7 @@ function resetPatientProfile() {
     wizardState.patientProfile.age = null;
     wizardState.patientProfile.gender = null;
     wizardState.patientProfile.labs.clear();
+    wizardState.patientProfile.timeline = null;
   }
   document.querySelectorAll('.profile-pill').forEach(b => b.classList.remove('active'));
   updateAkinatorGauge();
@@ -8156,6 +8157,65 @@ function calculateWizardDiagnosis(isForced = false) {
 
   let resultsHtml = '';
 
+  // ⚠️ 鑑別グレーゾーン（除外診断・情報保留）アラート判定
+  let grayzoneHtml = '';
+  const second = rankedDiseases.length > 1 ? rankedDiseases[1] : null;
+
+  if (second && (top.prob - second.prob <= 16 || top.prob < 62)) {
+    let keyQuestion = '';
+    const pairKey = `${top.id}_${second.id}`;
+
+    if (pairKey.includes('hf') && pairKey.includes('cirrhosis')) {
+      keyQuestion = '【決定的一問】：患者の首の静脈（頸静脈怒張）やBNP値を確認してください。首の静脈が張っていれば「心不全」、クモ状血管腫や手掌紅斑・腹囲増大が主なら「肝硬変腹水」です。';
+    } else if (pairKey.includes('gerd') && (pairKey.includes('angina') || pairKey.includes('ihd'))) {
+      keyQuestion = '【決定的一問】：胸痛のタイミングを確認してください。食後や就寝時に焼けるような痛みなら「逆流性食道炎」、早朝や階段・坂道での締め付け痛なら「狭心症（心筋虚血）」です。';
+    } else if (pairKey.includes('gout') && pairKey.includes('fmf')) {
+      keyQuestion = '【決定的一問】：炎症の部位と熱のパターンを確認してください。足の親指の局所激痛なら「痛風」、1〜3日続く原因不明の高熱とお腹や胸の激痛なら「家族性地中海熱（FMF）」です。';
+    } else if (pairKey.includes('ra') && pairKey.includes('clbp_oa')) {
+      keyQuestion = '【決定的一問】：朝の手指のこわばりの時間を確認してください。30分以上こわばり動かすと軽快するなら「関節リウマチ」、動かすと痛みが悪化するなら「変形性関節症」です。';
+    } else if (pairKey.includes('pa') && pairKey.includes('htn')) {
+      keyQuestion = '【決定的一問】：血清カリウム値と血圧薬の剤数を確認してください。低カリウム血症を伴う、または3剤でも下がらない場合は「原発性アルドステロン症（PA）」の精密検査が推奨されます。';
+    } else if (pairKey.includes('acne') || pairKey.includes('pcos')) {
+      keyQuestion = '【決定的一問】：処方元の診療科と主訴を確認してください。皮膚科での難治性ニキビや産婦人科での月経不順なら「ざ瘡/PCOS」目的の抗アンドロゲン処方です。';
+    } else if (pairKey.includes('pericarditis')) {
+      keyQuestion = '【決定的一問】：胸痛の姿勢変化を確認してください。「前かがみ（おじぎ）になると楽になる」胸痛なら「急性心膜炎」が強く示唆されます。';
+    } else {
+      keyQuestion = `【決定的一問】：${top.name} と ${second.name} の鑑別のため、処方元の診療科や処方開始時期（新規開始か継続か）を患者または処方箋で追加確認してください。`;
+    }
+
+    grayzoneHtml = `
+      <div class="wizard-grayzone-card">
+        <div class="gz-header">
+          <div class="gz-title">
+            <span>⚠️</span>
+            <span>鑑別グレーゾーン（情報保留）アラート：病態が拮抗しています</span>
+          </div>
+          <span class="gz-badge">完全断定を保留・要追加問診</span>
+        </div>
+        <p style="font-size:0.86rem; color:#78350f; margin:0 0 8px 0; line-height:1.5;">
+          現在の処方情報のみでは、以下の2つの病態候補の確率が接近しており、安易な単一断定は臨床上の誤診リスクがあります。
+        </p>
+        <div class="gz-candidates">
+          <div class="gz-candidate-box">
+            <strong style="color:#065f46;">有力候補A：${top.name}</strong>
+            <span style="font-size:0.85rem; font-weight:bold; color:#059669; margin-left:6px;">(確信度: ${top.prob}%)</span>
+            <div style="font-size:0.78rem; color:#64748b; margin-top:2px;">${top.subType}</div>
+          </div>
+          <div class="gz-candidate-box">
+            <strong style="color:#1e40af;">有力候補B：${second.name}</strong>
+            <span style="font-size:0.85rem; font-weight:bold; color:#2563eb; margin-left:6px;">(確信度: ${second.prob}%)</span>
+            <div style="font-size:0.78rem; color:#64748b; margin-top:2px;">${second.subType}</div>
+          </div>
+        </div>
+        <div class="gz-key-question">
+          <strong>🔍 鑑別を分ける【決定的一問】（薬剤師のアクション）：</strong><br>
+          ${keyQuestion}
+        </div>
+      </div>
+    `;
+  }
+
+
   // ==========================================
   // 【複合病態が検出された場合のスペシャルレンダリング】
   // ==========================================
@@ -8478,7 +8538,7 @@ function calculateWizardDiagnosis(isForced = false) {
     `;
   }
 
-  resultsContainer.innerHTML = resultsHtml;
+  resultsContainer.innerHTML = (grayzoneHtml + resultsHtml);
 
   // 患者向けやさしい言葉シートの生成と注入
   const patientContainer = document.getElementById('wizardPatientSheetContainer');
