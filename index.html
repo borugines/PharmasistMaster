@@ -35464,6 +35464,7 @@ Ca拮抗薬による毛細血管内圧上昇に起因する浮腫が疑われま
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('クリアナール')">🫁 クリアナール (COPD増悪予防/MUC5AC)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ストラテラ')">🧠 ストラテラ (ADHD不注意/24H)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('インチュニブ')">🟢 インチュニブ (ADHD衝動性/α2A)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('モサプリド')">💩 モサプリド (便秘プロキネティクス/PD安全)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドパコール')">🧠 ドパコール (レボドパ)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メスチノン')">👁️ メスチノン (MG)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('オフェブ')">🫁 オフェブ (IPF)</button>
@@ -45360,6 +45361,131 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 21. モサプリド（ガスモチン）
+  // 🌟 選択的5-HT4作動薬（便秘プロキネティクス ＆ パーキンソン病安全下剤 ＆ GERD胃排出遅延）
+  mosapride: {
+    aliases: ['モサプリド', 'ガスモチン', 'mosapride', 'gasmotin', 'モサプリドクエン酸塩'],
+    name: 'モサプリド（ガスモチン錠5mg / 散）',
+    category: '選択的セロトニン5-HT4受容体作動薬（消化管運動賦活薬・プロキネティクス）',
+    questions: [
+      {
+        id: 'mosa_q1_symptom_pattern',
+        title: 'Q1. 処方箋情報：処方元の診療科と患者の主訴（症状）はどれですか？',
+        subtitle: '便秘（大腸通過遅延・パーキンソン病）か、胃もたれ・胸やけかを確認します',
+        options: [
+          {
+            id: 'mosa_opt_constipation_parkinson',
+            label: '神経内科・消化器処方：「頑固な便秘・お腹の張り」、パーキンソン病やオピオイド併用、下剤併用あり',
+            badge: '大腸通過遅延・弛緩性便秘',
+            desc: 'D2遮断作用なし！パーキンソン症状を悪化させずに大腸の蠕動運動を安全に促進（代表的適応外）',
+            weights: { constipation_colonic_inertia: 95, gerd_gastric_emptying: -30, ssri_nausea_prevention: -40 }
+          },
+          {
+            id: 'mosa_opt_gerd_gastritis',
+            label: '消化器内科処方：「食後の胃もたれ、胸やけ、みぞおちの重苦しさ」、PPI/P-CAB併用',
+            badge: 'GERD・胃排出遅延',
+            desc: '本来の保険適応。胃前庭部収縮と下部食道括約筋機能を高めて胃排出を促進',
+            weights: { gerd_gastric_emptying: 95, constipation_colonic_inertia: -30, ssri_nausea_prevention: -40 }
+          },
+          {
+            id: 'mosa_opt_ssri_nausea',
+            label: '心療内科・精神科処方：抗うつ薬（レクサプロ等）開始時の「初期の吐き気・胃部不快感予防」',
+            badge: 'SSRI悪心予防',
+            desc: 'SSRI導入初期の消化管セロトニン刺激による胃運動麻痺を相殺し脱落を防止',
+            weights: { ssri_nausea_prevention: 95, gerd_gastric_emptying: -30, constipation_colonic_inertia: -50 }
+          }
+        ]
+      },
+      {
+        id: 'mosa_q2_combo_drugs',
+        title: 'Q2. 処方箋情報：併用されている薬剤はどれですか？',
+        subtitle: '併用薬から背景にある病態を特定します',
+        options: [
+          {
+            id: 'mosa_opt_combo_laxatives',
+            label: '酸化マグネシウム（マグミット）、アミティーザ、リンゼス、大建中湯併用',
+            badge: '便秘治療併用',
+            desc: '便を柔らかくする浸透圧下剤と、腸を動かすプロキネティクスの理にかなった併用',
+            weights: { constipation_colonic_inertia: 90, gerd_gastric_emptying: -10 }
+          },
+          {
+            id: 'mosa_opt_combo_ppi',
+            label: 'タケキャブ、ネキシウム、パリエット等の酸分泌抑制薬併用',
+            badge: '逆流性食道炎併用',
+            desc: '酸分泌抑制と胃排出促進の王道併用レジメン',
+            weights: { gerd_gastric_emptying: 90, constipation_colonic_inertia: 10 }
+          },
+          {
+            id: 'mosa_opt_combo_pd',
+            label: 'ドパコール（レボドパ）、セレギリン、ロピニロール等の抗パーキンソン病薬併用',
+            badge: 'パーキンソン病安全処方',
+            desc: '錐体外路症状を悪化させない安全な消化管運動改善',
+            weights: { constipation_colonic_inertia: 95 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'constipation_colonic_inertia',
+        cardNum: 21,
+        name: '大腸通過遅延型便秘 / パーキンソン病・オピオイド誘発性弛緩性便秘（プロキネティクス併用療法）',
+        subType: '脳神経内科・消化器内科型・D2遮断なしで5-HT4刺激大腸蠕動運動再建レジメン（代表的適応外処方）',
+        baseProb: 35,
+        criteria: '【処方サイン】：下剤（マグミット、アミティーザ、リンゼス、センナ）やドパコール、オピオイド併用、主訴「便は柔らかいが押し出せない、お腹が張る」、1回5mg 1日3回毎食前または毎食後。',
+        reason: '消化管内在神経叢のセロトニン5-HT4受容体を選択的に刺激し、アセチルコリン（ACh）遊離を促進。胃だけでなく結腸・大腸の蠕動運動を直接亢進させ結腸通過時間（CTT）を短縮。',
+        keyPoint: '💡 なぜプリンペランではなくモサプリドなのか？（最大の決め手）：パーキンソン病患者ではプリンペランやナウゼリン、ドグマチールなどのD2遮断薬は「中枢ドパミン受容体を遮断しパーキンソン症状を劇的に悪化させるため禁忌」。モサプリドはD2遮断作用が一切ないため、錐体外路症状を起こさず安全に大腸を動かせる唯一のプロキネティクス。',
+        treatment: {
+          pathology: 'パーキンソン病やオピオイド内服、加齢に伴い大腸内在神経の活動が著しく低下し、結腸通過時間が極端に遅延。水分だけが吸収されて便が硬直化するか、軟便化剤を使っても自力排出不能（大腸無力症）に陥ります。',
+          rationale: '【処方根拠】：モサプリドは全消化管の5-HT4受容体に作用して大蠕動を駆動。酸化マグネシウム等の浸透圧下剤と併用することで「水分保持 ＋ 物理的推進力」が揃い排便がスムーズになります。',
+          firstLine: 'モサプリドクエン酸塩錠5mg 1回1錠 1日3回毎食前または毎食後。',
+          combination: '浸透圧下剤（マグミット/モビコール）、大建中湯、上皮機能変容薬（アミティーザ）。オピオイド便秘にはスインプロイク。',
+          contra: '消化管閉塞、消化管出血。',
+          targets: '自発的排便（SBM）回数の正常化（週3回以上）、残便感・腹部膨満感の消失。',
+          guidance: '🗣️ 服薬指導：「胃の薬の名前がついていますが、腸の動きを活発にして便をスムーズに押し出す効果があり、便秘の治療として処方されています。下剤と一緒にお飲みいただくことで、お腹の張りを楽にし自然なお通じを促します。」'
+        }
+      },
+      {
+        id: 'gerd_gastric_emptying',
+        cardNum: 21,
+        name: '胃食道逆流症（GERD） / 機能性ディスペプシア（FD）に伴う胃排出遅延 ＆ 食道クリアランス低下',
+        subType: '消化器内科型・胃前庭部収縮亢進 ＆ 下部食道括約筋機能補助レジメン（本来の保険適応）',
+        baseProb: 35,
+        criteria: '【処方サイン】：消化器内科処方、タケキャブやネキシウム併用、主訴「食後の胃もたれ、胸やけ、みぞおちの重苦しさ」、内視鏡で胃排出遅延。',
+        reason: '胃前庭部および十二指腸の協調運動を改善し、胃内容物の排出を促進すると同時に、下部食道括約筋（LES）機能を補助して胃酸逆流を防ぐ。',
+        keyPoint: '💡 併用効果：PPI/P-CAB単独で胸やけが取り切れない「酸以外の逆流（胃内容物逆流）」や「胃もたれ合併例」に対し、胃を素早く空にすることで逆流そのものを物理的に遮断する。',
+        treatment: {
+          pathology: '胃前庭部の運動不全により食物の胃内滞留時間が延長し、胃内圧が上昇して下部食道括約筋の一過性弛緩を誘発。胃酸や消化酵素が食道へ逆流します。',
+          rationale: '【処方根拠】：酸分泌抑制薬（タケキャブ）にモサプリドを併用することで、症状寛解率が有意に向上します。',
+          firstLine: 'モサプリド錠5mg 1回1錠 1日3回毎食前または食後。',
+          combination: 'P-CAB（タケキャブ10〜20mg）、六君子湯（TJ-43）。',
+          contra: '重篤な肝障害。',
+          targets: '胸やけ・胃もたれ症状の完全消失、QOL向上。',
+          guidance: '🗣️ 服薬指導：食道や胃の動きをスムーズにして、食べたものが胃の中に長くとどまらないようにするお薬です。'
+        }
+      },
+      {
+        id: 'ssri_nausea_prevention',
+        cardNum: 6,
+        name: '抗うつ薬（SSRI/SNRI）導入初期の消化器症状（悪心・嘔気・胃もたれ）先制予防',
+        subType: '心療内科・精神科型・セロトニン過剰刺激による胃運動麻痺へのカウンタープロキネティクス',
+        baseProb: 20,
+        criteria: '【処方サイン】：心療内科・精神科処方、レクサプロやジェイゾロフトの新規開始と同時に2〜4週間限定で併用。',
+        reason: 'SSRI開始時に消化管の5-HT3受容体が過剰刺激されて起きる胃運動麻痺・悪心を、5-HT4刺激による順向性蠕動促進で相殺し初期ドロップアウトを防ぐ。',
+        keyPoint: '💡 先制防御の知恵：SSRIの初期脱落の最大原因は「最初の1週間の吐き気」。モサプリドをあらかじめセットで処方することで、安全に抗うつ薬を軌道に乗せる。',
+        treatment: {
+          pathology: 'SSRIによりシナプス間隙だけでなく消化管粘膜局所でもセロトニンが急増し、嘔吐中枢や迷走神経求心路を刺激して悪心・食欲不振を惹起します。',
+          rationale: '【処方根拠】：胃の排出を前向きに動かすことで、胃部停滞感と嘔気を劇的に和らげます。',
+          firstLine: 'モサプリド錠5mg 1回1錠 1日3回（SSRI開始後2〜4週間継続し、耐性獲得後に中止）。',
+          combination: 'SSRI（レクサプロ、ジェイゾロフト）、六君子湯。',
+          contra: '特になし。',
+          targets: 'SSRI開始1ヶ月後の治療継続率100%。',
+          guidance: '🗣️ 服薬指導：「抗うつ薬の飲み始めに起こりやすい胃のムカムカや食欲不振を予防するためのお薬です。体が慣れてくるまでの2〜4週間、一緒に飲んで胃を守りましょう。」'
+        }
+      }
+    ]
   }
 };
 
@@ -45937,6 +46063,8 @@ function applyProfileWeights(scores) {
     if (scores['pud_gastric_ulcer'] !== undefined) scores['pud_gastric_ulcer'] += 85;
     if (scores['cirrhosis_ammonia'] !== undefined) scores['cirrhosis_ammonia'] += 85;
     if (scores['zinc_taste_disorder'] !== undefined) scores['zinc_taste_disorder'] -= 40;
+    if (scores['gerd_gastric_emptying'] !== undefined) scores['gerd_gastric_emptying'] += 90;
+    if (scores['constipation_colonic_inertia'] !== undefined) scores['constipation_colonic_inertia'] += 85;
   } else if (prof.dept === 'rheuma') {
     if (scores['ra_active'] !== undefined) scores['ra_active'] += 85;
     if (scores['sle_lupus'] !== undefined) scores['sle_lupus'] += 85;
@@ -45975,6 +46103,7 @@ function applyProfileWeights(scores) {
   } else if (prof.dept === 'neuro') {
     if (scores['cerebro_vertigo'] !== undefined) scores['cerebro_vertigo'] += 95;
     if (scores['asthma_bronchial'] !== undefined) scores['asthma_bronchial'] -= 60;
+    if (scores['constipation_colonic_inertia'] !== undefined) scores['constipation_colonic_inertia'] += 95;
   } else if (prof.dept === 'eye') {
     if (scores['vitamin_a_deficiency'] !== undefined) scores['vitamin_a_deficiency'] += 95;
     if (scores['keratosis_dermatosis'] !== undefined) scores['keratosis_dermatosis'] -= 50;
@@ -46521,6 +46650,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: 'ARB（アンジオテンシンII受容体拮抗薬）',
     reason: '同効ARB群の中で最も受容体解離速度が遅く、最強の24時間持続降圧能を誇る薬剤。',
     benefit: '【選定の決め手】：早朝高血圧（Morning Surge）による心筋梗塞・脳卒中を確実に防ぐため、ARB群最強の降圧力を求めて選定されています。'
+  },
+  {
+    pattern: /モサプリド|ガスモチン/,
+    name: 'モサプリド（ガスモチン）',
+    class: '選択的セロトニン5-HT4受容体作動薬',
+    reason: '中枢ドパミンD2受容体を遮断せず、末梢の5-HT4受容体を選択的に刺激して全消化管のアセチルコリン遊離を促進。',
+    benefit: '【選定の決め手】：パーキンソン病患者において錐体外路症状（手の震え等）を悪化させずに安全に大腸を動かせる唯一の消化管運動賦活薬。便秘に対し下剤で便を柔らかくしても押し出せない弛緩性大腸を安全に駆動するために選定されています。'
   },
   {
     pattern: /ストラテラ|アトモキセチン/,
@@ -47119,7 +47255,7 @@ function detectPrescriptionCascade(primaryDrug, selectedOptions, customDrugs, ra
   }
 
   // 4. スルピリド/メトクロプラミド + 抗パーキンソン薬（薬剤性パーキンソニズム ➔ 抗パーキンソン薬追加カスケード）
-  const hasD2Blocker = /ドグマチール|スルピリド|プリンペラン|メトクロプラミド|ガスモチン|セレネース|ハロペリドール/.test(allTexts);
+  const hasD2Blocker = /ドグマチール|スルピリド|プリンペラン|メトクロプラミド|セレネース|ハロペリドール/.test(allTexts);
   const hasAntiParkinson = /レボドパ|ドパコール|メネシット|マドパー|トリヘキシフェニジル|アーテン|アマンタジン|シンメトレル|プラミペキソール|ビ・シフロール|ロピニロール|レキップ/.test(allTexts);
 
   if (hasD2Blocker && hasAntiParkinson) {
@@ -47277,6 +47413,8 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('血小板') || cdLower.includes('多血') || cdLower.includes('潰瘍') || cdLower.includes('すね')) keywords.push('血小板', '本態性血小板血症', '真性多血症', '下腿', '皮膚潰瘍');
     if (cdLower.includes('copd') || cdLower.includes('肺気腫') || cdLower.includes('痰') || cdLower.includes('喀痰') || cdLower.includes('気管支拡張')) keywords.push('copd', '肺気腫', '気管支拡張症', 'muc5ac', '杯細胞', '喀痰', '粘液');
     if (cdLower.includes('adhd') || cdLower.includes('不注意') || cdLower.includes('多動') || cdLower.includes('衝動') || cdLower.includes('うっかり') || cdLower.includes('ミス') || cdLower.includes('忘れ物') || cdLower.includes('イライラ') || cdLower.includes('怒り')) keywords.push('adhd', '不注意', '多動', '衝動', 'ミス', '忘れ物', 'ワーキングメモリ', 'カッとなる');
+    if (cdLower.includes('便秘') || cdLower.includes('お通じ') || cdLower.includes('排便') || cdLower.includes('出ない') || cdLower.includes('張り')) keywords.push('便秘', '弛緩性', '大腸', '結腸', '蠕動', 'プロキネティクス', 'お通じ');
+    if (cdLower.includes('もたれ') || cdLower.includes('胃もたれ') || cdLower.includes('排出') || cdLower.includes('胸やけ')) keywords.push('胃もたれ', '胃排出', '胸やけ', 'gerd', '逆流');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
