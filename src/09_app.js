@@ -357,6 +357,7 @@ const DRUG_DB = [
   { name: "サリベート", gen: "人工唾液エアゾール", cat: "125. 口腔乾燥症（局所スプレー）", char: "天然唾液に近い無機塩類スプレー！ムスカリン薬が使えない喘息患者の救世主", desc: "口腔内乾燥時に舌下・頬粘膜に直接1〜2回噴霧。全身性のコリン副作用（多汗・頻尿・腹痛）が一切なく、気管支喘息等でサラジェン・エボザックが禁忌の患者にも極めて安全。", gId: "c16", cSec: "sec-imm" },
   { name: "プリモボラン", gen: "メテノロン酢酸エステル", cat: "128. 血液疾患 / 蛋白同化ステロイド", char: "再生不良性貧血の造血促進 ＆ 慢性消耗性疾患の蛋白同化！女性の不可逆的嗄声注意", desc: "蛋白同化ステロイド。男性化作用を弱め蛋白同化作用を特異的に強化。腎EPO産生促進と骨髄幹細胞直接刺激で赤血球・血小板を産生。女性で一度低くなった声（嗄声）は中止後も戻らない不可逆的変化！前立腺がん絶対禁忌。定期肝機能検査必須。", gId: "c16", cSec: "sec-imm" },
   { name: "ヴォトリエント", gen: "パゾパニブ塩酸塩", cat: "135. 抗がん薬 / 分子標的薬（STS・RCC）", char: "悪性軟部腫瘍・腎細胞癌のマルチTKI！必ず【空腹時服用】＆PPI併用厳禁", desc: "VEGFR/PDGFR/c-Kit阻害薬。食後服用で血中濃度が約2倍に急増し致死的毒性（高血圧・QT延長・穿孔）の危険があるため「食前1時間または食後2時間」の空腹時服用厳守！胃酸で溶解するためPPI併用で吸収が約40%激減（効果消失・原則併用回避）。c-Kit阻害による毛髪の白毛化（白髪化）を事前告知指導。", gId: "c16", cSec: "sec-imm" },
+  { name: "アダプチノール", gen: "ヘレニエン", cat: "136. 眼科疾患 / 網膜色素変性症", char: "網膜色素変性症の暗順応改善薬！視物質ロドプシン再合成を促進・遮光厳守", desc: "マリーゴールド由来キサントフィル誘導体（ジパルミチン酸ルテイン）。網膜桿体細胞の視物質ロドプシン再生を促進し暗順応時間を短縮。夜盲症（鳥目）の暗所視力を改善。光に極めて不安定なため粉砕・一包化時は【遮光分包・遮光袋調剤】が絶対必須！", gId: "c16", cSec: "sec-imm" },
 
 ];
 
@@ -494,6 +495,8 @@ const COMPOUNDING_MASTER = {
   "メテノロン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 遮光防湿", reason: "普通錠。粉砕・簡易懸濁可能（遮光防湿保存推奨）。男性の前立腺がん絶対禁忌！女性の嗄声（声の低音化）は中止しても戻らない不可逆的変化のため即時報告を指導。定期肝機能検査。", alt: "普通錠粉砕" },
   "ヴォトリエント": { crush: "ng", susp: "ng", pack: "caution", crushText: "❌ 粉砕不可", suspText: "❌ 懸濁不可", packText: "⚠️ 防湿", reason: "抗悪性腫瘍薬（劇薬・催奇形性・曝露危険）。粉砕・懸濁すると調剤者や介助者への抗がん薬曝露リスク。空腹時吸収設計が崩れるため原形服用厳守。必ず空腹時（食前1時間以上または食後2時間以降）に服用。PPI併用で吸収約40%激減（原則併用回避）。", alt: "原形服用厳守、嚥下困難時は主治医と治療方針相談" },
   "パゾパニブ": { crush: "ng", susp: "ng", pack: "caution", crushText: "❌ 粉砕不可", suspText: "❌ 懸濁不可", packText: "⚠️ 防湿", reason: "抗悪性腫瘍薬（劇薬・催奇形性・曝露危険）。粉砕・懸濁すると調剤者や介助者への抗がん薬曝露リスク。空腹時吸収設計が崩れるため原形服用厳守。必ず空腹時（食前1時間以上または食後2時間以降）に服用。PPI併用で吸収約40%激減（原則併用回避）。", alt: "原形服用厳守、嚥下困難時は主治医と治療方針相談" },
+  "アダプチノール": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 遮光厳重", reason: "普通錠。粉砕・簡易懸濁可能。カロテノイド構造のため光により急速に退色・分解・力価低下を起こす！粉砕・一包化時は必ず【遮光分包（遮光袋保管）】を徹底。網膜色素変性症の暗順応改善薬。妊婦注意。", alt: "普通錠粉砕（遮光袋調剤）" },
+  "ヘレニエン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 遮光厳重", reason: "普通錠。粉砕・簡易懸濁可能。カロテノイド構造のため光により急速に退色・分解・力価低下を起こす！粉砕・一包化時は必ず【遮光分包（遮光袋保管）】を徹底。網膜色素変性症の暗順応改善薬。妊婦注意。", alt: "普通錠粉砕（遮光袋調剤）" },
   "タケルダ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "タケルダ配合錠": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "プラザキサ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿激", reason: "脱カプセル・粉砕絶対禁止（AUC急増で出血死）。極めて吸湿性が高くPTPシートのまま保管必須。", alt: "リクシアナOD錠、エリキュース" },
@@ -9682,6 +9685,145 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 30. 網膜色素変性症・暗順応改善薬（アダプチノール錠：ヘレニエン）
+  // 🌟 網膜桿体細胞ロドプシン再生促進 ＆ 暗順応短縮 ＆ ビタミンA（チョコラA）との鑑別 ＆ 遮光厳重調剤
+  retina_adaptinol: {
+    aliases: ['アダプチノール', 'ヘレニエン', 'adaptinol', 'heleniene', '網膜色素変性症', '網膜色素変性', '暗順応', '夜盲', '夜盲症', 'とり目', 'ロドプシン', '薄暗い'],
+    name: '網膜色素変性症・暗順応改善薬（アダプチノール錠：ヘレニエン）',
+    category: '網膜疾患・暗順応改善薬（ロドプシン再合成促進キサントフィル誘導体 / 網膜色素変性症 ＆ 暗所視力維持レジメン）',
+    questions: [
+      {
+        id: 'adp_q1_etiology_differentiation',
+        title: 'Q1. 処方箋情報：夜盲・暗順応障害の原因疾患と選択薬剤はどれですか？',
+        subtitle: '遺伝性難病（網膜色素変性症）と後天性欠乏症（ビタミンA欠乏症）の鑑別を行います',
+        options: [
+          {
+            id: 'adp_opt_rp_adaptinol_proper',
+            label: '網膜色素変性症（遺伝性難病）：桿体視細胞変性に伴う暗順応障害に対し、ロドプシン再合成を促進する「アダプチノール錠5mg」が処方',
+            badge: '網膜色素変性症（ロドプシン再生）',
+            desc: 'マリーゴールド由来ヘレニエン。変性網膜の視物質ロドプシン再合成を促進し暗順応時間を短縮',
+            weights: { adaptinol_rp_proper: 95, chocola_a_deficiency_contrast: -40, adaptinol_photoprotection_alert: 30 }
+          },
+          {
+            id: 'adp_opt_vit_a_deficiency_chocola',
+            label: 'ビタミンA欠乏症（胃切除後・胆汁うっ滞・偏食）：ロドプシンの材料（レチナール）枯渇による後天性夜盲症 ➔ 「チョコラA」補充',
+            badge: 'ビタミンA欠乏性夜盲症',
+            desc: '血清レチノール低下による暗順応障害と角膜乾燥症。経口ビタミンA補充で劇的改善',
+            weights: { chocola_a_deficiency_contrast: 95, adaptinol_rp_proper: 25 }
+          },
+          {
+            id: 'adp_opt_photodecomposition_danger',
+            label: '【🚨 調剤鑑査・保管アラート】：カロテノイド構造による光分解リスク（粉砕・一包化時の「遮光分包・遮光袋調剤」の徹底）',
+            badge: '🚨 光不安定・遮光厳重調剤！',
+            desc: '光により急速に退色・酸化分解して力価低下を起こす！粉砕時や一包化時は必ず遮光包材・遮光袋の保管を厳命',
+            weights: { adaptinol_photoprotection_alert: 100, adaptinol_rp_proper: 35 }
+          },
+          {
+            id: 'adp_opt_concentric_visual_field',
+            label: '求心性視野狭窄・羞明の合併：暗順応低下に加え視野狭窄が進行している場合のロービジョンケア・遮光眼鏡支援',
+            badge: 'ロービジョン・日常生活支援',
+            desc: '網膜色素変性症の進行に伴う視野障害と眩しさ（羞明）に対し、医療用遮光眼鏡（CCPレンズ）等の活用を支援',
+            weights: { adaptinol_low_vision_care: 100, adaptinol_rp_proper: 40 }
+          }
+        ]
+      },
+      {
+        id: 'adp_q2_lifestyle_safety',
+        title: 'Q2. 日常生活の安全性と経過フォロー：患者の訴えと指導内容はどれですか？',
+        subtitle: '夜間歩行・薄暗い場所での転倒・事故防止と残存視力維持を支援します',
+        options: [
+          {
+            id: 'adp_opt_night_walking_safety',
+            label: '夜間・薄暗い環境での安全確保：明所から暗所へ移動した時の見えにくさ（夜間歩行・夜間運転）に対する安全対策指導',
+            badge: '夜間歩行・暗所転倒防止',
+            desc: '暗順応に時間がかかるため、薄暗い部屋に入る際は数分間静止して目を慣らす工夫や小型ライト携帯を助言',
+            weights: { adaptinol_rp_proper: 90, adaptinol_low_vision_care: 40 }
+          },
+          {
+            id: 'adp_opt_regular_visual_monitoring',
+            label: '定期的な眼科評価：暗順応検査、静的・動的視野検査（ゴールドマン視野計）、網膜電図（ERG）の継続確認',
+            badge: '定期精密眼科検査フォロー',
+            desc: '根治が困難な進行性難病において、残存視細胞機能を正確に評価し長期的な生活プランを策定',
+            weights: { adaptinol_rp_proper: 85 }
+          },
+          {
+            id: 'adp_opt_pregnancy_precaution',
+            label: '妊娠可能年齢女性への注意：ビタミンA代謝関連化合物としての過量摂取回避・胎児安全性への配慮',
+            badge: '妊婦・催奇形性配慮',
+            desc: '大量摂取によるビタミンA過剰類似症状を避けるため適正用量（1回5mg 1日3回）の遵守を指導',
+            weights: { adaptinol_photoprotection_alert: 80 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'adaptinol_rp_proper',
+        name: 'アダプチノール錠5mg（ヘレニエン：網膜色素変性症・暗順応機能改善の至適処方）',
+        matchRate: 98,
+        badge: '適正処方（ロドプシン再生促進）',
+        rationale: '網膜色素変性症（Retinitis Pigmentosa：RP）に伴う暗順応障害に対する標準的治療薬。マリーゴールド由来のキサントフィル誘導体（ジパルミチン酸ルテイン）が網膜桿体細胞の視物質ロドプシンの再合成・再生を促進し、暗順応時間を短縮して薄暗い場所での視覚機能をサポート。',
+        treatment: {
+          pathology: '遺伝子異常により網膜の桿体視細胞が進行性にアポトーシスを起こし、初期に夜盲症（暗順応障害）、進行期に求心性視野狭窄をきたす難病。ヘレニエンは残存桿体細胞の視覚サイクル酵素系を賦活してロドプシン再生を促進。',
+          rationale: '1回5mg 1日3回毎食後。副作用が極めて少なく長期内服に適する。光に不安定なため遮光保管厳守。',
+          firstLine: 'アダプチノール錠5mg 1回1錠 1日3回毎食後。',
+          combination: '遮光眼鏡（CCPレンズ）、循環改善薬（カルナクリン等）。',
+          contra: '重篤な過敏症。',
+          targets: '暗順応時間短縮、暗所視力維持、夜間歩行安全性の確保。',
+          guidance: '🗣️ 必須フレーズ：「網膜の暗いところを感じる細胞に働きかけて、薄暗い場所に入ったときに目が慣れるのを助けてくれるお薬です。光にとても弱いお薬ですので、シートから出さずに暗い場所で保管してくださいね。」'
+        }
+      },
+      {
+        id: 'chocola_a_deficiency_contrast',
+        name: 'チョコラA錠（レチノール：後天性ビタミンA欠乏性夜盲症との病態鑑別）',
+        matchRate: 93,
+        badge: 'ビタミンA欠乏性夜盲症',
+        rationale: '胃切除後、慢性肝胆道疾患、極端な偏食によるビタミンA吸収不全が原因の後天性夜盲症。ロドプシンの構成成分である11-cis-レチナールが枯渇しているため、外因性のビタミンA（チョコラA）補充により数日から数週間で暗順応が劇的に改善します。',
+        treatment: {
+          pathology: '血清レチノール低値（<100 IU/dL）。暗順応障害に加え、結膜乾燥斑（ビトー斑）や角膜上皮の乾燥角化を伴う。',
+          rationale: 'ビタミンA補充で治癒可能な可逆的病態。遺伝性の網膜色素変性症とは病態・治療目標が明確に異なります。',
+          firstLine: 'チョコラA錠 1日1〜2錠。',
+          combination: '原因疾患（吸収不良症候群）の治療。',
+          contra: '妊婦（3ヶ月以内）の大量投与（催奇形性禁忌）。',
+          targets: '血清レチノール正常化、暗順応の完全回復。',
+          guidance: '🗣️ 患者指導：「ビタミンAが不足して目が暗さに慣れにくくなっています。お薬を飲んで体にビタミンAが補給されれば自然と治っていきますので、規則正しくお飲みください。」'
+        }
+      },
+      {
+        id: 'adaptinol_photoprotection_alert',
+        name: '【🚨 調剤鑑査アラート】：カロテノイド構造による光分解・退色防止（遮光分包・遮光袋厳重指導）',
+        matchRate: 96,
+        badge: '🚨 遮光厳重調剤アラート',
+        rationale: 'ヘレニエンは多数の共役二重結合を持つキサントフィル系カロテノイドであり、光（紫外線・可視光）に極めて不安定です。直射日光や室内光に曝されると急速に退色（黄色から白色化）・光異性化・酸化的分解を起こし、有効成分が失活します。粉砕調剤や一包化時は【遮光分包紙・遮光袋調剤】が絶対必須！',
+        treatment: {
+          pathology: '光酸化によりポリエン鎖が切断され、ロドプシン再生促進活性が完全に消失。',
+          rationale: 'PTPシートのまま遮光袋に入れて保管するよう患者に指導。粉砕時はアルミ分包または遮光袋を徹底。',
+          firstLine: '遮光調剤（遮光分包紙、遮光小分け袋）の徹底。',
+          combination: '保管場所（引き出しの中・日光を避ける）の生活指導。',
+          contra: '透明分包での光照射放置。',
+          targets: '薬効力価100%維持、調剤品質の担保。',
+          guidance: '🗣️ 調剤・服薬指導フレーズ：「このお薬は光や太陽の光にとても弱く、光に当たるとお薬の成分が壊れて効き目がなくなってしまいます。飲む直前までシートから出さず、お渡しした茶色い遮光袋の中に入れて保管してくださいね。」'
+        }
+      },
+      {
+        id: 'adaptinol_low_vision_care',
+        name: '【ロービジョン支援】：網膜色素変性症の夜間歩行安全指導 ＆ 遮光眼鏡アプローチ',
+        matchRate: 95,
+        badge: 'ロービジョン生活安全支援',
+        rationale: '網膜色素変性症の患者は暗順応障害に加え、日中の強い光に対する「眩しさ（羞明）」や「視野狭窄」を伴います。薬物療法と並行して、短波長光（青色光）をカットしてコントラストを高める「医療用遮光眼鏡（CCPレンズ）」の活用や、夜間の小型LEDライト携帯など、日常生活の安全を守るロービジョンケアが極めて重要。',
+        treatment: {
+          pathology: '変性網膜では散乱光に対する感受性が高まり強い羞明を自覚。また桿体細胞死滅に伴い周辺視野から徐々に狭窄。',
+          rationale: '薬剤師が患者の生活環境の危険因子（段差、薄暗い廊下、夜間の交差点）を把握し、具体的安全策を提案。',
+          firstLine: '夜間照明・足元安全対策の指導 ＆ 遮光眼鏡の紹介。',
+          combination: '盲学校・ロービジョン外来・患者会情報提供。',
+          contra: '薄暗い場所での無理な夜間運転。',
+          targets: '転倒・衝突事故ゼロ、QOLと行動自立度の維持。',
+          guidance: '🗣️ 生活支援アドバイス：「夕方や夜間は足元の段差が見えにくくなり危険ですので、小さな懐中電灯を持ち歩いたり、お部屋の明かりを少し早めにつけるなど工夫してくださいね。日中の眩しさが気になる場合は、眼科さんで遮光眼鏡の相談もできますよ。」'
+        }
+      }
+    ]
   }
 };
 
@@ -10322,6 +10464,10 @@ function applyProfileWeights(scores) {
     if (scores['allergy_conjunctivitis_refractory'] !== undefined) scores['allergy_conjunctivitis_refractory'] += 90;
     if (scores['allergic_conjunctivitis_eyelid'] !== undefined) scores['allergic_conjunctivitis_eyelid'] += 95;
     if (scores['elderly_tremor_instillation'] !== undefined) scores['elderly_tremor_instillation'] += 90;
+    if (scores['adaptinol_rp_proper'] !== undefined) scores['adaptinol_rp_proper'] += 95;
+    if (scores['chocola_a_deficiency_contrast'] !== undefined) scores['chocola_a_deficiency_contrast'] += 70;
+    if (scores['adaptinol_photoprotection_alert'] !== undefined) scores['adaptinol_photoprotection_alert'] += 85;
+    if (scores['adaptinol_low_vision_care'] !== undefined) scores['adaptinol_low_vision_care'] += 85;
     if (scores['votrient_proper_fasting'] !== undefined) scores['votrient_proper_fasting'] += 95;
     if (scores['votrient_postprandial_overdose_alert'] !== undefined) scores['votrient_postprandial_overdose_alert'] += 90;
     if (scores['votrient_ppi_interaction_alert'] !== undefined) scores['votrient_ppi_interaction_alert'] += 90;
@@ -11113,6 +11259,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: '経口マルチチロシンキナーゼ阻害薬（VEGFR-1/2/3, PDGFR-α/β, c-Kit）',
     reason: '腫瘍の血管新生および増殖シグナルを多面的に遮断。悪性軟部腫瘍（軟部肉腫）および腎細胞癌の標準TKI。酸性環境でのみ溶解吸収される物性。',
     benefit: '【選定の決め手】：悪性軟部肉腫や進行腎癌において腫瘍縮小・無増悪生存期間を有意に延長。※【超重要】：食後服用でAUCが2倍に急増するため必ず「空腹時（食前1Hまたは食後2H）」服用！PPI併用で吸収が40%激減するため併用回避。c-Kit阻害による毛髪脱色（白髪化）は薬効の証拠です。'
+  },
+  {
+    pattern: /アダプチノール|ヘレニエン/,
+    name: 'ヘレニエン（アダプチノール錠5mg）',
+    class: '網膜色素変性症・暗順応改善薬（キサントフィル系カロテノイド誘導体）',
+    reason: 'マリーゴールド花弁由来のジパルミチン酸ルテイン。網膜桿体細胞の視物質ロドプシンの再合成・再生を促進し、明所から暗所への順応時間を有意に短縮。',
+    benefit: '【選定の決め手】：網膜色素変性症（遺伝性難病）における進行性の夜盲症状・暗所視力低下に対し、残存する桿体視細胞機能を賦活し夜間歩行・生活安全を守るために選定されています。※ビタミンA（チョコラA）が欠乏補給なのに対し、アダプチノールは網膜ロドプシン代謝を直接賦活。光に弱いため遮光保存が必須です。'
   }
 ];
 
@@ -11739,6 +11892,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('サラジェン') || cdLower.includes('エボザック') || cdLower.includes('サリグレン') || cdLower.includes('ピロカルピン') || cdLower.includes('セビメリン') || cdLower.includes('シェーグレン') || cdLower.includes('口渇') || cdLower.includes('ドライマウス') || cdLower.includes('唾液') || cdLower.includes('サリベート') || cdLower.includes('多汗') || cdLower.includes('放射線')) keywords.push('サラジェン', 'エボザック', 'サリグレン', 'ピロカルピン', 'セビメリン', 'シェーグレン', '口渇', 'ドライマウス', '唾液', 'サリベート', '多汗', '放射線', '照射後', '口の渇き');
     if (cdLower.includes('プリモボラン') || cdLower.includes('メテノロン') || cdLower.includes('再生不良性貧血') || cdLower.includes('アナボリック') || cdLower.includes('蛋白同化') || cdLower.includes('嗄声') || cdLower.includes('声変わり') || cdLower.includes('造血') || cdLower.includes('骨髄')) keywords.push('プリモボラン', 'メテノロン', '再生不良性貧血', 'アナボリック', '蛋白同化', '嗄声', '声の低音化', '造血', '骨髄', 'epo', 'サルコペニア', '消耗性');
     if (cdLower.includes('ヴォトリエント') || cdLower.includes('パゾパニブ') || cdLower.includes('軟部肉腫') || cdLower.includes('悪性軟部') || cdLower.includes('腎細胞癌') || cdLower.includes('空腹時') || cdLower.includes('白髪') || cdLower.includes('白毛') || cdLower.includes('手足症候群') || cdLower.includes('tki') || cdLower.includes('マルチキナーゼ')) keywords.push('ヴォトリエント', 'パゾパニブ', '軟部肉腫', '悪性軟部腫瘍', '腎細胞癌', '空腹時', '白髪', '白毛化', '手足症候群', 'マルチキナーゼ', 'vegfr', 'c-kit', 'ppi併用');
+    if (cdLower.includes('アダプチノール') || cdLower.includes('ヘレニエン') || cdLower.includes('網膜色素変性') || cdLower.includes('暗順応') || cdLower.includes('夜盲') || cdLower.includes('とり目') || cdLower.includes('鳥目') || cdLower.includes('ロドプシン') || cdLower.includes('遮光眼鏡')) keywords.push('アダプチノール', 'ヘレニエン', '網膜色素変性症', '暗順応', '夜盲症', 'とり目', 'ロドプシン', '遮光保存', '遮光分包', '視野狭窄');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
