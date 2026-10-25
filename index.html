@@ -35467,6 +35467,7 @@ Ca拮抗薬による毛細血管内圧上昇に起因する浮腫が疑われま
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('モサプリド')">💩 モサプリド (便秘プロキネティクス/PD安全)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コムレクス')">👂 コムレクス (難治性中耳炎/1.5%点耳)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('タリムス')">👁️ タリムス (春季カタル/緑内障回避)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アレジオン眼瞼クリーム')">👁️ アレジオン眼瞼クリーム (まぶた塗布/点眼拒絶)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドパコール')">🧠 ドパコール (レボドパ)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メスチノン')">👁️ メスチノン (MG)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('オフェブ')">🫁 オフェブ (IPF)</button>
@@ -45738,6 +45739,124 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 24. アレジオン眼瞼クリーム（エピナスチン塩酸塩0.5%）
+  // 🌟 世界初・日本初の経皮吸収型結膜炎治療薬（2024年新薬・小児点眼拒絶 ＆ 高齢者点眼困難 ＆ 目に入れない指導）
+  alosion_eyelid_cream: {
+    aliases: ['アレジオン眼瞼クリーム', 'アレジオンクリーム', 'エピナスチンクリーム', 'alosion eyelid cream', 'epinastine cream', '眼瞼クリーム'],
+    name: 'アレジオン眼瞼クリーム（アレジオン眼瞼クリーム0.5%）',
+    category: '世界初・日本初の経皮吸収型アレルギー性結膜炎治療薬（エピナスチン眼瞼塗布クリーム製剤・2024年発売）',
+    questions: [
+      {
+        id: 'alo_q1_patient_barrier',
+        title: 'Q1. 処方箋情報：患者の年齢層や点眼における困りごとはどれですか？',
+        subtitle: '小児の点眼拒絶（点眼恐怖）か、高齢者の手指振戦・点眼不全かを確認します',
+        options: [
+          {
+            id: 'alo_opt_child_drop_refusal',
+            label: '小児・乳幼児：目薬を怖がって激しく泣き叫び暴れる、親の「毎日の点眼バトル」を解消したい',
+            badge: '小児点眼拒絶・恐怖症克服',
+            desc: '目を閉じた状態でまぶたにサッと塗るだけ！薄い眼瞼皮膚から経皮吸収されて結膜・涙液へ移行',
+            weights: { allergic_conjunctivitis_eyelid: 95, elderly_tremor_instillation: 60, intraocular_instillation_alert: -30 }
+          },
+          {
+            id: 'alo_opt_elderly_hand_tremor',
+            label: '高齢者・手指不自由：手の震え（パーキンソン病・本態性振戦）、リウマチ、片麻痺で点眼瓶を目に合わせられない',
+            badge: '高齢者手指振戦・自立塗布',
+            desc: '点眼瓶を保持する微細な指の運動が不要。指先に取って目を閉じて塗るだけで確実に治療完了',
+            weights: { elderly_tremor_instillation: 95, allergic_conjunctivitis_eyelid: 60, intraocular_instillation_alert: -30 }
+          },
+          {
+            id: 'alo_opt_direct_eye_risk',
+            label: '【🚨 最重要服薬指導】：点眼薬と勘違いして「直接目の中（眼球）に入れようとする」リスク',
+            badge: '🚨 目の中（眼球）に入れない！',
+            desc: 'クリーム剤のため直接目に入れると角膜刺激・かすみ目を起こす。まぶたの皮膚に塗ることを徹底指導',
+            weights: { intraocular_instillation_alert: 100, allergic_conjunctivitis_eyelid: 40 }
+          }
+        ]
+      },
+      {
+        id: 'alo_q2_application_method',
+        title: 'Q2. 処方箋情報：用法・用量や生活上のメリットはどれですか？',
+        subtitle: '1日1回1プッシュの塗布手技とコンタクト・アイメイクへの配慮を評価します',
+        options: [
+          {
+            id: 'alo_opt_once_daily_push',
+            label: '1日1回（1プッシュ約0.1g）を、目を閉じて両眼の上下まぶたに塗り、塗布後に手を洗う',
+            badge: '1日1回標準レジメン',
+            desc: '1日1回で24時間効果持続。塗布後は指先を石鹸で洗う指導を確認',
+            weights: { allergic_conjunctivitis_eyelid: 50, elderly_tremor_instillation: 50 }
+          },
+          {
+            id: 'alo_opt_contact_makeup_coexist',
+            label: 'コンタクトレンズ装用者、またはアイメイク崩れ・日中点眼の手間を避けたい',
+            badge: 'QOL改善メリット',
+            desc: '朝のメイク前や夜の洗顔後に塗布することで、日中に目薬を持ち歩く必要がなくなる',
+            weights: { allergic_conjunctivitis_eyelid: 85 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'allergic_conjunctivitis_eyelid',
+        cardNum: 14,
+        name: '小児・乳幼児のアレルギー性結膜炎 / 花粉症（点眼拒絶・点眼恐怖症克服レジメン）',
+        subType: '眼科・小児科・アレルギー科型・目を閉じてまぶたに塗るだけの世界初経皮吸収型H1拮抗療法（2024年新薬）',
+        baseProb: 35,
+        criteria: '【処方サイン】：眼科・小児科処方、小児〜乳幼児（成人患者含む）、主訴「目を激しく擦る、充血、目薬を泣き叫んで嫌がる」、1日1回1プッシュを両眼上下眼瞼（まぶた）に塗布。',
+        reason: '薄い眼瞼皮膚からエピナスチンが速やかに経皮吸収され、瞼板および毛細血管網を通じて結膜組織・涙液中へ直接移行。結膜のヒスタミンH1受容体を遮断し、目薬をささずに目のかゆみ・充血を完全鎮静。',
+        keyPoint: '💡 なぜ点眼ではなく眼瞼クリームなのか？（最大の決め手）：目薬を嫌がって暴れる子どもの親にとって、毎日の点眼は激しいストレス。アレジオン眼瞼クリームは「寝ている間や目を閉じた状態でまぶたにサッと塗るだけ」で治療が完了し、親子の点眼バトルを根本から解決する。1日1回で24時間持続。',
+        treatment: {
+          pathology: '花粉やハウスダストが結膜マスト細胞表面のIgE抗体に結合し、ヒスタミンが遊離して知覚神経H1受容体を刺激。激しい眼掻痒感と充血、眼瞼浮腫を生じます。小児では目を強くこすることで角膜びらんを併発します。',
+          rationale: '【処方根拠】：点眼が困難で治療を断念していた小児に対し、まぶたへの塗布だけで点眼液と同等の高い自他覚症状改善率を示します。',
+          firstLine: 'アレジオン眼瞼クリーム0.5% 1回1押し分（約0.1g）を1日1回、両眼の上下眼瞼（まぶた）に塗布。',
+          combination: '経口抗アレルギー薬（アレジオン/ザイザル）、人工涙液（アレルゲン洗い流し）。',
+          contra: '成分過敏症。目の感染症。',
+          targets: '眼掻痒感スコア・結膜充血スコアの速やかな消失、目をこする行動の停止。',
+          guidance: '🗣️ 服薬指導の極意：「2024年に新しく出た『世界で初めてのまぶたに塗る目薬』です！目薬を怖がって嫌がるお子さんでも、目を閉じた状態でまぶたにクリームをサッと塗るだけで、目のかゆみが綺麗に治まります。1日1回、朝か夜に1プッシュ分を指に取って、両目の上下のまぶたに優しく伸ばしてください。塗った後は、指についたお薬で目をこすらないよう、すぐに石鹸で手を洗いましょう。」'
+        }
+      },
+      {
+        id: 'elderly_tremor_instillation',
+        cardNum: 14,
+        name: '高齢者・手指運動障害患者のアレルギー性結膜炎（点眼瓶保持不能・自己点眼不全克服療法）',
+        subType: '老年眼科型・手の震え（パーキンソン病・本態性振戦・リウマチ）患者の自立型眼瞼塗布レジメン',
+        baseProb: 30,
+        criteria: '【処方サイン】：高齢者、手の震え（振戦）、片麻痺、関節リウマチ、点眼液が顔に落ちて目に入らない患者。',
+        reason: '点眼瓶を眼球の上に保持する高度な微小手指運動が不要で、指先に取って目を閉じた状態でまぶたに塗るだけで確実に薬効が届く。',
+        keyPoint: '💡 介助者の負担軽減：老老介護や施設入所者において、目薬をさす介助が不要となり、患者自身で安全に塗布できる。',
+        treatment: {
+          pathology: '加齢に伴う手指巧緻性低下や振戦により点眼瓶先端が眼球や睫毛に接触し、角膜損傷や点眼瓶内汚染を起こすリスクがあります。',
+          rationale: '【処方根拠】：眼瞼塗布により点眼事故のリスクをゼロにし、アドヒアランスを100%維持します。',
+          firstLine: 'アレジオン眼瞼クリーム0.5% 1日1回両眼眼瞼塗布。',
+          combination: 'ドライアイ加療。',
+          contra: '目の中への直接注入。',
+          targets: '確実な薬物送達、目のかゆみの解消。',
+          guidance: '🗣️ 服薬指導：目薬がうまく入らなくて困っていた高齢者に対し、クリームを指でまぶたに塗るだけの簡単な使い方を実演説明。'
+        }
+      },
+      {
+        id: 'intraocular_instillation_alert',
+        cardNum: 14,
+        name: '【🚨 必須服薬指導アラート】眼球内（目の中）直接投与の絶対禁止 ＆ 塗布後手洗い指導',
+        subType: '重大指導警告・目薬との誤認による角膜刺激・かすみ目防止（まぶた皮膚への外用徹底）',
+        baseProb: 15,
+        criteria: '【指導サイン】：アレジオン眼瞼クリーム初回交付時。',
+        reason: 'クリーム剤を直接結膜嚢内に注入すると強い角膜刺激感・異物感・かすみ目を生じる。',
+        keyPoint: '🗣️ 薬剤師の絶対指導：「目薬のように目の中に入れるお薬ではありません！必ず目を閉じて、まぶたの皮膚の上に優しく塗り広げてください。また、塗った後はすぐに石鹸で指を洗ってください。」',
+        treatment: {
+          pathology: 'クリーム基剤が眼球内に直接入ると涙液層が乱れ、一過性の角膜刺激と高度の視力不鮮明（かすみ）を誘発します。',
+          rationale: '【誤用防止の徹底】：患者が「目のかゆみの薬だから目に入れる」と思い込まないよう、パッケージを見せながら「皮膚用」であることを強調します。',
+          firstLine: 'まぶた（皮膚）塗布の指導徹底。',
+          combination: 'もし誤って目に入った場合は清潔な水で直ちに洗い流す指導。',
+          contra: '結膜嚢内への直接注入。',
+          targets: '誤用による眼合併症発生率ゼロ。',
+          guidance: '🗣️ 必須フレーズ：「このお薬は絶対に目の中に入れないでくださいね。目を閉じて、まぶたのお肌に塗るお薬です。塗り終わったら指をハンドソープできれいに洗ってください。」'
+        }
+      }
+    ]
   }
 };
 
@@ -46363,6 +46482,8 @@ function applyProfileWeights(scores) {
     if (scores['keratosis_dermatosis'] !== undefined) scores['keratosis_dermatosis'] -= 50;
     if (scores['vkc_spring_catarrh'] !== undefined) scores['vkc_spring_catarrh'] += 95;
     if (scores['allergy_conjunctivitis_refractory'] !== undefined) scores['allergy_conjunctivitis_refractory'] += 90;
+    if (scores['allergic_conjunctivitis_eyelid'] !== undefined) scores['allergic_conjunctivitis_eyelid'] += 95;
+    if (scores['elderly_tremor_instillation'] !== undefined) scores['elderly_tremor_instillation'] += 90;
   } else if (prof.dept === 'hema') {
     if (scores['et_thrombocythemia'] !== undefined) scores['et_thrombocythemia'] += 90;
     if (scores['pv_polycythemia'] !== undefined) scores['pv_polycythemia'] += 90;
@@ -46906,6 +47027,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: 'ARB（アンジオテンシンII受容体拮抗薬）',
     reason: '同効ARB群の中で最も受容体解離速度が遅く、最強の24時間持続降圧能を誇る薬剤。',
     benefit: '【選定の決め手】：早朝高血圧（Morning Surge）による心筋梗塞・脳卒中を確実に防ぐため、ARB群最強の降圧力を求めて選定されています。'
+  },
+  {
+    pattern: /アレジオン眼瞼|眼瞼クリーム/,
+    name: 'エピナスチン眼瞼クリーム（アレジオン眼瞼クリーム）',
+    class: '経皮吸収型アレルギー性結膜炎治療薬（眼瞼外用クリーム）',
+    reason: '2024年に発売された世界初・日本初のまぶた塗布型製剤。薄い眼瞼皮膚から経皮吸収されて結膜組織へ直接移行。',
+    benefit: '【選定の決め手】：目薬を怖がって激しく泣き叫ぶ子どもや、手の震えで点眼できない高齢者に対し、目を閉じた状態でまぶたに1日1回塗るだけでアレルギー性結膜炎を安全に治療できるため選定されています。'
   },
   {
     pattern: /タリムス/,
@@ -47687,6 +47815,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('もたれ') || cdLower.includes('胃もたれ') || cdLower.includes('排出') || cdLower.includes('胸やけ')) keywords.push('胃もたれ', '胃排出', '胸やけ', 'gerd', '逆流');
     if (cdLower.includes('耳') || cdLower.includes('耳だれ') || cdLower.includes('耳漏') || cdLower.includes('中耳炎') || cdLower.includes('外耳炎') || cdLower.includes('耳浴')) keywords.push('耳漏', '中耳炎', '外耳炎', '耳だれ', '耳浴', '点耳', '点耳薬');
     if (cdLower.includes('春季カタル') || cdLower.includes('石垣') || cdLower.includes('乳頭') || cdLower.includes('目のかゆみ') || cdLower.includes('結膜炎') || cdLower.includes('しみる')) keywords.push('春季カタル', '巨大乳頭', '石垣状', 'シールド潰瘍', 'タリムス', '結膜炎', 'しみる', '灼熱感');
+    if (cdLower.includes('まぶた') || cdLower.includes('眼瞼') || cdLower.includes('クリーム') || cdLower.includes('目薬嫌') || cdLower.includes('目薬させない') || cdLower.includes('手の震え')) keywords.push('アレジオン眼瞼クリーム', 'まぶた', '眼瞼', '点眼拒絶', '手の震え', '経皮吸収');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
