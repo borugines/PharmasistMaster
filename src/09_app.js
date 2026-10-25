@@ -356,6 +356,7 @@ const DRUG_DB = [
   { name: "エボザック / サリグレン", gen: "セビメリン塩酸塩水和物", cat: "125. 口腔乾燥症（SjS専用）", char: "M1/M3選択的作動薬！シェーグレン症候群専用（放射線後は適応外査定！）", desc: "キヌクリジン誘導体。ピロカルピンに比べ心臓M2への影響が少ない。適応は「シェーグレン症候群の口腔乾燥症状」のみ！頭頸部放射線後の患者に処方された場合は保険適応外（査定対象）。多汗に注意。気管支喘息絶対禁忌。", gId: "c16", cSec: "sec-imm" },
   { name: "サリベート", gen: "人工唾液エアゾール", cat: "125. 口腔乾燥症（局所スプレー）", char: "天然唾液に近い無機塩類スプレー！ムスカリン薬が使えない喘息患者の救世主", desc: "口腔内乾燥時に舌下・頬粘膜に直接1〜2回噴霧。全身性のコリン副作用（多汗・頻尿・腹痛）が一切なく、気管支喘息等でサラジェン・エボザックが禁忌の患者にも極めて安全。", gId: "c16", cSec: "sec-imm" },
   { name: "プリモボラン", gen: "メテノロン酢酸エステル", cat: "128. 血液疾患 / 蛋白同化ステロイド", char: "再生不良性貧血の造血促進 ＆ 慢性消耗性疾患の蛋白同化！女性の不可逆的嗄声注意", desc: "蛋白同化ステロイド。男性化作用を弱め蛋白同化作用を特異的に強化。腎EPO産生促進と骨髄幹細胞直接刺激で赤血球・血小板を産生。女性で一度低くなった声（嗄声）は中止後も戻らない不可逆的変化！前立腺がん絶対禁忌。定期肝機能検査必須。", gId: "c16", cSec: "sec-imm" },
+  { name: "ヴォトリエント", gen: "パゾパニブ塩酸塩", cat: "135. 抗がん薬 / 分子標的薬（STS・RCC）", char: "悪性軟部腫瘍・腎細胞癌のマルチTKI！必ず【空腹時服用】＆PPI併用厳禁", desc: "VEGFR/PDGFR/c-Kit阻害薬。食後服用で血中濃度が約2倍に急増し致死的毒性（高血圧・QT延長・穿孔）の危険があるため「食前1時間または食後2時間」の空腹時服用厳守！胃酸で溶解するためPPI併用で吸収が約40%激減（効果消失・原則併用回避）。c-Kit阻害による毛髪の白毛化（白髪化）を事前告知指導。", gId: "c16", cSec: "sec-imm" },
 
 ];
 
@@ -491,6 +492,8 @@ const COMPOUNDING_MASTER = {
   "サリグレン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 防湿", reason: "普通錠。粉砕・簡易懸濁可能（苦味あり）。気管支喘息は絶対禁忌！放射線照射後には適応なし（シェーグレン症候群のみ適応）。多汗副作用に留意。", alt: "普通錠粉砕、エボザック" },
   "プリモボラン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 遮光防湿", reason: "普通錠。粉砕・簡易懸濁可能（遮光防湿保存推奨）。男性の前立腺がん絶対禁忌！女性の嗄声（声の低音化）は中止しても戻らない不可逆的変化のため即時報告を指導。定期肝機能検査。", alt: "普通錠粉砕" },
   "メテノロン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 遮光防湿", reason: "普通錠。粉砕・簡易懸濁可能（遮光防湿保存推奨）。男性の前立腺がん絶対禁忌！女性の嗄声（声の低音化）は中止しても戻らない不可逆的変化のため即時報告を指導。定期肝機能検査。", alt: "普通錠粉砕" },
+  "ヴォトリエント": { crush: "ng", susp: "ng", pack: "caution", crushText: "❌ 粉砕不可", suspText: "❌ 懸濁不可", packText: "⚠️ 防湿", reason: "抗悪性腫瘍薬（劇薬・催奇形性・曝露危険）。粉砕・懸濁すると調剤者や介助者への抗がん薬曝露リスク。空腹時吸収設計が崩れるため原形服用厳守。必ず空腹時（食前1時間以上または食後2時間以降）に服用。PPI併用で吸収約40%激減（原則併用回避）。", alt: "原形服用厳守、嚥下困難時は主治医と治療方針相談" },
+  "パゾパニブ": { crush: "ng", susp: "ng", pack: "caution", crushText: "❌ 粉砕不可", suspText: "❌ 懸濁不可", packText: "⚠️ 防湿", reason: "抗悪性腫瘍薬（劇薬・催奇形性・曝露危険）。粉砕・懸濁すると調剤者や介助者への抗がん薬曝露リスク。空腹時吸収設計が崩れるため原形服用厳守。必ず空腹時（食前1時間以上または食後2時間以降）に服用。PPI併用で吸収約40%激減（原則併用回避）。", alt: "原形服用厳守、嚥下困難時は主治医と治療方針相談" },
   "タケルダ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "タケルダ配合錠": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "プラザキサ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿激", reason: "脱カプセル・粉砕絶対禁止（AUC急増で出血死）。極めて吸湿性が高くPTPシートのまま保管必須。", alt: "リクシアナOD錠、エリキュース" },
@@ -9540,6 +9543,145 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 29. マルチキナーゼ阻害抗がん薬（ヴォトリエント錠：パゾパニブ塩酸塩）
+  // 🌟 悪性軟部腫瘍（STS）＆ 腎細胞癌（RCC） ＆ 空腹時服用厳守（食後AUC2倍） ＆ PPI併用激減 ＆ 白毛化指導
+  tki_votrient: {
+    aliases: ['ヴォトリエント', 'パゾパニブ', 'votrient', 'pazopanib', '悪性軟部腫瘍', '軟部肉腫', '腎細胞癌', 'sts', 'rcc', 'マルチキナーゼ', 'マルチtki'],
+    name: 'マルチキナーゼ阻害抗がん薬（ヴォトリエント錠：パゾパニブ塩酸塩）',
+    category: '分子標的抗悪性腫瘍薬（VEGFR/PDGFR/c-Kitマルチキナーゼ阻害薬 / 悪性軟部腫瘍 ＆ 腎細胞癌レジメン）',
+    questions: [
+      {
+        id: 'vot_q1_administration_timing',
+        title: 'Q1. 処方箋情報：適応疾患と服薬タイミング（空腹時 vs 食後）の指示はどれですか？',
+        subtitle: '食事による血中濃度激増（致死毒性リスク）とPPI相互作用（効果消失）を厳重鑑査します',
+        options: [
+          {
+            id: 'vot_opt_proper_fasting',
+            label: '悪性軟部腫瘍（軟部肉腫）または進行腎細胞癌：適正な【空腹時（食事の1時間以上前 または 食後2時間以降）】の指示',
+            badge: '適正処方（空腹時服用厳守）',
+            desc: '1日1回800mg（200mg 4錠）空腹時投与。食事の影響を避けて血中濃度を一定にコントロール',
+            weights: { votrient_proper_fasting: 95, votrient_postprandial_overdose_alert: -60, votrient_hair_depigmentation_care: 30 }
+          },
+          {
+            id: 'vot_opt_postprandial_error',
+            label: '【🚨 処方鑑査・過量毒性リスク】：処方箋に誤って「食後服用（朝食後・夕食後など）」と記載されている',
+            badge: '🚨 食後服用誤記・即刻疑義照会！',
+            desc: '食事摂取によりAUC・Cmaxが約2倍に急増！致死的高血圧クリーゼ・心不全・消化管穿孔の極期危険！即座に空腹時へ変更疑義照会',
+            weights: { votrient_postprandial_overdose_alert: 100, votrient_proper_fasting: -50 }
+          },
+          {
+            id: 'vot_opt_ppi_interaction_danger',
+            label: '【🚨 相互作用・効果消失リスク】：胃薬として「PPI（タケキャブ/ネキシウム等）」が併用処方されている',
+            badge: '🚨 PPI併用で効果激減！',
+            desc: '酸性環境でしか溶けないため胃内pH上昇で溶解性激減・血中濃度が約40%低下！抗がん治療が無効化する恐れ（原則併用回避）',
+            weights: { votrient_ppi_interaction_alert: 100, votrient_proper_fasting: 25 }
+          },
+          {
+            id: 'vot_opt_hair_whitening_shock',
+            label: '【🚨 必須服薬指導・心理ケア】：患者から「髪の毛や眉毛が急に真っ白になった（白髪化）」と強い不安の訴え',
+            badge: '🚨 毛髪白毛化・心理ケア指導！',
+            desc: 'c-Kit阻害によるメラニン産生抑制。抗がん薬がしっかり効いている目に見えるサインであることを伝え安心を支援',
+            weights: { votrient_hair_depigmentation_care: 100, votrient_proper_fasting: 35 }
+          }
+        ]
+      },
+      {
+        id: 'vot_q2_toxicity_monitoring',
+        title: 'Q2. 副作用マネジメントと初期モニタリング計画：対策と検査状況はどれですか？',
+        subtitle: '手足症候群（HFSR）、初期肝機能検査（2週毎）、高血圧管理を評価します',
+        options: [
+          {
+            id: 'vot_opt_hfsr_moisturizer_care',
+            label: '手足症候群（HFSR）予防：ヘパリン類似物質軟膏等の保湿剤外用と、荷重部・摩擦部の圧迫回避指導',
+            badge: '手足症候群スキンケア徹底',
+            desc: 'VEGFR阻害による毛細血管修復障害。投与開始日からの入念な保湿とクッション性の高い靴の着用指導',
+            weights: { votrient_proper_fasting: 90, votrient_hair_depigmentation_care: 35 }
+          },
+          {
+            id: 'vot_opt_liver_biweekly_check',
+            label: '初期肝機能厳重モニタリング：最初の9週間における「少なくとも2週間ごと」のAST/ALT/T-Bil採血追跡',
+            badge: '初期2週毎肝機能採血必須',
+            desc: '重篤な肝細胞障害・黄疸のブラックボックス警告。Grade 3以上の上昇時は直ちに休薬・減量規準適用',
+            weights: { votrient_proper_fasting: 90, votrient_postprandial_overdose_alert: 30 }
+          },
+          {
+            id: 'vot_opt_home_bp_management',
+            label: '高血圧マネジメント：朝晩の家庭血圧測定と、降圧薬（Ca拮抗薬等）の早期導入・タイトレーション',
+            badge: '連日家庭血圧モニタリング',
+            desc: 'NO産生抑制による血管収縮。収縮期140mmHg以上または拡張期90mmHg以上で速やかに降圧薬を開始',
+            weights: { votrient_proper_fasting: 85 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'votrient_proper_fasting',
+        name: 'ヴォトリエント錠200mg（パゾパニブ：悪性軟部腫瘍・腎細胞癌の空腹時至適処方）',
+        matchRate: 98,
+        badge: '適正処方（空腹時服用 ＆ マルチTKI）',
+        rationale: '悪性軟部腫瘍（悪性軟部肉腫：STS）および進行性腎細胞癌（RCC）に対する標準治療薬。VEGFR-1/2/3、PDGFR-α/β、c-Kitを強力阻害して腫瘍血管新生を阻止。食事の影響（AUC約2倍増）を避けるため【食事の1時間以上前または食後2時間以降】の空腹時投与が至適条件。',
+        treatment: {
+          pathology: '腫瘍細胞および血管内皮細胞の過剰なVEGF/PDGF受容体活性化により血管新生・浸潤増殖が加速。パゾパニブがチロシンキナーゼ活性を可逆的阻害して腫瘍微小環境を兵糧攻め。',
+          rationale: '1日1回800mg（200mg 4錠）空腹時投与。原形服用（粉砕不可）。治療開始初期は2週ごとの肝機能検査と連日家庭血圧測定。',
+          firstLine: 'ヴォトリエント錠200mg 1回4錠 1日1回空腹時。',
+          combination: 'ヘパリン類似物質軟膏（手足症候群予防）、降圧薬（Ca拮抗薬・ARB）。',
+          contra: '重篤な肝障害、妊婦（催奇形性・致死毒性）、粉砕調剤。',
+          targets: '無増悪生存期間（PFS）延長、腫瘍縮小、重篤有害事象（Grade 3以上）ゼロ。',
+          guidance: '🗣️ 必須フレーズ：「このお薬はごはんの直後に飲むと、体に薬が効きすぎてしまい血圧が跳ね上がったり強い副作用が出ます。ですから必ず『ごはんを食べる1時間以上前』か『ごはんを食べてから2時間以上あけたお腹が空っぽのとき』に、コップ1杯のお水で噛まずにそのまま飲んでくださいね。」'
+        }
+      },
+      {
+        id: 'votrient_postprandial_overdose_alert',
+        name: '【🚨 疑義照会必須・過量毒性危機】：ヴォトリエントの「食後服用」処方箋誤記トラップ',
+        matchRate: 99,
+        badge: '🚨 食後内服厳禁・過量毒性！',
+        rationale: '本剤を高脂肪食または通常食の後に服用すると、曝露量（AUCおよびCmax）が約2倍に跳ね上がります！血中濃度過昇により、致死的な高血圧クリーゼ、心機能障害（QT延長・心不全）、重篤な肝壊死、消化管穿孔・出血のリスクが急激に高まるため、食後指示は即刻疑義照会して【空腹時服用】へ訂正が絶対必須！',
+        treatment: {
+          pathology: '胆汁酸分泌や消化管滞留時間の延長により脂溶性化合物の溶解・吸収が異常亢進し、想定許容量を遥かに超える抗がん薬曝露が発生します。',
+          rationale: '医師の日常的な「食後」習慣的処方入力ミスが多発する要注意薬剤。疑義照会により医療過誤を未然に防止。',
+          firstLine: '即座に疑義照会（用法を「空腹時」へ変更訂正）。',
+          combination: '患者へ食後服用の危険性と空腹時服用の厳守を再指導。',
+          contra: '食直後服用、高脂肪食後服用。',
+          targets: '過量毒性発現の未然完全防止。',
+          guidance: '🗣️ 疑義照会フレーズ例：「ヴォトリエント錠が『朝食後』で処方されておりますが、本剤は食後に内服すると血中濃度が通常の約2倍に急増し重篤な高血圧や心毒性・消化管穿孔の危険がございます。添付文書上『食事の1時間前または食後2時間以降の空腹時』投与と指定されておりますので、空腹時服用へご変更いただけますでしょうか。」'
+        }
+      },
+      {
+        id: 'votrient_ppi_interaction_alert',
+        name: '【🚨 相互作用疑義照会】：PPI（タケキャブ/ネキシウム等）併用によるパゾパニブ吸収激減トラップ',
+        matchRate: 97,
+        badge: '🚨 PPI併用で効果激減！',
+        rationale: 'パゾパニブは酸性pHでしか溶解しない水難溶性塩基性化合物です。プロトンポンプ阻害薬（PPI）やP-CAB（タケキャブ）が併用されると、胃内pHが上昇してパゾパニブが溶解できず、血中濃度（AUC/Cmax）が約40%激減し抗悪性腫瘍効果が著しく損なわれます！原則PPI併用は回避。',
+        treatment: {
+          pathology: 'pH依存性溶解性薬物の典型例。pH>4の胃内環境では薬物が析出・沈殿して小腸に到達し、ほとんど吸収されずに排泄されます。',
+          rationale: '制酸が必要な場合はPPIを中止し、H2受容体拮抗薬をパゾパニブ投与の10時間以上前または2時間以上後にずらして投与するか、局所粘膜保護薬への変更を提案します。',
+          firstLine: '疑義照会（PPIの中止、またはH2ブロッカー時間差投与への変更提案）。',
+          combination: '制酸剤（マグミット等）とも数時間以上間隔をあける。',
+          contra: 'PPI（エソメプラゾール、ボノプラザン等）の漫然併用。',
+          targets: '抗がん薬血中有効濃度の維持、治療効果の担保。',
+          guidance: '🗣️ 処方医への確認：「ヴォトリエント錠にタケキャブ錠が併用されております。パゾパニブは胃内pH上昇により溶解性が著しく低下し、血中濃度が約40%低下することが報告されております。タケキャブを中止いただくか、H2ブロッカーの時間差投与等へのご変更をご検討いただけませんでしょうか。」'
+        }
+      },
+      {
+        id: 'votrient_hair_depigmentation_care',
+        name: '【🚨 必須服薬指導・心理的ケア】：c-Kit阻害に伴う「毛髪の白毛化（白髪化）・皮膚脱色」',
+        matchRate: 95,
+        badge: '🚨 毛髪白毛化・事前ケア！',
+        rationale: '本剤のc-KitおよびPDGFR阻害作用により、毛包メラノサイトのメラニン合成が抑制され、服用開始後数週間〜数ヶ月で髪の毛や眉毛、体毛が白くなる「白毛化（脱色・白髪化・銀髪）」が高頻度（30〜40%）に生じます。事前に説明がないと強い精神的ショックを受けるため、「抗がん薬が効いている証拠」と伝えて受容を支えます。',
+        treatment: {
+          pathology: '幹細胞因子受容体c-Kitはメラノサイトの維持・メラニン産生に必須のチロシンキナーゼ。パゾパニブがc-Kitを遮断するため一時的に色素合成が停止。',
+          rationale: '脱毛ではなく「色の脱色」であり、休薬・治療終了後には徐々に元の髪色に戻る可逆的変化であることを強調して安心感を提供。',
+          firstLine: '開始前の白毛化予告指導 ＆ 治療終了後の可逆性説明。',
+          combination: '必要に応じたウィッグ、眉墨、帽子等のアピアランスケア案内。',
+          contra: '不安による無断自己中断。',
+          targets: 'アピアランス（外見変化）の不安軽減、服薬継続率100%。',
+          guidance: '🗣️ 服薬指導の極意：「このお薬を続けていると、髪の毛や眉毛の色が抜けて白髪のようになることがあります。これはお薬ががんの細胞をしっかり抑え込んでいる目に見える証拠ですので、決して悪いことではありません。治療が終わればまた元の色に戻っていきますので、びっくりなさらず安心して治療を続けてくださいね。」'
+        }
+      }
+    ]
   }
 };
 
@@ -10180,6 +10322,10 @@ function applyProfileWeights(scores) {
     if (scores['allergy_conjunctivitis_refractory'] !== undefined) scores['allergy_conjunctivitis_refractory'] += 90;
     if (scores['allergic_conjunctivitis_eyelid'] !== undefined) scores['allergic_conjunctivitis_eyelid'] += 95;
     if (scores['elderly_tremor_instillation'] !== undefined) scores['elderly_tremor_instillation'] += 90;
+    if (scores['votrient_proper_fasting'] !== undefined) scores['votrient_proper_fasting'] += 95;
+    if (scores['votrient_postprandial_overdose_alert'] !== undefined) scores['votrient_postprandial_overdose_alert'] += 90;
+    if (scores['votrient_ppi_interaction_alert'] !== undefined) scores['votrient_ppi_interaction_alert'] += 90;
+    if (scores['votrient_hair_depigmentation_care'] !== undefined) scores['votrient_hair_depigmentation_care'] += 85;
   } else if (prof.dept === 'hema') {
     if (scores['et_thrombocythemia'] !== undefined) scores['et_thrombocythemia'] += 90;
     if (scores['pv_polycythemia'] !== undefined) scores['pv_polycythemia'] += 90;
@@ -10960,6 +11106,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: '蛋白同化ステロイド（同化/男性化比向上アナボリックステロイド）',
     reason: 'テストステロン誘導体。男性化作用を抑制し蛋白同化作用を特異的に強化。腎臓からのEPO分泌促進および骨髄造血幹細胞直接刺激により造血能を回復。',
     benefit: '【選定の決め手】：再生不良性貧血（AA）やMDSにおいて免疫抑制療法と併用し骨髄造血を再建するため、または慢性消耗性疾患・サルコペニア・重度骨粗鬆症で筋肉量と骨基質を維持するために選定されています。※女性の不可逆的嗄声（声変わり）に厳重警戒！前立腺がん禁忌。'
+  },
+  {
+    pattern: /ヴォトリエント|パゾパニブ/,
+    name: 'パゾパニブ塩酸塩（ヴォトリエント錠200mg）',
+    class: '経口マルチチロシンキナーゼ阻害薬（VEGFR-1/2/3, PDGFR-α/β, c-Kit）',
+    reason: '腫瘍の血管新生および増殖シグナルを多面的に遮断。悪性軟部腫瘍（軟部肉腫）および腎細胞癌の標準TKI。酸性環境でのみ溶解吸収される物性。',
+    benefit: '【選定の決め手】：悪性軟部肉腫や進行腎癌において腫瘍縮小・無増悪生存期間を有意に延長。※【超重要】：食後服用でAUCが2倍に急増するため必ず「空腹時（食前1Hまたは食後2H）」服用！PPI併用で吸収が40%激減するため併用回避。c-Kit阻害による毛髪脱色（白髪化）は薬効の証拠です。'
   }
 ];
 
@@ -11585,6 +11738,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('キャブピリン') || cdLower.includes('タケルダ') || cdLower.includes('アスピリン合剤') || cdLower.includes('タケキャブ合剤') || cdLower.includes('配合錠') || cdLower.includes('lda')) keywords.push('キャブピリン', 'タケルダ', 'ボノプラザン', 'アスピリン', '有核二層錠', '低用量アスピリン', '潰瘍再発', '既往', '粉砕不可');
     if (cdLower.includes('サラジェン') || cdLower.includes('エボザック') || cdLower.includes('サリグレン') || cdLower.includes('ピロカルピン') || cdLower.includes('セビメリン') || cdLower.includes('シェーグレン') || cdLower.includes('口渇') || cdLower.includes('ドライマウス') || cdLower.includes('唾液') || cdLower.includes('サリベート') || cdLower.includes('多汗') || cdLower.includes('放射線')) keywords.push('サラジェン', 'エボザック', 'サリグレン', 'ピロカルピン', 'セビメリン', 'シェーグレン', '口渇', 'ドライマウス', '唾液', 'サリベート', '多汗', '放射線', '照射後', '口の渇き');
     if (cdLower.includes('プリモボラン') || cdLower.includes('メテノロン') || cdLower.includes('再生不良性貧血') || cdLower.includes('アナボリック') || cdLower.includes('蛋白同化') || cdLower.includes('嗄声') || cdLower.includes('声変わり') || cdLower.includes('造血') || cdLower.includes('骨髄')) keywords.push('プリモボラン', 'メテノロン', '再生不良性貧血', 'アナボリック', '蛋白同化', '嗄声', '声の低音化', '造血', '骨髄', 'epo', 'サルコペニア', '消耗性');
+    if (cdLower.includes('ヴォトリエント') || cdLower.includes('パゾパニブ') || cdLower.includes('軟部肉腫') || cdLower.includes('悪性軟部') || cdLower.includes('腎細胞癌') || cdLower.includes('空腹時') || cdLower.includes('白髪') || cdLower.includes('白毛') || cdLower.includes('手足症候群') || cdLower.includes('tki') || cdLower.includes('マルチキナーゼ')) keywords.push('ヴォトリエント', 'パゾパニブ', '軟部肉腫', '悪性軟部腫瘍', '腎細胞癌', '空腹時', '白髪', '白毛化', '手足症候群', 'マルチキナーゼ', 'vegfr', 'c-kit', 'ppi併用');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
