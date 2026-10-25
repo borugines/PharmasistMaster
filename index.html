@@ -11516,6 +11516,22 @@ button, a, input, select, textarea, .tab-btn, .quick-tag-btn, .diff-tag-btn, .di
         <div class="dict-card-sub">エロビキシバット / 胆汁酸トランスポーター阻害薬</div>
         <div class="dict-card-desc">天然の下剤である胆汁酸を利用した新世代便秘薬。大腸に届いた胆汁酸が水分分泌と大腸運動を同時にドライブ。食事で分泌される胆汁酸を捉えるため必ず「朝食前」服用。投与初期の腹痛・下痢に注意。</div>
       </div>
+
+    <!-- グリチロン配合錠 -->
+    <div class="dict-card" data-type="drug" data-kana="く" data-name="グリチロン配合錠 (グリチルリチン酸一アンモニウム / グリシン / DL-メチオニン)" data-desc="肝機能改善・皮膚科用抗炎症配合剤。甘草成分グリチルリチン酸によるALT/AST改善・円形脱毛症治療（セファランチン併用）。11β-HSD2阻害に伴う【偽アルドステロン症（低K血症・手足の脱力感・血圧上昇・浮腫）】に厳戒。甘草含有漢方薬や利尿薬との併用に注意。低K・ミオパチー禁忌。">
+      <div>
+        <div class="dict-card-head">
+          <h3 class="dict-card-title">グリチロン配合錠</h3>
+          <span class="dict-badge dict-badge-drug">💊 薬品</span>
+        </div>
+        <div class="dict-card-sub">グリチルリチン酸 / グリシン / DL-メチオニン 配合剤</div>
+        <div class="dict-card-desc">慢性肝疾患の肝機能異常改善、湿疹・皮膚炎、円形脱毛症、口内炎。グリチルリチン酸の肝保護・抗アレルギー作用。グリシン・メチオニン配合で代謝サポート。偽アルドステロン症（低カリウム血症、四肢脱力感、血圧上昇）に留意。甘草含有漢方薬との重複チェック必須。</div>
+      </div>
+      <div class="dict-card-footer">
+        <button class="dict-jump-btn" onclick="jumpToGuide('c15')">📘 肝臓ガイド</button>
+        <button class="dict-jump-btn" onclick="showDrugByName('グリチロン')">🔍 詳細モーダル</button>
+      </div>
+    </div>
       <div class="dict-card-footer">
         <button class="dict-jump-btn" onclick="jumpToComp('sec-extra')">⚔️ 同効薬比較</button>
         <button class="dict-jump-btn" onclick="quickSearch('便秘')">🔍 疾患ガイド</button>
@@ -35673,6 +35689,7 @@ Ca拮抗薬による毛細血管内圧上昇に起因する浮腫が疑われま
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('イフェクサー')">🧠 イフェクサー (SNRI/用量依存/離脱注意)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アグリリン')">🩸 アグリリン (本態性血小板血症/巨核球阻害/心毒性注意)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コランチル')">💧 コランチル (制酸鎮痙配合/キレート/緑内障禁忌)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('グリチロン')">🌿 グリチロン (肝機能改善/円形脱毛症/甘草低K注意)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドパコール')">🧠 ドパコール (レボドパ)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メスチノン')">👁️ メスチノン (MG)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('オフェブ')">🫁 オフェブ (IPF)</button>
@@ -37466,6 +37483,7 @@ const DRUG_DB = [
   { name: "イフェクサーSR", gen: "ベンラファキシン塩酸塩", cat: "137. 精神神経 / SNRI", char: "用量依存的デュアル作用！SSRI無効の意欲低下・重症うつ病に高用量賦活", desc: "低用量（〜75mg）はSSRI様、高用量（150〜225mg）で強力なノルアドレナリン再取り込み阻害を発揮。徐放性カプセルのため【噛み砕き・粉砕脱カプセル厳禁】。半減期が短く急な自己中断による【激しい離脱症状（めまい・シャンシャン感）】に厳重警戒。高用量時の血圧上昇モニタリング必須。※疼痛適応なし（うつ病のみ）。", gId: "c6", cSec: "sec-psy" },
   { name: "アグリリン", gen: "アナグレリド塩酸塩水和物", cat: "138. 血液疾患 / 本態性血小板血症", char: "巨核球成熟を選択的阻害！非細胞毒性で若年の血小板血症第一選択＆心毒性注意", desc: "本態性血小板血症（ET）治療薬。巨核球の分化・成熟を選択的に抑制し血小板のみを減少（赤血球・白血球に影響なし）。DNA障害性がないため若年患者やハイドレア不耐（下腿潰瘍等）に最適。PDE3阻害作用を併有するため【動悸・頻脈・心不全・QT延長】に厳重警戒（重篤心不全禁忌）。妊婦禁忌・催奇形性あり。", gId: "c16", cSec: "sec-imm" },
   { name: "コランチル", gen: "ジサイクロミン/乾燥水酸化Alゲル/水酸化Mg", cat: "139. 消化器 / 制酸・鎮痙配合剤", char: "即時胃酸中和 ＆ 胃痙攣直接鎮痛！緑内障・前立腺肥大・キレート相互作用に厳戒", desc: "抗コリン薬ジサイクロミン（鎮痙）＋水酸化Al/水酸化Mg（制酸・排便バランス相殺）の古典的配合顆粒。胃炎・胃潰瘍の急な胃痛・さしこみ痛を即座に中和鎮痛。抗コリン作用により【閉塞隅角緑内障・前立腺肥大排尿障害は絶対禁忌】！Al・Mgを含むため【透析患者禁忌】およびニューキノロン・テトラサイクリン・チラージンSとの【金属キレート吸収阻害（2時間以上間隔空け）】が必須。", gId: "c11", cSec: "sec-gi" },
+  { name: "グリチロン", gen: "グリチルリチン酸/グリシン/DL-メチオニン", cat: "140. 肝臓・皮膚科 / 抗炎症・解毒配合剤", char: "甘草成分で肝機能改善＆円形脱毛症！漢方薬併用の【偽アルドステロン症・低K】厳戒", desc: "グリチルリチン酸（抗炎症・肝保護）に副作用軽減のグリシン・メチオニンを配合。慢性肝疾患のALT/AST改善、皮膚炎・円形脱毛症（セファランチン併用）に適応。11β-HSD2阻害によりコルチゾールが蓄積し【偽アルドステロン症（低K血症・脱力感・血圧上昇・浮腫）】を惹起。甘草含有漢方薬（芍薬甘草湯等）や利尿薬との併用に厳重警戒。アルドステロン症・低K血症・ミオパチー禁忌。", gId: "c15", cSec: "sec-gi" },
 
 ];
 
@@ -37613,6 +37631,9 @@ const COMPOUNDING_MASTER = {
   "コランチル": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 顆粒剤", suspText: "⭕ 懸濁可", packText: "⚠️ 防湿", reason: "配合顆粒剤（普通顆粒）。湿気や空気中CO2で成分変化しやすいため防湿分包推奨。簡易懸濁は温湯で分散するが不溶性制酸剤（Al/Mg）が沈殿しやすいため直前撹拌注入。閉塞隅角緑内障・排尿障害・透析禁忌！キレート形成薬（ニューキノロン等）と2時間以上あける。", alt: "細粒・顆粒原形服用、他剤（PPI・テプレノン等）検討" },
   "コランチル配合顆粒": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 顆粒剤", suspText: "⭕ 懸濁可", packText: "⚠️ 防湿", reason: "配合顆粒剤。防湿保管。簡易懸濁は沈殿しやすいため直前撹拌。緑内障・前立腺肥大・透析禁忌。抗菌薬とのキレート相互作用に留意。", alt: "原形服用" },
   "ジサイクロミン": { crush: "ok", susp: "ok", pack: "ok", crushText: "⭕ 可", suspText: "⭕ 懸濁可", packText: "⭕ 可", reason: "抗コリン性鎮痙薬。緑内障・前立腺肥大排尿障害禁忌。", alt: "他剤検討" },
+  "グリチロン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 防湿", reason: "普通錠（配合錠）。粉砕・簡易懸濁可能（甘草特有の強い甘みあり）。吸湿性があるため一包化時は防湿保存推奨。甘草含有漢方薬（芍薬甘草湯等）との重畳による偽アルドステロン症（低K血症・血圧上昇）に厳重警戒。アルドステロン症・低K禁忌。", alt: "普通錠粉砕、ウルソデオキシコール酸等" },
+  "グリチロン配合錠": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 防湿", reason: "普通錠。粉砕可能。防湿保管。甘草重畳による低K血症・偽アルドステロン症注意。", alt: "普通錠粉砕" },
+  "グリチルリチン酸": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 可", packText: "⚠️ 防湿", reason: "甘草成分。11β-HSD2阻害により偽アルドステロン症注意。漢方併用チェック必須。", alt: "普通錠粉砕" },
   "タケルダ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "タケルダ配合錠": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "プラザキサ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿激", reason: "脱カプセル・粉砕絶対禁止（AUC急増で出血死）。極めて吸湿性が高くPTPシートのまま保管必須。", alt: "リクシアナOD錠、エリキュース" },
@@ -39663,6 +39684,29 @@ const DRUG_DIFF_MAP = [
         criteria: '【処方サイン】サインバルタ 20〜60mg 朝食後（精神科・心療内科処方）',
         reason: 'ノルアドレナリン神経を刺激して意欲・気力を向上させ、身体の痛みを伴ううつ病に著効',
         keyPoint: '血圧上昇、排尿障害（前立腺肥大注意）、賦活症候群（初期の焦燥感）'
+      }
+    ]
+  },
+
+  // 47. グリチルリチン酸配合剤特性：グリチロン配合錠
+  {
+    drugs: ['グリチロン', 'グリチロン配合錠', 'グリチルリチン酸', 'glycyron'],
+    diffs: [
+      {
+        cardNum: 15,
+        name: '15. 慢性肝疾患・脂肪肝（ALT/AST改善・肝保護型）',
+        subType: '🩺 肝細胞膜安定化 ＆ コルチゾール局所増強：肝機能数値の速やかな正常化',
+        criteria: '【処方サイン】グリチロン配合錠 1回2〜3錠 1日3回毎食後（消化器・肝臓内科処方）',
+        reason: 'グリチルリチン酸がホスホリパーゼA2を阻害し肝細胞膜の破壊・過酸化脂質形成を抑制してトランスアミナーゼを低下',
+        keyPoint: '血清K値・血圧モニタリング、ウルソ（UDCA）との相乗併用'
+      },
+      {
+        cardNum: 16,
+        name: '16. 円形脱毛症・湿疹皮膚炎（アレルギー免疫調節型）',
+        subType: '🪮 毛包周囲リンパ球浸潤抑制 ＆ セファランチン併用療法',
+        criteria: '【処方サイン】グリチロン配合錠 1回2錠 ＋ セファランチン（皮膚科処方）',
+        reason: 'ステロイド代謝抑制による抗炎症作用とT細胞免疫調節により、自己免疫性の毛包攻撃を沈静化して育毛促進',
+        keyPoint: '皮膚科での長期処方による「隠れ甘草過量投与」の見逃し防止'
       }
     ]
   },
@@ -47176,8 +47220,196 @@ const CLINICAL_WIZARD_DATA = {
           firstLine: '透析患者へのコランチル処方に対する即時疑義照会・処方削除提案。',
           combination: '腎機能低下時も安全なプロトンポンプ阻害薬またはH2受容体拮抗薬（腎用量調整）への変更。',
           contra: '透析療法を受けている患者（絶対禁忌）。',
-          targets: 'アルミニウム蓄積毒性ゼロ、高Mg血症ゼロ。',
-          guidance: '🗣️ 薬歴・疑義照会トリガー：「透析治療を受けられている患者様には、アルミニウムが体に溜まってしまう危険があるためコランチルは禁忌となっています。透析患者様にも安全に使える他の胃薬（タケキャブやムコスタ等）へのご変更を主治医の先生にご相談いたしますね。」'
+          targets: 'アルミニウム蓄積毒性ゼロ、高Mg血症ゼロ。',        guidance: '🗣️ 薬歴・疑義照会トリガー：「透析治療を受けられている患者様には、アルミニウムが体に溜まってしまう危険があるためコランチルは禁忌となっています。透析患者様にも安全に使える他の胃薬（タケキャブやムコスタ等）へのご変更を主治医の先生にご相談いたしますね。」'
+        }
+      }
+    ]
+  },
+
+  // 34. 抗炎症・肝保護配合剤（グリチロン配合錠：グリチルリチン酸/グリシン/メチオニン）
+  // 🌟 慢性肝疾患（ALT改善） ＆ 円形脱毛症・皮膚炎 ＆ 偽アルドステロン症（甘草重畳・低K血症・高血圧） ＆ 利尿薬相互作用
+  liver_glycyron: {
+    aliases: ['グリチロン', 'グリチロン配合錠', 'グリチルリチン', 'グリチルリチン酸', 'glycyron', '肝障害', 'alt', 'ast', '円形脱毛症', '偽アルドステロン症', '低カリウム血症', '甘草'],
+    name: '抗炎症・肝保護配合剤（グリチロン配合錠：グリチルリチン酸/グリシン/メチオニン）',
+    category: '肝疾患・皮膚疾患用薬（グリチルリチン酸配合剤 / 肝保護・円形脱毛症 ＆ 偽アルドステロン症・低K安全管理レジメン）',
+    questions: [
+      {
+        id: 'gly_q1_indication_dept',
+        title: 'Q1. 処方箋情報：処方元の診療科および主な適応疾患はどれですか？（最も当てはまるものを1つ選択）',
+        subtitle: 'グリチロンは「肝臓内科（ALT/AST改善）」と「皮膚科（円形脱毛症・皮膚炎）」の2大領域で広く使用されます',
+        options: [
+          {
+            id: 'gly_opt_liver_alt_ast',
+            label: '消化器・肝臓内科：慢性肝疾患（脂肪肝/MASH、アルコール性、肝炎）に伴う肝機能異常（ALT/AST高値）改善',
+            badge: '慢性肝疾患（ALT/AST改善）',
+            desc: 'グリチルリチン酸が肝細胞膜破壊を抑制し炎症を鎮火。ウルソデオキシコール酸（UDCA）との併用多用',
+            weights: { glycyron_chronic_liver_alt: 95, glycyron_alopecia_areata: -30, glycyron_pseudoaldosteronism_alert: 20, glycyron_diuretic_hypokalemia_risk: 15 }
+          },
+          {
+            id: 'gly_opt_alopecia_dermatology',
+            label: '皮膚科：円形脱毛症（単発・多発型脱毛）または難治性の湿疹・皮膚炎・口内炎',
+            badge: '円形脱毛症（セファランチン併用）',
+            desc: '自己免疫性毛包炎の鎮静と育毛促進。セファランチン（アルカロイド）とセット処方される標準レジメン',
+            weights: { glycyron_alopecia_areata: 95, glycyron_chronic_liver_alt: -20, glycyron_pseudoaldosteronism_alert: 25, glycyron_diuretic_hypokalemia_risk: 15 }
+          },
+          {
+            id: 'gly_opt_licorice_herbal_overlap',
+            label: '甘草含有漢方薬（芍薬甘草湯、抑肝散、葛根湯等）が併用されている（甘草・グリチルリチン酸重複）',
+            badge: '🚨 甘草重畳・偽アルドステロン症',
+            desc: '漢方薬とグリチロンの併用でグリチルリチン酸摂取量が跳ね上がり、低K血症・ミオパシーのリスク急増',
+            weights: { glycyron_pseudoaldosteronism_alert: 95, glycyron_chronic_liver_alt: 10, glycyron_alopecia_areata: 10, glycyron_diuretic_hypokalemia_risk: 30 }
+          },
+          {
+            id: 'gly_opt_diuretic_hypokalemia',
+            label: 'ループ利尿薬（ラシックス等）やサイアザイド系利尿薬が併用されている、または血清K値低下傾向',
+            badge: '⚠️ 利尿薬併用・低K血症警戒',
+            desc: '11β-HSD2阻害による腎性K排泄促進と利尿薬のK排泄作用が重畳し、重篤な致死的不整脈リスク',
+            weights: { glycyron_diuretic_hypokalemia_risk: 95, glycyron_pseudoaldosteronism_alert: 85, glycyron_chronic_liver_alt: -20 }
+          }
+        ]
+      },
+      {
+        id: 'gly_q2_pseudoaldosteronism_audit',
+        title: 'Q2. 患者自覚症状・検査値：副作用モニタリングにおける最重要確認項目はどれですか？',
+        subtitle: '11β-HSD2阻害に伴うコルチゾール過剰蓄積（偽アルドステロン症）の初期徴候を捉えます',
+        options: [
+          {
+            id: 'gly_opt_hypokalemia_weakness',
+            label: '【筋症状・電解質】：手足のだるさ（四肢脱力感）、こむら返り、筋肉痛、血清K値低下（K < 3.5mEq/L）',
+            badge: '低カリウム血症・ミオパチー',
+            desc: '重度低K血症により横紋筋融解症や不整脈をきたす危険。低カリウム血症患者・ミオパシーは禁忌！',
+            weights: { glycyron_pseudoaldosteronism_alert: 95, glycyron_diuretic_hypokalemia_risk: 90 }
+          },
+          {
+            id: 'gly_opt_hypertension_edema',
+            label: '【体液貯留・循環器】：血圧上昇（普段より高い）、顔や足のむくみ（浮腫）、急激な体重増加',
+            badge: '血圧上昇 ＆ ナトリウム貯留浮腫',
+            desc: '腎集合管でのNa再吸収亢進による循環血漿量増大。高血圧増悪・心不全リスク',
+            weights: { glycyron_pseudoaldosteronism_alert: 90, glycyron_chronic_liver_alt: 20 }
+          },
+          {
+            id: 'gly_opt_liver_transaminase_trend',
+            label: '【肝酵素推移】：AST/ALT値が以前より低下し、肝細胞障害が鎮静化傾向にある',
+            badge: 'トランスアミナーゼ改善確認',
+            desc: '肝細胞膜保護効果の発現。効果確認とともに長期連用時の電解質チェックを忘れず実施',
+            weights: { glycyron_chronic_liver_alt: 95, glycyron_pseudoaldosteronism_alert: -20 }
+          },
+          {
+            id: 'gly_opt_alopecia_hair_growth',
+            label: '【皮膚症状経過】：脱毛斑の拡大が停止し、産毛（新生毛）が生えてきている',
+            badge: '円形脱毛症改善確認',
+            desc: '毛包周囲の自己免疫性炎症の沈静化。数ヶ月継続投与されるため「隠れ甘草過量」に留意',
+            weights: { glycyron_alopecia_areata: 95, glycyron_pseudoaldosteronism_alert: 10 }
+          }
+        ]
+      },
+      {
+        id: 'gly_q3_pharmaceutical_guidance',
+        title: 'Q3. 薬剤師鑑査・服薬指導：調剤室および患者説明で最も徹底すべき項目はどれですか？',
+        subtitle: '配合成分（アミノ酸配合意義）の理解と安全管理プロトコル',
+        options: [
+          {
+            id: 'gly_opt_early_warning_symptoms',
+            label: '【初期症状警告】：患者へ「手足の脱力感・こむら返り・むくみ」が出たら直ちに連絡するよう事前指導',
+            badge: '偽アルドステロン症初期警告',
+            desc: '早期発見・早期休薬により重篤化を完全に阻止。患者自身に初期症状を認識させることが最強の防御',
+            weights: { glycyron_pseudoaldosteronism_alert: 95, glycyron_diuretic_hypokalemia_risk: 85 }
+          },
+          {
+            id: 'gly_opt_amino_acid_rationale',
+            label: '【配合意義理解】：グリシン・DL-メチオニンは、グリチルリチンの副作用軽減と解毒代謝強化のために配合',
+            badge: 'アミノ酸配合の処方意図',
+            desc: 'グリシン・メチオニンがグリチルリチン酸の過剰な代謝性毒性を相殺し認容性を高める製剤的工夫',
+            weights: { glycyron_chronic_liver_alt: 85, glycyron_alopecia_areata: 80 }
+          },
+          {
+            id: 'gly_opt_k_sparing_monitoring',
+            label: '【定期採血管理】：長期内服患者では少なくとも1〜2ヶ月ごとに血清カリウム値・血圧の測定を推奨',
+            badge: '血清K値・血圧定期モニタリング',
+            desc: '特に高齢者や利尿薬・降圧薬併用者では無症候性低K血症を見逃さないための臨床ルーティン',
+            weights: { glycyron_diuretic_hypokalemia_risk: 95, glycyron_pseudoaldosteronism_alert: 90 }
+          },
+          {
+            id: 'gly_opt_herbal_cross_audit',
+            label: '【漢方薬重複照会】：お薬手帳で他の医療機関や市販薬から甘草（風邪薬・胃腸薬）が出ていないか監査',
+            badge: '他科・市販薬甘草重複スクリーニング',
+            desc: '整形外科（芍薬甘草湯）、耳鼻科（小青竜湯）、精神科（抑肝散）との重複をシャットアウト',
+            weights: { glycyron_pseudoaldosteronism_alert: 95 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'glycyron_chronic_liver_alt',
+        name: '慢性肝疾患・脂肪肝（ALT/AST改善・肝細胞保護）',
+        subType: '🩺 肝細胞膜安定化 ＆ コルチゾール局所増強：トランスアミナーゼ値の速やかな正常化',
+        baseProb: 35,
+        criteria: '【処方サイン】グリチロン配合錠 1回2〜3錠 1日3回毎食後（消化器・肝臓内科処方）',
+        reason: 'グリチルリチン酸がホスホリパーゼA2を阻害して肝細胞膜の破壊と過酸化脂質形成を抑制し、内因性コルチゾールの不活化（11β-HSD2）を阻害して局所の抗炎症作用を増強し、ALT/ASTを速やかに改善します。',
+        keyPoint: '💡 グリシン・メチオニンが副作用を抑えつつ解毒を促進。ウルソ（UDCA）との併用相乗効果',
+        treatment: {
+          pathology: '脂肪肝（MASLD/MASH）や慢性肝炎に伴う肝細胞の持続的炎症・壊死。トランスアミナーゼ逸脱。',
+          rationale: '【処方根拠】：肝機能検査値の異常を速やかに改善し、肝線維化への進行を抑えるために選定されます。',
+          firstLine: 'グリチロン配合錠 1回2〜3錠 1日3回毎食後。',
+          combination: 'ウルソデオキシコール酸（ウルソ 300〜600mg/日）。',
+          contra: 'アルドステロン症、ミオパシー、低カリウム血症のある患者。',
+          targets: 'ALT/AST 30IU/L以下、血清K値 4.0mEq/L以上維持。',
+          guidance: '🗣️ 服薬指導フレーズ：「肝臓の炎症を抑えて、肝機能の数値を正常に近づけるお薬です。甘草という生薬の成分と、お体を守るアミノ酸がバランスよく入っています。血液中のカリウムが下がることがありますので、手足に力が入りにくくなったり、まぶたや足がむくむようなことがあれば教えてくださいね。」'
+        }
+      },
+      {
+        id: 'glycyron_alopecia_areata',
+        name: '円形脱毛症・アレルギー性皮膚炎（セファランチン併用・免疫炎症制御）',
+        subType: '🪮 毛包自己免疫攻撃の沈静化 ＆ アレルギー性炎症カスケードの遮断',
+        baseProb: 30,
+        criteria: '【処方サイン】グリチロン配合錠 1回2錠 1日3回 ＋ セファランチン配合（皮膚科処方）',
+        reason: 'ステロイド代謝阻害による局所抗炎症作用とT細胞免疫調節作用により、毛包周囲のリンパ球浸潤（自己免疫性毛包破壊）を抑制し、セファランチンとの相乗効果で発毛環境を回復させます。',
+        keyPoint: '💡 皮膚科で数ヶ月以上長期処方されるため「隠れ甘草過量」による低K血症・高血圧の見落とし厳禁',
+        treatment: {
+          pathology: '毛包自己抗原に対するCD8陽性T細胞の自己免疫攻撃により成長期毛包が急速退行・脱落。',
+          rationale: '【処方根拠】：内服ステロイドの全身副作用を避けつつ、安全に毛包周囲の炎症を抑えて育毛を促進するために選定されます。',
+          firstLine: 'グリチロン配合錠 1回2錠 1日3回 ＋ セファランチン錠 1回1〜2mg 1日2〜3回。',
+          combination: '外用ステロイド（デルモベート、アンテベート）、カルプロニウム塩化物外用液。',
+          contra: '低カリウム血症、アルドステロン症。',
+          targets: '脱毛斑の進行停止、硬毛新生、完全寛解。',
+          guidance: '🗣️ 服薬指導フレーズ：「髪の毛の根元の炎症を静めて、毛が抜けにくく生えやすい状態を整えるお薬です。皮膚科では長く飲み続けることが多いお薬ですので、足のつり（こむら返り）が増えたり、血圧が高くなったりしていないか定期的にチェックしましょうね。」'
+        }
+      },
+      {
+        id: 'glycyron_pseudoaldosteronism_alert',
+        name: '🚨 偽アルドステロン症アラート（甘草重畳・低カリウム血症・筋脱力・高血圧）',
+        subType: '⚠️ 11β-HSD2阻害によるコルチゾール過剰蓄積：腎性K排泄亢進 ＆ Na貯留',
+        baseProb: 20,
+        criteria: '【処方サイン】甘草含有漢方（芍薬甘草湯・抑肝散等）併用、血清K < 3.5mEq/L、脱力感・浮腫',
+        reason: 'グリチルリチン酸が腎尿細管の11β-HSD2を阻害するため、コルチゾールがコルチゾンへ変換されず蓄積し、MR受容体を強力刺激して偽アルドステロン症を発症。低K血症（脱力・不整脈）と高血圧・浮腫を招きます。',
+        keyPoint: '💡 アルドステロン症・低K・ミオパシーは絶対禁忌！手足の脱力・こむら返り・むくみの早期発見',
+        treatment: {
+          pathology: '腎集合管上皮細胞でのNa/K-ATPase活性化による過剰なK排泄・Na再吸収。重篤な低K血症から横紋筋融解症。',
+          rationale: '【処方根拠】：漢方薬との併用重複を発見した場合は、グリチルリチン総量を計算し医師へ減量・中止を提案します。',
+          firstLine: 'グリチロンの即時休薬または甘草含有漢方薬の中止。',
+          combination: '低K血症に対するカリウム保持性利尿薬（スピロノラクトン）またはK補給製剤（アスパラK）。',
+          contra: 'アルドステロン症、ミオパシー、低カリウム血症のある患者（絶対禁忌）。',
+          targets: '血清K値 4.0mEq/L以上回復、血圧正常化、筋脱力症状消失。',
+          guidance: '🗣️ 警告・服薬指導フレーズ：「このお薬は生薬の甘草（カンゾウ）と同じ成分が含まれています。足がつりやすい時によく使われる『芍薬甘草湯』や市販の風邪薬を一緒に飲むと、成分が重なって手足に力が入らなくなったり、血圧が上がることがあります。他のお薬を飲むときは必ず薬剤師にご相談くださいね。」'
+        }
+      },
+      {
+        id: 'glycyron_diuretic_hypokalemia_risk',
+        name: '⚠️ 利尿薬併用低K血症リスク（ループ/サイアザイド相互作用・不整脈警戒）',
+        subType: '⚡ 腎性カリウム排泄経路の重複加速：致死的心室性不整脈（TdP）の防止',
+        baseProb: 15,
+        criteria: '【処方サイン】フロセミド（ラシックス）、トリクロルメチアジド、アゾセミド等の排K利尿薬併用',
+        reason: 'ループ利尿薬やサイアザイド系利尿薬によるヘンレループ・遠位尿細管でのK排泄促進と、グリチロンのMR受容体刺激によるK排泄促進が相乗し、急激かつ重篤な低カリウム血症を誘発します。',
+        keyPoint: '💡 心電図QT延長・ジギタリス中毒・致死的不整脈リスク増大。K保持性利尿薬への変更検討',
+        treatment: {
+          pathology: '相加的なカリウム喪失による重度低K血症（K < 3.0mEq/L）。心筋細胞再分極遅延。',
+          rationale: '【処方根拠】：利尿薬併用患者では電解質を頻回測定し、K喪失の少ないレジメンへ調整します。',
+          firstLine: '血清電解質（K, Na）の至急測定（疑義照会）。',
+          combination: 'スピロノラクトン（アルダクトン）への置換、または塩化K製剤（スローケー）併用。',
+          contra: '重篤な低カリウム血症。',
+          targets: '血清K値 4.0〜4.8mEq/L維持、不整脈発症ゼロ。',
+          guidance: '🗣️ 相互作用説明：「おしっこを出しやすくする利尿薬とグリチロンを一緒に飲むと、体に必要なカリウムというミネラル分が尿から出やすくなります。定期的な血液検査で数値をチェックしながら安全に服用していきましょう。」'
         }
       }
     ]
@@ -47756,6 +47988,9 @@ function applyProfileWeights(scores) {
     if (scores['hrt_menoaid_patch'] !== undefined) scores['hrt_menoaid_patch'] += 90;
     if (scores['hrt_no_uterus_estrogen_only'] !== undefined) scores['hrt_no_uterus_estrogen_only'] += 90;
   } else if (prof.dept === 'gi') {
+    if (scores['glycyron_chronic_liver_alt'] !== undefined) scores['glycyron_chronic_liver_alt'] += 95;
+    if (scores['glycyron_pseudoaldosteronism_alert'] !== undefined) scores['glycyron_pseudoaldosteronism_alert'] += 85;
+    if (scores['glycyron_diuretic_hypokalemia_risk'] !== undefined) scores['glycyron_diuretic_hypokalemia_risk'] += 80;
     if (scores['kolantyl_acute_gastritis_spasm'] !== undefined) scores['kolantyl_acute_gastritis_spasm'] += 95;
     if (scores['kolantyl_chelate_interaction_alert'] !== undefined) scores['kolantyl_chelate_interaction_alert'] += 90;
     if (scores['kolantyl_anticholinergic_contra_alert'] !== undefined) scores['kolantyl_anticholinergic_contra_alert'] += 85;
@@ -47794,6 +48029,8 @@ function applyProfileWeights(scores) {
     if (scores['nephrotic_mcns'] !== undefined) scores['nephrotic_mcns'] += 85;
     if (scores['ckd_dm_nephropathy'] !== undefined) scores['ckd_dm_nephropathy'] += 80;
   } else if (prof.dept === 'uro_derm') {
+    if (scores['glycyron_alopecia_areata'] !== undefined) scores['glycyron_alopecia_areata'] += 95;
+    if (scores['glycyron_pseudoaldosteronism_alert'] !== undefined) scores['glycyron_pseudoaldosteronism_alert'] += 80;
     if (scores['uti_complex'] !== undefined) scores['uti_complex'] += 90;
     if (scores['behcet_syndrome'] !== undefined) scores['behcet_syndrome'] += 70;
     if (scores['eruptive_xanthoma'] !== undefined) scores['eruptive_xanthoma'] += 95;
@@ -48655,6 +48892,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: '消化器用薬（制酸・鎮痙配合剤）',
     reason: '乾燥水酸化Alゲルと水酸化Mgによる即時胃酸中和（下痢便秘相殺設計）に加え、抗コリン薬ジサイクロミンが胃壁平滑筋の攣縮を直接遮断して急な心窩部痛・胃痙攣を速効鎮痙。',
     benefit: '【選定の決め手】：PPIが効き始めるまでの即効性制酸および胃痙攣・さしこみ痛の直接解除のために選定されます。※Al3+/Mg2+による【ニューキノロン・テトラサイクリン・チラージンSとの金属キレート吸収阻害（2時間以上間隔空け）】、ジサイクロミンによる【閉塞隅角緑内障・排尿障害禁忌】、およびアルミニウム蓄積による【透析患者絶対禁忌】に厳重警戒が必要です。'
+  },
+  {
+    pattern: /グリチロン|グリチルリチン|glycyron/,
+    name: 'グリチルリチン酸/グリシン/DL-メチオニン（グリチロン配合錠）',
+    class: '肝疾患・皮膚疾患用薬（抗炎症・肝保護配合剤）',
+    reason: 'グリチルリチン酸がホスホリパーゼA2を阻害し肝細胞膜を保護、11β-HSD2阻害により局所コルチゾールを高めて強力消炎。グリシン・メチオニンが副作用を緩和し解毒を促進。',
+    benefit: '【選定の決め手】：慢性肝疾患のトランスアミナーゼ（ALT/AST）改善、および皮膚科における円形脱毛症（セファランチン併用）の免疫炎症鎮静のために選定されます。※11β-HSD2阻害による【偽アルドステロン症（低K血症・高血圧・手足の脱力感・こむら返り）】および甘草含有漢方薬（芍薬甘草湯等）との重複、利尿薬併用時の重度低K血症に厳重警戒が必要です。'
   }
 ];
 
@@ -49285,6 +49529,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('イフェクサー') || cdLower.includes('ベンラファキシン') || cdLower.includes('venlafaxine') || cdLower.includes('effexor') || cdLower.includes('シャンシャン') || cdLower.includes('離脱症状') || cdLower.includes('アクチベーション')) keywords.push('イフェクサー', 'ベンラファキシン', '大うつ病性障害', '意欲低下', '精神運動制止', '用量依存', '離脱症状', 'シャンシャン', '血圧上昇', '徐放性カプセル', 'srカプセル', '適応外');
     if (cdLower.includes('アグリリン') || cdLower.includes('アナグレリド') || cdLower.includes('anagrelide') || cdLower.includes('agrylin') || cdLower.includes('血小板血症') || cdLower.includes('巨核球') || cdLower.includes('pde3')) keywords.push('アグリリン', 'アナグレリド', '本態性血小板血症', '血小板', '巨核球', 'pde3', '動悸', '頻脈', '心不全', 'ハイドレア', '下腿潰瘍', '催奇形性', '避妊');
     if (cdLower.includes('コランチル') || cdLower.includes('ジサイクロミン') || cdLower.includes('kolantyl') || cdLower.includes('胃痙攣') || cdLower.includes('制酸') || cdLower.includes('さしこみ痛') || cdLower.includes('キレート') || cdLower.includes('水酸化アルミニウム')) keywords.push('コランチル', 'ジサイクロミン', '胃炎', '胃潰瘍', '胃酸過多', '胃痙攣', 'さしこみ', '制酸剤', 'キレート', '緑内障', '透析', '排尿障害', 'ニューキノロン');
+    if (cdLower.includes('グリチロン') || cdLower.includes('グリチルリチン') || cdLower.includes('glycyron') || cdLower.includes('甘草') || cdLower.includes('偽アルドステロン') || cdLower.includes('低カリウム') || cdLower.includes('円形脱毛症') || cdLower.includes('セファランチン')) keywords.push('グリチロン', 'グリチルリチン', '甘草', '偽アルドステロン症', '低カリウム血症', '低k', '脱力感', 'こむら返り', '円形脱毛症', 'セファランチン', 'alt', 'ast', '肝機能', '肝炎');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
