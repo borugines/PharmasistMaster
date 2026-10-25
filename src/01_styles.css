@@ -4845,6 +4845,300 @@ tbody tr:hover { background-color: #f0fdf4; }
 /* ========================================================
    鑑別グレーゾーン（除外診断・情報保留）アラートスタイル
    ======================================================== */
+/* ========================================================
+   処方スタンス・インジケーター（攻め Intensive vs 守り Conservative）
+   ======================================================== */
+.wizard-stance-banner {
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  animation: fadeInModal 0.3s ease-out;
+}
+.wizard-stance-banner.intensive {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #e0f2fe 100%);
+  border: 2px solid #059669;
+}
+.wizard-stance-banner.conservative {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fff7ed 100%);
+  border: 2px solid #d97706;
+}
+.stance-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+.stance-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+.stance-title {
+  font-size: 0.98rem;
+  font-weight: 800;
+  margin-bottom: 3px;
+}
+.wizard-stance-banner.intensive .stance-title {
+  color: #065f46;
+}
+.wizard-stance-banner.conservative .stance-title {
+  color: #92400e;
+}
+.stance-desc {
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.45;
+}
+.stance-badge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 16px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.wizard-stance-banner.intensive .stance-badge {
+  background: #059669;
+  color: #ffffff;
+}
+.wizard-stance-banner.conservative .stance-badge {
+  background: #d97706;
+  color: #ffffff;
+}
+
+/* ========================================================
+   同種同効薬の分子差別化カード（Why this drug?）
+   ======================================================== */
+.wizard-molecule-card {
+  background: #f0fdfa;
+  border: 2px solid #0d9488;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.12);
+  animation: fadeInModal 0.3s ease-out;
+}
+.molecule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed #99f6e4;
+}
+.molecule-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #0f766e;
+}
+.molecule-badge {
+  background: #0d9488;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+.molecule-item {
+  background: #ffffff;
+  border: 1px solid #ccfbf1;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.molecule-item:last-child {
+  margin-bottom: 0;
+}
+.molecule-item-name {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #115e59;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.molecule-item-reason {
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.molecule-item-benefit {
+  background: #f0fdf4;
+  border-left: 3px solid #10b981;
+  padding: 6px 12px;
+  font-size: 0.81rem;
+  color: #065f46;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.5;
+}
+
+/* ========================================================
+   用量フェーズ・医師の警戒度カード（Dose Titration Stage）
+   ======================================================== */
+.wizard-dose-card {
+  background: #faf5ff;
+  border: 2px solid #8b5cf6;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.12);
+  animation: fadeInModal 0.3s ease-out;
+}
+.dose-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed #ddd6fe;
+}
+.dose-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #5b21b6;
+}
+.dose-badge {
+  background: #7c3aed;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+.dose-item {
+  background: #ffffff;
+  border: 1px solid #ede9fe;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.dose-item:last-child {
+  margin-bottom: 0;
+}
+.dose-item-phase {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #6d28d9;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dose-item-desc {
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.dose-item-alert {
+  background: #fff1f2;
+  border-left: 3px solid #f43f5e;
+  padding: 6px 12px;
+  font-size: 0.81rem;
+  color: #9f1239;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.5;
+}
+
+/* ========================================================
+   アドヒアランス・剤形・配合剤設計カード
+   ======================================================== */
+.wizard-adherence-card {
+  background: #eff6ff;
+  border: 2px solid #3b82f6;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.12);
+  animation: fadeInModal 0.3s ease-out;
+}
+.adherence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed #bfdbfe;
+}
+.adherence-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #1e40af;
+}
+.adherence-badge {
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+.adherence-item {
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.adherence-item:last-child {
+  margin-bottom: 0;
+}
+.adherence-item-name {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #1d4ed8;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.adherence-item-desc {
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.adherence-item-intent {
+  background: #f0fdf4;
+  border-left: 3px solid #10b981;
+  padding: 6px 12px;
+  font-size: 0.81rem;
+  color: #065f46;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.5;
+}
+
 .wizard-grayzone-card {
   background: #fffbeb;
   border: 2px solid #f59e0b;

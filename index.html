@@ -4859,6 +4859,300 @@ tbody tr:hover { background-color: #f0fdf4; }
 /* ========================================================
    鑑別グレーゾーン（除外診断・情報保留）アラートスタイル
    ======================================================== */
+/* ========================================================
+   処方スタンス・インジケーター（攻め Intensive vs 守り Conservative）
+   ======================================================== */
+.wizard-stance-banner {
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  animation: fadeInModal 0.3s ease-out;
+}
+.wizard-stance-banner.intensive {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #e0f2fe 100%);
+  border: 2px solid #059669;
+}
+.wizard-stance-banner.conservative {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fff7ed 100%);
+  border: 2px solid #d97706;
+}
+.stance-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+.stance-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+.stance-title {
+  font-size: 0.98rem;
+  font-weight: 800;
+  margin-bottom: 3px;
+}
+.wizard-stance-banner.intensive .stance-title {
+  color: #065f46;
+}
+.wizard-stance-banner.conservative .stance-title {
+  color: #92400e;
+}
+.stance-desc {
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.45;
+}
+.stance-badge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 16px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.wizard-stance-banner.intensive .stance-badge {
+  background: #059669;
+  color: #ffffff;
+}
+.wizard-stance-banner.conservative .stance-badge {
+  background: #d97706;
+  color: #ffffff;
+}
+
+/* ========================================================
+   同種同効薬の分子差別化カード（Why this drug?）
+   ======================================================== */
+.wizard-molecule-card {
+  background: #f0fdfa;
+  border: 2px solid #0d9488;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.12);
+  animation: fadeInModal 0.3s ease-out;
+}
+.molecule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed #99f6e4;
+}
+.molecule-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #0f766e;
+}
+.molecule-badge {
+  background: #0d9488;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+.molecule-item {
+  background: #ffffff;
+  border: 1px solid #ccfbf1;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.molecule-item:last-child {
+  margin-bottom: 0;
+}
+.molecule-item-name {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #115e59;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.molecule-item-reason {
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.molecule-item-benefit {
+  background: #f0fdf4;
+  border-left: 3px solid #10b981;
+  padding: 6px 12px;
+  font-size: 0.81rem;
+  color: #065f46;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.5;
+}
+
+/* ========================================================
+   用量フェーズ・医師の警戒度カード（Dose Titration Stage）
+   ======================================================== */
+.wizard-dose-card {
+  background: #faf5ff;
+  border: 2px solid #8b5cf6;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.12);
+  animation: fadeInModal 0.3s ease-out;
+}
+.dose-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed #ddd6fe;
+}
+.dose-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #5b21b6;
+}
+.dose-badge {
+  background: #7c3aed;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+.dose-item {
+  background: #ffffff;
+  border: 1px solid #ede9fe;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.dose-item:last-child {
+  margin-bottom: 0;
+}
+.dose-item-phase {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #6d28d9;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dose-item-desc {
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.dose-item-alert {
+  background: #fff1f2;
+  border-left: 3px solid #f43f5e;
+  padding: 6px 12px;
+  font-size: 0.81rem;
+  color: #9f1239;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.5;
+}
+
+/* ========================================================
+   アドヒアランス・剤形・配合剤設計カード
+   ======================================================== */
+.wizard-adherence-card {
+  background: #eff6ff;
+  border: 2px solid #3b82f6;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.12);
+  animation: fadeInModal 0.3s ease-out;
+}
+.adherence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed #bfdbfe;
+}
+.adherence-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #1e40af;
+}
+.adherence-badge {
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+.adherence-item {
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.adherence-item:last-child {
+  margin-bottom: 0;
+}
+.adherence-item-name {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #1d4ed8;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.adherence-item-desc {
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.adherence-item-intent {
+  background: #f0fdf4;
+  border-left: 3px solid #10b981;
+  padding: 6px 12px;
+  font-size: 0.81rem;
+  color: #065f46;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.5;
+}
+
 .wizard-grayzone-card {
   background: #fffbeb;
   border: 2px solid #f59e0b;
@@ -43478,6 +43772,7 @@ const wizardState = {
   history: [],
   selectedOptionIds: new Set(),
   customDrugs: [],
+  rawPrescriptionText: '',
   patientProfile: {
     dept: null,
     age: null,
@@ -44457,6 +44752,302 @@ function detectComplexSyndrome(rankedDiseases, selectedOptionIds, customDrugs) {
 
 
 // ========================================================
+// 医師の処方決定プロセス逆算エンジン（4大深層推論）
+// 1. 処方スタンス（攻め Intensive vs 守り Conservative）
+// 2. 同種同効薬の分子差別化（Why this drug?）
+// 3. 用量フェーズ・警戒度逆算（Dose Titration Stage）
+// 4. アドヒアランス・剤形・配合剤設計（Adherence Design）
+// ========================================================
+
+// 1. 処方スタンス逆算エンジン
+function detectPrescriptionStance(profile, primaryDrug, customDrugs, rankedDiseases) {
+  const prof = profile || wizardState.patientProfile || {};
+  const isElderly = prof.age === 'elderly' || prof.age === 'senior';
+  const isLeanOrFrail = prof.vitals && prof.vitals.has('lean');
+  const hasLowEgfr = prof.labs && prof.labs.has('egfr_low');
+  const hasBrady = prof.vitals && prof.vitals.has('brady');
+
+  // 守り・QOL守護型（Conservative）の判定
+  if ((isElderly && (isLeanOrFrail || hasLowEgfr || hasBrady)) || (isElderly && prof.days === 'as_needed')) {
+    return {
+      type: 'conservative',
+      icon: '🛡️',
+      badge: '医師の処方スタンス：守り・QOL守護型（有害事象回避優先）',
+      title: '🛡️ 医師の臨床方針：徹底的な数値追求よりも「低血糖・低血圧・転倒骨折」を回避する安全優先の処方設計',
+      desc: '患者の年齢（高齢・超高齢）や腎機能・体格（フレイル）を考慮し、ガイドライン目標値に固執せず「自立した日常生活（ADL）の維持」と「医原性有害事象の未然防止」を最優先とした極めて賢明な処方スタンスです。'
+    };
+  }
+
+  // 攻め・積極的イベント抑制型（Intensive）の判定
+  return {
+    type: 'intensive',
+    icon: '🔥',
+    badge: '医師の処方スタンス：攻め・積極的予後改善型（心血管・腎保護優先）',
+    title: '🔥 医師の臨床方針：将来の心血管死・脳卒中・透析導入を阻止する「積極的臓器保護」の処方設計',
+    desc: '10〜20年後の動脈硬化性イベントや心不全悪化、末期腎不全移行を徹底的に食い止めるため、ガイドライン推奨目標（厳格降圧・脂質低下・心腎保護4本柱）を果敢に追求する攻めの処方スタンスです。'
+  };
+}
+
+// 2. 同種同効薬の分子差別化辞書（Why this drug?）
+const MOLECULE_RATIONALE_MAP = [
+  {
+    pattern: /アジルバ|アジルサルタン/,
+    name: 'アジルサルタン（アジルバ）',
+    class: 'ARB（アンジオテンシンII受容体拮抗薬）',
+    reason: '同効ARB群の中で最も受容体解離速度が遅く、最強の24時間持続降圧能を誇る薬剤。',
+    benefit: '【選定の決め手】：早朝高血圧（Morning Surge）による心筋梗塞・脳卒中を確実に防ぐため、ARB群最強の降圧力を求めて選定されています。'
+  },
+  {
+    pattern: /ニューロタン|ロサルタン/,
+    name: 'ロサルタン（ニューロタン）',
+    class: 'ARB（アンジオテンシンII受容体拮抗薬）',
+    reason: 'ARBの中で唯一、腎近位尿細管の尿酸トランスポーターURAT1を特異的に阻害する分子構造。',
+    benefit: '【選定の決め手】：高血圧と「高尿酸血症・痛風」の併発に対し、1剤で降圧と尿酸低下を同時に達成する「一石二鳥」の処方設計です。'
+  },
+  {
+    pattern: /アテレック|シルニジピン/,
+    name: 'シルニジピン（アテレック）',
+    class: 'CCB（L/N型カルシウム拮抗薬）',
+    reason: '血管平滑筋のL型Caチャネルに加え、交感神経末端のN型Caチャネルも強力に遮断する特異的薬剤。',
+    benefit: '【選定の決め手】：交感神経過緊張による「頻脈」を抑え、さらに輸入・輸出細動脈を均等拡張して糸球体内圧を低下させ「尿蛋白」を漏出抑制します。'
+  },
+  {
+    pattern: /ミカルディス|テルミサルタン/,
+    name: 'テルミサルタン（ミカルディス）',
+    class: 'ARB（アンジオテンシンII受容体拮抗薬）',
+    reason: 'ARBの中で最も長い血中半減期（約24時間）と、核内受容体PPAR-γ活性化能（アゴニスト作用）を併せ持つ。',
+    benefit: '【選定の決め手】：1日1回の確実な24時間降圧に加え、インスリン抵抗性改善・内臓脂肪蓄積抑制などの糖脂質代謝改善効果を狙って選定されています。'
+  },
+  {
+    pattern: /トラゼンタ|リナグリプチン/,
+    name: 'リナグリプチン（トラゼンタ）',
+    class: 'DPP-4阻害薬（糖尿病治療薬）',
+    reason: '約95%が胆汁・糞便中に排泄され、腎臓からの排泄割合がわずか5%未満という特異的体内動態。',
+    benefit: '【選定の決め手】：eGFR低下（CKD）や人工透析患者であっても、「腎機能低下に伴う減量・休薬が一切不要」で安全・シンプルに使えるため選ばれています。'
+  },
+  {
+    pattern: /テネリア|テネリグリプチン/,
+    name: 'テネリグリプチン（テネリア）',
+    class: 'DPP-4阻害薬（糖尿病治療薬）',
+    reason: '肝代謝と腎排泄のデュアル排泄型で、透析患者における豊富な安全性・有効性エビデンスを保有。',
+    benefit: '【選定の決め手】：透析患者や進行期CKDでも血中濃度が過剰上昇せず、安定した血糖是正が期待できるため選定されています。'
+  },
+  {
+    pattern: /リバロ|ピタバスタチン/,
+    name: 'ピタバスタチン（リバロ）',
+    class: 'HMG-CoA還元酵素阻害薬（スタチン）',
+    reason: 'CYP代謝をほとんど受けない（グルクロン酸抱合主代謝）ため他剤との相互作用が極めて少ない。',
+    benefit: '【選定の決め手】：多剤併用時の薬物相互作用を回避し、さらに他スタチンで懸念される「耐糖能悪化（HbA1c上昇）が起こりにくい」ため糖尿病合併例に最適です。'
+  },
+  {
+    pattern: /リピトール|アトルバスタチン/,
+    name: 'アトルバスタチン（リピトール）',
+    class: 'HMG-CoA還元酵素阻害薬（スタチン）',
+    reason: '肝臓でのCYP3A4代謝型であり、腎機能が著明に低下した患者でも原則として減量が不要。',
+    benefit: '【選定の決め手】：進行した慢性腎臓病（CKD）患者において、腎排泄型スタチンの蓄積毒性（横紋筋融解症）を回避しつつ強力なLDL降下を得るため選定されています。'
+  },
+  {
+    pattern: /フォシーガ|ダパグリフロジン/,
+    name: 'ダパグリフロジン（フォシーガ）',
+    class: 'SGLT2阻害薬',
+    reason: '非糖尿病（血糖正常）患者に対しても、心不全（HFrEF/HFpEF全般）および慢性腎臓病（CKD）の保険適応を世界初取得。',
+    benefit: '【選定の決め手】：単なる血糖降下ではなく、「心不全死抑制」「eGFR低下抑制」「心腎保護」という予後改善目的（The Fantastic 4）で選ばれています。'
+  },
+  {
+    pattern: /エリキュース|アピキサバン/,
+    name: 'アピキサバン（エリキュース）',
+    class: 'DOAC（直接作用型経口抗凝固薬）',
+    reason: '腎排泄率が約27%とDOAC群の中で低く、大規模試験（ARISTOTLE）で脳卒中抑制・全死亡抑制・大出血減少の「三冠」を達成。',
+    benefit: '【選定の決め手】：消化管出血リスクが他DOACより低く、高齢者や中等度腎機能低下例でも安全域が広いため選定されています。'
+  },
+  {
+    pattern: /リクシアナ|エドキサバン/,
+    name: 'エドキサバン（リクシアナ）',
+    class: 'DOAC（直接作用型経口抗凝固薬）',
+    reason: '1日1回投与、体重60kg以下・腎機能低下で30mg半量減量基準が明確。超高齢日本人エビデンス（ELDERCARE-AF）を保有。',
+    benefit: '【選定の決め手】：高齢日本人における服薬アドヒアランス（1日1回）と出血リスク最小化の両立を狙って選定されています。'
+  },
+  {
+    pattern: /タケキャブ|ボノプラザン/,
+    name: 'ボノプラザン（タケキャブ）',
+    class: 'P-CAB（カリウムイオン競合型アシッドブロッカー）',
+    reason: '酸による活性化が不要で、初回投与から最大胃酸抑制効果を発揮。CYP2C19遺伝子多型に左右されず、夜間酸逆流（NAB）を完全阻止。',
+    benefit: '【選定の決め手】：従来のPPI（ネキシウム・タケプロン等）では抑えきれない「夜間の胸やけ・胃酸逆流」や「PPI抵抗性難治性GERD」を確実に鎮静化するため選ばれています。'
+  }
+];
+
+function detectMoleculeRationale(primaryDrug, customDrugs, selectedOptions) {
+  const allTexts = [
+    (primaryDrug || ''),
+    ...(customDrugs || []),
+    (wizardState.rawPrescriptionText || ''),
+    ...Array.from(selectedOptions || []).map(id => {
+      if (wizardState.activeData) {
+        for (const q of wizardState.activeData.questions) {
+          const opt = q.options.find(o => o.id === id);
+          if (opt) return `${opt.label} ${opt.desc || ''}`;
+        }
+      }
+      return id;
+    })
+  ].join(' ').toLowerCase();
+
+  const results = [];
+  for (const mol of MOLECULE_RATIONALE_MAP) {
+    if (mol.pattern.test(allTexts)) {
+      results.push(mol);
+    }
+  }
+  return results;
+}
+
+// 3. 用量フェーズ・警戒度逆算エンジン
+const DOSE_PHASE_RULES = [
+  {
+    drugRegex: /エンレスト|サクビトリル/,
+    doses: [
+      {
+        matchRegex: /50s*mg|25s*mg/i,
+        phase: '慎重導入期・忍容性確認フェーズ（初期用量）',
+        desc: 'エンレスト開始用量（1回50mg 1日2回、またはACEiからの切替時は慎重用量）です。',
+        alert: '🚨 医師の警戒事項：急激な過度低血圧（めまい・ふらつき）や血清K値上昇、腎機能悪化（Initial Dip以上の低下）がないかを厳重にモニタリングしています。'
+      },
+      {
+        matchRegex: /200s*mg/i,
+        phase: '最大用量・積極予後改善フェーズ（目標達成用量）',
+        desc: 'ガイドラインが強く推奨する最高目標用量（1回200mg 1日2回）に到達しています。',
+        alert: '✨ 医師の臨床意図：PARADIGM-HF試験で証明された「心不全死・心不全入院リスク20%減少」の最大ベネフィットを確実に獲得しに行っています。'
+      }
+    ]
+  },
+  {
+    drugRegex: /メインテート|ビソプロロール/,
+    doses: [
+      {
+        matchRegex: /0.625s*mg|1.25s*mg/i,
+        phase: '重症心不全 初期タイトレーション期（厳重警戒用量）',
+        desc: '心不全における初期導入極微量（0.625mg〜1.25mg）です。',
+        alert: '🚨 医師の警戒事項：β遮断開始初期の一時的な心筋収縮力低下（心不全悪化）や高度徐脈、低血圧を強く警戒し、2〜4週間かけて少しずつ漸増する計画です。'
+      },
+      {
+        matchRegex: /5s*mg/i,
+        phase: '目標維持・積極心拍数抑制フェーズ（標準目標用量）',
+        desc: '虚血性心疾患（狭心症）や頻脈性心房細動、心不全の維持目標用量（5mg）です。',
+        alert: '✨ 医師の臨床意図：安静時心拍数55〜60 bpmを目標に、心筋酸素消費量を最小限に抑え込み再発を阻止しています。'
+      }
+    ]
+  },
+  {
+    drugRegex: /タケキャブ|ボノプラザン/,
+    doses: [
+      {
+        matchRegex: /10s*mg/i,
+        phase: '逆流性食道炎 維持療法・潰瘍再発予防期（維持用量）',
+        desc: 'GERD寛解後の再発予防（10mg 1日1回）またはNSAIDs/LDA服用時の潰瘍発生抑制用量です。',
+        alert: '💡 医師の臨床意図：必要最小限の酸抑制用量で症状再燃を防ぎ、長期服用時の高ガストリン血症リスクを最小化しています。'
+      },
+      {
+        matchRegex: /20s*mg/i,
+        phase: '急性期粘膜傷害 治癒促進・除菌期（治療用量）',
+        desc: '重症GERD急性期、胃潰瘍・十二指腸潰瘍急性期、またはピロリ除菌パックの治療用量です。',
+        alert: '✨ 医師の臨床意図：胃内pH > 6の時間を極大化し、びらん・潰瘍粘膜の早期完全上皮化を短期集中で達成しようとしています。'
+      }
+    ]
+  },
+  {
+    drugRegex: /リリカ|プレガバリン/,
+    doses: [
+      {
+        matchRegex: /25s*mg/i,
+        phase: '初期導入・中枢性副作用確認期（低用量導入）',
+        desc: '就寝前25mgなどの低用量開始レジメンです。',
+        alert: '🚨 医師の警戒事項：服用初期の「ふらつき・傾眠・めまい」による夜間トイレ時の転倒骨折を極限まで警戒し、徐々に体を慣らしています。'
+      },
+      {
+        matchRegex: /150s*mg|300s*mg/i,
+        phase: '難治性神経障害性疼痛 鎮痛域達成フェーズ（治療用量）',
+        desc: '神経因性疼痛ガイドラインにおける有効用量域です。',
+        alert: '✨ 医師の臨床意図：我慢できない激しい神経障害性疼痛に対し、下行性抑制系を賦活して疼痛寛解を達成しようとしています。'
+      }
+    ]
+  }
+];
+
+function detectDosePhase(primaryDrug, customDrugs, rawText) {
+  const allTexts = [
+    (primaryDrug || ''),
+    ...(customDrugs || []),
+    (rawText || wizardState.rawPrescriptionText || '')
+  ].join(' ');
+
+  const detected = [];
+  for (const rule of DOSE_PHASE_RULES) {
+    if (rule.drugRegex.test(allTexts)) {
+      for (const d of rule.doses) {
+        if (d.matchRegex.test(allTexts)) {
+          detected.push({
+            drugName: rule.drugRegex.source.split('|')[0],
+            ...d
+          });
+          break;
+        }
+      }
+    }
+  }
+  return detected;
+}
+
+// 4. アドヒアランス・剤形・配合剤設計エンジン
+const ADHERENCE_DESIGN_MAP = [
+  {
+    pattern: /エックスフォージ|ミカムロ|アイミクス|アテディオ|アジルバ配合|ザクラス|レザルタス|テラムロ/,
+    name: '降圧薬配合剤（ARB ＋ CCB合剤）',
+    desc: '単剤2錠を1錠にまとめた固定用量配合剤（FDC: Fixed-Dose Combination）です。',
+    intent: '💡【服薬・生活背景への配慮】：降圧効果の相乗（細動脈＋細静脈拡張）に加え、「PTPシートの錠数過多（ポリファーマシー）による飲み忘れ・残薬」「高齢者のシート開封困難」を解決し、服薬アドヒアランスを確実に維持する意図があります。'
+  },
+  {
+    pattern: /イルトラ|プレミネント|コディオ|ミコンビ/,
+    name: '降圧薬配合剤（ARB ＋ 利尿薬合剤）',
+    desc: 'ARBとサイアザイド系利尿薬（少量）を1錠にまとめた配合剤です。',
+    intent: '💡【服薬・生活背景への配慮】：食塩感受性高血圧や体液貯留型高血圧に対し、1錠で強力な相乗降圧を得つつ、錠数増加を避けてアドヒアランスを守る処方設計です。'
+  },
+  {
+    pattern: /カナリア|トラディアンス|スージャヌ/,
+    name: '糖尿病配合剤（DPP-4阻害薬 ＋ SGLT2阻害薬合剤）',
+    desc: '作用機序の異なる2つの経口血糖降下薬を1錠に凝縮した最新合剤です。',
+    intent: '💡【服薬・生活背景への配慮】：低血糖を起こしにくい2系統の組み合わせで「心腎保護と血糖正常化」を達成し、多剤服用になりがちな糖尿病患者の錠数負担を軽減しています。'
+  },
+  {
+    pattern: /ビソノテープ/,
+    name: 'ビソプロロール貼付剤（ビソノテープ）',
+    desc: '経皮吸収型（貼付剤）のβ1遮断薬です。',
+    intent: '💡【生活・服薬能力への配慮】：「嚥下機能が低下した高齢者（誤嚥性肺炎リスク）」「胃腸切除後の吸収不良」「服薬拒否や認知症により内服管理が困難な患者」に対し、家族や訪問看護師が皮膚への貼付で確実に服薬確認できるよう配慮された処方です。'
+  },
+  {
+    pattern: /od錠|口腔内崩壊錠/i,
+    name: 'OD錠（口腔内崩壊錠）',
+    desc: '唾液で速やかに崩壊する特殊製剤です。',
+    intent: '💡【生活・服薬能力への配慮】：「水なしでいつでも服用したい外出活動性の高い患者」、または「心不全・末期腎不全（透析）で厳格な水分摂取制限（1日1L以下）を受けている患者」が余分な水なしで服薬できるよう選ばれています。'
+  }
+];
+
+function detectAdherenceDesign(primaryDrug, customDrugs, rawText) {
+  const allTexts = [
+    (primaryDrug || ''),
+    ...(customDrugs || []),
+    (rawText || wizardState.rawPrescriptionText || '')
+  ].join(' ');
+
+  const detected = [];
+  for (const item of ADHERENCE_DESIGN_MAP) {
+    if (item.pattern.test(allTexts)) {
+      detected.push(item);
+    }
+  }
+  return detected;
+}
+
+// ========================================================
 // 処方カスケード（医原性病態）検知エンジン
 // ※ 可能性を指摘する形式で協調的・疑義照会トリガーとして出力
 // ========================================================
@@ -45088,6 +45679,112 @@ function calculateWizardDiagnosis(isForced = false) {
     `;
   }
 
+  // 🧭 医師の処方スタンス（攻め Intensive vs 守り Conservative）の逆算
+  const stance = detectPrescriptionStance(wizardState.patientProfile, data.name, wizardState.customDrugs, rankedDiseases);
+  const stanceHtml = `
+    <div class="wizard-stance-banner ${stance.type}">
+      <div class="stance-main">
+        <span class="stance-icon">${stance.icon}</span>
+        <div>
+          <div class="stance-title">${stance.title}</div>
+          <div class="stance-desc">${stance.desc}</div>
+        </div>
+      </div>
+      <span class="stance-badge">${stance.badge}</span>
+    </div>
+  `;
+
+  // 💊 同種同効薬の分子差別化（Why this drug?）の逆算
+  const molecules = detectMoleculeRationale(data.name, wizardState.customDrugs, wizardState.selectedOptionIds);
+  let moleculeHtml = '';
+  if (molecules.length > 0) {
+    moleculeHtml = `
+      <div class="wizard-molecule-card">
+        <div class="molecule-header">
+          <div class="molecule-title">
+            <span>🧬</span>
+            <span>同種同効薬の分子差別化（Why this drug? 処方医の選定意図）</span>
+          </div>
+          <span class="molecule-badge">クラス内分子差別化</span>
+        </div>
+        <p style="font-size:0.86rem; color:#0f766e; margin:0 0 10px 0; line-height:1.5;">
+          同じ系統の薬剤が多数存在する中で、処方医があえてこの特定の薬剤を選んだ「薬理学的・臨床的決め手」を逆算しました。
+        </p>
+        ${molecules.map(m => `
+          <div class="molecule-item">
+            <div class="molecule-item-name">
+              <span>✨</span>
+              <span>${m.name}</span>
+              <span style="font-size:0.75rem; color:#64748b; font-weight:600;">（${m.class}）</span>
+            </div>
+            <div class="molecule-item-reason">${m.reason}</div>
+            <div class="molecule-item-benefit">${m.benefit}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // ⚖️ 用量フェーズ・警戒度逆算の検出
+  const dosePhases = detectDosePhase(data.name, wizardState.customDrugs, wizardState.rawPrescriptionText);
+  let doseHtml = '';
+  if (dosePhases.length > 0) {
+    doseHtml = `
+      <div class="wizard-dose-card">
+        <div class="dose-header">
+          <div class="dose-title">
+            <span>⚖️</span>
+            <span>処方用量に込められた医師の警戒度 ＆ 治療フェーズ逆算</span>
+          </div>
+          <span class="dose-badge">用量タイトレーション分析</span>
+        </div>
+        <p style="font-size:0.86rem; color:#5b21b6; margin:0 0 10px 0; line-height:1.5;">
+          処方箋に記載されたミリ数（用量）から、処方医が現在警戒しているリスクと目指している治療ステージを逆算しました。
+        </p>
+        ${dosePhases.map(d => `
+          <div class="dose-item">
+            <div class="dose-item-phase">
+              <span>🎯</span>
+              <span>${d.drugName}：${d.phase}</span>
+            </div>
+            <div class="dose-item-desc">${d.desc}</div>
+            <div class="dose-item-alert">${d.alert}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // 📦 アドヒアランス・剤形・配合剤設計の逆算
+  const adherenceItems = detectAdherenceDesign(data.name, wizardState.customDrugs, wizardState.rawPrescriptionText);
+  let adherenceHtml = '';
+  if (adherenceItems.length > 0) {
+    adherenceHtml = `
+      <div class="wizard-adherence-card">
+        <div class="adherence-header">
+          <div class="adherence-title">
+            <span>📦</span>
+            <span>生活背景・服薬能力への配慮（配合剤 ＆ 特殊剤形設計）</span>
+          </div>
+          <span class="adherence-badge">アドヒアランス配慮</span>
+        </div>
+        <p style="font-size:0.86rem; color:#1e40af; margin:0 0 10px 0; line-height:1.5;">
+          合剤や特殊剤形（OD錠・貼付剤）の選定から、患者の生活習慣や身体・嚥下機能に対する処方医の配慮を逆算しました。
+        </p>
+        ${adherenceItems.map(a => `
+          <div class="adherence-item">
+            <div class="adherence-item-name">
+              <span>💡</span>
+              <span>${a.name}</span>
+            </div>
+            <div class="adherence-item-desc">${a.desc}</div>
+            <div class="adherence-item-intent">${a.intent}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
   // ⚠️ 処方カスケード可能性指摘の検出（断定せず可能性を指摘）
   const cascades = detectPrescriptionCascade(data.name, wizardState.selectedOptionIds, wizardState.customDrugs, rankedDiseases, wizardState.patientProfile);
   let cascadeHtml = '';
@@ -45150,7 +45847,7 @@ function calculateWizardDiagnosis(isForced = false) {
     `;
   }
 
-  resultsContainer.innerHTML = (grayzoneHtml + cascadeHtml + negativeHtml + resultsHtml);
+  resultsContainer.innerHTML = (stanceHtml + grayzoneHtml + cascadeHtml + negativeHtml + moleculeHtml + doseHtml + adherenceHtml + resultsHtml);
 
   // 患者向けやさしい言葉シートの生成と注入
   const patientContainer = document.getElementById('wizardPatientSheetContainer');
@@ -45310,6 +46007,7 @@ function handlePrescriptionPaste() {
     alert('処方箋のテキストを貼り付けてください。');
     return;
   }
+  wizardState.rawPrescriptionText = text;
 
   // 1. 患者属性の自動認識（受診科、年齢、性別、検査値）
   resetPatientProfile();
