@@ -4580,6 +4580,79 @@ tbody tr:hover { background-color: #f0fdf4; }
 /* ========================================================
    患者プロファイル入力パネル（受診科・年代・性別・検査値）
    ======================================================== */
+/* ========================================================
+   折りたたみアコーディオン（画面スリム化・一問一答フォーカス）
+   ======================================================== */
+.wizard-profile-accordion {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.wizard-profile-accordion summary {
+  padding: 11px 16px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #334155;
+  cursor: pointer;
+  background: #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  list-style: none;
+}
+.wizard-profile-accordion summary::-webkit-details-marker {
+  display: none;
+}
+.wizard-profile-accordion summary:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+.wizard-profile-accordion[open] summary {
+  border-bottom: 1px dashed #cbd5e1;
+  background: #e2e8f0;
+}
+.wizard-profile-accordion-body {
+  padding: 14px 18px;
+}
+
+.wizard-custom-accordion {
+  background: #f0fdf4;
+  border: 1.5px solid #a7f3d0;
+  border-radius: 12px;
+  margin-top: 20px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.wizard-custom-accordion summary {
+  padding: 11px 16px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: #065f46;
+  cursor: pointer;
+  background: #ecfdf5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  list-style: none;
+}
+.wizard-custom-accordion summary::-webkit-details-marker {
+  display: none;
+}
+.wizard-custom-accordion summary:hover {
+  background: #d1fae5;
+}
+.wizard-custom-accordion[open] summary {
+  border-bottom: 1px dashed #a7f3d0;
+}
+.wizard-custom-accordion-body {
+  padding: 14px 18px;
+}
+
 .wizard-profile-panel {
   background: #f8fafc;
   border: 1.5px solid #cbd5e1;

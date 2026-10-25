@@ -7191,6 +7191,70 @@ const wizardState = {
   }
 };
 
+// ========================================================
+// 1問ずつ順番に確認する「統合アキネーター質問ビルダー」
+// （処方変更 ➔ 処方日数 ➔ 併用薬 ➔ 用量 ➔ 主訴 ➔ 受診科）
+// ========================================================
+function buildUnifiedQuestions(primaryData) {
+  const pName = primaryData.name || '処方薬';
+
+  // 1. 処方変更ステータス（初処方・Do・増量・減量）
+  const qChange = {
+    id: 'unified_q_change',
+    type: 'change',
+    title: `Q1. 処方変更状況：【${pName}】の前回からの変更状況はどれですか？`,
+    subtitle: '初処方か維持か用量変更かによって、初期リスクやフォローアップ時期が決定されます',
+    options: [
+      { id: 'opt_change_new', changeVal: 'new', label: '🆕 初処方（今回から新規に開始・初回導入）', desc: '新規発症・既存治療の不十分による新機序薬剤の追加', badge: '初処方' },
+      { id: 'opt_change_do', changeVal: 'do', label: '🔄 Do処方（前回と全く同内容で継続・安定維持）', desc: '治療効果および忍容性が良好でそのまま継続', badge: 'Do処方' },
+      { id: 'opt_change_increase', changeVal: 'increase', label: '📈 増量処方（前回より用量を増やした・ステップアップ）', desc: '治療目標値未達による積極的タイトレーション', badge: '増量' },
+      { id: 'opt_change_decrease', changeVal: 'decrease', label: '📉 減量処方（前回より用量を減らした・ステップダウン）', desc: '副作用回避または寛解に伴う計画的減量', badge: '減量' }
+    ]
+  };
+
+  // 2. 処方日数マジック
+  const qDays = {
+    id: 'unified_q_days',
+    type: 'days',
+    title: `Q2. 処方日数：今回の処方は何日分ですか？`,
+    subtitle: '日数によって「急性期バースト」「除菌」「慢性維持期」の病態フェーズが確定します',
+    options: [
+      { id: 'opt_days_short7', daysVal: 'short7', label: '⚡ 7日以内短期（3〜7日分）', desc: 'ピロリ除菌、喘息急性増悪バースト、急性期胃潰瘍など', badge: '短期急性期' },
+      { id: 'opt_days_14', daysVal: '14', label: '🗓️ 14日分（2週間処方）', desc: '新薬投与期間制限、急性期〜安定期への移行評価など', badge: '14日新薬' },
+      { id: 'opt_days_long28', daysVal: 'long28', label: '⏳ 28日以上長期（28日・30日・56日など）', desc: '慢性疾患（心不全・高血圧・糖尿病・CKD）の安定維持療法', badge: '長期維持' },
+      { id: 'opt_days_as_needed', daysVal: 'as_needed', label: '🎯 頓服処方（発作時・予兆時のみ内服）', desc: '痛風発作予兆期（コルヒチン）、狭心症発作（ニトロ）など', badge: '頓服' }
+    ]
+  };
+
+  // 薬剤固有の質問群（併用薬、用量、主訴）
+  const specificQuestions = (primaryData.questions || []).map((sq, sIdx) => {
+    return {
+      ...sq,
+      title: `Q${sIdx + 3}. ${sq.title.replace(/^Q\d+\.\s*/, '')}`
+    };
+  });
+
+  // 最終問: 受診科目（診療科）
+  const qDept = {
+    id: 'unified_q_dept',
+    type: 'dept',
+    title: `Q${specificQuestions.length + 3}. 受診科目：処方元の診療科はどこですか？（任意）`,
+    subtitle: '診療科が一致すると、鑑別の確信度が一気に95%以上に確定します',
+    options: [
+      { id: 'opt_dept_cardio', deptVal: 'cardio', label: '🫀 循環器内科', desc: '心不全、虚血性心疾患、高血圧、心房細動など', badge: '循環器' },
+      { id: 'opt_dept_dm', deptVal: 'dm', label: '🍬 糖尿病・代謝・内分泌内科', desc: '2型糖尿病、肥満症、脂質異常症、甲状腺など', badge: '糖尿病' },
+      { id: 'opt_dept_renal', deptVal: 'renal', label: '🧪 腎臓内科・透析科', desc: 'CKD、ネフローゼ、蛋白尿、腎硬化症など', badge: '腎臓' },
+      { id: 'opt_dept_gi', deptVal: 'gi', label: '🍽️ 消化器内科・胃腸科', desc: 'GERD、胃十二指腸潰瘍、肝硬変腹水、便秘など', badge: '消化器' },
+      { id: 'opt_dept_ortho', deptVal: 'ortho', label: '🦴 整形外科', desc: '変形性関節症、慢性腰痛症、骨粗鬆症など', badge: '整形外科' },
+      { id: 'opt_dept_rheuma', deptVal: 'rheuma', label: '🧬 リウマチ・膠原病科', desc: '関節リウマチ、SLE、血管炎など', badge: 'リウマチ' },
+      { id: 'opt_dept_psych', deptVal: 'psych', label: '🧠 心療内科・精神科', desc: 'うつ病、不安障害、線維筋痛症など', badge: '精神科' },
+      { id: 'opt_dept_uro_derm', deptVal: 'uro_derm', label: '🚽 泌尿器科・皮膚科', desc: '過活動膀胱、前立腺肥大、難治性ざ瘡など', badge: '泌尿・皮膚' }
+    ]
+  };
+
+  return [qChange, qDays, ...specificQuestions, qDept];
+}
+
 // 始点となる薬剤の選択処理
 function selectWizardPrimaryDrug(drugName) {
   const query = (drugName || '').trim().toLowerCase();
@@ -7362,9 +7426,15 @@ function selectWizardPrimaryDrug(drugName) {
     return;
   }
 
-  // 状態の更新
+  // 状態の更新（統合された一問一答質問フローを生成）
+  const unifiedQuestions = buildUnifiedQuestions(matchedData);
+  const unifiedData = {
+    ...matchedData,
+    questions: unifiedQuestions
+  };
+
   wizardState.activeKey = matchedKey;
-  wizardState.activeData = matchedData;
+  wizardState.activeData = unifiedData;
   wizardState.currentQuestionIndex = 0;
   wizardState.history = [];
   wizardState.selectedOptionIds.clear();
@@ -7437,7 +7507,13 @@ function renderAkinatorCurrentQuestion() {
   `;
 
   q.options.forEach(opt => {
-    const isSelected = wizardState.selectedOptionIds.has(opt.id);
+    let isSelected = wizardState.selectedOptionIds.has(opt.id);
+    const prof = wizardState.patientProfile;
+    if (prof) {
+      if (opt.changeVal && prof.change === opt.changeVal) isSelected = true;
+      if (opt.daysVal && prof.days === opt.daysVal) isSelected = true;
+      if (opt.deptVal && prof.dept === opt.deptVal) isSelected = true;
+    }
     html += `
       <div class="wizard-akinator-btn ${isSelected ? 'selected' : ''}" onclick="wizardChooseOption('${opt.id}')">
         <div class="wizard-btn-left">
@@ -7472,10 +7548,21 @@ function renderAkinatorCurrentQuestion() {
 
 // 選択肢をタップした時の処理（即座に確信度を上昇させて次へ進む）
 function wizardChooseOption(optionId) {
-  // 質問内の同一グループの選択肢をトグル
   const data = wizardState.activeData;
   const qIdx = wizardState.currentQuestionIndex;
   const currentQ = data.questions[qIdx];
+  const chosenOpt = currentQ.options.find(o => o.id === optionId);
+
+  // 共通プロファイル連動質問（処方変更、処方日数、受診科）の処理
+  if (chosenOpt) {
+    if (chosenOpt.changeVal) {
+      toggleProfileItem('change', chosenOpt.changeVal);
+    } else if (chosenOpt.daysVal) {
+      toggleProfileItem('days', chosenOpt.daysVal);
+    } else if (chosenOpt.deptVal) {
+      toggleProfileItem('dept', chosenOpt.deptVal);
+    }
+  }
 
   // 単一選択の場合は同じ質問の他オプションをクリア
   currentQ.options.forEach(opt => {

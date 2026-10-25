@@ -143,8 +143,17 @@
             </div>
           </div>
 
-          <!-- 🎯 任意追加で精度MAX：患者プロファイル設定（受診科・年代・性別・検査値） -->
-          <div class="wizard-profile-panel">
+          <!-- ⚙️ 患者プロファイル手動設定（一括指定したい場合はここを開くアコーディオン） -->
+          <details class="wizard-profile-accordion" id="wizardProfileAccordion">
+            <summary>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span>⚙️</span>
+                <span>患者プロファイル・検査値の手動一括設定（任意・詳細設定）</span>
+              </div>
+              <span style="font-size:0.75rem; color:#64748b; font-weight:600;">タップで開閉 ▼</span>
+            </summary>
+            <div class="wizard-profile-accordion-body">
+              <div class="wizard-profile-panel" style="margin-bottom:0; border:none; box-shadow:none; padding:0; background:transparent;">
             <div class="wizard-profile-header">
               <div class="wizard-profile-title">
                 <span>🎯 任意入力で精度MAX！患者プロファイル設定（タップで即推論反映）：</span>
@@ -235,6 +244,8 @@
               </div>
             </div>
           </div>
+        </div>
+      </details>
 
           <!-- アキネーター質問ステージ（JSで1問ずつ動的描画） -->
           <div id="wizardQuestionStage" class="wizard-question-stage">
@@ -260,8 +271,17 @@
 
         </div>
 
-        <!-- フリー追加（主訴・自覚症状 ＆ 併用薬）入力エリア -->
-        <div class="wizard-custom-drug-box">
+        <!-- フリー追加（主訴・自覚症状 ＆ 併用薬）入力エリア（折りたたみアコーディオン） -->
+        <details class="wizard-custom-accordion" id="wizardCustomAccordion">
+          <summary>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span>🎯</span>
+              <span>主訴・気になる症状や併用薬を自由に追加する（任意）</span>
+            </div>
+            <span style="font-size:0.75rem; color:#065f46; font-weight:600;">タップで開閉 ▼</span>
+          </summary>
+          <div class="wizard-custom-accordion-body">
+            <div class="wizard-custom-drug-box" style="margin-top:0; border:none; background:transparent; padding:0;">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
             <span style="font-size:0.88rem; font-weight:800; color:#065f46;">
               🎯 精度UP！患者の主訴・自覚症状や気になる併用薬を自由に追加：
@@ -300,7 +320,9 @@
           </div>
 
           <div id="wizardCustomDrugTags" style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;"></div>
-        </div>
+            </div>
+          </div>
+        </details>
 
         <!-- 戻るボタン -->
         <div style="display:flex; justify-content:flex-start; margin-top:16px;">

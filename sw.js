@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pharmamaster-v38';
+const CACHE_NAME = 'pharmamaster-v39';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
