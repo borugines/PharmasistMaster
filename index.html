@@ -11627,6 +11627,22 @@ button, a, input, select, textarea, .tab-btn, .quick-tag-btn, .diff-tag-btn, .di
         <div class="dict-card-sub">一般名：クエン酸第一鉄Na / 溶性ピロリン酸第二鉄</div>
         <div class="dict-card-desc">鉄欠乏性貧血治療薬。チラーヂン、キノロン、テトラサイクリンとキレート形成で吸収激減するため2時間あける。便黒色化。</div>
       </div>
+
+    <!-- フィコンパ錠 -->
+    <div class="dict-card" data-type="drug" data-kana="ふ" data-name="フィコンパ錠 (ペランパネル水和物)" data-desc="新規抗てんかん薬（AMPA受容体拮抗薬）。グルタミン酸による神経過剰興奮を直接遮断し難治性てんかん（部分発作・強直間代発作）を強力抑制。半減期約105時間で【1日1回就寝前服用】。めまい・ふらつきのほか【易怒性・攻撃性・敵意等の精神症状】に厳重警戒（家族問診必須）。カルバマゼピン併用で濃度半減。">
+      <div>
+        <div class="dict-card-head">
+          <h3 class="dict-card-title">フィコンパ錠 2mg / 4mg</h3>
+          <span class="dict-badge dict-badge-drug">💊 薬品</span>
+        </div>
+        <div class="dict-card-sub">ペランパネル水和物 / 選択的AMPA受容体拮抗薬</div>
+        <div class="dict-card-desc">てんかん患者の部分発作（単剤・併用）、強直間代発作（併用）。世界初のAMPA阻害機序。半減期約105時間の超持続作用により1日1回就寝前服用。めまい・傾眠・転倒注意。易怒性・攻撃性・敵意などの行動変化に留意（家族からの問診徹底）。CYP3A4誘導薬併用で用量調整。細粒規格あり。</div>
+      </div>
+      <div class="dict-card-footer">
+        <button class="dict-jump-btn" onclick="jumpToComp('sec-psy')">⚔️ 同効薬比較</button>
+        <button class="dict-jump-btn" onclick="showDrugByName('フィコンパ')">🔍 詳細モーダル</button>
+      </div>
+    </div>
       <div class="dict-card-footer">
         <button class="dict-jump-btn" onclick="showDrugByName('フェロミア')">🔍 詳細モーダル</button>
         <button class="dict-jump-btn" onclick="jumpToGuide('c19')">📘 疾患ガイド</button>
@@ -35690,6 +35706,7 @@ Ca拮抗薬による毛細血管内圧上昇に起因する浮腫が疑われま
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アグリリン')">🩸 アグリリン (本態性血小板血症/巨核球阻害/心毒性注意)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コランチル')">💧 コランチル (制酸鎮痙配合/キレート/緑内障禁忌)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('グリチロン')">🌿 グリチロン (肝機能改善/円形脱毛症/甘草低K注意)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('フィコンパ')">🧠 フィコンパ (AMPA阻害てんかん/攻撃性注意/就寝前)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドパコール')">🧠 ドパコール (レボドパ)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メスチノン')">👁️ メスチノン (MG)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('オフェブ')">🫁 オフェブ (IPF)</button>
@@ -37484,6 +37501,7 @@ const DRUG_DB = [
   { name: "アグリリン", gen: "アナグレリド塩酸塩水和物", cat: "138. 血液疾患 / 本態性血小板血症", char: "巨核球成熟を選択的阻害！非細胞毒性で若年の血小板血症第一選択＆心毒性注意", desc: "本態性血小板血症（ET）治療薬。巨核球の分化・成熟を選択的に抑制し血小板のみを減少（赤血球・白血球に影響なし）。DNA障害性がないため若年患者やハイドレア不耐（下腿潰瘍等）に最適。PDE3阻害作用を併有するため【動悸・頻脈・心不全・QT延長】に厳重警戒（重篤心不全禁忌）。妊婦禁忌・催奇形性あり。", gId: "c16", cSec: "sec-imm" },
   { name: "コランチル", gen: "ジサイクロミン/乾燥水酸化Alゲル/水酸化Mg", cat: "139. 消化器 / 制酸・鎮痙配合剤", char: "即時胃酸中和 ＆ 胃痙攣直接鎮痛！緑内障・前立腺肥大・キレート相互作用に厳戒", desc: "抗コリン薬ジサイクロミン（鎮痙）＋水酸化Al/水酸化Mg（制酸・排便バランス相殺）の古典的配合顆粒。胃炎・胃潰瘍の急な胃痛・さしこみ痛を即座に中和鎮痛。抗コリン作用により【閉塞隅角緑内障・前立腺肥大排尿障害は絶対禁忌】！Al・Mgを含むため【透析患者禁忌】およびニューキノロン・テトラサイクリン・チラージンSとの【金属キレート吸収阻害（2時間以上間隔空け）】が必須。", gId: "c11", cSec: "sec-gi" },
   { name: "グリチロン", gen: "グリチルリチン酸/グリシン/DL-メチオニン", cat: "140. 肝臓・皮膚科 / 抗炎症・解毒配合剤", char: "甘草成分で肝機能改善＆円形脱毛症！漢方薬併用の【偽アルドステロン症・低K】厳戒", desc: "グリチルリチン酸（抗炎症・肝保護）に副作用軽減のグリシン・メチオニンを配合。慢性肝疾患のALT/AST改善、皮膚炎・円形脱毛症（セファランチン併用）に適応。11β-HSD2阻害によりコルチゾールが蓄積し【偽アルドステロン症（低K血症・脱力感・血圧上昇・浮腫）】を惹起。甘草含有漢方薬（芍薬甘草湯等）や利尿薬との併用に厳重警戒。アルドステロン症・低K血症・ミオパチー禁忌。", gId: "c15", cSec: "sec-gi" },
+  { name: "フィコンパ", gen: "ペランパネル水和物", cat: "141. 精神神経 / 新規抗てんかん薬（AMPA阻害）", char: "世界初のAMPA受容体拮抗薬！難治性てんかんの切り札＆1日1回就寝前（攻撃性に注意）", desc: "選択的AMPA型グルタミン酸受容体拮抗薬。グルタミン酸による神経過剰興奮をシナプス後膜で直接遮断。部分発作（単剤・併用）および全般強直間代発作（併用）に適応。半減期約105時間の超持続型で1日1回就寝前服用。めまい・眠気・ふらつきのほか【易怒性・攻撃性・敵意等の精神症状】に厳重警戒（家族からの聞き取り重要）。カルバマゼピン併用で濃度半減（CYP3A誘導）。", gId: "c6", cSec: "sec-psy" },
 
 ];
 
@@ -37634,6 +37652,8 @@ const COMPOUNDING_MASTER = {
   "グリチロン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 防湿", reason: "普通錠（配合錠）。粉砕・簡易懸濁可能（甘草特有の強い甘みあり）。吸湿性があるため一包化時は防湿保存推奨。甘草含有漢方薬（芍薬甘草湯等）との重畳による偽アルドステロン症（低K血症・血圧上昇）に厳重警戒。アルドステロン症・低K禁忌。", alt: "普通錠粉砕、ウルソデオキシコール酸等" },
   "グリチロン配合錠": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 防湿", reason: "普通錠。粉砕可能。防湿保管。甘草重畳による低K血症・偽アルドステロン症注意。", alt: "普通錠粉砕" },
   "グリチルリチン酸": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 可", packText: "⚠️ 防湿", reason: "甘草成分。11β-HSD2阻害により偽アルドステロン症注意。漢方併用チェック必須。", alt: "普通錠粉砕" },
+  "フィコンパ": { crush: "ok", susp: "ok", pack: "ok", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⭕ 可", reason: "普通錠（2mg/4mg）および細粒1%あり。フィルムコート錠で粉砕・簡易懸濁可能。半減期約105時間と超長いため就寝前1回服用厳守。めまい・易怒性（攻撃性）注意。", alt: "細粒1%、普通錠粉砕" },
+  "ペランパネル": { crush: "ok", susp: "ok", pack: "ok", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⭕ 可", reason: "AMPA受容体拮抗薬。粉砕可能。就寝前服用。", alt: "細粒1%" },
   "タケルダ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "タケルダ配合錠": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "プラザキサ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿激", reason: "脱カプセル・粉砕絶対禁止（AUC急増で出血死）。極めて吸湿性が高くPTPシートのまま保管必須。", alt: "リクシアナOD錠、エリキュース" },
@@ -39684,6 +39704,29 @@ const DRUG_DIFF_MAP = [
         criteria: '【処方サイン】サインバルタ 20〜60mg 朝食後（精神科・心療内科処方）',
         reason: 'ノルアドレナリン神経を刺激して意欲・気力を向上させ、身体の痛みを伴ううつ病に著効',
         keyPoint: '血圧上昇、排尿障害（前立腺肥大注意）、賦活症候群（初期の焦燥感）'
+      }
+    ]
+  },
+
+  // 48. 抗てんかん薬AMPA阻害特性：ペランパネル（フィコンパ）
+  {
+    drugs: ['フィコンパ', 'ペランパネル', 'perampanel', 'fycompa'],
+    diffs: [
+      {
+        cardNum: 6,
+        name: '6. 難治性てんかん（既存薬抵抗性・部分発作/強直間代発作併用型）',
+        subType: '⚡ 世界初のAMPA受容体拮抗：グルタミン酸興奮伝播の根元遮断 ＆ 1日1回就寝前',
+        criteria: '【処方サイン】フィコンパ錠 1回2mg就寝前開始 ➔ 2週以上あけて2mgずつ漸増（4〜8mg/日）',
+        reason: 'Naチャネル遮断薬やSV2A薬で発作が抑制できない難治例に対し、シナプス後膜AMPA受容体を遮断して発作同期を完全に断ち切る',
+        keyPoint: '半減期約105時間（定常状態まで2〜3週）、就寝前服用（めまい・ふらつき回避）、CYP3A誘導薬併用時の増量'
+      },
+      {
+        cardNum: 6,
+        name: '6. 精神症状・行動変化モニタリング（易怒性・攻撃性・敵意対策型）',
+        subType: '🧠 大脳辺縁系グルタミン酸遮断に伴う情動変容スクリーニング',
+        criteria: '【処方サイン】家族から「急に怒りっぽくなった・物に当たる」との相談、または増量期',
+        reason: 'AMPA受容体抑制に伴い感情制御に関わる神経回路のバランスが崩れ、攻撃性・敵意・易怒性・希死念慮が生じることがある',
+        keyPoint: '本人だけでなく家族・介助者からの問診、緩徐な漸増（2週間以上維持）、減量・他剤変更検討'
       }
     ]
   },
@@ -47408,8 +47451,196 @@ const CLINICAL_WIZARD_DATA = {
           firstLine: '血清電解質（K, Na）の至急測定（疑義照会）。',
           combination: 'スピロノラクトン（アルダクトン）への置換、または塩化K製剤（スローケー）併用。',
           contra: '重篤な低カリウム血症。',
-          targets: '血清K値 4.0〜4.8mEq/L維持、不整脈発症ゼロ。',
-          guidance: '🗣️ 相互作用説明：「おしっこを出しやすくする利尿薬とグリチロンを一緒に飲むと、体に必要なカリウムというミネラル分が尿から出やすくなります。定期的な血液検査で数値をチェックしながら安全に服用していきましょう。」'
+          targets: '血清K値 4.0〜4.8mEq/L維持、不整脈発症ゼロ。',        guidance: '🗣️ 相互作用説明：「おしっこを出しやすくする利尿薬とグリチロンを一緒に飲むと、体に必要なカリウムというミネラル分が尿から出やすくなります。定期的な血液検査で数値をチェックしながら安全に服用していきましょう。」'
+        }
+      }
+    ]
+  },
+
+  // 35. 新規抗てんかん薬（フィコンパ錠/細粒：ペランパネル水和物）
+  // 🌟 世界初のAMPA受容体拮抗 ＆ 半減期105時間超持続 ＆ 易怒性・攻撃性アラート（家族問診） ＆ CYP3A4相互作用
+  epilepsy_fycompa: {
+    aliases: ['フィコンパ', 'ペランパネル', 'fycompa', 'perampanel', 'てんかん', '抗てんかん薬', '部分発作', '強直間代発作', 'ampa', 'けいれん'],
+    name: '新規抗てんかん薬（フィコンパ錠/細粒：ペランパネル水和物）',
+    category: '中枢神経・抗てんかん薬（AMPA受容体拮抗薬 / 焦点・強直間代発作 ＆ 攻撃性・半減期105時間管理レジメン）',
+    questions: [
+      {
+        id: 'fyc_q1_seizure_type',
+        title: 'Q1. 処方箋情報：てんかん発作型および治療方針はどれですか？（最も当てはまるものを1つ選択）',
+        subtitle: 'フィコンパは部分発作（単剤・併用）および全般強直間代発作（併用）に幅広い適応を持ちます',
+        options: [
+          {
+            id: 'fyc_opt_refractory_add_on',
+            label: '既存薬抵抗性の難治性部分発作（焦点発作）または全般強直間代発作に対する「新規機序のアドオン追加」',
+            badge: '難治性てんかん切り札アドオン',
+            desc: 'Naチャネル遮断薬（テグレトール）やSV2A薬（イーケプラ）不十分例に対し、AMPA遮断で過剰興奮を根元遮断',
+            weights: { fycompa_refractory_focal_generalized: 95, fycompa_behavioral_aggression_alert: 20, fycompa_cyp3a_interaction_titration: 25, fycompa_dizziness_bedtime_safety: 20 }
+          },
+          {
+            id: 'fyc_opt_elderly_post_stroke',
+            label: '高齢者初発てんかん（脳血管障害後・頭部外傷後）または単剤治療導入',
+            badge: '高齢者焦点てんかん',
+            desc: '部分発作の単剤療法として低用量（2〜4mg）から慎重導入。ふらつき・転倒骨折に厳重警戒',
+            weights: { fycompa_dizziness_bedtime_safety: 90, fycompa_refractory_focal_generalized: 85, fycompa_behavioral_aggression_alert: 15 }
+          },
+          {
+            id: 'fyc_opt_behavioral_changes',
+            label: '家族から「最近イライラして怒りっぽい」「怒鳴ったり攻撃的な言動が増えた」と相談がある',
+            badge: '🚨 易怒性・攻撃性（精神症状）',
+            desc: 'AMPA受容体抑制に伴う情動変容。重篤な暴力・激越・希死念慮に至る前に速やかな用量見直しが必要',
+            weights: { fycompa_behavioral_aggression_alert: 95, fycompa_refractory_focal_generalized: -20, fycompa_cyp3a_interaction_titration: 15 }
+          },
+          {
+            id: 'fyc_opt_cyp_inducer_coadmin',
+            label: 'カルバマゼピン（テグレトール）、フェニトイン（アレビアチン）等の酵素誘導薬が併用されている',
+            badge: '⚡ CYP3A4誘導（濃度半減）',
+            desc: 'CYP3A4誘導によりフィコンパ代謝が促進され血中濃度が約50〜70%激減。通常より高い用量設定が必要',
+            weights: { fycompa_cyp3a_interaction_titration: 95, fycompa_refractory_focal_generalized: 30 }
+          }
+        ]
+      },
+      {
+        id: 'fyc_q2_behavioral_safety',
+        title: 'Q2. 患者自覚症状・家族からの聞き取り：安全性モニタリングの重要確認項目はどれですか？',
+        subtitle: '患者本人だけでなく家族・介助者からの情報収集が安全管理の生命線です',
+        options: [
+          {
+            id: 'fyc_opt_aggression_hostility',
+            label: '【情動・行動変化】：攻撃性、敵意、激越、易怒性、不安、不穏などの精神症状',
+            badge: '攻撃的行動・易怒性スクリーニング',
+            desc: '投与初期や増量期に好発。自覚が乏しい場合があるため家族への問診が必須',
+            weights: { fycompa_behavioral_aggression_alert: 95, fycompa_dizziness_bedtime_safety: 10 }
+          },
+          {
+            id: 'fyc_opt_dizziness_somnolence',
+            label: '【中枢抑制症状】：めまい、ふらつき、傾眠、運動失調、歩行障害',
+            badge: 'めまい・ふらつき（就寝前服用）',
+            desc: '高頻度に発現。就寝前に服用することで日中のめまい・ふらつきを回避',
+            weights: { fycompa_dizziness_bedtime_safety: 95, fycompa_refractory_focal_generalized: 20 }
+          },
+          {
+            id: 'fyc_opt_seizure_free_success',
+            label: '【発作抑制効果】：以前頻発していたけいれんや意識消失発作が完全に消失している',
+            badge: '発作完全抑制（Seizure Freedom）',
+            desc: 'AMPA受容体遮断による劇的効果。急な自己中断は重積状態を招くため継続指導',
+            weights: { fycompa_refractory_focal_generalized: 95, fycompa_behavioral_aggression_alert: -20 }
+          },
+          {
+            id: 'fyc_opt_contraceptive_interaction',
+            label: '【女性医療・避妊】：経口避妊薬（ピル）を服用中の妊娠可能年齢の女性患者',
+            badge: '⚠️ 避妊ピル効果減弱注意',
+            desc: 'フィコンパ高用量（12mg/日等）でプロゲスチン代謝が亢進し避妊効果が低下する恐れ',
+            weights: { fycompa_cyp3a_interaction_titration: 90, fycompa_refractory_focal_generalized: 10 }
+          }
+        ]
+      },
+      {
+        id: 'fyc_q3_pharmacokinetics_audit',
+        title: 'Q3. 薬剤師鑑査・服薬指導：調剤室および患者指導で徹底すべき実践的ポイントはどれですか？',
+        subtitle: '消失半減期約105時間という超長時間プロファイルの理解と安全服薬',
+        options: [
+          {
+            id: 'fyc_opt_slow_titration_2weeks',
+            label: '【2週間間隔漸増の徹底】：半減期約105時間のため、増量時は最低2週間以上あけてステップアップ',
+            badge: '超緩徐漸増（2週ごと）',
+            desc: '定常状態到達に2〜3週かかるため、早期の増量は過量投与・副作用重篤化の原因',
+            weights: { fycompa_cyp3a_interaction_titration: 95, fycompa_refractory_focal_generalized: 80 }
+          },
+          {
+            id: 'fyc_opt_bedtime_strict_adherence',
+            label: '【就寝前服用の遵守】：めまい・ふらつきによる日中活動・転倒への影響を避けるため就寝前服用を徹底',
+            badge: '1日1回就寝前服用厳守',
+            desc: '服用後に起きて活動すると転倒の危険があるため、布団に入る直前の服用を指導',
+            weights: { fycompa_dizziness_bedtime_safety: 95 }
+          },
+          {
+            id: 'fyc_opt_family_education_irritability',
+            label: '【家族への事前指導】：『怒りっぽくなったり普段と違う攻撃的な言動があればすぐに教えてください』',
+            badge: '家族・介助者事前オリエンテーション',
+            desc: '本人が気付きにくい精神変化を家族が早期に発見・主治医へフィードバックする体制構築',
+            weights: { fycompa_behavioral_aggression_alert: 95 }
+          },
+          {
+            id: 'fyc_opt_crush_fine_granule',
+            label: '【剤形選択・嚥下対応】：嚥下困難時は細粒1%製剤への変更、または普通錠の粉砕調剤を検討',
+            badge: '細粒製剤 ＆ 粉砕可能',
+            desc: '細粒規格があり微調整や嚥下困難患者に最適。錠剤粉砕も可能',
+            weights: { fycompa_dizziness_bedtime_safety: 85, fycompa_refractory_focal_generalized: 75 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'fycompa_refractory_focal_generalized',
+        name: '難治性てんかん（部分発作・強直間代発作：AMPA遮断切り札型）',
+        subType: '⚡ 世界初のAMPA型グルタミン酸受容体非競合的拮抗：神経過剰興奮同期の完全遮断',
+        baseProb: 35,
+        criteria: '【処方サイン】フィコンパ錠 1回2mg就寝前開始 ➔ 2週以上あけて2mgずつ漸増（4〜8mg/日）',
+        reason: 'グルタミン酸のシナプス後膜AMPA受容体を直接ブロック。Naチャネル遮断薬（カルバマゼピン）やSV2A薬（レベチラセタム）とは全く異なる標的に作用し、既存薬抵抗性の発作伝播を断ち切ります。',
+        keyPoint: '💡 半減期約105時間の超持続型で1日1回就寝前服用。部分発作単剤から全般発作併用までカバー',
+        treatment: {
+          pathology: 'てんかん焦点からの高頻度グルタミン酸放出によるAMPA受容体過剰活性化・脱分極カスケード・全脳伝播。',
+          rationale: '【処方根拠】：既存の多剤併用でも抑制できない焦点発作や強直間代発作を、新規機序の受容体遮断で制圧するために選定されます。',
+          firstLine: 'ペランパネル（フィコンパ錠/細粒） 1回2mg 1日1回就寝前開始。2週以上の間隔で2mgずつ増量（通常4〜8mg、最大12mg）。',
+          combination: 'イーケプラ、ビムパット、ラミクタール、デパケン。',
+          contra: '重度の肝機能障害。',
+          targets: '発作頻度50%以上減少または発作消失（Seizure Freedom）、アドヒアランス100%。',
+          guidance: '🗣️ 服薬指導フレーズ：「脳の神経の過剰な興奮のスイッチ（AMPA受容体）をブロックして、発作が広がるのを強力に食い止める新しいタイプのお薬です。お薬が体の中に長く残るタイプですので、毎日1回、寝る前にお飲みいただくことで24時間安定して守ってくれます。」'
+        }
+      },
+      {
+        id: 'fycompa_behavioral_aggression_alert',
+        name: '🚨 精神行動症状アラート（易怒性・攻撃性・敵意・家族問診徹底）',
+        subType: '⚠️ 大脳辺縁系グルタミン酸伝達調節に伴う攻撃性・情動脱抑制の早期発見',
+        baseProb: 30,
+        criteria: '【処方サイン】投与初期・増量期、家族から「怒りっぽくなった・物に当たる」との報告',
+        reason: 'AMPA受容体遮断により感情制御に関わる神経回路のバランスが乱れ、易怒性（キレやすさ）、攻撃性、敵意、怒り、激越、希死念慮が生じることがあります。',
+        keyPoint: '💡 本人には自覚がないことが多いため【家族・同居者への問診】が必須！症状発現時は早期減量・中止検討',
+        treatment: {
+          pathology: '前頭葉・扁桃体における興奮・抑制バランスの破綻に伴う情動脱抑制。',
+          rationale: '【処方根拠】：重篤な対人トラブルや暴力行為、自傷他害に至る前に、投与速度を緩めるか減量・他剤置換を図ります。',
+          firstLine: 'フィコンパの減量または漸増ペースの鈍化（1ステップ4週間以上維持）。',
+          combination: '精神症状が重篤な場合は中止し、ラコサミド（ビムパット）等への変更提案。',
+          contra: '重篤な精神病性障害・希死念慮の既往。',
+          targets: '精神神経有害事象ゼロ、安全な抗てんかん治療継続。',
+          guidance: '🗣️ 家族向け服薬指導フレーズ：「このお薬はとても効果が高い反面、飲み始めや量を増やしたときに、急に怒りっぽくなったり、イライラして物に当たったりする精神的な変化が出ることがあります。ご本人は気づかないことも多いため、ご家族から見て『普段と様子が違うな』と感じられたら、我慢せずすぐにお知らせくださいね。」'
+        }
+      },
+      {
+        id: 'fycompa_cyp3a_interaction_titration',
+        name: '⚡ CYP3A4相互作用 ＆ 緩徐漸増プロトコル（カルバマゼピン併用増量）',
+        subType: '📋 代謝酵素誘導薬との併用による血中濃度半減対策 ＆ 定常状態（2〜3週）遵守',
+        baseProb: 20,
+        criteria: '【処方サイン】テグレトール、フェニトイン併用患者、または2週未満での性急な増量処方',
+        reason: 'フィコンパはCYP3A4で代謝されるため、カルバマゼピン等の強力なCYP3A誘導薬が併用されると血中濃度が約50〜70%激減します。また半減期が約105時間と超長いため、定常状態に達するまで2〜3週間を要します。',
+        keyPoint: '💡 誘導薬併用時は用量を通常より高め（開始4mg、維持8〜12mg）に設定。増量は最低2週間以上あける',
+        treatment: {
+          pathology: '肝代謝酵素CYP3A4の過剰誘導によるクリアランス増大と未達治療域。性急な増量による血中蓄積毒性。',
+          rationale: '【処方根拠】：併用抗てんかん薬の酵素プロファイルに合わせて投与量を個別化設計します。',
+          firstLine: 'CYP3A誘導薬併用時：1回4mg就寝前開始 ➔ 2週あけて8〜12mgへ漸増。',
+          combination: '非誘導薬（イーケプラ等）併用時：通常用量（2mg開始 ➔ 4〜8mg維持）。',
+          contra: '2週間未満の間隔での急激な増量。',
+          targets: '至適有効血中濃度達成、代謝相互作用の完全克服。',
+          guidance: '🗣️ 処方鑑査・服薬指導：「テグレトールなどの他のお薬と一緒に飲む場合、お薬の代謝が早くなるため、通常よりも少し多めの量で調整することがあります。また、お薬が体にしっかり馴染むまで2〜3週間かかりますので、焦らず少しずつ量を決めていきましょう。」'
+        }
+      },
+      {
+        id: 'fycompa_dizziness_bedtime_safety',
+        name: '🌙 1日1回就寝前服用 ＆ めまい・ふらつき・転倒骨折防止指導',
+        subType: '🛌 就寝直前服用による血中ピーク時（2〜4時間後）のめまい・失調トラップ回避',
+        baseProb: 15,
+        criteria: '【処方サイン】高齢者、朝食後や分服での処方疑義、ふらつき・転倒歴のある患者',
+        reason: 'フィコンパの最も高頻度な副作用はめまい（約30%）と傾眠・ふらつきです。日中に服用すると転倒・交通事故のリスクが高まるため、就寝直前の服用が添付文書で厳格に規定されています。',
+        keyPoint: '💡 必ず「就寝直前」に服用！夜間トイレ時のふらつき・足元照明指導、自動車運転等の禁止',
+        treatment: {
+          pathology: '小脳・前庭系への抑制作用による体幹失調・平衡感覚障害。',
+          rationale: '【処方根拠】：最高血中濃度到達時間（tmax：約2〜4時間）を睡眠中に一致させることで日中の活動制限を最小化します。',
+          firstLine: '1日1回就寝前（寝床に入る直前）服用。',
+          combination: '細粒製剤による微量漸増（0.5〜1mg単位の慎重ステップアップ）。',
+          contra: '朝食後や昼食後の日中服用。',
+          targets: '夜間および日中転倒ゼロ、ADL維持。',
+          guidance: '🗣️ 服薬指導フレーズ：「このお薬を飲むと少しめまいやふらつきが出やすくなりますので、必ず『お布団に入って寝る直前』にお飲みください。飲んだ後に起き上がって歩くとふらついて危ないですので、お薬を飲んだらそのままお休みになってくださいね。」'
         }
       }
     ]
@@ -48054,6 +48285,10 @@ function applyProfileWeights(scores) {
     if (scores['copd_hypersecretion'] !== undefined) scores['copd_hypersecretion'] += 95;
     if (scores['bronchiectasis_sputum'] !== undefined) scores['bronchiectasis_sputum'] += 90;
   } else if (prof.dept === 'neuro') {
+    if (scores['fycompa_refractory_focal_generalized'] !== undefined) scores['fycompa_refractory_focal_generalized'] += 95;
+    if (scores['fycompa_behavioral_aggression_alert'] !== undefined) scores['fycompa_behavioral_aggression_alert'] += 90;
+    if (scores['fycompa_cyp3a_interaction_titration'] !== undefined) scores['fycompa_cyp3a_interaction_titration'] += 85;
+    if (scores['fycompa_dizziness_bedtime_safety'] !== undefined) scores['fycompa_dizziness_bedtime_safety'] += 85;
     if (scores['cerebro_vertigo'] !== undefined) scores['cerebro_vertigo'] += 95;
     if (scores['asthma_bronchial'] !== undefined) scores['asthma_bronchial'] -= 60;
     if (scores['constipation_colonic_inertia'] !== undefined) scores['constipation_colonic_inertia'] += 95;
@@ -48899,6 +49134,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: '肝疾患・皮膚疾患用薬（抗炎症・肝保護配合剤）',
     reason: 'グリチルリチン酸がホスホリパーゼA2を阻害し肝細胞膜を保護、11β-HSD2阻害により局所コルチゾールを高めて強力消炎。グリシン・メチオニンが副作用を緩和し解毒を促進。',
     benefit: '【選定の決め手】：慢性肝疾患のトランスアミナーゼ（ALT/AST）改善、および皮膚科における円形脱毛症（セファランチン併用）の免疫炎症鎮静のために選定されます。※11β-HSD2阻害による【偽アルドステロン症（低K血症・高血圧・手足の脱力感・こむら返り）】および甘草含有漢方薬（芍薬甘草湯等）との重複、利尿薬併用時の重度低K血症に厳重警戒が必要です。'
+  },
+  {
+    pattern: /フィコンパ|ペランパネル|fycompa|perampanel/,
+    name: 'ペランパネル水和物（フィコンパ錠2mg/4mg・細粒1%）',
+    class: '新規抗てんかん薬（選択的AMPA型グルタミン酸受容体非競合的拮抗薬）',
+    reason: 'グルタミン酸のシナプス後膜AMPA受容体を直接阻害し、過剰な興奮性シグナル伝達と発作の全脳同期伝播を根元から遮断。半減期約105時間の超持続作用。',
+    benefit: '【選定の決め手】：既存のNaチャネル遮断薬（テグレトール）やSV2A薬（イーケプラ）で十分な効果が得られない難治性てんかん（部分発作・強直間代発作）の切り札アドオンとして選定されます。※めまい・ふらつき防止のため【1日1回就寝前服用厳守】。大脳辺縁系作用による【易怒性・攻撃性・敵意等の精神行動変化（家族問診必須）】、およびカルバマゼピン併用時の濃度半減（CYP3A誘導）に厳重警戒が必要です。'
   }
 ];
 
@@ -49530,6 +49772,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('アグリリン') || cdLower.includes('アナグレリド') || cdLower.includes('anagrelide') || cdLower.includes('agrylin') || cdLower.includes('血小板血症') || cdLower.includes('巨核球') || cdLower.includes('pde3')) keywords.push('アグリリン', 'アナグレリド', '本態性血小板血症', '血小板', '巨核球', 'pde3', '動悸', '頻脈', '心不全', 'ハイドレア', '下腿潰瘍', '催奇形性', '避妊');
     if (cdLower.includes('コランチル') || cdLower.includes('ジサイクロミン') || cdLower.includes('kolantyl') || cdLower.includes('胃痙攣') || cdLower.includes('制酸') || cdLower.includes('さしこみ痛') || cdLower.includes('キレート') || cdLower.includes('水酸化アルミニウム')) keywords.push('コランチル', 'ジサイクロミン', '胃炎', '胃潰瘍', '胃酸過多', '胃痙攣', 'さしこみ', '制酸剤', 'キレート', '緑内障', '透析', '排尿障害', 'ニューキノロン');
     if (cdLower.includes('グリチロン') || cdLower.includes('グリチルリチン') || cdLower.includes('glycyron') || cdLower.includes('甘草') || cdLower.includes('偽アルドステロン') || cdLower.includes('低カリウム') || cdLower.includes('円形脱毛症') || cdLower.includes('セファランチン')) keywords.push('グリチロン', 'グリチルリチン', '甘草', '偽アルドステロン症', '低カリウム血症', '低k', '脱力感', 'こむら返り', '円形脱毛症', 'セファランチン', 'alt', 'ast', '肝機能', '肝炎');
+    if (cdLower.includes('フィコンパ') || cdLower.includes('ペランパネル') || cdLower.includes('fycompa') || cdLower.includes('perampanel') || cdLower.includes('ampa') || cdLower.includes('強直間代') || cdLower.includes('焦点発作') || cdLower.includes('攻撃性') || cdLower.includes('易怒性')) keywords.push('フィコンパ', 'ペランパネル', 'てんかん', '抗てんかん薬', '部分発作', '強直間代発作', 'ampa', 'グルタミン酸', '易怒性', '攻撃性', '就寝前', '半減期');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
