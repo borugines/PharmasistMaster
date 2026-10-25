@@ -7483,6 +7483,631 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 13. プロパフェノン（プロノン）
+  // 🌟 クラスIc抗不整脈薬（発作性心房細動停止 vs 器質的心疾患CAST禁忌）
+  propafenone: {
+    aliases: ['プロパフェノン', 'プロノン', 'propafenone', 'プロパフェノン塩酸塩'],
+    name: 'プロパフェノン（プロノン錠）',
+    category: 'クラスIc群抗不整脈薬（Naチャネル遮断 ＋ 軽度β遮断作用）',
+    questions: [
+      {
+        id: 'prop_q1_pattern',
+        title: 'Q1. 処方箋情報：処方形態と心電図・不整脈の出現パターンはどれですか？',
+        subtitle: '発作時の頓服（Pill-in-the-pocket）か、定期内服かを確認します',
+        options: [
+          {
+            id: 'prop_opt_paf_pill',
+            label: '発作時に頓服（Pill-in-the-pocket）または定期内服：発作性心房細動（Paf）の動悸発作停止',
+            badge: '発作性心房細動（Paf）',
+            desc: '動悸発作時に150〜300mgを頓服して速やかに洞調律へ復帰させる。心エコーで器質的心疾患なし',
+            weights: { paf_paroxysmal: 95, vpc_ventricular: -30, proarrhythmia_risk: -50 }
+          },
+          {
+            id: 'prop_opt_vpc_regular',
+            label: '定期内服：心室性期外収縮（VPC）多発による「脈の飛び・胸の詰まり感」の自覚症状改善',
+            badge: '心室性期外収縮（VPC）',
+            desc: '自覚症状の強い単発〜連発性VPCの抑制。左室駆出率（LVEF）が良好に保たれている例',
+            weights: { vpc_ventricular: 95, paf_paroxysmal: -20, proarrhythmia_risk: -40 }
+          },
+          {
+            id: 'prop_opt_ihd_history',
+            label: '【警戒】：陳旧性心筋梗塞、狭心症、または低心機能（HFrEF）の既往がある患者に処方',
+            badge: '🚨 器質的心疾患（禁忌疑い）',
+            desc: 'CAST試験に基づき、心筋梗塞後や低駆出率患者では致死的心室性不整脈を誘発するため禁忌',
+            weights: { proarrhythmia_risk: 95, paf_paroxysmal: 30, vpc_ventricular: 30 }
+          }
+        ]
+      },
+      {
+        id: 'prop_q2_combo',
+        title: 'Q2. 処方箋情報：併用薬や心機能の特徴はどれですか？',
+        subtitle: '催不整脈リスクと薬物相互作用を評価します',
+        options: [
+          {
+            id: 'prop_opt_combo_doac',
+            label: 'DOAC（リクシアナ・エリキュース等）が併用されている（心房細動血栓予防）',
+            badge: '心房細動確定',
+            desc: 'CHADS2スコアに応じた抗凝固療法を併用しつつ発作予防',
+            weights: { paf_paroxysmal: 85, proarrhythmia_risk: 10 }
+          },
+          {
+            id: 'prop_opt_combo_cyp2d6',
+            label: 'CYP2D6阻害薬（パロキセチン等）併用、または肝機能障害あり',
+            badge: '血中濃度上昇注意',
+            desc: 'プロパフェノンはCYP2D6で代謝されるため、血中濃度急上昇と過度な伝導遅延に注意',
+            weights: { proarrhythmia_risk: 75, paf_paroxysmal: 40 }
+          },
+          {
+            id: 'prop_opt_combo_none',
+            label: '循環器単科での処方、心機能良好で単剤内服',
+            badge: '単剤治療',
+            desc: '器質的病変のない特発性不整脈に対するコントロール',
+            weights: { paf_paroxysmal: 40, vpc_ventricular: 40 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'paf_paroxysmal',
+        cardNum: 2,
+        name: '発作性心房細動（Paf）の停止・洞調律維持（Pill-in-the-pocket療法 / 定期予防）',
+        subType: '循環器内科型・器質的心疾患のない「心機能正常例」における心房細動停止・再発予防レジメン',
+        baseProb: 30,
+        criteria: '【処方サイン】：循環器内科処方、主訴「突然の激しい動悸・胸部不快感」、心電図で心房細動、発作時頓服（150mg〜300mg）または1回150mg 1日3回定期、心エコー正常（LVEF > 50%）。',
+        reason: '強力なNaチャネル遮断作用により心房筋のPhase 0立ち上がり速度を抑制し伝導速度を遅延させると同時に、軽度のβ遮断作用によりリエントリー回路を遮断して速やかに洞調律へ復帰させる。',
+        keyPoint: '💡 Pill-in-the-pocket療法の極意：動悸発作が起きた際に患者自身が携帯しているプロノンを頓服し、病院を受診することなく発作を止める安全で確立された治療戦略。ただし初回は必ず院内で安全性確認が必要。',
+        treatment: {
+          pathology: '肺静脈開口部などからの異常自動能興奮が心房筋に波及し、無秩序なリエントリー旋回を起こすことで心房細動が発症。心房細動が持続すると心房のリモデリング（心房拡大・線維化）が進み慢性化します。',
+          rationale: '【処方根拠】：プロパフェノンはIc群の中でも解離速度が遅く強力な心房筋伝導抑制を示し、さらに固有の微弱なβ遮断活性を持つため、交感神経緊張に伴う発作性Afの停止・予防に極めて高い奏功率を誇ります。',
+          firstLine: 'プロパフェノン塩酸塩（プロノン錠150mg 1回1錠 1日3回、または発作時150〜300mg頓服）。',
+          combination: '抗凝固薬（エリキュース/リクシアナ：CHADS2スコア1点以上）、発作時予防のメインテート。',
+          contra: '🚨 重大な禁忌：陳旧性心筋梗塞、うっ血性心不全（HFrEF）、高度房室ブロック、重篤な洞不全症候群。',
+          targets: '心房細動発作停止率の向上、発作持続時間短縮、年間の動悸発作エピソードゼロ。',
+          guidance: '🗣️ 服薬指導：「動悸発作が起きた時に飲むお薬です（頓服の場合）。飲んだ後は激しい運動を避け、横になって安静にしてください。万が一、飲む前より強い胸の苦しさや意識が遠のく感じがあった場合は、我慢せず直ちに医療機関を受診してください。」'
+        }
+      },
+      {
+        id: 'vpc_ventricular',
+        cardNum: 2,
+        name: '心室性期外収縮（VPC） / 特発性心室頻拍（有症候性・心機能正常例）',
+        subType: '不整脈専門外来型・脈の飛びや胸部詰まり感を伴う有症候性心室性不整脈の鎮静化',
+        baseProb: 25,
+        criteria: '【処方サイン】：ホルター心電図で多発VPC（Lown分類3〜4）、主訴「脈が飛んで息が詰まる」「胸がドクンと跳ねる」、心筋症・虚血なし。',
+        reason: 'プルキンエ線維および心室筋のNaチャネルを遮断し、異所性自動能の発生を沈静化。',
+        keyPoint: '💡 処方の決め手：無症候性のVPCは通常治療不要だが、患者の自覚症状（不安感・睡眠障害）が強い場合にQOL改善目的でIc群が選択される。',
+        treatment: {
+          pathology: '心室筋の局所的な撃発活動（triggered activity）や撃発興奮により、心房からの規則的な興奮伝導を待たずに心室が単独で収縮。心拍出量が低下した拍動の後に休止期を挟むため「脈が飛ぶ」「胸がドクンとする」強い自覚症状を生じます。',
+          rationale: '【処方根拠】：心機能低下のない特発性VPCに対し、プロパフェノンは異所性興奮を強力に抑え込み、脈の飛びを激減させます。',
+          firstLine: 'プロパフェノン（プロノン錠100mg〜150mg 1日3回毎食後）。',
+          combination: '不安が強い場合は抗不安薬や漢方薬（柴胡加竜骨牡蛎湯）。',
+          contra: '虚血性心疾患、心肥大。',
+          targets: 'ホルター心電図でのVPC総数70%以上減少、自覚的動悸の消失。',
+          guidance: '🗣️ 服薬指導：カフェイン・過度な飲酒・睡眠不足はVPCを悪化させるため生活習慣の是正を併せて指導。'
+        }
+      },
+      {
+        id: 'proarrhythmia_risk',
+        cardNum: 2,
+        name: '【🚨 処方監査アラート】器質的心疾患（心筋梗塞・低心機能）への催不整脈禁忌リスク',
+        subType: '重大監査警告・CAST試験に基づく催不整脈作用（致死的心室頻拍・心室細動）の回避',
+        baseProb: 15,
+        criteria: '【赤旗サイン】：陳旧性心筋梗塞（OMI）の既往、狭心症、左室駆出率低下（LVEF < 40%）、うっ血性心不全があるにもかかわらずプロノンが処方されている。',
+        reason: '虚血心筋や線維化心筋では伝導遅延が不均一に増悪し、致死的なリエントリー性心室頻拍（VT）・心室細動（VF）を誘発（CAST試験でIc群の死亡率がプラセボの3倍超に激増）。',
+        keyPoint: '🚨 薬剤師の即時疑義照会：器質的心疾患がある患者にクラスIc抗不整脈薬（プロノン・タンボコール・サンリズム）が出ていたら絶対に調剤せず、アミオダロン（アンカロン）等への変更を医師に照会！',
+        treatment: {
+          pathology: '心筋梗塞巣や線維化病変が存在する心筋に強力なNaチャネル遮断薬が作用すると、病変境界部での伝導ブロックが著明に悪化し、容易に持続性心室頻拍（VT）や心室細動（VF）が誘発され心臓突然死を招きます（CASTクライシス）。',
+          rationale: '【鑑別・監査根拠】：添付文書上の「心筋梗塞後、うっ血性心不全、高度伝導障害のある患者への投与禁忌」を厳密に監査する必要があります。',
+          firstLine: '器質的心疾患合併例ではプロパフェノンを即時中止し、クラスIII（アミオダロン：アンカロン）またはβ遮断薬（メインテート）、カテーテルアブレーションを選択。',
+          combination: '禁忌回避処方。',
+          contra: 'プロパフェノン、フレカイニド、ピルシカイニド等のIc群全般。',
+          targets: '催不整脈死の未然防止、安全なアブレーションまたはアミオダロンへの移行。',
+          guidance: '🗣️ 薬剤師介入：「過去に心筋梗塞や心不全と診断されたことはありませんか？心臓の壁の動きが低下している場合、このお薬は安全のため使えない決まりになっています。主治医に確認いたします。」'
+        }
+      }
+    ]
+  },
+
+  // 14. ケタス（イブジラスト）
+  // 🌟 PDE阻害薬（脳梗塞後遺症めまい vs 気管支喘息）
+  ibudilast: {
+    aliases: ['ケタス', 'イブジラスト', 'ibudilast'],
+    name: 'ケタス（イブジラストカプセル）',
+    category: 'ホスホジエステラーゼ（PDE）阻害薬（脳循環代謝改善薬 / 気管支喘息治療薬）',
+    questions: [
+      {
+        id: 'ibu_q1_dept_symptom',
+        title: 'Q1. 処方箋情報：処方元の診療科と主訴（症状）はどれですか？',
+        subtitle: '脳神経外科・内科（めまい・ふらつき）か、呼吸器科（喘息）かによって適応が180度分かれます',
+        options: [
+          {
+            id: 'ibu_opt_neuro_vertigo',
+            label: '脳神経外科・内科処方：「めまい、ふらつき、頭重感」、脳梗塞既往があり抗血小板薬併用',
+            badge: '脳梗塞後遺症・めまい',
+            desc: '慢性脳循環障害に伴うめまい等の自覚症状改善。PDE阻害による脳血流増加とグリア炎症抑制',
+            weights: { cerebro_vertigo: 95, asthma_bronchial: -50 }
+          },
+          {
+            id: 'ibu_opt_resp_asthma',
+            label: '呼吸器内科処方：「ゼーゼーする喘鳴、息苦しさ」、吸入ステロイド（ICS/LABA）併用',
+            badge: '気管支喘息',
+            desc: 'アレルギー性気管支喘息。PDE阻害による気管支拡張 ＆ ロイコトリエン遊離抑制',
+            weights: { asthma_bronchial: 95, cerebro_vertigo: -50 }
+          }
+        ]
+      },
+      {
+        id: 'ibu_q2_combo',
+        title: 'Q2. 処方箋情報：併用薬の特徴はどれですか？',
+        subtitle: '併用薬から背景にある脳血管・呼吸器病態を特定します',
+        options: [
+          {
+            id: 'ibu_opt_combo_antiplatelet',
+            label: 'バイアスピリン、クロピドグレル（プラビックス）、シロスタゾール（プレタール）併用',
+            badge: '脳血管障害併用',
+            desc: '脳梗塞再発予防と脳循環代謝改善の併用レジメン',
+            weights: { cerebro_vertigo: 90, asthma_bronchial: -40 }
+          },
+          {
+            id: 'ibu_opt_combo_inhaler',
+            label: 'シムビコート、レルベア、モンテルカスト（キプレス）等の喘息治療薬併用',
+            badge: '呼吸器併用',
+            desc: '気道過敏性と好酸球炎症を抑える併用喘息管理',
+            weights: { asthma_bronchial: 90, cerebro_vertigo: -40 }
+          },
+          {
+            id: 'ibu_opt_combo_none',
+            label: 'ケタス単剤、または胃薬のみ併用',
+            badge: '単剤治療',
+            desc: '軽度のめまいまたは軽症喘息の維持',
+            weights: { cerebro_vertigo: 40, asthma_bronchial: 40 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'cerebro_vertigo',
+        cardNum: 29,
+        name: '脳梗塞後遺症に伴う慢性脳循環障害・めまい・頭重感の改善',
+        subType: '脳神経外科・神経内科型・PDE阻害脳血流増加 ＆ ミクログリア活性化抑制レジメン',
+        baseProb: 30,
+        criteria: '【処方サイン】：脳神経外科・内科受診、脳梗塞（ラクナ梗塞・アテローム血栓性）既往、主訴「ふわふわするめまい、頭が重い」、抗血小板薬併用、1回10mg 1日3回。',
+        reason: 'ホスホジエステラーゼ（PDE）を阻害し血管平滑筋のcAMPを増やして微小脳血管を拡張。さらに脳内ミクログリアからの炎症性サイトカイン放出をブロックし虚血後神経細胞を保護。',
+        keyPoint: '💡 処方の鑑別点：気管支喘息の薬として知られるケタスだが、脳神経外科から出ている場合は100%「脳梗塞後のめまい・頭重感改善薬」として処方されている。',
+        treatment: {
+          pathology: '脳梗塞発症後の慢性期において、梗塞巣周囲の微小循環不全と慢性的なミクログリアの炎症持続により、自律神経中枢や前庭神経路の虚血が生じ、難治性の浮動性めまいや頭重感、意欲低下を引き起こします。',
+          rationale: '【処方根拠】：イブジラストは選択的に脳血流量を増加させるとともに、脳組織内プロスタサイクリン（PGI2）産生を促進し血小板凝集を抑制、めまい症状を効果的に和らげます。',
+          firstLine: 'ケタスカプセル10mg 1回1カプセル 1日3回毎食後（1日30mg）。',
+          combination: '抗血小板薬（クロピドグレル75mg/日）、めまい併用（アデホスコーワ顆粒、メリスロン）。',
+          contra: '頭蓋内出血発症直後（出血を助長する恐れ）。',
+          targets: 'めまい自覚症状スコアの改善、歩行ふらつきの軽減、日常生活動作（ADL）の自立。',
+          guidance: '🗣️ 服薬指導：「脳の血液の流れをスムーズにして、脳梗塞の後に残るフワフワしためまいや頭の重苦しさを和らげるお薬です。毎日規則正しく飲むことで効果が安定します。胃がムカムカする場合は食後に多めの水でお飲みください。」'
+        }
+      },
+      {
+        id: 'asthma_bronchial',
+        cardNum: 20,
+        name: '気管支喘息（成人型アレルギー性気管支喘息）',
+        subType: '呼吸器内科型・PDE阻害気管支拡張 ＆ ロイコトリエン遊離抑制併用療法',
+        baseProb: 25,
+        criteria: '【処方サイン】：呼吸器内科受診、吸入ステロイド（ICS）併用、夜間〜早朝の咳・喘鳴、好酸球増多。',
+        reason: '気管支平滑筋のPDEを阻害してcAMPを増加させ気管支を拡張。肥満細胞からのロイコトリエン・ヒスタミン遊離を抑制。',
+        keyPoint: '💡 臨床的位置づけ：吸入ステロイド（ICS）や抗ロイコトリエン薬（LTRA）に追加する経口抗アレルギー併用薬。',
+        treatment: {
+          pathology: 'アレルゲンやウイルス感染により気道粘膜で好酸球・マスト細胞主体の慢性アレルギー性炎症が持続し、気道攣縮と過分泌を生じます。',
+          rationale: '【処方根拠】：気管支拡張作用と抗アレルギー炎症抑制作用を併せ持ち、吸入薬の吸入力が弱い高齢喘息患者の経口サポートにも有用。',
+          firstLine: 'ケタスカプセル10mg 1回1カプセル 1日2回（朝食後・就寝前）。',
+          combination: 'ICS/LABA配合吸入剤（シムビコート/レルベア）、モンテルカスト。',
+          contra: '重篤な肝障害。',
+          targets: '喘息発作の頻度ゼロ、PEF（ピークフロー値）の安定化。',
+          guidance: '🗣️ 服薬指導：発作をその場で止める薬ではなく、気管支の腫れを鎮めて発作を起こりにくくする予防薬であることの説明。'
+        }
+      }
+    ]
+  },
+
+  // 15. チョコラA（レチノール / ビタミンA）
+  // 🌟 角化性皮膚疾患 vs 夜盲症 vs 🚨 催奇形性禁忌監査
+  chocola_a: {
+    aliases: ['チョコラA', 'レチノール', 'ビタミンA', 'chocola a', 'retinol', 'チョコラa末'],
+    name: 'チョコラA（レチノール / ビタミンA主剤）',
+    category: '脂溶性ビタミン製剤（表皮角化正常化 ＆ 暗順応維持薬）',
+    questions: [
+      {
+        id: 'choc_q1_dept_symptom',
+        title: 'Q1. 処方箋情報：処方元の診療科と主訴（症状）はどれですか？',
+        subtitle: '皮膚科（毛孔性苔癬・魚鱗癬）か、眼科（夜盲症）かによって病態が完全に異なります',
+        options: [
+          {
+            id: 'choc_opt_skin_keratosis',
+            label: '皮膚科処方：二の腕や背中の「ザラザラした鳥肌（毛孔性苔癬）」や「サメ肌・カサつき（魚鱗癬）」',
+            badge: '角化性皮膚疾患',
+            desc: '表皮細胞の異常角化を抑制。毛孔性苔癬、尋常性魚鱗癬、乾癬、掌蹠角化症の角質融解改善',
+            weights: { keratosis_dermatosis: 95, vitamin_a_deficiency: -40, teratogenic_contra: -30 }
+          },
+          {
+            id: 'choc_opt_eye_nyctalopia',
+            label: '眼科処方：「薄暗い部屋や夕暮れ時に目が見えにくい（とり目・夜盲症）」または「角膜乾燥」',
+            badge: '夜盲症・ビタミンA欠乏',
+            desc: '網膜桿体細胞の視物質ロドプシン生合成不全。暗順応障害と角膜上皮の乾燥角化症',
+            weights: { vitamin_a_deficiency: 95, keratosis_dermatosis: -30, teratogenic_contra: -30 }
+          },
+          {
+            id: 'choc_opt_pregnant_female',
+            label: '【🚨 重大警告】：妊娠3ヶ月以内または妊娠を希望する女性に処方されている',
+            badge: '🚨 妊婦催奇形性禁忌！',
+            desc: 'ビタミンA（5000 IU/日以上）の過剰投与は胎児奇形（中枢神経・頭蓋顔面・心奇形）を誘発し禁忌',
+            weights: { teratogenic_contra: 100, keratosis_dermatosis: 40, vitamin_a_deficiency: 40 }
+          }
+        ]
+      },
+      {
+        id: 'choc_q2_combo',
+        title: 'Q2. 処方箋情報：併用外用薬や病歴はどれですか？',
+        subtitle: '併用薬から背景にある皮膚・眼疾患を特定します',
+        options: [
+          {
+            id: 'choc_opt_combo_keratolytic',
+            label: 'サリチル酸ワセリン、ウレパール、ヒルドイド軟膏が併用されている',
+            badge: '皮膚角化改善併用',
+            desc: '角質軟化外用薬とビタミンA内服の併用療法',
+            weights: { keratosis_dermatosis: 90, teratogenic_contra: -10 }
+          },
+          {
+            id: 'choc_opt_combo_eye_drops',
+            label: 'ヒアルロン酸点眼液（ヒアレイン）、ジクアス、ムコスタ点眼液併用',
+            badge: '眼科角膜ケア併用',
+            desc: 'ドライアイ・角結膜上皮障害の局所加療',
+            weights: { vitamin_a_deficiency: 85, teratogenic_contra: -10 }
+          },
+          {
+            id: 'choc_opt_combo_gastrectomy',
+            label: '胃切除術後、胆道閉塞、長期中心静脈栄養（TPN）の既往がある',
+            badge: '脂溶性ビタミン吸収不全',
+            desc: '腸管からの脂肪吸収障害に伴う続発性ビタミンA欠乏症',
+            weights: { vitamin_a_deficiency: 90, keratosis_dermatosis: 20 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'keratosis_dermatosis',
+        cardNum: 16,
+        name: '角化性皮膚疾患（毛孔性苔癬、尋常性魚鱗癬、掌蹠角化症、乾癬）',
+        subType: '皮膚科専門外来型・レチノイン酸受容体を介した表皮細胞分化正常化レジメン',
+        baseProb: 30,
+        criteria: '【処方サイン】：皮膚科処方、主訴「二の腕・太ももの鳥肌状ブツブツ（毛孔性苔癬）」「全身の魚のウロコ状の皮膚めくれ（魚鱗癬）」、尿素製剤/サリチル酸併用。',
+        reason: 'ビタミンA（レチノール）は表皮細胞の核内レチノイン酸受容体（RAR）に結合し、角化細胞（ケラチノサイト）の過剰な角化・角栓形成を抑制し皮膚をなめらかに整える。',
+        keyPoint: '💡 処方の鑑別点：美容やニキビに見える二の腕のブツブツ（毛孔性苔癬）に対し、皮膚科ではチョコラA（ビタミンA）とサリチル酸ワセリンを併用するのが王道処方。',
+        treatment: {
+          pathology: '毛包一致性に角質が異常に肥厚して角栓が毛穴を塞ぐ（毛孔性苔癬）または表皮の細胞間脂質やフィラグリン異常により角質が剥がれ落ちずにウロコ状に肥厚（魚鱗癬）します。',
+          rationale: '【処方根拠】：チョコラAの内服により毛包漏斗部の角化不全を内側から是正し、ザラつきを根本から改善します。',
+          firstLine: 'チョコラA錠/末（ビタミンAとして1日1万〜5万IUを経口投与）。',
+          combination: 'サリチル酸ワセリン（角質融解）、ウレパール（尿素軟膏）、ヘパリン類似物質。',
+          contra: '🚨 妊婦・妊娠希望女性（催奇形性禁忌）。',
+          targets: '毛孔の角栓消失、皮膚触感の平滑化、美容的QOLの向上。',
+          guidance: '🗣️ 服薬指導：「お肌の生まれ変わりのリズムを整え、毛穴のザラつきや硬くなった角質をやわらかくするビタミンのお薬です。お風呂上がりの保湿外用薬と併せて毎日続けてください。なお、妊娠中の方には使えないお薬ですので、万が一ご妊娠の可能性がある場合はすぐに服用を中止してください。」'
+        }
+      },
+      {
+        id: 'vitamin_a_deficiency',
+        cardNum: 14,
+        name: 'ビタミンA欠乏症（夜盲症・とり目、角膜乾燥症、胃切除後吸収不全）',
+        subType: '眼科・代謝外来型・網膜桿体細胞ロドプシン補充 ＆ 暗順応改善療法',
+        baseProb: 25,
+        criteria: '【処方サイン】：眼科処方、主訴「夕暮れや薄暗い部屋で目が見えにくい（夜盲症）」「目が乾いて痛む」、胃切除後や慢性胆道疾患。',
+        reason: '網膜の明暗を感知する桿体細胞の光受容物質「ロドプシン」の構成成分（レチナール）を直接補充し、暗順応機能を回復。',
+        keyPoint: '💡 病態の盲点：現代の日本でも「胃切除後」や「極端な偏食（脂肪制限）」、胆汁うっ滞（胆汁酸不足による脂溶性ビタミン吸収不全）により夜盲症が発症する。',
+        treatment: {
+          pathology: '血清レチノール値が低下すると、網膜桿体細胞内で11-cis-レチナールが枯渇し、暗所での光受容シグナル伝達が破綻して夜盲症を発症。さらに結膜・角膜上皮の杯細胞が消失し角膜乾燥症・ビトー斑を形成します。',
+          rationale: '【処方根拠】：経口ビタミンA補充により数日〜数週間で暗順応が劇的に回復します。',
+          firstLine: 'チョコラAカプセル/末（ビタミンAとして1日3万〜5万IU）。',
+          combination: 'ビタミンE（ユベラ：抗酸化保護）、人工涙液点眼。',
+          contra: '過剰症（頭蓋内圧亢進、肝障害）、妊婦禁忌。',
+          targets: '暗順応検査の正常化、夜間歩行・運転の安全性確保、血清ビタミンA ≥ 100 IU/dL。',
+          guidance: '🗣️ 服薬指導：脂溶性ビタミンのため「食後」に服用することで吸収率が高まることを指導。'
+        }
+      },
+      {
+        id: 'teratogenic_contra',
+        cardNum: 13,
+        name: '【🚨 処方監査アラート】妊娠3ヶ月以内・妊娠希望女性への催奇形性過剰投与禁忌',
+        subType: '絶対的監査警告・胎児奇形（小耳症・口蓋裂・大血管転位・中枢神経奇形）の遮断',
+        baseProb: 15,
+        criteria: '【赤旗サイン】：妊娠3ヶ月以内の妊婦または妊娠を希望する女性に、チョコラA（ビタミンA ≥ 5,000 IU/日）が処方されている。',
+        reason: '過剰なビタミンAは神経堤細胞（neural crest cells）の遊走と分化を強力に障害し、頭蓋顔面奇形や心大血管奇形を引き起こす。',
+        keyPoint: '🚨 薬剤師の最優先監査：皮膚科等で若い女性にチョコラAが出ている場合、必ず「現在ご妊娠中、または近々妊娠のご希望はありませんか？」と確認することが法律・添付文書上の絶対的義務！',
+        treatment: {
+          pathology: '催奇形性発現閾値は1日1万IU前後とされ、過剰レチノイン酸がHOX遺伝子発現パターンを狂わせ、第1・第2鰓弓由来の器官形成（耳介、下顎、心流出路）を壊滅的に破壊します。',
+          rationale: '【監査基準】：食品からの摂取も含め、妊娠前3ヶ月から妊娠初期3ヶ月までのビタミンA摂取量は5,000 IU/日未満に厳格に抑える必要があります。',
+          firstLine: '即時疑義照会による処方中止または妊娠可能性の完全否定。代替外用薬（保湿剤のみ等）への変更。',
+          combination: '絶対禁忌回避。',
+          contra: '妊娠3ヶ月以内または妊娠希望女性に対するビタミンA 5,000 IU/日以上の投与。',
+          targets: '薬原性胎児奇形の完全防止。',
+          guidance: '🗣️ 薬剤師問診：「女性の方へ極めて大切なお伺いです。このお薬はお腹の赤ちゃんの発育に影響を与えるリスクがあるため、ご妊娠中や妊娠のご希望がある方には絶対に使用できません。念のため確認させていただけますでしょうか？」'
+        }
+      }
+    ]
+  },
+
+  // 16. コララン（イバブラジン）
+  // 🌟 Ifチャネル遮断薬（洞調律頻脈心不全・低血圧フレイル救世主 vs 心房細動無効地雷）
+  ivabradine: {
+    aliases: ['コララン', 'イバブラジン', 'ivabradine', 'coralan', 'イバブラジン塩酸塩'],
+    name: 'コララン（イバブラジン塩酸塩錠）',
+    category: 'HCN（If）チャネル選択的遮断薬（サイナスノード特異的純粋心拍数低下薬）',
+    questions: [
+      {
+        id: 'iva_q1_rhythm_hr',
+        title: 'Q1. 処方箋情報：心電図の「調律（リズム）」と安静時心拍数はどれですか？',
+        subtitle: '洞調律（Sinus）か、心房細動（Af）かによって薬効が100%かゼロかに分かれます',
+        options: [
+          {
+            id: 'iva_opt_sinus_tachy',
+            label: '洞調律（Sinus Rhythm）かつ「安静時心拍数 ≥ 75回/分」の慢性心不全',
+            badge: '慢性心不全（適応合致）',
+            desc: '洞房結節のIfチャネルを特異的に遮断。血圧を下げずに心拍数のみを下げて心筋酸素消費量を削減',
+            weights: { hf_sinus_tachy: 95, af_ineffective_alert: -60, gfj_interaction_alert: -30 }
+          },
+          {
+            id: 'iva_opt_low_bp_frail',
+            label: '低血圧（収縮期血圧 90〜100 mmHg）で「β遮断薬をこれ以上増量できない」低血圧フレイル心不全',
+            badge: '低血圧フレイル救済',
+            desc: 'β遮断薬と異なり心筋収縮力（イノトロピー）と血圧を一切下げないため安全に徐拍化可能',
+            weights: { hf_sinus_tachy: 95, af_ineffective_alert: -50 }
+          },
+          {
+            id: 'iva_opt_af_rhythm',
+            label: '【🚨 処方地雷】：心電図が「心房細動（Af）」の患者に処方されている',
+            badge: '🚨 心房細動には完全無効！',
+            desc: 'コラランは洞房結節（サイナスノード）のIfチャネルにしか効かないため、Afには全く効果なし',
+            weights: { af_ineffective_alert: 100, hf_sinus_tachy: -50 }
+          }
+        ]
+      },
+      {
+        id: 'iva_q2_combo_tests',
+        title: 'Q2. 処方箋情報：併用薬や食事習慣はどれですか？',
+        subtitle: 'Fantastic 4の併用状況とグレープフルーツ併用禁忌を評価します',
+        options: [
+          {
+            id: 'iva_opt_combo_f4',
+            label: 'エンレスト、フォシーガ/ジャディアンス、スピロノラクトン、メインテート（F4）併用',
+            badge: 'ガイドライン標準心不全併用',
+            desc: '心不全4大柱（Fantastic 4）に上乗せして心血管死・心不全入院をさらに阻止',
+            weights: { hf_sinus_tachy: 85, gfj_interaction_alert: -20 }
+          },
+          {
+            id: 'iva_opt_combo_gfj',
+            label: '【🚨 併用禁忌】：グレープフルーツジュースを毎日飲む習慣がある、または強力なCYP3A4阻害薬併用',
+            badge: '🚨 併用禁忌（CYP3A4阻害）',
+            desc: '小腸CYP3A4阻害によりコララン血中濃度が急上昇し、重度の徐脈・失神・心停止リスク',
+            weights: { gfj_interaction_alert: 100, hf_sinus_tachy: 20 }
+          },
+          {
+            id: 'iva_opt_combo_normal',
+            label: '特にGFJ飲用はなく、一般的な内服レジメン',
+            badge: '安全確認',
+            desc: '通常の用量漸増（2.5mg〜5mg〜最大7.5mg 1日2回）',
+            weights: { hf_sinus_tachy: 40 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'hf_sinus_tachy',
+        cardNum: 2,
+        name: '慢性心不全（HFrEF）洞調律頻脈（HR ≥ 75 bpm） / 低血圧フレイル救済レジメン',
+        subType: '循環器専門外来型・血圧を下げずに心拍数のみを選択的低下させる唯一無二のHCN遮断療法',
+        baseProb: 30,
+        criteria: '【処方サイン】：循環器内科処方、慢性心不全（NYHA II〜IV、LVEF ≤ 35%）、心電図が洞調律、安静時心拍数 ≥ 75回/分、β遮断薬投与中または低血圧（BP 90〜100）で増量困難、1回2.5mgまたは5mg 1日2回食後。',
+        reason: '洞房結節のHCN4チャネル（If電流）を選択的に遮断し、心筋収縮力（イノトロピー）や末梢血管抵抗（血圧）を一切損なうことなく、心拍数のみを特異的に低下させて心室拡張期充満時間を延長。',
+        keyPoint: '💡 処方医の選定意図（Why this drug?）：β遮断薬（メインテート等）を増量したいが「血圧が低すぎてこれ以上増量できない（立ちくらみ・めまい）」という高齢フレイル心不全患者に対し、血圧を落とさずに頻脈を抑えられる唯一の切り札。',
+        treatment: {
+          pathology: '慢性心不全では代償機転として交感神経が常時興奮し頻脈となりますが、頻脈自体が心筋酸素消費量を爆発的に増やし、冠血流が流れる「拡張期時間」を短縮させて心不全悪化の悪循環を招きます（HR > 70〜75は心血管死の独立予後不良因子）。',
+          rationale: '【処方根拠】：SHIFT試験において、β遮断薬にコラランを追加することで心血管死および心不全悪化入院リスクが18%有意に低下することが実証されています。',
+          firstLine: 'コララン錠2.5mg 1回1錠 1日2回食後より開始（目標安静時心拍数 50〜60 bpm、忍容性に応じて5mg、最大7.5mgへ漸増）。',
+          combination: 'Fantastic 4（ARNIエンレスト、SGLT2阻害薬、MRA、β遮断薬）。',
+          contra: '🚨 重大な禁忌：心房細動（Af）、重度低血圧（BP < 90/50）、急性非代償性心不全、グレープフルーツジュース併用。',
+          targets: '安静時心拍数 50〜60 bpmの達成（心拍数が50未満に低下した場合は減量または休薬）。',
+          guidance: '🗣️ 服薬指導：「血圧を下げずに、ドキドキと速すぎる心臓の拍動だけを穏やかに落ち着かせる画期的な心不全のお薬です。心臓を休ませて長持ちさせる効果があります。光がピカピカと眩しく見える『光視症（こうししょう）』という一時的な視覚症状が出ることがありますが、多くは自然に慣れていきます。脈拍が50回未満になったり強いふらつきが出た時はご連絡ください。」'
+        }
+      },
+      {
+        id: 'af_ineffective_alert',
+        cardNum: 2,
+        name: '【🚨 処方監査アラート】心房細動（Af）への無効処方地雷（洞房結節特異的薬理）',
+        subType: '重大監査警告・心房細動（Af）患者にはIfチャネルが存在しないため薬理効果ゼロ',
+        baseProb: 15,
+        criteria: '【赤旗サイン】：心電図が「心房細動（Af）」である患者に、頻脈コントロール目的でコラランが処方されている。',
+        reason: 'コラランは洞房結節のペースメーカー細胞（If電流）にのみ作用する。心房細動では洞房結節からの興奮は消失しており、房室結節伝導や心房筋無秩序興奮に対してコラランは一切効果を発揮しない。',
+        keyPoint: '🚨 薬剤師の即時介入：医師が「頻脈だからコララン」と誤解しているケースがあるため、心電図リズムを確認し「心房細動調律では効果が得られないため、β遮断薬やジギタリス等への変更」を即座に提案する。',
+        treatment: {
+          pathology: '心房細動では洞結節は停止しており、心房内の無数のリエントリー興奮が房室結節を通過して心室に伝わっています。房室結節にはIf電流が存在しないため、コラランをいくら投与しても心拍数は1拍も下がりません。',
+          rationale: '【添付文書・ガイドライン警告】：効能効果は「洞調律かつ投与開始時の安静時心拍数が75回/分以上の慢性心不全」に限定されており、心房細動は明確な対象外・禁忌です。',
+          firstLine: '心房細動の心拍数コントロールには、β遮断薬（メインテート）、ジゴキシン、またはアブレーションを選択。',
+          combination: '抗凝固薬（DOAC）。',
+          contra: '心房細動、心房粗動、洞不全症候群。',
+          targets: '処方ミスの是正、有効なレートコントロールへの切り替え。',
+          guidance: '🗣️ 薬剤師介入：「心電図を拝見したところ、現在は心房細動のリズムとなっております。コラランは正常な洞調律の時にのみ効果を発揮するお薬のため、現在の調律では効果が期待できません。主治医に確認のうえ適切なお薬に変更いたします。」'
+        }
+      },
+      {
+        id: 'gfj_interaction_alert',
+        cardNum: 2,
+        name: '【🚨 処方監査アラート】グレープフルーツジュース（GFJ）飲用による重篤徐脈・併用禁忌',
+        subType: '絶対的併用禁忌監査・小腸CYP3A4阻害によるコララン血中濃度急上昇と心停止回避',
+        baseProb: 15,
+        criteria: '【赤旗サイン】：コララン処方患者が朝食や健康維持のためにグレープフルーツ（生果・ジュース）を日常摂取している。',
+        reason: 'グレープフルーツに含まれるフラノクマリン類が小腸のCYP3A4を不可逆的に阻害し、コラランのファーストパス効果が消失して血中AUCが約3倍に激増し、高度徐脈や心停止を誘発。',
+        keyPoint: '🚨 服薬指導の徹底：コラランの添付文書上「グレープフルーツジュースは併用禁忌」と明記されている。温州みかんやレモンはOKだが、グレープフルーツは完全禁止を必ず伝える。',
+        treatment: {
+          pathology: 'コラランは主にCYP3A4で代謝されるため、不可逆的阻害を受けると未変化体の体内動態が劇的に変動し、洞結節の高度抑制から房室ブロック、失神、心停止を招きます。',
+          rationale: '【添付文書基準】：併用禁忌（投与しないこと）。',
+          firstLine: 'グレープフルーツ摂取の中止指導。果汁入りゼリーや柑橘系ミックスジュースの原材料チェック。',
+          combination: '代替柑橘類（みかん、リンゴ、バナナは安全）。',
+          contra: 'グレープフルーツ、ブンタン、ハッサク、スウィーティー。強力なCYP3A4阻害薬（イトラコナゾール、クラリスロマイシン）。',
+          targets: '重篤徐脈事故のゼロ化。',
+          guidance: '🗣️ 必須指導：「このお薬を飲んでいる間は、『グレープフルーツ』やグレープフルーツジュースは絶対に口にしないでください。薬が効きすぎて心臓の脈が極端に遅くなり、失神する危険があります。なお、普通のみかん（温州みかん）やリンゴジュースは全く問題ありません。」'
+        }
+      }
+    ]
+  },
+
+  // 17. ハイドレア（ヒドロキシカルバミド / ヒドロキシウレア）
+  // 🌟 経口骨髄増殖性腫瘍治療薬（本態性血小板血症 vs 真性多血症 vs 🚨 下腿難治性皮膚潰瘍）
+  hydroxycarbamide: {
+    aliases: ['ハイドレア', 'ヒドロキシカルバミド', 'ヒドロキシウレア', 'hydroxycarbamide', 'hydroxyurea', 'hydrea'],
+    name: 'ハイドレア（ヒドロキシカルバミドカプセル）',
+    category: 'リボヌクレオチド還元酵素阻害薬（骨髄増殖性腫瘍治療薬 / 抗悪性腫瘍薬）',
+    questions: [
+      {
+        id: 'hyd_q1_disease_tests',
+        title: 'Q1. 処方箋情報：血液検査値の著明高値と対象疾患はどれですか？',
+        subtitle: '血小板数（Plt）著増か、ヘマトクリット（Ht）著増かを確認します',
+        options: [
+          {
+            id: 'hyd_opt_et_high_plt',
+            label: '血小板数（Plt）が著増（Plt > 60万〜100万/μL以上）：本態性血小板血症（ET）',
+            badge: '本態性血小板血症（ET）',
+            desc: '巨核球の過剰増殖を抑制し、血栓症（脳梗塞・心筋梗塞）を阻止するためPlt < 40万へ降下',
+            weights: { et_thrombocythemia: 95, pv_polycythemia: -30, cml_leukemia: -40, hydrea_leg_ulcer: -30 }
+          },
+          {
+            id: 'hyd_opt_pv_high_ht',
+            label: 'ヘモグロビン・ヘマトクリットが著増（Ht > 45〜50%）：真性多血症（PV）',
+            badge: '真性多血症（PV）',
+            desc: '瀉血（しゃけつ）と併用、または瀉血不耐例の赤血球増多コントロール（目標Ht < 45%）',
+            weights: { pv_polycythemia: 95, et_thrombocythemia: -30, cml_leukemia: -40, hydrea_leg_ulcer: -30 }
+          },
+          {
+            id: 'hyd_opt_cml_wbc',
+            label: '白血球数が著増（WBC > 5万〜10万/μL）：慢性骨髄性白血病（CML）の急減量',
+            badge: '慢性骨髄性白血病（CML）',
+            desc: 'TKI治療開始前の初期腫瘍崩壊予防・白血球急減量（Cytoreduction）',
+            weights: { cml_leukemia: 95, et_thrombocythemia: -30, pv_polycythemia: -30 }
+          },
+          {
+            id: 'hyd_opt_leg_ulcer',
+            label: '【🚨 重大副作用】：足首やすねに「激痛を伴う治らない傷（下腿皮膚潰瘍）」ができた',
+            badge: '🚨 ハイドレア下腿難治性皮膚潰瘍',
+            desc: 'ハイドレア長期内服特有の重大副作用。DNA修復阻害による皮膚壊死。即時休薬が必要',
+            weights: { hydrea_leg_ulcer: 100, et_thrombocythemia: 40, pv_polycythemia: 40 }
+          }
+        ]
+      },
+      {
+        id: 'hyd_q2_combo_mgmt',
+        title: 'Q2. 処方箋情報：併用薬や処方用量はどれですか？',
+        subtitle: '血栓予防薬の併用と骨髄抑制モニタリングを評価します',
+        options: [
+          {
+            id: 'hyd_opt_combo_aspirin',
+            label: '低用量アスピリン（バイアスピリン100mg）が併用されている',
+            badge: '血栓予防併用',
+            desc: '骨髄増殖性腫瘍における動脈血栓塞栓症（脳梗塞・心筋梗塞）の標準的併用予防',
+            weights: { et_thrombocythemia: 85, pv_polycythemia: 85 }
+          },
+          {
+            id: 'hyd_opt_combo_allopurinol',
+            label: 'アロプリノール（ザイロリック）やフェブキソスタット（フェブリク）が併用されている',
+            badge: '高尿酸血症・腫瘍崩壊対策',
+            desc: '細胞崩壊に伴う高尿酸血症と痛風・急性腎障害の防止',
+            weights: { cml_leukemia: 80, pv_polycythemia: 50, et_thrombocythemia: 50 }
+          },
+          {
+            id: 'hyd_opt_combo_single',
+            label: 'ハイドレア単剤（500mg 1日1〜2カプセル維持投与）',
+            badge: '維持療法',
+            desc: '外来通院での安定的な血算維持レジメン',
+            weights: { et_thrombocythemia: 40, pv_polycythemia: 40 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'et_thrombocythemia',
+        cardNum: 16,
+        name: '本態性血小板血症（ET：Essential Thrombocythemia）の血栓症予防レジメン',
+        subType: '血液内科専門外来型・血小板著増（Plt > 100万）に伴う脳梗塞・心筋梗塞阻止コントロール',
+        baseProb: 30,
+        criteria: '【処方サイン】：血液内科処方、血小板数著増（Plt > 60万〜100万/μL）、JAK2 V617F遺伝子変異陽性、バイアスピリン併用、高リスク群（60歳以上または血栓症既往）、1回500mg 1日1〜2カプセル。',
+        reason: 'リボヌクレオチド還元酵素を特異的に阻害してDNA合成を抑制し、骨髄における巨核球の過剰な増殖と血小板産生を鎮静化。目標血小板数 < 40万/μLを維持して致死的心血管血栓症を予防。',
+        keyPoint: '💡 処方の鑑別点：抗がん剤（抗悪性腫瘍薬）に分類されるが、本態性血小板血症の患者は長年外来で経口内服を続ける。低用量アスピリンとの併用がゴールドスタンダード。',
+        treatment: {
+          pathology: '造血幹細胞のクローン性増殖（JAK2、CALR、MPL変異）により、血小板が自律的に異常増多。血小板数が著増すると微小血管閉塞による一過性脳虚血発作（TIA）や心筋梗塞を起こす一方、血小板数が100〜150万を超えるとフォン・ヴィレブランド因子が消費され逆に出血傾向（後天性vWD）を呈します。',
+          rationale: '【処方根拠】：高リスクET患者において、ハイドレア投与は血小板数を速やかにコントロールし、血栓症発症率を劇的に低減させます。',
+          firstLine: 'ハイドレアカプセル500mg 1日1〜2カプセル（1日500〜1000mg）より開始し、血小板数40万未満を目標に維持用量を設定。',
+          combination: 'バイアスピリン（100mg/日）。ハイドレア不耐・抵抗時はアナグレリド（アグリリン）へ変更。',
+          contra: '重篤な骨髄抑制、妊婦・妊娠希望女性（催奇形性）。',
+          targets: '血小板数 < 40万/μL（出血・血栓リスクの回避）、白血球・赤血球の過剰抑制防止。',
+          guidance: '🗣️ 服薬指導：「血液中の血小板が多すぎると血管が詰まりやすくなるため、血小板の数を安全な値まで下げるお薬です。毎日決まった時間に服用してください。服用中は爪が黒ずんだり皮膚がカサつくことがありますが、特に『すねや足首に痛む傷や潰瘍』ができた場合は、お薬の影響の可能性があるため我慢せず主治医にお伝えください。」'
+        }
+      },
+      {
+        id: 'pv_polycythemia',
+        cardNum: 16,
+        name: '真性多血症（PV：Polycythemia Vera）の赤血球増多・血栓塞栓予防',
+        subType: '血液内科型・ヘマトクリット（Ht < 45%）維持による血液粘稠度低下レジメン',
+        baseProb: 25,
+        criteria: '【処方サイン】：血液内科処方、赤血球・ヘモグロビン・ヘマトクリット（Ht > 45〜50%）著増、入浴後の皮膚そう痒感、頻回な瀉血（しゃけつ）治療中、血栓高リスク群。',
+        reason: '赤血球系前駆細胞のDNA合成を抑制し、赤血球過剰産生を抑制して目標Ht < 45%を達成し動静脈血栓症を防ぐ。',
+        keyPoint: '💡 治療の極意：真性多血症では「目標ヘマトクリット（Ht）を45%未満に維持する」ことが絶対的生存期間延長のエビデンス。瀉血だけでは維持困難な場合にハイドレアが導入される。',
+        treatment: {
+          pathology: 'JAK2 V617F変異によりエリスロポエチン非依存性に赤血球が無秩序に増殖。血液の粘稠度がドロドロに跳ね上がり、脳梗塞、肺塞栓症、下肢深部静脈血栓症の致死率が激増します。',
+          rationale: '【処方根拠】：CYTO-PV試験により、Ht < 45%を厳格に維持することで心血管死および血栓症が約4倍抑制されることが証明されています。',
+          firstLine: 'ハイドレア（500〜1000mg/日）。',
+          combination: '瀉血療法（Phlebotomy：200〜400mL）、バイアスピリン（100mg/日）。',
+          contra: '重篤な汎血球減少、妊婦禁忌。',
+          targets: 'Ht < 45%の厳格維持、血小板・白血球の正常化。',
+          guidance: '🗣️ 服薬指導：十分な水分補給（脱水は血液濃縮を招き血栓リスク急上昇）の励行指導。'
+        }
+      },
+      {
+        id: 'cml_leukemia',
+        cardNum: 16,
+        name: '慢性骨髄性白血病（CML）の初期細胞減少療法（Cytoreduction）',
+        subType: '血液腫瘍科型・白血球著増時の白血球うっ滞症阻止・TKI導入ブリッジング',
+        baseProb: 15,
+        criteria: '【処方サイン】：血液内科受診、初診時WBC > 5万〜10万/μL、Philadelphia染色体（BCR-ABL）陽性確定前後の初期減量。',
+        reason: '白血球うっ滞症（Leukostasis：呼吸不全・脳梗塞）を防ぐため速やかに白血球数を急降下させる。',
+        keyPoint: '💡 臨床的背景：現在のCMLの主役はTKI（グリベック/タシグナ/スプリセル）だが、初診時の超大量白血球を安全に落とすための短期間導入としてハイドレアが活用される。',
+        treatment: {
+          pathology: 'BCR-ABL恒常的チロシンキナーゼ活性化により骨髄系細胞が無制限に増殖。白血球数が10万を超えると微小血管内に白血球が充満し閉塞性の臓器障害を誘発します。',
+          rationale: '【処方根拠】：DNA合成阻害により数日〜数週間で速やかに白血球数を減少し、TKI治療の安全な土台を作ります。',
+          firstLine: 'ハイドレア（1日1000〜2000mg 分割投与）。',
+          combination: '高尿酸血症予防（アロプリノール/フェブキソスタット）、補液。',
+          contra: '重篤な骨髄無形成。',
+          targets: 'WBC < 20,000/μLへの速やかな低下、腫瘍崩壊症候群の回避。',
+          guidance: '🗣️ 服薬指導：尿酸値を抑えるお薬の併用と十分な飲水を促す。'
+        }
+      },
+      {
+        id: 'hydrea_leg_ulcer',
+        cardNum: 16,
+        name: '【🚨 重大副作用】ハイドレア起因性下腿難治性皮膚潰瘍（即時休薬サイン）',
+        subType: '特異的有害事象警告・すねや足首の有痛性難治性潰瘍に対する早期察知と休薬介入',
+        baseProb: 15,
+        criteria: '【赤旗サイン】：ハイドレアを数ヶ月〜数年内服中の患者において、外傷もないのに足首や下腿内側・外側に激しい痛みを伴う皮膚潰瘍・皮膚壊死が発生。外用薬（軟膏）を塗っても数ヶ月治らない。',
+        reason: '表皮基底細胞のDNA修復阻害と局所微小血管障害により、皮膚の再生能が失われ有痛性の難治性潰瘍を形成。ハイドレアを中止しない限り創傷被覆材や軟膏を用いても決して治癒しない。',
+        keyPoint: '🚨 薬剤師のファインプレー：患者が「最近すねに傷ができて、痛くて治らない」と訴えた場合、皮膚疾患ではなく「ハイドレアの副作用」を即座に疑い、医師に休薬（アナグレリド等への変更）を提案する！',
+        treatment: {
+          pathology: '長期ハイドレア投与により、真皮毛細血管の内皮細胞萎縮とケラチノサイトの分裂停止が起き、軽微な摩擦や自発的な微小虚血から深部潰瘍へと急速に悪化します。',
+          rationale: '【休薬による劇的治癒】：ハイドレアを中止すると、数週間〜数ヶ月で難治性潰瘍が自然に肉芽形成し完全治癒します。',
+          firstLine: 'ハイドレアの即時休薬。本態性血小板血症の場合はアナグレリド（アグリリン）またはインターフェロン製剤へ切り替え。',
+          combination: '局所創傷ケア（ゲーベン軟膏、プロスタンディン軟膏、創傷被覆材）。',
+          contra: '潰瘍改善前のハイドレア再開。',
+          targets: '下腿皮膚潰瘍の肉芽化と上皮化完治、持続的疼痛の消失。',
+          guidance: '🗣️ 薬剤師介入：「足のすねの痛む傷は、現在内服されているハイドレアというお薬の影響で皮膚の治る力が抑えられていることが原因と考えられます。この傷は塗り薬だけでは治らず、ハイドレアをお休み（または別のお薬に変更）することで綺麗に治っていきます。主治医の先生にすぐご相談しましょう。」'
+        }
+      }
+    ]
   }
 };
 
@@ -7564,8 +8189,12 @@ function buildUnifiedQuestions(primaryData) {
       { id: 'opt_dept_ortho', deptVal: 'ortho', label: '🦴 整形外科', desc: '変形性関節症、慢性腰痛症、骨粗鬆症など', badge: '整形外科' },
       { id: 'opt_dept_rheuma', deptVal: 'rheuma', label: '🧬 リウマチ・膠原病科', desc: '関節リウマチ、SLE、血管炎など', badge: 'リウマチ' },
       { id: 'opt_dept_psych', deptVal: 'psych', label: '🧠 心療内科・精神科', desc: 'うつ病、不安障害、線維筋痛症など', badge: '精神科' },
-      { id: 'opt_dept_uro_derm', deptVal: 'uro_derm', label: '🚽 泌尿器科・皮膚科', desc: '過活動膀胱、前立腺肥大、難治性ざ瘡など', badge: '泌尿・皮膚' },
-      { id: 'opt_dept_ent_dent', deptVal: 'ent_dent', label: '👃 耳鼻咽喉科・歯科口腔外科', desc: '味覚障害、口内炎、アレルギー性鼻炎、めまいなど', badge: '耳鼻・歯科' }
+      { id: 'opt_dept_uro_derm', deptVal: 'uro_derm', label: '🚽 泌尿器科・皮膚科', desc: '過活動膀胱、前立腺肥大、難治性ざ瘡、角化症など', badge: '泌尿・皮膚' },
+      { id: 'opt_dept_ent_dent', deptVal: 'ent_dent', label: '👃 耳鼻咽喉科・歯科口腔外科', desc: '味覚障害、口内炎、アレルギー性鼻炎、めまいなど', badge: '耳鼻・歯科' },
+      { id: 'opt_dept_resp', deptVal: 'resp', label: '🫁 呼吸器内科', desc: '気管支喘息、COPD、間質性肺炎、慢性咳嗽など', badge: '呼吸器' },
+      { id: 'opt_dept_neuro', deptVal: 'neuro', label: '🧠 脳神経外科・内科', desc: '脳梗塞後遺症、慢性脳循環障害、めまい、てんかんなど', badge: '脳神経' },
+      { id: 'opt_dept_eye', deptVal: 'eye', label: '👁️ 眼科', desc: '夜盲症、白内障術後、緑内障、角膜乾燥症など', badge: '眼科' },
+      { id: 'opt_dept_hema', deptVal: 'hema', label: '🩸 血液内科', desc: '本態性血小板血症、真性多血症、白血病、貧血など', badge: '血液' }
     ]
   };
 
@@ -8030,6 +8659,9 @@ function applyProfileWeights(scores) {
     if (scores['ihd_angina'] !== undefined) scores['ihd_angina'] += 65;
     if (scores['vasospastic_angina'] !== undefined) scores['vasospastic_angina'] += 65;
     if (scores['hf_refractory'] !== undefined) scores['hf_refractory'] += 60;
+    if (scores['paf_paroxysmal'] !== undefined) scores['paf_paroxysmal'] += 85;
+    if (scores['vpc_ventricular'] !== undefined) scores['vpc_ventricular'] += 80;
+    if (scores['hf_sinus_tachy'] !== undefined) scores['hf_sinus_tachy'] += 95;
   } else if (prof.dept === 'ortho') {
     if (scores['clbp_oa'] !== undefined) scores['clbp_oa'] += 80;
     if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 65;
@@ -8075,10 +8707,26 @@ function applyProfileWeights(scores) {
     if (scores['eruptive_xanthoma'] !== undefined) scores['eruptive_xanthoma'] += 95;
     if (scores['cholestatic_pruritus'] !== undefined) scores['cholestatic_pruritus'] += 95;
     if (scores['hyper_tg_metabolic'] !== undefined) scores['hyper_tg_metabolic'] -= 80;
+    if (scores['keratosis_dermatosis'] !== undefined) scores['keratosis_dermatosis'] += 95;
+    if (scores['vitamin_a_deficiency'] !== undefined) scores['vitamin_a_deficiency'] -= 40;
   } else if (prof.dept === 'ent_dent') {
     if (scores['zinc_taste_disorder'] !== undefined) scores['zinc_taste_disorder'] += 95;
     if (scores['stomatitis_chemo'] !== undefined) scores['stomatitis_chemo'] += 85;
     if (scores['pud_gastric_ulcer'] !== undefined) scores['pud_gastric_ulcer'] -= 60;
+  } else if (prof.dept === 'resp') {
+    if (scores['asthma_bronchial'] !== undefined) scores['asthma_bronchial'] += 95;
+    if (scores['cerebro_vertigo'] !== undefined) scores['cerebro_vertigo'] -= 60;
+  } else if (prof.dept === 'neuro') {
+    if (scores['cerebro_vertigo'] !== undefined) scores['cerebro_vertigo'] += 95;
+    if (scores['asthma_bronchial'] !== undefined) scores['asthma_bronchial'] -= 60;
+  } else if (prof.dept === 'eye') {
+    if (scores['vitamin_a_deficiency'] !== undefined) scores['vitamin_a_deficiency'] += 95;
+    if (scores['keratosis_dermatosis'] !== undefined) scores['keratosis_dermatosis'] -= 50;
+  } else if (prof.dept === 'hema') {
+    if (scores['et_thrombocythemia'] !== undefined) scores['et_thrombocythemia'] += 90;
+    if (scores['pv_polycythemia'] !== undefined) scores['pv_polycythemia'] += 90;
+    if (scores['cml_leukemia'] !== undefined) scores['cml_leukemia'] += 85;
+    if (scores['hydrea_leg_ulcer'] !== undefined) scores['hydrea_leg_ulcer'] += 80;
   }
 
   // 2. 年代による重み
@@ -8617,6 +9265,41 @@ const MOLECULE_RATIONALE_MAP = [
     class: 'ARB（アンジオテンシンII受容体拮抗薬）',
     reason: '同効ARB群の中で最も受容体解離速度が遅く、最強の24時間持続降圧能を誇る薬剤。',
     benefit: '【選定の決め手】：早朝高血圧（Morning Surge）による心筋梗塞・脳卒中を確実に防ぐため、ARB群最強の降圧力を求めて選定されています。'
+  },
+  {
+    pattern: /コララン|イバブラジン/,
+    name: 'イバブラジン（コララン）',
+    class: 'HCN（If）チャネル選択的遮断薬',
+    reason: '洞房結節のペースメーカー電流Ifのみを選択的阻害し、心筋収縮力や血圧に一切影響を与えずに純粋に心拍数のみを低下させる分子構造。',
+    benefit: '【選定の決め手】：血圧が低くてβ遮断薬が増量できない高齢フレイル心不全患者に対し、血圧を落とさず心拍数を安全に低下させて心筋酸素消費量を抑える唯一の救世主です。'
+  },
+  {
+    pattern: /プロパフェノン|プロノン/,
+    name: 'プロパフェノン（プロノン）',
+    class: 'クラスIc抗不整脈薬',
+    reason: '強力なNaチャネル遮断作用に加え、固有の軽度β受容体遮断活性を併せ持つ特異的分子構造。',
+    benefit: '【選定の決め手】：器質的心疾患のない発作性心房細動において、交感神経緊張を抑えつつリエントリーを遮断し、発作時に頓服で速やかに停止させるPill-in-the-pocket療法に最適です。'
+  },
+  {
+    pattern: /ケタス|イブジラスト/,
+    name: 'イブジラスト（ケタス）',
+    class: 'ホスホジエステラーゼ（PDE）阻害薬',
+    reason: '選択的PDE阻害により血管平滑筋cAMPを増加させて脳血流を改善し、さらにミクログリアの炎症性サイトカイン産生を抑制。',
+    benefit: '【選定の決め手】：脳梗塞後の慢性期において、微小循環不全と神経炎症を同時に抑え、難治性の浮動性めまい・頭重感を根本から和らげるために選定されています。'
+  },
+  {
+    pattern: /チョコラA|レチノール/,
+    name: 'レチノール（チョコラA）',
+    class: '脂溶性ビタミンA主剤',
+    reason: '核内レチノイン酸受容体（RAR）に結合して表皮ケラチノサイトの分化を正常化し、網膜ではロドプシンの構成成分として機能。',
+    benefit: '【選定の決め手】：毛孔性苔癬や魚鱗癬など過剰な角化性病変に対し、角栓の形成を内側から抑制して滑らかな皮膚へと是正するために選定されています。'
+  },
+  {
+    pattern: /ハイドレア|ヒドロキシカルバミド|ヒドロキシウレア/,
+    name: 'ヒドロキシカルバミド（ハイドレア）',
+    class: 'リボヌクレオチド還元酵素阻害薬',
+    reason: 'リボヌクレオチド還元酵素を特異的に阻害してDNA合成（S期）を停止させ、骨髄造血幹細胞のクローン性過剰増殖を抑制。',
+    benefit: '【選定の決め手】：本態性血小板血症や真性多血症において、外来通院で安全に血小板数やヘマトクリットを適正域に維持し、致死的な血栓症を未然に阻止します。'
   },
   {
     pattern: /ポラプレジンク|プロマック/,
@@ -9309,6 +9992,12 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('味') || cdLower.includes('味覚') || cdLower.includes('舌') || cdLower.includes('薄い') || cdLower.includes('苦い')) keywords.push('味覚', '味', '味覚障害', '亜鉛', '味蕾');
     if (cdLower.includes('口内炎') || cdLower.includes('口が痛') || cdLower.includes('うがい') || cdLower.includes('粘膜炎')) keywords.push('口内炎', '粘膜炎', '含嗽', 'うがい', '口腔');
     if (cdLower.includes('アンモニア') || cdLower.includes('肝性脳症')) keywords.push('アンモニア', '肝硬変', '尿素サイクル');
+    if (cdLower.includes('動悸') || cdLower.includes('脈が飛') || cdLower.includes('心房細動')) keywords.push('動悸', '心房細動', '心室性期外収縮', '不整脈', '脈');
+    if (cdLower.includes('めまい') || cdLower.includes('ふらつき') || cdLower.includes('頭重')) keywords.push('めまい', 'ふらつき', '頭重', '脳梗塞', '脳循環');
+    if (cdLower.includes('鳥肌') || cdLower.includes('ザラザラ') || cdLower.includes('魚鱗癬') || cdLower.includes('角化')) keywords.push('角化', '毛孔性苔癬', '魚鱗癬', 'ザラザラ', '乾癬');
+    if (cdLower.includes('夜盲') || cdLower.includes('とり目') || cdLower.includes('暗い') || cdLower.includes('見えにくい')) keywords.push('夜盲症', '暗順応', '視物質', '角膜乾燥');
+    if (cdLower.includes('心拍') || cdLower.includes('頻脈') || cdLower.includes('低血圧')) keywords.push('心拍数', '洞調律', '頻脈', '心不全', 'hcn');
+    if (cdLower.includes('血小板') || cdLower.includes('多血') || cdLower.includes('潰瘍') || cdLower.includes('すね')) keywords.push('血小板', '本態性血小板血症', '真性多血症', '下腿', '皮膚潰瘍');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
@@ -10133,6 +10822,10 @@ function handlePrescriptionPaste() {
   else if (textLower.includes('腎臓') || textLower.includes('人工透析')) toggleProfileItem('dept', 'renal');
   else if (textLower.includes('泌尿器') || textLower.includes('皮膚')) toggleProfileItem('dept', 'uro_derm');
   else if (textLower.includes('耳鼻') || textLower.includes('歯科') || textLower.includes('口腔')) toggleProfileItem('dept', 'ent_dent');
+  else if (textLower.includes('呼吸器') || textLower.includes('喘息')) toggleProfileItem('dept', 'resp');
+  else if (textLower.includes('脳神経') || textLower.includes('脳外')) toggleProfileItem('dept', 'neuro');
+  else if (textLower.includes('眼科')) toggleProfileItem('dept', 'eye');
+  else if (textLower.includes('血液')) toggleProfileItem('dept', 'hema');
 
   // 年齢の認識
   const ageMatch = text.match(/(\d{1,3})\s*(?:歳|才)/);
