@@ -10629,6 +10629,22 @@ button, a, input, select, textarea, .tab-btn, .quick-tag-btn, .diff-tag-btn, .di
       </div>
     </div>
 
+    <!-- イフェクサーSRカプセル -->
+    <div class="dict-card" data-type="drug" data-kana="い" data-name="イフェクサーSRカプセル (ベンラファキシン塩酸塩)" data-desc="大うつ病性障害治療薬（SNRI）。低用量でSSRI様、高用量（150〜225mg）で強力なNA再取り込み阻害を発揮。徐放性カプセルのため【噛み砕き・粉砕脱カプセル厳禁】。半減期が短く急な中止による【激しい離脱症状（めまい・シャンシャン感）】に厳戒。高用量時の血圧上昇に留意。疼痛適応なし。">
+      <div>
+        <div class="dict-card-head">
+          <h3 class="dict-card-title">イフェクサーSRカプセル 37.5mg / 75mg</h3>
+          <span class="dict-badge dict-badge-drug">💊 薬品</span>
+        </div>
+        <div class="dict-card-sub">ベンラファキシン塩酸塩 / 用量依存型SNRI</div>
+        <div class="dict-card-desc">大うつ病性障害（うつ病・うつ状態）。用量依存的デュアル作用（150mg以上でNA強力賦活）。徐放性ミニペレット製剤のため【噛み砕き・粉砕厳禁】。急な自己中断による激しい離脱症状（頭鳴・シャンシャン感・めまい）に厳重警戒。高用量時の持続性血圧上昇モニタリング。疼痛適応なし。</div>
+      </div>
+      <div class="dict-card-footer">
+        <button class="dict-jump-btn" onclick="jumpToGuide('c6')">📘 精神科ガイド</button>
+        <button class="dict-jump-btn" onclick="showDrugByName('イフェクサーSR')">🔍 詳細モーダル</button>
+      </div>
+    </div>
+
     <!-- ナゾネックス -->
     <div class="dict-card" data-type="drug" data-kana="な" data-name="ナゾネックス点鼻液 (モメタゾンフランカルボン酸エステル)" data-desc="全身移行率0.1%未満で小児・妊婦でも最高峰の安全性。1日1回2噴霧。即効性ではなく数日かけて炎症鎮火。">
       <div>
@@ -35622,6 +35638,7 @@ Ca拮抗薬による毛細血管内圧上昇に起因する浮腫が疑われま
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('プリモボラン')">🩸 プリモボラン (再生不良性貧血/蛋白同化)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ヴォトリエント')">🧬 ヴォトリエント (軟部肉腫/腎癌/空腹時)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アダプチノール')">👁️ アダプチノール (網膜色素変性/暗順応/遮光)</button>
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('イフェクサー')">🧠 イフェクサー (SNRI/用量依存/離脱注意)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドパコール')">🧠 ドパコール (レボドパ)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メスチノン')">👁️ メスチノン (MG)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('オフェブ')">🫁 オフェブ (IPF)</button>
@@ -37551,6 +37568,9 @@ const COMPOUNDING_MASTER = {
   "パゾパニブ": { crush: "ng", susp: "ng", pack: "caution", crushText: "❌ 粉砕不可", suspText: "❌ 懸濁不可", packText: "⚠️ 防湿", reason: "抗悪性腫瘍薬（劇薬・催奇形性・曝露危険）。粉砕・懸濁すると調剤者や介助者への抗がん薬曝露リスク。空腹時吸収設計が崩れるため原形服用厳守。必ず空腹時（食前1時間以上または食後2時間以降）に服用。PPI併用で吸収約40%激減（原則併用回避）。", alt: "原形服用厳守、嚥下困難時は主治医と治療方針相談" },
   "アダプチノール": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 遮光厳重", reason: "普通錠。粉砕・簡易懸濁可能。カロテノイド構造のため光により急速に退色・分解・力価低下を起こす！粉砕・一包化時は必ず【遮光分包（遮光袋保管）】を徹底。網膜色素変性症の暗順応改善薬。妊婦注意。", alt: "普通錠粉砕（遮光袋調剤）" },
   "ヘレニエン": { crush: "ok", susp: "ok", pack: "caution", crushText: "⭕ 可", suspText: "⭕ 5分崩壊", packText: "⚠️ 遮光厳重", reason: "普通錠。粉砕・簡易懸濁可能。カロテノイド構造のため光により急速に退色・分解・力価低下を起こす！粉砕・一包化時は必ず【遮光分包（遮光袋保管）】を徹底。網膜色素変性症の暗順応改善薬。妊婦注意。", alt: "普通錠粉砕（遮光袋調剤）" },
+  "イフェクサー": { crush: "ng", susp: "warn", pack: "ok", crushText: "❌ 粉砕不可", suspText: "⚠️ 懸濁注意", packText: "⭕ 可", reason: "徐放性ミニペレット顆粒充填カプセル（SR製剤）。粉砕・噛み砕くと徐放性被膜が破壊され、急激な血中濃度上昇により重篤な悪心・嘔吐・QT延長・血圧急上昇のリスク。脱カプセルして顆粒を噛まずに服用することは可能。簡易懸濁時は温湯（55℃）で顆粒を壊さず速やかに注入通過させる。", alt: "脱カプセルして顆粒原形服用、または他剤（サインバルタ・レクサプロ等）" },
+  "イフェクサーsr": { crush: "ng", susp: "warn", pack: "ok", crushText: "❌ 粉砕不可", suspText: "⚠️ 懸濁注意", packText: "⭕ 可", reason: "徐放性ミニペレット顆粒充填カプセル（SR製剤）。粉砕・噛み砕くと徐放性被膜が破壊され、急激な血中濃度上昇により重篤な悪心・嘔吐・QT延長・血圧急上昇のリスク。脱カプセルして顆粒を噛まずに服用することは可能。簡易懸濁時は温湯（55℃）で顆粒を壊さず速やかに注入通過させる。", alt: "脱カプセルして顆粒原形服用、または他剤（サインバルタ・レクサプロ等）" },
+  "ベンラファキシン": { crush: "ng", susp: "warn", pack: "ok", crushText: "❌ 粉砕不可", suspText: "⚠️ 懸濁注意", packText: "⭕ 可", reason: "徐放性ミニペレット顆粒充填カプセル（SR製剤）。粉砕・噛み砕くと徐放性被膜が破壊され急激な血中濃度上昇の危険。原形服用厳守（簡易懸濁時は顆粒をすりつぶさない）。", alt: "脱カプセル原形服用、または他剤検討" },
   "タケルダ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "タケルダ配合錠": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿", reason: "有核二層錠（外層ランソプラザール15mg、内核腸溶性アスピリン100mg）。粉砕すると胃内でアスピリンが溶出し重篤な胃潰瘍誘発。湿気で加水分解するため一包化不可。", alt: "タケプロンOD錠＋バイアスピリン別包" },
   "プラザキサ": { crush: "ng", susp: "ng", pack: "ng", crushText: "❌ 不可", suspText: "❌ 不可", packText: "❌ 吸湿激", reason: "脱カプセル・粉砕絶対禁止（AUC急増で出血死）。極めて吸湿性が高くPTPシートのまま保管必須。", alt: "リクシアナOD錠、エリキュース" },
@@ -39601,6 +39621,29 @@ const DRUG_DIFF_MAP = [
         criteria: '【処方サイン】サインバルタ 20〜60mg 朝食後（精神科・心療内科処方）',
         reason: 'ノルアドレナリン神経を刺激して意欲・気力を向上させ、身体の痛みを伴ううつ病に著効',
         keyPoint: '血圧上昇、排尿障害（前立腺肥大注意）、賦活症候群（初期の焦燥感）'
+      }
+    ]
+  },
+
+  // 44. 抗うつ薬用量依存型SNRI特性：ベンラファキシン（イフェクサーSR）
+  {
+    drugs: ['イフェクサー', 'イフェクサーsr', 'ベンラファキシン', 'venlafaxine'],
+    diffs: [
+      {
+        cardNum: 6,
+        name: '6. 大うつ病性障害（SSRI抵抗性・意欲低下・精神運動制止型）',
+        subType: '⚡ 用量依存的デュアル作用：高用量（150〜225mg/日）での強力なノルアドレナリン賦活',
+        criteria: '【処方サイン】イフェクサーSR 150〜225mg 1日1回朝食後（精神科・心療内科処方）',
+        reason: '低用量でのセロトニン再取り込み阻害に加え、150mg以上でノルアドレナリン（＋一部ドパミン）再取り込みを強力に遮断し、SSRIで取りきれなかった重度の無気力・意欲低下・感情麻痺を劇的に改善',
+        keyPoint: '血圧上昇モニタリング（特に150mg以上の高用量で持続性高血圧に注意）、徐放性カプセルのため噛み砕き厳禁'
+      },
+      {
+        cardNum: 6,
+        name: '6. 大うつ病性障害（導入・不安焦燥・身体愁訴型）',
+        subType: '🧠 低用量セロトニン優位作用：初期導入（37.5〜75mg/日）からの安全な漸増',
+        criteria: '【処方サイン】イフェクサーSR 37.5mg朝食後開始 ➔ 1週後75mg/日へ増量',
+        reason: '低用量域ではSSRIと同等の高いセロトニン選択性を示し、不安・焦燥・抑うつ気分を穏やかに改善',
+        keyPoint: '初期の消化器症状（悪心・嘔気）、若年者の賦活症候群（アクチベーション）、急な中断による離脱症状（シャンシャン感）厳重注意'
       }
     ]
   },
@@ -46873,8 +46916,196 @@ const CLINICAL_WIZARD_DATA = {
           firstLine: '夜間照明・足元安全対策の指導 ＆ 遮光眼鏡の紹介。',
           combination: '盲学校・ロービジョン外来・患者会情報提供。',
           contra: '薄暗い場所での無理な夜間運転。',
-          targets: '転倒・衝突事故ゼロ、QOLと行動自立度の維持。',
-          guidance: '🗣️ 生活支援アドバイス：「夕方や夜間は足元の段差が見えにくくなり危険ですので、小さな懐中電灯を持ち歩いたり、お部屋の明かりを少し早めにつけるなど工夫してくださいね。日中の眩しさが気になる場合は、眼科さんで遮光眼鏡の相談もできますよ。」'
+          targets: '転倒・衝突事故ゼロ、QOLと行動自立度の維持。',        guidance: '🗣️ 生活支援アドバイス：「夕方や夜間は足元の段差が見えにくくなり危険ですので、小さな懐中電灯を持ち歩いたり、お部屋の明かりを少し早めにつけるなど工夫してくださいね。日中の眩しさが気になる場合は、眼科さんで遮光眼鏡の相談もできますよ。」'
+        }
+      }
+    ]
+  },
+
+  // 31. 用量依存型SNRI（イフェクサーSRカプセル：ベンラファキシン塩酸塩）
+  // 🌟 低用量5-HT優位 vs 高用量NA賦活 ＆ 離脱症候群（シャンシャン感）厳重警戒 ＆ 徐放カプセル粉砕噛み砕き厳禁 ＆ 血圧上昇モニタリング
+  snri_effexor: {
+    aliases: ['イフェクサー', 'イフェクサーsr', 'ベンラファキシン', 'effexor', 'venlafaxine', 'snri', '抗うつ薬', 'うつ病', '離脱症状', 'シャンシャン'],
+    name: '用量依存型SNRI（イフェクサーSRカプセル：ベンラファキシン塩酸塩）',
+    category: '精神神経系用薬（SNRI / 用量依存的デュアル作用 ＆ 離脱症候群・徐放性管理レジメン）',
+    questions: [
+      {
+        id: 'efx_q1_dose_phase',
+        title: 'Q1. 処方箋情報：処方用量および投与ステージはどれですか？（最も当てはまるものを1つ選択）',
+        subtitle: 'イフェクサーは用量によって作用プロファイル（5-HT優位 vs NA賦活）が劇的に変化します',
+        options: [
+          {
+            id: 'efx_opt_high_dose',
+            label: '高用量維持期（1日150mg〜225mg）：SSRI無効例・重度意欲低下に対するNA強力賦活レジメン',
+            badge: '高用量（150〜225mg/日）NA賦活',
+            desc: '150mg以上でノルアドレナリン（＋一部ドパミン）再取り込み阻害が本格化。血圧上昇モニタリング必須',
+            weights: { mdd_effexor_high: 95, mdd_effexor_init: -30, effexor_taper_discontinuation: -20, effexor_pain_offlabel: -40 }
+          },
+          {
+            id: 'efx_opt_init_dose',
+            label: '新規開始〜初期漸増期（1日37.5mg〜75mg）：不安焦燥・抑うつ気分へのSSRI様作用レジメン',
+            badge: '初期用量（37.5〜75mg/日）5-HT優位',
+            desc: '低用量域では主にセロトニン再取り込み阻害を発揮。初期の吐き気・若年者の賦活症候群に注意',
+            weights: { mdd_effexor_init: 95, mdd_effexor_high: 20, effexor_taper_discontinuation: -30, effexor_pain_offlabel: -40 }
+          },
+          {
+            id: 'efx_opt_tapering_phase',
+            label: '減量・漸減期（以前の高用量から75mg➔37.5mgへステップダウン、または中止計画中）',
+            badge: '減量・中止フェーズ（離脱厳戒）',
+            desc: '抗うつ薬の中でも半減期が短く、急な減量で激しい離脱症状（めまい・シャンシャン感）が好発',
+            weights: { effexor_taper_discontinuation: 95, mdd_effexor_high: -20, mdd_effexor_init: 20, effexor_pain_offlabel: -30 }
+          },
+          {
+            id: 'efx_opt_ortho_pain_check',
+            label: '整形外科やペインクリニックからの処方、または慢性腰痛・関節痛など身体疼痛への処方疑い',
+            badge: '疼痛併存・適応外留意',
+            desc: '※注意：サインバルタと異なり、イフェクサーは日本国内で疼痛適応なし（適応はうつ病・うつ状態のみ）',
+            weights: { effexor_pain_offlabel: 95, mdd_effexor_high: -40, mdd_effexor_init: -30, effexor_taper_discontinuation: -30 }
+          }
+        ]
+      },
+      {
+        id: 'efx_q2_symptom_target',
+        title: 'Q2. 患者背景・主訴：どのような症状・臨床的課題が中心ですか？',
+        subtitle: '精神症状の質的評価と処方意図を照合します',
+        options: [
+          {
+            id: 'efx_opt_apathy_retardation',
+            label: 'ベッドから起き上がれない・無気力・強い意欲低下・感情麻痺（SSRIで改善不十分だった）',
+            badge: '意欲低下・精神運動制止',
+            desc: 'ノルアドレナリン神経の賦活が不可欠な病態。イフェクサー高用量（150mg〜）が最も適したターゲット',
+            weights: { mdd_effexor_high: 90, mdd_effexor_init: 25, effexor_taper_discontinuation: -20 }
+          },
+          {
+            id: 'efx_opt_anxiety_dysphoria',
+            label: '強い不安・焦燥感・憂うつ感・初期の睡眠困難（まずは副作用なく抗うつ治療を軌道に乗せたい）',
+            badge: '不安・焦燥・抑うつ導入',
+            desc: '37.5mg朝食後から開始し1週以上かけて75mgへ。初期消化器症状にはモサプリドや六君子湯併用も検討',
+            weights: { mdd_effexor_init: 90, mdd_effexor_high: 20, effexor_taper_discontinuation: -20 }
+          },
+          {
+            id: 'efx_opt_withdrawal_fear',
+            label: '飲み忘れ時に「頭の中でシャンシャン音が鳴る」「電撃痛のような痺れ」「激しいめまい・吐き気」が生じる',
+            badge: '離脱症候群（Discontinuation）',
+            desc: '急激なセロトニン・ノルアドレナリン濃度低下による離脱症状。絶対に自己中断せず数週間単位で漸減',
+            weights: { effexor_taper_discontinuation: 95, mdd_effexor_high: 10, mdd_effexor_init: 10 }
+          },
+          {
+            id: 'efx_opt_pain_somatic',
+            label: '長引く慢性腰痛・頸肩腕症候群・線維筋痛症などの難治性疼痛を抑えたい',
+            badge: '中枢性感作慢性疼痛（適応外）',
+            desc: 'SNRIの下行性疼痛抑制系賦活を狙うなら、日本で正式適応を有するサインバルタ（デュロキセチン）が推奨',
+            weights: { effexor_pain_offlabel: 90, mdd_effexor_high: -20 }
+          }
+        ]
+      },
+      {
+        id: 'efx_q3_pharmaceutical_safety',
+        title: 'Q3. 薬剤師鑑査・薬歴確認：調剤・服薬指導における最重要チェック項目はどれですか？',
+        subtitle: '製剤学的特性（SR徐放カプセル）と全身モニタリング（血圧・相互作用）の急所',
+        options: [
+          {
+            id: 'efx_opt_bp_monitoring',
+            label: '【血圧測定の実施】：150mg〜225mgの高用量投与時における「持続性血圧上昇・脈拍数増加」の監視',
+            badge: '🚨 血圧モニタリング（高用量）',
+            desc: 'NA再取り込み阻害による末梢血管収縮。高血圧既往患者では定期的な血圧測定と降圧薬調整が必要',
+            weights: { mdd_effexor_high: 95, mdd_effexor_init: 20 }
+          },
+          {
+            id: 'efx_opt_capsule_swallow_intact',
+            label: '【徐放性カプセル適正服用】：カプセルを噛み砕いたり粉砕・脱カプセルすりつぶしをしていないかの確認',
+            badge: '💊 徐放カプセル（噛み砕き厳禁）',
+            desc: 'ミニペレット徐放顆粒が破壊されると急速高濃度吸収され、重篤悪心・血圧急上昇・QT延長のリスク',
+            weights: { mdd_effexor_init: 85, mdd_effexor_high: 80 }
+          },
+          {
+            id: 'efx_opt_adherence_no_skip',
+            label: '【服薬遵守・自己中断防止指導】：1回でも飲み忘れると不快な離脱症状が出るため定時服用を徹底指導',
+            badge: '⚠️ 自己中断・飲み忘れ防止徹底',
+            desc: '「治ったから」と自己判断で急に中止すると離脱症状が直撃。減量は医師・薬剤師と計画的に実施',
+            weights: { effexor_taper_discontinuation: 95, mdd_effexor_high: 30, mdd_effexor_init: 30 }
+          },
+          {
+            id: 'efx_opt_indication_check',
+            label: '【適応症・疑義照会確認】：病名が「うつ病・うつ状態」であることを確認（疼痛適応での査定防止）',
+            badge: '📋 適応症鑑査（疼痛適応なし）',
+            desc: 'サインバルタの感覚で慢性疼痛病名のみで処方されると査定対象。精神科うつ病病名の有無をチェック',
+            weights: { effexor_pain_offlabel: 95 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'mdd_effexor_high',
+        name: '大うつ病性障害（SSRI抵抗性・意欲低下・精神運動制止型：高用量 150〜225mg/日）',
+        subType: '⚡ ノルアドレナリン強力賦活：無気力・エネルギー欠如・SSRI不十分例へのステップアップ',
+        baseProb: 35,
+        criteria: '【処方サイン】イフェクサーSR 150〜225mg/日 1日1回朝食後（精神科・心療内科）',
+        reason: '低用量域での5-HT阻害に加え、150mg以上でノルアドレナリン（＋一部ドパミン）再取り込みを強力に遮断し、前頭前皮質の神経伝達を劇的に回復させて意欲と活動性を賦活します。',
+        keyPoint: '💡 高用量時の血圧上昇（持続性高血圧）・心拍数増加モニタリング、噛み砕き厳禁',
+        treatment: {
+          pathology: '重症うつ病やSSRI抵抗性うつ病では、セロトニン単独の増強では意欲低下（Apathy）や精神運動制止が改善せず、前頭前野のノルアドレナリン・ドパミン神経伝達の枯渇が持続しています。',
+          rationale: '【処方根拠】：ベンラファキシンは用量依存的にノルアドレナリン再取り込み阻害作用が立ち上がる特性を持ち、150〜225mgの高用量域で強力な抗うつ・意欲回復効果を発揮します。',
+          firstLine: 'ベンラファキシン（イフェクサーSR） 1回150〜225mg 1日1回朝食後。',
+          combination: '抗不安薬（初期短期間）、睡眠薬、モサプリド（消化器症状時）。',
+          contra: 'MAO阻害薬投与中または投与中止後2週間以内（絶対禁忌・セロトニン症候群）、高度高血圧。',
+          targets: 'HAM-Dスコア寛解（意欲・社会的機能の回復）、血圧130/80mmHg未満維持。',
+          guidance: '🗣️ 服薬指導フレーズ：「お薬の量がしっかり効く量（150mg以上）に入ってきました。気力や行動力を力強く後押ししてくれるお薬です。血圧が少し上がりやすくなることがありますので、ご家庭でも定期的に血圧を測ってくださいね。カプセルは噛まずにそのまま飲み込んでください。」'
+        }
+      },
+      {
+        id: 'mdd_effexor_init',
+        name: '大うつ病性障害（初期導入・不安焦燥・身体愁訴優位型：37.5〜75mg/日）',
+        subType: '🧠 低用量セロトニン優位作用：安全な初期導入と認容性確保フェーズ',
+        baseProb: 30,
+        criteria: '【処方サイン】イフェクサーSR 37.5mg朝食後開始 ➔ 1週以上あけて75mg/日へ増量',
+        reason: '低用量域（37.5〜75mg）ではセロトニン再取り込み阻害が優位に働き、不安感や憂うつ気分を穏やかに改善します。',
+        keyPoint: '💡 開始初期の吐き気・胃部不快感（1〜2週で軽減）、若年者の賦活症候群（焦燥・パニック）注意',
+        treatment: {
+          pathology: 'うつ病初期における中枢シナプス間隙のモノアミン枯渇。急激な用量増加は消化管5-HT3受容体刺激による悪心・嘔吐を誘発します。',
+          rationale: '【処方根拠】：1日1回37.5mgから慎重に開始し、徐放性製剤（SR）の血中濃度平坦化メリットを活かして認容性を高めながら75mgの通常維持量へステップアップします。',
+          firstLine: 'ベンラファキシン（イフェクサーSR） 1回37.5mg 1日1回朝食後（1週後より75mg）。',
+          combination: '制吐薬・胃運動改善薬（モサプリド、六君子湯）、頓服抗不安薬。',
+          contra: 'MAO阻害薬投与中（絶対禁忌）。',
+          targets: '初期脱落ゼロ、不安・抑うつ症状の寛解導入。',
+          guidance: '🗣️ 服薬指導フレーズ：「飲み始めの1週間ほどは少し胃がムカムカすることがありますが、体が慣れてくると自然に落ち着きます。カプセルの中の小さな粒がお腹の中でゆっくり溶けるよう工夫されていますので、噛み砕かずに水でそのままお飲みくださいね。」'
+        }
+      },
+      {
+        id: 'effexor_taper_discontinuation',
+        name: 'うつ病寛解期維持・再発予防（減量・中止ステップ / 離脱症候群厳重警戒）',
+        subType: '⚠️ 抗うつ薬屈指の離脱リスク：シャンシャン感・めまい・電撃痛を防ぐ超緩徐テーパリング',
+        baseProb: 20,
+        criteria: '【処方サイン】以前の高用量から75mg➔37.5mgへ減量、または隔日投与などの漸減計画',
+        reason: 'ベンラファキシンは半減期が短く、急な休薬や減量でシナプス内モノアミンが急減し、激しい中断症候群（Discontinuation Syndrome）が発現します。',
+        keyPoint: '💡 自己中断絶対禁止！シャンシャン感（頭部パルス音）・浮動性めまい・発汗・焦燥への事前警告',
+        treatment: {
+          pathology: '長期服用により下方調節された受容体に対し、血中濃度が急減することでノルアドレナリン・セロトニン伝達が一時的に枯渇・乱高下し自律神経・感覚過敏症状が発生。',
+          rationale: '【処方根拠】：調子が良くなったからといって患者が自己判断で服薬を急に止めないよう強く指導し、数週間〜数ヶ月かけて段階的に漸減します。',
+          firstLine: 'イフェクサーSR 75mg ➔ 37.5mgへ減量（各ステップ最低2〜4週間以上維持）。',
+          combination: '必要に応じて半減期の長いSSRI（ジェイゾロフト等）へ一時置換して漸減するクロスオーバー法。',
+          contra: '急激な一括中止、患者判断での飛び飛び服用。',
+          targets: '離脱症状ゼロでの安全な服薬終了または最小用量維持。',
+          guidance: '🗣️ 服薬指導フレーズ：「症状が良くなっても、ご自身の判断でお薬を急にやめてしまうと、頭の中でシャンシャンと音が響いたり、強いめまいや吐き気、電撃が走るようなしびれが出ることがあります。お薬をやめるときは医師と相談しながら数週間〜数ヶ月かけて少しずつ減らしていきますので、毎日忘れずに飲み続けてくださいね。」'
+        }
+      },
+      {
+        id: 'effexor_pain_offlabel',
+        name: '慢性疼痛併存・適応外使用留意（※日本国内で疼痛適応なし・サインバルタ差別化）',
+        subType: '📋 処方鑑査・保険適応チェック：うつ病適応のみ（慢性腰痛・関節痛・線維筋痛症は適応外）',
+        baseProb: 15,
+        criteria: '【処方サイン】整形外科・ペインクリニックでの処方、または腰痛・神経障害性疼痛目的の処方疑い',
+        reason: '同じSNRIのサインバルタ（デュロキセチン）は慢性腰痛・変形性膝関節症・線維筋痛症の適応を持ちますが、イフェクサーは日本国内では「うつ病・うつ状態」のみの適応です。',
+        keyPoint: '💡 保険適応病名の確認（精神科うつ病病名が必須）、疼痛主訴時はサインバルタへの代替検討提案',
+        treatment: {
+          pathology: '下行性疼痛抑制系の賦活効果は期待できるものの、日本における臨床試験および薬事承認はうつ病に限定されています。',
+          rationale: '【処方根拠】：整形外科領域や慢性疼痛に対して疼痛目的のみで処方された場合、レセプト審査で査定（保険否認）となるリスクがあります。',
+          firstLine: '主病名がうつ病・うつ状態であることの確認（疑義照会）。',
+          combination: '疼痛主訴であればデュロキセチン（サインバルタ）への処方変更提案。',
+          contra: '精神科疾患の既往・確定診断なしでの漫然とした疼痛目的処方。',
+          targets: '適正な保険適応遵守、患者病態に合致した至適SNRI選択。',
+          guidance: '🗣️ 薬歴・疑義確認：「同じSNRIでも、サインバルタは慢性腰痛や線維筋痛症の適応を持っていますが、イフェクサーはうつ病・うつ状態のみの適応です。痛みの治療目的で処方されている場合は、適応病名やデュロキセチンへの変更について主治医と確認・連携を図りましょう。」'
         }
       }
     ]
@@ -47437,6 +47668,8 @@ function applyProfileWeights(scores) {
     if (scores['takeruda_ppi_combo'] !== undefined) scores['takeruda_ppi_combo'] += 85;
   } else if (prof.dept === 'ortho') {
     if (scores['clbp_oa'] !== undefined) scores['clbp_oa'] += 80;
+    if (scores['effexor_pain_offlabel'] !== undefined) scores['effexor_pain_offlabel'] += 85;
+    if (scores['mdd_effexor_high'] !== undefined) scores['mdd_effexor_high'] -= 50;
     if (scores['gout_prodrome'] !== undefined) scores['gout_prodrome'] += 65;
     if (scores['gout_urate_cover'] !== undefined) scores['gout_urate_cover'] += 65;
     if (scores['mdd_depression'] !== undefined) scores['mdd_depression'] -= 60;
@@ -48320,6 +48553,13 @@ const MOLECULE_RATIONALE_MAP = [
     class: '網膜色素変性症・暗順応改善薬（キサントフィル系カロテノイド誘導体）',
     reason: 'マリーゴールド花弁由来のジパルミチン酸ルテイン。網膜桿体細胞の視物質ロドプシンの再合成・再生を促進し、明所から暗所への順応時間を有意に短縮。',
     benefit: '【選定の決め手】：網膜色素変性症（遺伝性難病）における進行性の夜盲症状・暗所視力低下に対し、残存する桿体視細胞機能を賦活し夜間歩行・生活安全を守るために選定されています。※ビタミンA（チョコラA）が欠乏補給なのに対し、アダプチノールは網膜ロドプシン代謝を直接賦活。光に弱いため遮光保存が必須です。'
+  },
+  {
+    pattern: /イフェクサー|ベンラファキシン|effexor|venlafaxine/,
+    name: 'ベンラファキシン塩酸塩（イフェクサーSRカプセル37.5mg/75mg）',
+    class: 'SNRI（セロトニン・ノルアドレナリン再取り込み阻害薬 / 用量依存的デュアル作用）',
+    reason: '低用量（〜75mg）では5-HT再取り込み阻害優位、中〜高用量（150〜225mg）で強力なNA（＋一部DA）再取り込み阻害を発揮。SSRI抵抗性の意欲低下・精神運動制止型うつ病を賦活。',
+    benefit: '【選定の決め手】：セロトニン単独のSSRIで効果不十分な無気力・意欲低下に対し、高用量での強力なノルアドレナリン増強により気力と活動性を回復させるために選定されます。※サインバルタと異なり疼痛適応はなく純粋なうつ病治療薬です。徐放性カプセルのため噛み砕き・粉砕は絶対厳禁。半減期が短いため急な自己中断による激しい離脱症状（めまい・シャンシャン音・電撃感）と、高用量投与時の持続性血圧上昇に厳重警戒が必要です。'
   }
 ];
 
@@ -48947,6 +49187,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('プリモボラン') || cdLower.includes('メテノロン') || cdLower.includes('再生不良性貧血') || cdLower.includes('アナボリック') || cdLower.includes('蛋白同化') || cdLower.includes('嗄声') || cdLower.includes('声変わり') || cdLower.includes('造血') || cdLower.includes('骨髄')) keywords.push('プリモボラン', 'メテノロン', '再生不良性貧血', 'アナボリック', '蛋白同化', '嗄声', '声の低音化', '造血', '骨髄', 'epo', 'サルコペニア', '消耗性');
     if (cdLower.includes('ヴォトリエント') || cdLower.includes('パゾパニブ') || cdLower.includes('軟部肉腫') || cdLower.includes('悪性軟部') || cdLower.includes('腎細胞癌') || cdLower.includes('空腹時') || cdLower.includes('白髪') || cdLower.includes('白毛') || cdLower.includes('手足症候群') || cdLower.includes('tki') || cdLower.includes('マルチキナーゼ')) keywords.push('ヴォトリエント', 'パゾパニブ', '軟部肉腫', '悪性軟部腫瘍', '腎細胞癌', '空腹時', '白髪', '白毛化', '手足症候群', 'マルチキナーゼ', 'vegfr', 'c-kit', 'ppi併用');
     if (cdLower.includes('アダプチノール') || cdLower.includes('ヘレニエン') || cdLower.includes('網膜色素変性') || cdLower.includes('暗順応') || cdLower.includes('夜盲') || cdLower.includes('とり目') || cdLower.includes('鳥目') || cdLower.includes('ロドプシン') || cdLower.includes('遮光眼鏡')) keywords.push('アダプチノール', 'ヘレニエン', '網膜色素変性症', '暗順応', '夜盲症', 'とり目', 'ロドプシン', '遮光保存', '遮光分包', '視野狭窄');
+    if (cdLower.includes('イフェクサー') || cdLower.includes('ベンラファキシン') || cdLower.includes('venlafaxine') || cdLower.includes('effexor') || cdLower.includes('シャンシャン') || cdLower.includes('離脱症状') || cdLower.includes('アクチベーション')) keywords.push('イフェクサー', 'ベンラファキシン', '大うつ病性障害', '意欲低下', '精神運動制止', '用量依存', '離脱症状', 'シャンシャン', '血圧上昇', '徐放性カプセル', 'srカプセル', '適応外');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
