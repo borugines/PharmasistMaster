@@ -8233,6 +8233,237 @@ const CLINICAL_WIZARD_DATA = {
         }
       }
     ]
+  },
+
+  // 19. ストラテラ（アトモキセチン）
+  // 🌟 ADHD非中枢刺激薬（不注意優位型 ＆ 24時間持続 ＆ 効果発現遅延教育）
+  atomoxetine: {
+    aliases: ['ストラテラ', 'アトモキセチン', 'strattera', 'atomoxetine', 'ストラテラカプセル', 'ストラテラ内用液', 'アトモキセチン錠'],
+    name: 'ストラテラ（アトモキセチンカプセル / 錠 / 内用液）',
+    category: '選択的ノルアドレナリン再取り込み阻害薬（ADHD非中枢刺激薬）',
+    questions: [
+      {
+        id: 'str_q1_symptom_pattern',
+        title: 'Q1. 処方箋情報：患者の困りごと・主訴の特徴はどれですか？',
+        subtitle: '不注意（うっかりミス・締め切り）か、24時間の生活安定化かを確認します',
+        options: [
+          {
+            id: 'str_opt_inattentive',
+            label: '不注意優位型：仕事や学習で「うっかりミスが多い」「集中が続かない」「忘れ物」「片付けられない」',
+            badge: '不注意優位型ADHD',
+            desc: '前頭前皮質のノルアドレナリン・ドパミン濃度を底上げし、注意集中力とワーキングメモリを改善',
+            weights: { adhd_inattentive: 95, adhd_delayed_efficacy_alert: -30 }
+          },
+          {
+            id: 'str_opt_all_day_cover',
+            label: '24時間カバー希望：朝だけでなく夕方〜夜間の家庭生活（家事・宿題・親子の衝突）まで効果を持続させたい',
+            badge: '24時間穏やか持続',
+            desc: 'コンサータと異なり夕方に切れてイライラするリバウンドがなく、1日を通して生活が安定',
+            weights: { adhd_inattentive: 90, adhd_delayed_efficacy_alert: -20 }
+          },
+          {
+            id: 'str_opt_early_discontinue',
+            label: '【初期服薬指導注意】：内服開始1〜2週間で「効かない・実感がない」と自己中断を考えている',
+            badge: '💡 効果発現遅延（2〜4週）',
+            desc: '飲んですぐ効く中枢刺激薬と異なり、効果安定には2〜4週間の継続が必要。早期中断防止が最重要',
+            weights: { adhd_delayed_efficacy_alert: 100, adhd_inattentive: 50 }
+          }
+        ]
+      },
+      {
+        id: 'str_q2_combo_form',
+        title: 'Q2. 処方箋情報：剤形や併用状況はどれですか？',
+        subtitle: '脱カプセル・粉砕厳禁の監査とアドヒアランスを評価します',
+        options: [
+          {
+            id: 'str_opt_capsule_swallow',
+            label: 'カプセル剤または錠剤をそのまま水で嚥下できている（脱カプセル・粉砕なし）',
+            badge: '標準服用',
+            desc: '原薬が強刺激性のためカプセル開封は厳禁（眼・粘膜刺激性）',
+            weights: { adhd_inattentive: 40 }
+          },
+          {
+            id: 'str_opt_liquid_form',
+            label: '小児またはカプセル嚥下困難のため「内用液（シロップ）」で処方されている',
+            badge: '内用液レジメン',
+            desc: '体重換算での精密な用量漸増設計',
+            weights: { adhd_inattentive: 60 }
+          },
+          {
+            id: 'str_opt_cyp2d6_inhibitor',
+            label: 'パロキセチン等の強力なCYP2D6阻害薬を併用している',
+            badge: '血中濃度上昇注意',
+            desc: 'アトモキセチンのAUCが著明上昇するため低用量からの開始が必要',
+            weights: { adhd_inattentive: 40, adhd_delayed_efficacy_alert: 30 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'adhd_inattentive',
+        cardNum: 6,
+        name: '注意欠如・多動症（ADHD）不注意優位型 / 混合型（成人のうっかりミス ＆ 小児の学習支援）',
+        subType: '精神科・心療内科・小児科型・前頭前皮質NET選択的阻害による24時間持続型集中力改善レジメン',
+        baseProb: 35,
+        criteria: '【処方サイン】：精神科・心療内科・小児科処方、主訴「ケアレスミス多発、片付けられない、集中持続困難」、依存性・登録制度なし、1日40mg〜80mg（最大120mg）朝1回または朝夕食後。',
+        reason: '前頭前皮質のノルアドレナリントランスポーター（NET）を選択的に阻害。前頭葉ではNETがドパミンも取り込んでいるため、1剤でドパミンとノルアドレナリンの両方のシナプス濃度を上昇させ、注意集中機能と実行機能を強化。',
+        keyPoint: '💡 処方医の選定意図（Why this drug?）：コンサータのような適正流通管理登録制度が不要で長期処方しやすい。依存性・乱用性がなく、効果が24時間穏やかに続くため夕方の家庭生活や親子の衝突までカバーできる。',
+        treatment: {
+          pathology: '前頭前皮質におけるカテコラミン（ドパミン・ノルアドレナリン）の神経伝達不足により、情報の優先順位づけ、持続的注意力、ワーキングメモリの維持が破綻し、うっかりミスや先延ばし癖が生じます。',
+          rationale: '【処方根拠】：側坐核（報酬系）のドパミンは増やさず前頭前皮質特異的に作用するため依存性を生じず、安全に注意機能を改善します。',
+          firstLine: 'アトモキセチン（ストラテラカプセル40mg/日より開始し、2週間後に80mg/日へ増量、最大120mg/日）。小児は0.5mg/kg/日より開始。',
+          combination: '環境調整（タスクの細分化・メモアプリ活用）、心理社会的介入。',
+          contra: '重篤な心血管障害、褐色細胞腫、MAO阻害薬投与中・投与後2週間以内。',
+          targets: 'CAARS / ADHD-RSスコアの改善、うっかりミスの半減、就労・学業継続性の向上。',
+          guidance: '🗣️ 服薬指導：「頭の中の散らかった情報を整理整頓し、集中を持続させるお薬です。毎日決まった時間に飲むことで24時間穏やかに効果が持続します。飲み始めの数日は吐き気や頭痛、眠気が出ることがありますが、食後すぐに飲むことで軽減し、次第に体が慣れていきます。なお、カプセルを開けて飲むと喉や目を強く刺激するため、絶対に開けずにそのまま飲んでください。」'
+        }
+      },
+      {
+        id: 'adhd_delayed_efficacy_alert',
+        cardNum: 6,
+        name: '【💡 早期服薬指導アラート】ストラテラの効果発現遅延（2〜4週間）と初期中断防止',
+        subType: '初期教育必須介入・飲んですぐ効く中枢刺激薬との違いと初期消化器症状の乗り越え指導',
+        baseProb: 15,
+        criteria: '【指導サイン】：ストラテラ初回処方、または増量初期（投与開始後1〜2週以内）。',
+        reason: '神経伝達物質のシナプス間隙濃度調整と神経回路のリモデリングには時間がかかる。効果発現には最低2〜4週間を要する。',
+        keyPoint: '🗣️ 服薬指導の極意：「このお薬は飲んだその日に劇的に効くタイプではなく、毎日飲み続けることで2週間〜1ヶ月かけて徐々に頭の中が整理されてくるお薬です。『効かないから』と途中でやめず、まずは1ヶ月じっくり続けましょう。」',
+        treatment: {
+          pathology: '受容体密度の変化や遺伝子発現調節を介して神経回路網が安定化するまでに約2〜4週間のタイムラグが生じます。',
+          rationale: '【継続服薬の重要性】：初期の脱落理由の8割が「即効性がないことへの失望」または「初期の悪心」であるため、薬剤師による事前の期待値コントロールが治療成功の絶対条件です。',
+          firstLine: '食直後服用による悪心回避、十分な水分摂取。',
+          combination: '制吐薬（ドンペリドン併用）の適宜考慮。',
+          contra: '自己判断での早期中断。',
+          targets: '服薬開始1ヶ月後のアドヒアランス維持率100%。',
+          guidance: '🗣️ 服薬指導：「飲んですぐに頭がスッキリするお薬ではありません。『あれ？そういえば最近忘れ物が減ったな』と後からじわじわ実感してくるお薬ですので、焦らず毎日続けていきましょう。」'
+        }
+      }
+    ]
+  },
+
+  // 20. インチュニブ（グアンファシン）
+  // 🌟 シナプス後α2A受容体作動薬（多動・衝動性優位型 ＆ 🚨 反跳性高血圧禁忌アラート）
+  guanfacine: {
+    aliases: ['インチュニブ', 'グアンファシン', 'intuniv', 'guanfacine', 'インチュニブ徐放錠'],
+    name: 'インチュニブ（グアンファシン塩酸塩徐放錠1mg / 2mg / 3mg / 4mg）',
+    category: 'シナプス後α2Aアドレナリン受容体選択的作動薬（ADHD非中枢刺激薬）',
+    questions: [
+      {
+        id: 'gua_q1_symptom_type',
+        title: 'Q1. 処方箋情報：患者の困りごと・主訴の特徴はどれですか？',
+        subtitle: '多動・衝動性（感情の爆発・イライラ）か、睡眠障害併発かを確認します',
+        options: [
+          {
+            id: 'gua_opt_hyperactive_impulsive',
+            label: '多動・衝動性優位型：感情の爆発（カッとなる・怒りっぽい）、落ち着きのなさ、衝動買い、暴力・暴言、順番が待てない',
+            badge: '多動・衝動優位型ADHD',
+            desc: '前頭前皮質α2A受容体を直接刺激し、ノイズを遮断して衝動性を強力に鎮静',
+            weights: { adhd_impulsive_hyperactive: 95, adhd_rebound_htn_alert: -30, adhd_crush_hypotension_alert: -30 }
+          },
+          {
+            id: 'gua_opt_insomnia_coexist',
+            label: '睡眠障害併発：夜興奮して寝つきが極端に悪い、睡眠リズムが崩れている（夕方〜就寝前投与）',
+            badge: '入眠困難サポート',
+            desc: '中枢性鎮静作用により、興奮を鎮めて自然な入眠をサポート',
+            weights: { adhd_impulsive_hyperactive: 90, adhd_rebound_htn_alert: -20 }
+          },
+          {
+            id: 'gua_opt_abrupt_cessation',
+            label: '【🚨 重大警告】：自己判断で急に飲むのをやめた、または「休日は飲まない」としている',
+            badge: '🚨 反跳性高血圧クライシス！',
+            desc: '急激な断薬により交感神経が暴走し、反跳性高血圧・頻脈・高血圧性脳症を引き起こす',
+            weights: { adhd_rebound_htn_alert: 100, adhd_impulsive_hyperactive: 40 }
+          }
+        ]
+      },
+      {
+        id: 'gua_q2_bp_admin',
+        title: 'Q2. 処方箋情報：服用方法や血圧管理はどれですか？',
+        subtitle: '噛み砕き厳禁（徐放破壊）と定期的な血圧モニタリングを評価します',
+        options: [
+          {
+            id: 'gua_opt_bp_normal_swallow',
+            label: '血圧・脈拍は安定しており、噛まずに1日1回決まった時間に服用できている',
+            badge: '適正服用確認',
+            desc: '徐放錠を破壊せず丸ごと嚥下し、安定した血中濃度を維持',
+            weights: { adhd_impulsive_hyperactive: 40 }
+          },
+          {
+            id: 'gua_opt_crushed_chewed',
+            label: '【🚨 危険】：錠剤を噛み砕いて飲んでいる、または一包化で粉砕指示が出ている',
+            badge: '🚨 徐放破壊・急性低血圧！',
+            desc: '徐放マトリックスが壊れて主薬が一括放出（Dose dumping）され、重度の低血圧・徐脈・失神リスク',
+            weights: { adhd_crush_hypotension_alert: 100, adhd_impulsive_hyperactive: 30 }
+          },
+          {
+            id: 'gua_opt_high_fat_meal',
+            label: '高脂肪食（脂っこい食事）と一緒に服用している',
+            badge: '血中濃度上昇注意',
+            desc: '高脂肪食によりインチュニブのAUCが約50%上昇するため、空腹時または軽食後が望ましい',
+            weights: { adhd_impulsive_hyperactive: 40 }
+          }
+        ]
+      }
+    ],
+    diseases: [
+      {
+        id: 'adhd_impulsive_hyperactive',
+        cardNum: 6,
+        name: '注意欠如・多動症（ADHD）多動・衝動性優位型 / 混合型（感情爆発・衝動抑制レジメン）',
+        subType: '精神科・小児科・心療内科型・前頭前皮質シナプス後α2A受容体直接刺激によるノイズ遮断 ＆ 衝動鎮静療法',
+        baseProb: 35,
+        criteria: '【処方サイン】：精神科・小児科処方、主訴「カッとなって怒りが爆発する、待てない、落ち着きがない、衝動買い」、1日1回1mgより開始し最大6mg（成人）夕方または就寝前（朝食後も可）。',
+        reason: '前頭前皮質の錐体細胞後膜にあるα2A受容体を直接刺激。細胞内cAMPを低下させてHCNチャネルを閉鎖し、樹状突起でのシグナル漏出（ノイズ）をカット。シグナル/ノイズ比を高めて感情の自己制御能（ブレーキ機能）を劇的に回復。',
+        keyPoint: '💡 処方医の選定意図（Why this drug?）：ストラテラが「不注意・集中力」に優れるのに対し、インチュニブは「感情の爆発・衝動性・イライラ」を鎮める力が圧倒的。夜間の鎮静効果もあるため入眠障害併発例に最適。',
+        treatment: {
+          pathology: '前頭前皮質の行動抑制回路におけるシグナル伝達が減弱し、大脳辺縁系（情動中枢）からの衝動や怒りを大脳皮質でブレーキできずに爆発します。',
+          rationale: '【処方根拠】：非中枢刺激薬として依存性なく、前頭前皮質のネットワーク結合を強化して衝動的な行動を鎮静化します。',
+          firstLine: 'インチュニブ徐放錠（1mg 1日1回より開始し、1週間以上の間隔をあけて1mgずつ漸増。小児最大4〜6mg、成人最大6mg）。',
+          combination: '不注意が強い場合はストラテラとの併用考慮。環境調整・怒りのアンガーマネジメント。',
+          contra: '房室ブロック（第II度以上）、低血圧、徐脈。',
+          targets: '感情爆発エピソードの激減、衝動性のコントロール獲得、睡眠リズムの安定。',
+          guidance: '🗣️ 服薬指導：「頭の中の『イライラ』や『カッとなる衝動』にブレーキをかけ、気持ちを落ち着かせるお薬です。毎日決まった時間に飲んでください。飲み始めは眠気や立ちくらみが出やすいため、車の運転や危険な作業は避けてください。また、この錠剤は特殊な構造でゆっくり溶けるように作られていますので、絶対に噛んだり砕いたりせず、水でそのまま飲み込んでください。」'
+        }
+      },
+      {
+        id: 'adhd_rebound_htn_alert',
+        cardNum: 6,
+        name: '【🚨 処方監査重大アラート】急激な断薬に伴う反跳性（リバウンド）高血圧・頻脈クライシス',
+        subType: '添付文書警告・中枢性α2作動薬の離脱症状（交感神経過剰亢進・急激な血圧上昇）の阻止',
+        baseProb: 15,
+        criteria: '【赤旗サイン】：インチュニブを長期服用中の患者が、自己中断や飲み忘れで急に内服を中止した（急激な血圧上昇・頻脈・激しい頭痛・不安感）。',
+        reason: '元々降圧薬として開発された薬剤。急に中止すると中枢の交感神経抑制が解除され、血中カテコラミンが急増して反跳性高血圧・高血圧性脳症・頻脈を誘発する。',
+        keyPoint: '🚨 薬剤師の絶対指導：「絶対に自分の判断で急にやめないでください」。休薬・中止時は主治医の指示のもと、1〜2週間以上かけて徐々に漸減（テーパリング）することが添付文書上の義務！',
+        treatment: {
+          pathology: '持続的なα2受容体刺激からの急激な離脱により、中枢性交感神経抑制が破綻しカテコラミンのリバウンドサージが発生。急激な血管収縮と心拍数増加を惹起します。',
+          rationale: '【重大警告基準】：血圧測定と漸減スケジュールの厳格遵守。',
+          firstLine: '自己中断の即時是正。中止時は1mgずつ段階的に漸減。',
+          combination: '血圧測定手帳の活用。',
+          contra: '急激な投与中止。',
+          targets: '反跳性高血圧クライシスの完全阻止。',
+          guidance: '🗣️ 最重要指導：「このお薬で最も大切な注意点です。どんな理由があっても、ご自身の判断で急に飲むのをやめないでください。急にやめると血圧が跳ね上がり、激しい頭痛や動悸を起こす危険があります。お薬を減らしたい時は、必ず医師の指示で少しずつ減らしていく決まりになっています。」'
+        }
+      },
+      {
+        id: 'adhd_crush_hypotension_alert',
+        cardNum: 6,
+        name: '【🚨 調剤監査アラート】徐放マトリックス破壊（粉砕・噛み砕き）による重度低血圧・失神リスク',
+        subType: '徐放性製剤破壊による主薬一括放出（Dose dumping）と急性低血圧・徐脈の回避',
+        baseProb: 10,
+        criteria: '【赤旗サイン】：錠剤を噛み砕いて服用している、または一包化で粉砕指示が出ている。',
+        reason: '徐放性マトリックスが破壊されると、主薬が一気に溶出し急激な血中濃度上昇により急激な低血圧・徐脈・意識消失を招く。',
+        keyPoint: '🚨 監査原則：粉砕絶対不可、噛まずに水で丸ごと嚥下することを徹底指導。',
+        treatment: {
+          pathology: '血中濃度が一気に急上昇し、末梢血管抵抗が急激に脱落して循環虚脱を起こします。',
+          rationale: '【添付文書基準】：粉砕・噛み砕き投与禁止。',
+          firstLine: '丸ごと嚥下指導。嚥下困難時は他剤（内用液のあるストラテラ等）への変更提案。',
+          combination: '服薬支援。',
+          contra: '粉砕調剤、噛み砕き服用。',
+          targets: '薬原性失神・低血圧事故のゼロ化。',
+          guidance: '🗣️ 服薬指導：「この錠剤は噛まずにそのまま飲み込んでください。噛み砕くとお薬が一気に体に吸収されてしまい、血圧が急に下がって倒れてしまう危険があります。」'
+        }
+      }
+    ]
   }
 };
 
@@ -8821,6 +9052,8 @@ function applyProfileWeights(scores) {
     if (scores['mdd_depression'] !== undefined) scores['mdd_depression'] += 90;
     if (scores['fibromyalgia'] !== undefined) scores['fibromyalgia'] += 65;
     if (scores['clbp_oa'] !== undefined) scores['clbp_oa'] -= 50;
+    if (scores['adhd_inattentive'] !== undefined) scores['adhd_inattentive'] += 95;
+    if (scores['adhd_impulsive_hyperactive'] !== undefined) scores['adhd_impulsive_hyperactive'] += 95;
   } else if (prof.dept === 'renal') {
     if (scores['ckd_proteinuria'] !== undefined) scores['ckd_proteinuria'] += 85;
     if (scores['adpkd_cyst'] !== undefined) scores['adpkd_cyst'] += 90;
@@ -9392,6 +9625,20 @@ const MOLECULE_RATIONALE_MAP = [
     class: 'ARB（アンジオテンシンII受容体拮抗薬）',
     reason: '同効ARB群の中で最も受容体解離速度が遅く、最強の24時間持続降圧能を誇る薬剤。',
     benefit: '【選定の決め手】：早朝高血圧（Morning Surge）による心筋梗塞・脳卒中を確実に防ぐため、ARB群最強の降圧力を求めて選定されています。'
+  },
+  {
+    pattern: /ストラテラ|アトモキセチン/,
+    name: 'アトモキセチン（ストラテラ）',
+    class: '選択的ノルアドレナリン再取り込み阻害薬（非中枢刺激薬）',
+    reason: '前頭前皮質のNETを選択的に遮断し、前頭葉のドパミンとノルアドレナリンを同時に増やして24時間持続的に注意集中力を改善。',
+    benefit: '【選定の決め手】：コンサータのような登録制流通管理が不要で依存性ゼロ。「不注意優位型」に著効し、朝飲むと夕方〜夜間の家庭生活まで穏やかにカバーできるため選定されています。'
+  },
+  {
+    pattern: /インチュニブ|グアンファシン/,
+    name: 'グアンファシン（インチュニブ）',
+    class: 'シナプス後α2Aアドレナリン受容体作動薬（非中枢刺激薬）',
+    reason: '前頭前皮質錐体細胞のα2A受容体を直接刺激し、HCNチャネルを閉鎖して情報伝達のノイズを遮断。',
+    benefit: '【選定の決め手】：ストラテラが「不注意」に強いのに対し、インチュニブは「多動・衝動性・感情爆発」を抑える力が圧倒的。夜間の鎮静効果もあり入眠障害合併例に最適です。'
   },
   {
     pattern: /クリアナール|フドステイン/,
@@ -10133,6 +10380,7 @@ function calculateWizardDiagnosis(isForced = false) {
     if (cdLower.includes('心拍') || cdLower.includes('頻脈') || cdLower.includes('低血圧')) keywords.push('心拍数', '洞調律', '頻脈', '心不全', 'hcn');
     if (cdLower.includes('血小板') || cdLower.includes('多血') || cdLower.includes('潰瘍') || cdLower.includes('すね')) keywords.push('血小板', '本態性血小板血症', '真性多血症', '下腿', '皮膚潰瘍');
     if (cdLower.includes('copd') || cdLower.includes('肺気腫') || cdLower.includes('痰') || cdLower.includes('喀痰') || cdLower.includes('気管支拡張')) keywords.push('copd', '肺気腫', '気管支拡張症', 'muc5ac', '杯細胞', '喀痰', '粘液');
+    if (cdLower.includes('adhd') || cdLower.includes('不注意') || cdLower.includes('多動') || cdLower.includes('衝動') || cdLower.includes('うっかり') || cdLower.includes('ミス') || cdLower.includes('忘れ物') || cdLower.includes('イライラ') || cdLower.includes('怒り')) keywords.push('adhd', '不注意', '多動', '衝動', 'ミス', '忘れ物', 'ワーキングメモリ', 'カッとなる');
 
     data.diseases.forEach(d => {
       const targetText = `${d.name} ${d.subType} ${d.criteria} ${d.reason} ${d.keyPoint}`.toLowerCase();
