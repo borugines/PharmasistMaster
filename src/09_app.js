@@ -15743,25 +15743,25 @@ const CLINICAL_WIZARD_DATA = {
 
   // 71. 甲状腺機能低下症・橋本病 (Rank 42)
   hypothyroidism_levothyroxine: {
-    aliases: ['チラージン', 'チラージンs', 'チラージンS', 'チラーヂン', 'チラーヂンs', 'チラーヂンS', 'レボチロキシン', 'thyradin', 'levothyroxine', '甲状腺', '橋本病', '甲状腺機能低下症', 'tsh', 'ft4'],
+    aliases: ['チラージン', 'チラージンs', 'チラージンS', 'チラージンS錠', 'チラーヂン', 'チラーヂンs', 'チラーヂンS', 'チラーヂンS錠', 'レボチロキシン', 'レボチロキシンナトリウム', 'レボチロキシンNa', 'thyradin', 'levothyroxine', '甲状腺', '橋本病', '甲状腺機能低下症', '粘液水腫', 'クレチン症', 'tsh', 'ft4'],
     name: '甲状腺機能低下症・橋本病（チラージンS / チラーヂンS・レボチロキシンNa補充療法）',
     category: '内分泌代謝疾患（甲状腺ホルモン産生枯渇・自己免疫性慢性甲状腺炎）',
     questions: [
       {
         id: 'thyroid_q1_drug_dose',
-        title: 'Q1. チラーヂンSの処方用量と患者背景：処方されている用量はどれですか？',
-        subtitle: 'チラーヂンS（レボチロキシン）は補充維持量（50〜100μg）と高齢者・心疾患開始量（12.5〜25μg）で厳格に異なります',
+        title: 'Q1. チラージンS / チラーヂンSの処方用量と患者背景：処方されている用量はどれですか？',
+        subtitle: 'チラージンS / チラーヂンS（レボチロキシン）は補充維持量（50〜100μg）と高齢者・心疾患開始量（12.5〜25μg）で厳格に異なります',
         options: [
           {
             id: 'thy_opt_maintenance',
-            label: 'チラーヂンS錠 50〜100μg/日 1日1回（成人の標準的維持量・生涯補充）',
+            label: 'チラージンS / チラーヂンS錠 50〜100μg/日 1日1回（成人の標準的維持量・生涯補充）',
             badge: '標準維持補充療法',
             desc: '甲状腺全摘後や重度橋本病。TSHを基準値内（0.5〜2.5μIU/mL前後）に厳密コントロール',
             weights: { hypo_levothyroxine_maintenance: 95, hypo_cardiac_elderly_start: -20 }
           },
           {
             id: 'thy_opt_elderly_low',
-            label: 'チラーヂンS錠 12.5〜25μg/日 1日1回（高齢者・虚血性心疾患合併時の超低用量開始）',
+            label: 'チラージンS / チラーヂンS錠 12.5〜25μg/日 1日1回（高齢者・虚血性心疾患合併時の超低用量開始）',
             badge: '高齢者・心疾患超低用量',
             desc: '急激なホルモン補充による心筋酸素消費量増大・狭心症・不整脈誘発を防ぐため超低用量漸増',
             weights: { hypo_cardiac_elderly_start: 95, hypo_levothyroxine_maintenance: -20 }
@@ -15771,7 +15771,7 @@ const CLINICAL_WIZARD_DATA = {
       {
         id: 'thyroid_q2_interactions',
         title: 'Q2. 🚨【重大相互作用・服薬タイミング】併用薬・服薬指導で最優先すべき事項はどれですか？',
-        subtitle: 'チラーヂンSは「鉄剤・Ca剤・コレスチミド等の金属吸着」で吸収が著しく低下しTSHが跳ね上がります',
+        subtitle: 'チラージンS / チラーヂンSは「鉄剤・Ca剤・制酸剤等の金属吸着」で吸収が著しく低下しTSHが跳ね上がります',
         options: [
           {
             id: 'thy_opt_metal_chelate',
@@ -24314,7 +24314,7 @@ function handlePrescriptionPaste() {
   // 診療科の認識
   if (textLower.includes('循環器') || textLower.includes('心臓')) toggleProfileItem('dept', 'cardio');
   else if (textLower.includes('整形')) toggleProfileItem('dept', 'ortho');
-  else if (textLower.includes('糖尿') || textLower.includes('代謝') || textLower.includes('内分泌')) toggleProfileItem('dept', 'dm');
+  else if (textLower.includes('糖尿') || textLower.includes('代謝') || textLower.includes('内分泌') || textLower.includes('甲状腺')) toggleProfileItem('dept', 'dm');
   else if (textLower.includes('消化器') || textLower.includes('胃腸') || textLower.includes('肝臓')) toggleProfileItem('dept', 'gi');
   else if (textLower.includes('リウマチ') || textLower.includes('膠原病')) toggleProfileItem('dept', 'rheuma');
   else if (textLower.includes('精神') || textLower.includes('心療')) toggleProfileItem('dept', 'psych');

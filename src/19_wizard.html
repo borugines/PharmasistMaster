@@ -41,7 +41,7 @@
         <div class="wizard-input-wrapper">
           <div style="position:relative; width:100%;">
             <input type="text" id="wizardDrugInput" class="wizard-search-input" 
-                   placeholder="薬品名を入力（例：スピロノラクトン、フォシーガ、プレドニン、タケキャブ、メインテート...）" 
+                   placeholder="薬品名を入力（例：チラージンS、スピロノラクトン、フォシーガ、プレドニン、タケキャブ...）" 
                    autocomplete="off" oninput="handleWizardDrugInput(this.value)" onkeydown="handleWizardDrugKeydown(event)" />
             <span class="wizard-input-icon">🔍</span>
             <button id="wizardClearInputBtn" class="wizard-input-clear" onclick="clearWizardDrugInput()" style="display:none;">✕</button>
@@ -57,6 +57,7 @@
             <span>⚡ よく鑑別される代表的処方起点（ワンタップで開始）：</span>
           </div>
           <div class="wizard-quick-tags">
+            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('チラージン')" style="border-color:#0284c7; background:#f0f9ff; color:#0369a1; font-weight:800;">🦋 チラージンS / チラーヂンS (甲状腺機能低下/早朝空腹時/鉄剤Ca剤4時間分離)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('スピロノラクトン')">🫀 スピロノラクトン (MRA)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('フォシーガ')">🍬 フォシーガ (SGLT2阻害)</button>
             <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メインテート')">💓 メインテート (β遮断)</button>
