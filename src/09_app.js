@@ -1354,6 +1354,18 @@ function handleHeroSearchInput(input) {
       action: () => { dropdown.style.display = 'none'; jumpToComp('sec-psy', 'comp-bzd-deprescribing'); }
     });
   }
+  if (['腎機能', '腎排泄', 'ccr', 'egfr', '腎低下', '腎不全', 'クレアチニン', '腎排泄薬'].some(k => val.includes(k))) {
+    shortcuts.push({
+      title: '📘 薬局での腎機能評価の極意 ＆ 腎排泄型薬剤マスター',
+      sub: 'eGFR vs Ccrの罠・高齢者Cr 0.4問題・頻出腎排泄薬30品目・肝代謝代替薬',
+      action: () => {
+        dropdown.style.display = 'none';
+        switchTab('tab-lab');
+        const target = document.getElementById('pharmacy-renal-practice');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
 
   shortcuts.forEach(sc => {
     const item = document.createElement('div');
@@ -3793,6 +3805,18 @@ function filterLabSection(secClass, btn) {
       s.style.display = 'none';
     }
   });
+
+  const renalSim = document.getElementById('renal-simulator');
+  const renalPractice = document.getElementById('pharmacy-renal-practice');
+  if (renalSim && renalPractice) {
+    if (secClass === 'all' || secClass === 'lab-sec-renal') {
+      renalSim.style.display = 'block';
+      renalPractice.style.display = 'block';
+    } else {
+      renalSim.style.display = 'none';
+      renalPractice.style.display = 'none';
+    }
+  }
 }
 
 function filterLabTables() {
