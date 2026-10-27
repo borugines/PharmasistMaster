@@ -4573,6 +4573,30 @@ function jumpToContra() {
   }
 }
 
+function jumpToRenalPractice() {
+  closeDrugModal();
+  switchTab('tab-lab');
+  setTimeout(() => {
+    const target = document.getElementById('pharmacy-renal-practice');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      target.style.outline = '3px solid #0284c7';
+      setTimeout(() => { target.style.outline = 'none'; }, 1800);
+    }
+  }, 100);
+}
+
+function jumpToRenalSimulator() {
+  closeDrugModal();
+  switchTab('tab-lab');
+  setTimeout(() => {
+    const target = document.getElementById('renal-simulator');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 100);
+}
+
 // ==========================================================================
 // 📢 今週の薬局最前線インテリジェンス ＆ 週刊アーカイブ自動管理システム
 // ==========================================================================
