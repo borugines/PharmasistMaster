@@ -1235,68 +1235,881 @@
     </table>
 
     <!-- 睡眠薬・BZD 減量・離脱（脱ベンゾ）プロトコル -->
-    <div id="comp-bzd-deprescribing" class="sub-banner banner-within" style="margin-top:28px;">
-      <span>🧘 【睡眠薬・抗不安薬】BZD減量・離脱（脱ベンゾ）プロトコル ＆ ジアゼパム等価換算表</span>
+        <!-- 睡眠薬・BZD 減量・離脱（脱ベンゾ）プロトコル ＆ ジアゼパム等価換算計算機 -->
+    <div id="comp-bzd-deprescribing" class="sub-banner banner-within" style="margin-top:28px; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%); color:#ffffff; padding: 18px 22px; border-radius: 12px; box-shadow: 0 4px 14px rgba(49, 46, 129, 0.3);">
+      <div style="font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <span style="font-size: 1.5rem;">⚡</span>
+        <span>【ベンゾジアゼピン完全攻略】ジアゼパム等価換算 ＆ アシュトン漸減シミュレータ</span>
+        <span style="background: rgba(255,255,255,0.22); font-size: 0.72rem; padding: 3px 9px; border-radius: 999px; font-weight: 600; letter-spacing: 0.03em;">稲垣・稲田式2021 / Ashton Manual / 厚労省指針</span>
+      </div>
+      <div style="font-size: 0.88rem; color: #e0e7ff; margin-top: 6px; line-height: 1.55;">
+        抗不安薬・睡眠薬（非ベンゾZ-drug含む）<strong>全32成分の力価等価換算</strong>・<strong>多剤投与制限（診療報酬3剤以上減算アラート）</strong>・<strong>ジアゼパム/メイラックス置換減薬スケジュール自動生成</strong>
+      </div>
     </div>
-    <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:12px 16px; margin-bottom:12px; font-size:0.85rem; color:#1e3a8a; line-height:1.55;">
-      <strong>ポリファーマシー・減薬加算・高齢者転倒防止の実戦カンペ：</strong><br>
-      長期間BZD系（ハルシオン、マイスリー、デパス、レンドルミン等）を内服している患者を急激に中止すると、<strong>「反跳性不眠」「激しい不安・焦燥」「振戦・発汗」「けいれん」</strong>などの致死的な離脱症状が起きます。世界標準の「アシュトン・マニュアル」に基づき、<strong>1〜2週間ごとに10〜25%ずつ漸減</strong>させるか、<strong>超長時間型（メイラックスやセルシン）へ置換してから徐々に減らす</strong>のが鉄則です。
+
+    <!-- 臨床の掟 ＆ 診療報酬多剤制限サマリー -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(290px, 1fr)); gap:12px; margin: 14px 0 18px 0;">
+      <div style="background:#fff1f2; border:1px solid #fecdd3; border-left:4px solid #e11d48; border-radius:8px; padding:12px 14px;">
+        <strong style="color:#9f1239; font-size:0.9rem; display:flex; align-items:center; gap:6px;">
+          <span>🚨</span> 診療報酬上の多剤投与制限（算定不可ルール）
+        </strong>
+        <ul style="margin:6px 0 0 16px; padding:0; font-size:0.8rem; color:#881337; line-height:1.5;">
+          <li><strong>抗不安薬：1処方3種類以上</strong> ➔ 処方料・処方箋料・調剤料が大幅減算！</li>
+          <li><strong>睡眠薬：1処方3種類以上</strong> ➔ 同様に大幅減算！</li>
+          <li><strong>抗不安薬＋睡眠薬：合算4種類以上</strong> ➔ 原則算定不可（精神科減算）</li>
+          <li>※臨時の頓服や、減薬計画を記載した明細書（様式40）添付時等を除く。</li>
+        </ul>
+      </div>
+
+      <div style="background:#eff6ff; border:1px solid #bfdbfe; border-left:4px solid #2563eb; border-radius:8px; padding:12px 14px;">
+        <strong style="color:#1e40af; font-size:0.9rem; display:flex; align-items:center; gap:6px;">
+          <span>🛡️</span> アシュトン・マニュアルの原則（急断薬厳禁）
+        </strong>
+        <ul style="margin:6px 0 0 16px; padding:0; font-size:0.8rem; color:#1e3a8a; line-height:1.5;">
+          <li>短時間・高力価薬（デパス、ハルシオン、ソラナックス等）の急激中止は<strong>反跳性パニック・激的不眠・振戦・痙攣</strong>の危険！</li>
+          <li>血中濃度が最もフラットな<strong>ジアゼパム（半減期20〜100h）</strong>または<strong>メイラックス（半減期122h）</strong>へ等価置換。</li>
+          <li>置換後に<strong>1〜2週間ごとに10〜25%ずつ</strong>超微量漸減するのが鉄則。</li>
+        </ul>
+      </div>
+
+      <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:4px solid #16a34a; border-radius:8px; padding:12px 14px;">
+        <strong style="color:#166534; font-size:0.9rem; display:flex; align-items:center; gap:6px;">
+          <span>🔄</span> 非BZD新規受容体作動薬への先行移行
+        </strong>
+        <ul style="margin:6px 0 0 16px; padding:0; font-size:0.8rem; color:#14532d; line-height:1.5;">
+          <li><strong>オレキシン受容体拮抗薬（クービビック、デエビゴ）：</strong>依存・反跳性不眠皆無。覚醒系を抑えるため先行併用でBZDを安全に減量可能。</li>
+          <li><strong>メラトニン受容体作動薬（ロゼレム）：</strong>体内時計同調。</li>
+          <li><strong>5-HT1A作動薬（セディール）：</strong>GABA非作用で依存ゼロ。抗不安薬減量の受け皿に最適。</li>
+        </ul>
+      </div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th style="width:20%;">薬剤名（一般名）</th>
-          <th style="width:16%;">分類・作用時間</th>
-          <th style="width:16%;">ジアゼパム 5mg<br>等価換算量</th>
-          <th style="width:24%;">離脱難易度・依存の強さ</th>
-          <th style="width:24%;">安全な減薬・置換ステップ</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>デパス</strong><br>（エチゾラム）</td>
-          <td>短時間型<br>半減期 約6時間</td>
-          <td><strong>0.5 mg</strong><br>（非常に高力価！）</td>
-          <td><strong style="color:#b91c1c;">最凶（依存・離脱が極めて激しい）</strong><br>切れ味と引き換えに精神依存・耐性が急速に形成</td>
-          <td>いきなり中止は絶対厳禁！半減期の長い<strong>メイラックス（1mg）やセルシン（2〜5mg）へ段階的に置き換えてから</strong>、数ヶ月かけて0.25mg刻みで減量。</td>
-        </tr>
-        <tr>
-          <td><strong>ハルシオン</strong><br>（トリアゾラム）</td>
-          <td>超短時間型<br>半減期 約3時間</td>
-          <td><strong>0.25 mg</strong></td>
-          <td><strong style="color:#b91c1c;">極めて高い（反跳性不眠の嵐）</strong><br>夜中に薬が切れて早朝覚醒・不安</td>
-          <td>まずは<strong>デエビゴ（5mg）やクービビック（50mg）を併用開始</strong>し、自然な眠気が確保できたらハルシオンを0.125mgに半減 ➔ 隔日服用 ➔ 終了。</td>
-        </tr>
-        <tr>
-          <td><strong>マイスリー</strong><br>（ゾルピデム）</td>
-          <td>非BZD系・超短時間<br>半減期 約2時間</td>
-          <td><strong>5 mg〜10 mg</strong></td>
-          <td>中等度〜高（健忘・ふらつき）<br>入眠障害に切れ味抜群だが持ち越しなし</td>
-          <td>寝る直前服用を再徹底。減薬時は<strong>「錠剤を半分（2.5mg）に割る」またはオレキシン拮抗薬（クービビック25〜50mg）への切り替え</strong>が最も成功率が高い。</td>
-        </tr>
-        <tr>
-          <td><strong>レンドルミン</strong><br>（ブロチゾラム）</td>
-          <td>短時間型<br>半減期 約7時間</td>
-          <td><strong>0.25 mg</strong></td>
-          <td>中等度（日本で処方数最多）<br>入眠と中途覚醒の両方に効く定番</td>
-          <td>1/2錠（0.125mg）へ減量し2〜4週間維持。週末だけ休む「隔日法」や、メラトニン受容体作動薬（ロゼレム）を併用して体内時計を整えながら離脱。</td>
-        </tr>
-        <tr>
-          <td><strong>ワイパックス</strong><br>（ロラゼパム）</td>
-          <td>中時間型<br>半減期 約12時間</td>
-          <td><strong>0.5 mg〜1 mg</strong></td>
-          <td>中等度〜高（肝代謝を受けない利点あり）</td>
-          <td>高力価のため少しずつ減薬。1日3回服用している場合は<strong>「昼の分から減らす」➔「朝の分を減らす」➔「最後に夜の分を減らす」</strong>の順で1ヶ月単位で進める。</td>
-        </tr>
-        <tr>
-          <td><strong>メイラックス</strong><br>（ロフラゼプ酸エチル）</td>
-          <td><span class="char">超長時間型</span><br>半減期 約120時間</td>
-          <td><strong>1 mg</strong></td>
-          <td><strong>最も低い（離脱症状が起きにくい）</strong><br>血中濃度の谷ができない安全製剤</td>
-          <td>【置換のゴール薬剤】他剤のBZDからメイラックスに置換した後、1mg ➔ 0.5mg ➔ 2日に1回 ➔ 3日に1回 ➔ 離脱完了。</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <!-- ==========================================================================
+         ⚡ インタラクティブ計算機：ジアゼパム等価換算 ＆ アシュトン漸減シミュレータ
+         ========================================================================== -->
+    <div id="bzd-calculator-card" style="background:#ffffff; border:2px solid #6366f1; border-radius:12px; padding:18px 20px; margin-bottom:24px; box-shadow:0 8px 20px rgba(99, 102, 241, 0.12);">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1.5px solid #e2e8f0; padding-bottom:10px;">
+        <div>
+          <h3 style="margin:0; font-size:1.15rem; color:#1e1b4b; font-weight:800; display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1.3rem;">🧮</span> ジアゼパム等価換算 ＆ 多剤判定 ＆ 漸減スケジュール計算機
+          </h3>
+          <div style="font-size:0.8rem; color:#64748b; margin-top:2px;">
+            服用中の薬剤と1日量を入力すると、即座に総ジアゼパム換算力価・保険適正・減薬手順をシミュレーションします
+          </div>
+        </div>
+
+        <!-- 典型処方プリセットボタン -->
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <span style="font-size:0.75rem; font-weight:700; color:#475569;">処方モデル：</span>
+          <button type="button" class="btn" onclick="setBzdPreset('depas')" style="padding:4px 8px; font-size:0.75rem; background:#fee2e2; color:#991b1b; border:1px solid #f87171; border-radius:6px; cursor:pointer;">
+            💊 デパス依存例 (0.5mg 3T)
+          </button>
+          <button type="button" class="btn" onclick="setBzdPreset('hal_my')" style="padding:4px 8px; font-size:0.75rem; background:#fef3c7; color:#92400e; border:1px solid #fcd34d; border-radius:6px; cursor:pointer;">
+            🛌 睡眠薬2剤重層例 (ハルシオン+マイスリー)
+          </button>
+          <button type="button" class="btn" onclick="setBzdPreset('poly')" style="padding:4px 8px; font-size:0.75rem; background:#fce7f3; color:#9d174d; border:1px solid #f472b6; border-radius:6px; cursor:pointer;">
+            🚨 3剤多剤警告例 (ワイパ+サイレース+レンド)
+          </button>
+          <button type="button" class="btn" onclick="setBzdPreset('elderly')" style="padding:4px 8px; font-size:0.75rem; background:#e0e7ff; color:#3730a3; border:1px solid #818cf8; border-radius:6px; cursor:pointer;">
+            👴 高齢者ふらつき例 (ベンザリン+ソラナックス)
+          </button>
+          <button type="button" class="btn" onclick="setBzdPreset('clear')" style="padding:4px 8px; font-size:0.75rem; background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; border-radius:6px; cursor:pointer;">
+            🔄 クリア
+          </button>
+        </div>
+      </div>
+
+      <!-- 処方入力テーブル -->
+      <div style="overflow-x:auto; margin-bottom:12px;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+          <thead>
+            <tr style="background:#f8fafc; border-bottom:2px solid #cbd5e1;">
+              <th style="padding:8px 10px; text-align:left; width:34%;">処方薬剤（成分名 / 商品名）</th>
+              <th style="padding:8px 10px; text-align:center; width:18%;">1日服用量 (mg)</th>
+              <th style="padding:8px 10px; text-align:center; width:16%;">5mg等価用量</th>
+              <th style="padding:8px 10px; text-align:center; width:12%;">力価比</th>
+              <th style="padding:8px 10px; text-align:center; width:14%;">DZP換算量</th>
+              <th style="padding:8px 10px; text-align:center; width:6%;">削除</th>
+            </tr>
+          </thead>
+          <tbody id="bzd-calc-rows">
+            <!-- JavaScriptで動的生成 -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <button type="button" class="btn" onclick="addBzdRow()" style="padding:6px 14px; font-size:0.82rem; background:#4f46e5; color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+          <span>➕</span> 処方薬剤を追加する
+        </button>
+      </div>
+
+      <!-- リアルタイム計算結果ダッシュボード -->
+      <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:10px; padding:16px; margin-bottom:14px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; align-items:center;">
+          <!-- 左側：総ジアゼパム換算用量 -->
+          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+            <div style="font-size:0.8rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.04em;">
+              TOTAL DIAZEPAM EQUIVALENT DOSING
+            </div>
+            <div style="display:flex; align-items:baseline; gap:8px; margin:6px 0;">
+              <span id="bzd-total-val" style="font-size:2.4rem; font-weight:900; color:#1e1b4b; line-height:1;">0.0</span>
+              <span style="font-size:1.05rem; font-weight:700; color:#475569;">mg / 日</span>
+            </div>
+            <div id="bzd-risk-badge" style="display:inline-block; padding:4px 10px; border-radius:999px; font-size:0.78rem; font-weight:800; background:#dcfce7; color:#15803d;">
+              🟢 軽度負荷（低用量）
+            </div>
+            <div id="bzd-risk-desc" style="font-size:0.78rem; color:#64748b; margin-top:6px; line-height:1.45;">
+              ジアゼパム換算5mg以下。常用量の範囲内であり、適切な漸減で安全に離脱可能。
+            </div>
+          </div>
+
+          <!-- 右側：診療報酬多剤算定判定 -->
+          <div id="bzd-audit-panel" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+            <div style="font-size:0.8rem; font-weight:700; color:#64748b; margin-bottom:6px;">
+              📋 診療報酬・多剤投与チェック（2024改定対応）
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; text-align:center; margin-bottom:8px;">
+              <div style="background:#f1f5f9; padding:6px; border-radius:6px;">
+                <div style="font-size:0.7rem; color:#64748b;">抗不安薬</div>
+                <div id="bzd-count-anx" style="font-size:1.1rem; font-weight:800; color:#1e293b;">0 剤</div>
+              </div>
+              <div style="background:#f1f5f9; padding:6px; border-radius:6px;">
+                <div style="font-size:0.7rem; color:#64748b;">睡眠薬</div>
+                <div id="bzd-count-hyp" style="font-size:1.1rem; font-weight:800; color:#1e293b;">0 剤</div>
+              </div>
+              <div style="background:#f1f5f9; padding:6px; border-radius:6px;">
+                <div style="font-size:0.7rem; color:#64748b;">BZD系合算</div>
+                <div id="bzd-count-total" style="font-size:1.1rem; font-weight:800; color:#1e293b;">0 剤</div>
+              </div>
+            </div>
+            <div id="bzd-audit-msg" style="font-size:0.78rem; line-height:1.45; color:#16a34a; font-weight:700;">
+              ✅ 3剤制限・多剤減算ルールに抵触していません。
+            </div>
+          </div>
+        </div>
+
+        <!-- 警告メッセージバナー（過量または多剤時） -->
+        <div id="bzd-warning-banner" style="display:none; margin-top:12px; padding:10px 14px; background:#fef2f2; border:1.5px solid #ef4444; border-radius:8px; font-size:0.82rem; color:#991b1b; line-height:1.5;">
+          <!-- JSで警告出力 -->
+        </div>
+      </div>
+
+      <!-- アシュトン・マニュアル式 漸減スケジュール展開 -->
+      <div style="background:#f0fdfa; border:1.5px solid #99f6e4; border-radius:10px; padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+          <h4 style="margin:0; font-size:0.98rem; color:#0f766e; font-weight:800; display:flex; align-items:center; gap:6px;">
+            <span>📅</span> アシュトン・マニュアル式 推奨置換 ＆ 漸減スケジュール（自動生成）
+          </h4>
+          <div style="font-size:0.78rem; color:#115e59; font-weight:600;">
+            推奨置換薬：<strong>セルシン / ホリゾン（ジアゼパム）</strong> または <strong>メイラックス（ロフラゼプ酸）</strong>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; margin-bottom:12px;">
+          <div style="background:white; border-left:3.5px solid #0d9488; padding:8px 12px; border-radius:6px;">
+            <div style="font-size:0.72rem; color:#64748b; font-weight:700;">STEP 1: 導入期 (1〜2週目)</div>
+            <div id="ashton-step1-title" style="font-size:0.85rem; font-weight:800; color:#0f766e; margin:2px 0;">夜間用量の50%を置換</div>
+            <div id="ashton-step1-desc" style="font-size:0.76rem; color:#334155; line-height:1.4;">
+              不眠がある場合はオレキシン拮抗薬（クービビック50mg/デエビゴ5mg）を先行併用。夜間の短時間薬半分をジアゼパムに置換。
+            </div>
+          </div>
+
+          <div style="background:white; border-left:3.5px solid #0284c7; padding:8px 12px; border-radius:6px;">
+            <div style="font-size:0.72rem; color:#64748b; font-weight:700;">STEP 2: 完全統一期 (3〜4週目)</div>
+            <div id="ashton-step2-title" style="font-size:0.85rem; font-weight:800; color:#0369a1; margin:2px 0;">全量をジアゼパムに一本化</div>
+            <div id="ashton-step2-desc" style="font-size:0.76rem; color:#334155; line-height:1.4;">
+              朝・昼の薬もすべてジアゼパムへ置換。短時間薬の血中濃度急降下が消え、精神状態が安定するまで2週間維持。
+            </div>
+          </div>
+
+          <div style="background:white; border-left:3.5px solid #7c3aed; padding:8px 12px; border-radius:6px;">
+            <div style="font-size:0.72rem; color:#64748b; font-weight:700;">STEP 3: 漸減期 (5週目〜)</div>
+            <div id="ashton-step3-title" style="font-size:0.85rem; font-weight:800; color:#6d28d9; margin:2px 0;">1〜2週ごとに10〜20%減量</div>
+            <div id="ashton-step3-desc" style="font-size:0.76rem; color:#334155; line-height:1.4;">
+              用量に応じて1〜2mg刻みで減量。終盤（5mg以下）は散剤・錠剤半割で0.5mg単位の超微量減量を実施。
+            </div>
+          </div>
+
+          <div style="background:white; border-left:3.5px solid #16a34a; padding:8px 12px; border-radius:6px;">
+            <div style="font-size:0.72rem; color:#64748b; font-weight:700;">STEP 4: 離脱完了</div>
+            <div id="ashton-step4-title" style="font-size:0.85rem; font-weight:800; color:#15803d; margin:2px 0;">隔日服用 ➔ 終薬</div>
+            <div id="ashton-step4-desc" style="font-size:0.76rem; color:#334155; line-height:1.4;">
+              1mg/0.5mgまで減らせたら2日に1回、3日に1回と間隔を空け、離脱症状がないことを確認して完全終了！
+            </div>
+          </div>
+        </div>
+
+        <div style="background:white; border:1px solid #ccfbf1; border-radius:6px; padding:10px 14px; font-size:0.78rem; color:#134e4a; line-height:1.5;">
+          <strong>💡 薬局窓口での指導・トレーシングレポート（服薬情報提供書）のポイント：</strong><br>
+          「患者さんが勝手に半分に割って失敗した」「薬が切れると不安で仕方ない」という訴えは、短時間型の反跳症状です。
+          『ジアゼパム等価換算で現在○mg相当であり、半減期の長いメイラックスやセルシンへの置換、およびオレキシン拮抗薬（クービビック等）の先行併用による漸減プロトコル』を主治医へ疑義照会・処方提案することで、安全かつ確実な脱ベンゾを支援できます。
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         📚 全32成分完全網羅！ジアゼパム等価換算・力価・半減期マトリクス（完全チートシート）
+         ========================================================================== -->
+    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px 20px; box-shadow:0 2px 8px rgba(0,0,0,0.04); margin-bottom:28px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+        <div>
+          <h3 style="margin:0; font-size:1.1rem; color:#1e293b; font-weight:800; display:flex; align-items:center; gap:8px;">
+            <span>📖</span> BZD受容体作動薬 全32成分 等価換算 ＆ 薬物動態完全チートシート
+          </h3>
+          <div style="font-size:0.78rem; color:#64748b; margin-top:2px;">
+            抗不安薬15種 ＋ 睡眠薬13種 ＋ 非BZD置換受け皿薬4種（力価比・半減期・最高用量・臨床メモ網羅）
+          </div>
+        </div>
+
+        <!-- 絞り込みフィルター＆検索 -->
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <div style="display:flex; gap:4px; background:#f1f5f9; padding:3px; border-radius:8px;">
+            <button type="button" class="btn bzd-filter-btn active" onclick="filterBzdTable('all', this)" style="padding:4px 10px; font-size:0.75rem; border-radius:6px; font-weight:700; border:none; background:#ffffff; color:#1e293b; box-shadow:0 1px 2px rgba(0,0,0,0.1); cursor:pointer;">
+              すべて (32)
+            </button>
+            <button type="button" class="btn bzd-filter-btn" onclick="filterBzdTable('anx', this)" style="padding:4px 10px; font-size:0.75rem; border-radius:6px; font-weight:700; border:none; background:transparent; color:#64748b; cursor:pointer;">
+              抗不安薬 (15)
+            </button>
+            <button type="button" class="btn bzd-filter-btn" onclick="filterBzdTable('hyp', this)" style="padding:4px 10px; font-size:0.75rem; border-radius:6px; font-weight:700; border:none; background:transparent; color:#64748b; cursor:pointer;">
+              睡眠薬 (13)
+            </button>
+            <button type="button" class="btn bzd-filter-btn" onclick="filterBzdTable('nonbzd', this)" style="padding:4px 10px; font-size:0.75rem; border-radius:6px; font-weight:700; border:none; background:transparent; color:#64748b; cursor:pointer;">
+              置換受け皿 (4)
+            </button>
+          </div>
+          <input type="text" id="bzd-search-filter" oninput="searchBzdTable(this.value)" placeholder="🔍 薬品名・一般名で検索..." style="padding:5px 10px; font-size:0.78rem; border:1px solid #cbd5e1; border-radius:6px; width:160px;">
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table id="bzd-master-table" style="width:100%; border-collapse:collapse; font-size:0.82rem;">
+          <thead>
+            <tr style="background:#1e293b; color:white;">
+              <th style="padding:8px 10px; text-align:left; width:16%;">一般名 / 代表先発品名</th>
+              <th style="padding:8px 10px; text-align:center; width:12%;">分類・作用時間</th>
+              <th style="padding:8px 10px; text-align:center; width:9%;">半減期 (t1/2)</th>
+              <th style="padding:8px 10px; text-align:center; width:11%;">DZP 5mg<br>等価用量</th>
+              <th style="padding:8px 10px; text-align:center; width:8%;">力価比</th>
+              <th style="padding:8px 10px; text-align:center; width:10%;">1日常用上限</th>
+              <th style="padding:8px 10px; text-align:center; width:10%;">依存・離脱リスク</th>
+              <th style="padding:8px 10px; text-align:left; width:18%;">臨床の要点 ＆ 減薬置換メモ</th>
+              <th style="padding:8px 10px; text-align:center; width:6%;">計算</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="bzd-master-row" data-type="anx" data-name="ジアゼパム セルシン / ホリゾン" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">セルシン / ホリゾン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ジアゼパム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">長時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">20〜100h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>5 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">1 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">15 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">中等度</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">【等価換算の基準薬・置換の第1選択】半減期が長く代謝物も活性。血中濃度が極めて安定しアシュトン置換の王道。2mg/5mg錠・散剤あり微調整容易。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('diazepam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="ロラゼパム ワイパックス" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ワイパックス</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ロラゼパム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">中間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">12h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>1.2 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">4.17 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">3 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b45309; font-size:0.78rem;">高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">グルクロン酸抱合のみで代謝（CYP非関与）。肝障害・高齢者に有利だが力価が高く常用量依存・反跳性不安に注意。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('lorazepam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="アルプラゾラム ソラナックス / コンスタン" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ソラナックス / コンスタン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（アルプラゾラム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">中間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">12〜14h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>0.8 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">6.25 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">2.4 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#c2410c; font-size:0.78rem;">極高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">パニック発作や強い不安に著効するが高力価。反跳性不安・常用量依存が形成されやすく急激な減薬は絶対厳禁。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('alprazolam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="エチゾラム デパス" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">デパス</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（エチゾラム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">短時間型 (チエノ)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">6h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>1.5 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">3.33 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">3 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b91c1c; font-size:0.78rem;">最凶・極高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">強力な抗不安・筋弛緩。血中濃度の谷で不安・首肩こりが再燃。急激中止は反跳性パニック。セルシンやメイラックスへの置換が必須。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('etizolam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="クロチアゼパム リーゼ" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">リーゼ</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（クロチアゼパム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">短時間型 (チエノ)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">6h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>10 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">0.5 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">30 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">低〜中等度</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">作用がマイルドで切れが良い。自律神経失調症や軽症心身症に汎用。離脱難易度は比較的低い。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('clotiazepam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="ブロマゼパム レキソタン / セニラン" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">レキソタン / セニラン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ブロマゼパム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">中間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">20h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>4.5 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">1.11 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">15 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b45309; font-size:0.78rem;">高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">強い抗不安・中枢性筋弛緩作用。緊張型頭痛や心気症に著効。高用量長期連用からの離脱は慎重な漸減が必要。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('bromazepam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="ロフラゼプ酸エチル メイラックス" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">メイラックス</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ロフラゼプ酸エチル）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">超長時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">122h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>2 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">2.5 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">2 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">低 (置換推奨)</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">【置換離脱の最有力候補】活性代謝物が約5日持続。血中濃度の谷が皆無で離脱症状が最も出にくく置換のゴール薬。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('ethyl_loflazepate')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="クロキサゾラム セパゾン" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">セパゾン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（クロキサゾラム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">中間〜長時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">56h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>2 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">2.5 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">6 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">中等度</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">持続的な抗不安作用。持続時間が長く1日2〜3回投与。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('cloxazolam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="フルジアゼパム エリスパン" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">エリスパン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（フルジアゼパム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">長時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">24h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>0.75 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">6.67 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">0.75 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b45309; font-size:0.78rem;">高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">ジアゼパムのフッ素化誘導体。極少量で強力な作用。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('fludiazepam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="オキサゾラム セレナール" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">セレナール</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（オキサゾラム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">短〜中間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">6〜7h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>20 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">0.25 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">60 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">低</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">催眠・筋弛緩が弱く日中の眠気が出にくい。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('oxazolam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="プラゼパム セドレスト" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">セドレスト</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（プラゼパム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">長時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">60h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>10 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">0.5 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">30 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">低〜中等度</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">脱アルキル化で活性体に。穏やかに持続。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('prazepam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="クロルジアゼポキシド バランス / コントール" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">バランス / コントール</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（クロルジアゼポキシド）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">長時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">24〜48h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>10 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">0.5 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">60 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">中等度</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">最古のBZD。アルコール離脱せん妄予防にも汎用。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('chlordiazepoxide')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="ロラゼプ酸二カリウム メンドン" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">メンドン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ロラゼプ酸二カリウム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">長時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">48h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>15 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">0.33 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">30 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">低〜中等度</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">体内でジアゼパム類似代謝物に変換。徐々に安定。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('clorazepate')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx" data-name="フルタゾラム サンUserName / コレミナール" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#ede9fe; color:#6d28d9; font-weight:700; margin-bottom:2px;">抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">サンUserName / コレミナール</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（フルタゾラム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">短時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">3.5h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>8 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">0.625 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">12 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">低</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">自律神経失調症、過敏性腸症候群（IBS）の消化管緊張緩和。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('flutazolam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="anx_nonbzd" data-name="タンドスピロン セディール" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#dcfce7; color:#15803d; font-weight:700; margin-bottom:2px;">非BZD抗不安薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">セディール</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（タンドスピロン）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">超短時間型 (非BZD)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">1.2h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><span style="color:#64748b; font-size:0.75rem;">非BZD (対象外)</span></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">-</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">60 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#15803d; font-size:0.78rem;">なし (0)</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">【非ベンゾ・5-HT1A作動薬】耐性・依存・筋弛緩・離脱ゼロ！BZD減量時の不安受け皿薬として極めて有効。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('tandospirone')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="トリアゾラム ハルシオン" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ハルシオン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（トリアゾラム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">超短時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">2.9h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>0.25 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">20 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">0.5 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b91c1c; font-size:0.78rem;">最凶・極高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">入眠障害に切れ味最高だが反跳性不眠・早朝覚醒・健忘リスク極大。急断薬厳禁。オレキシン拮抗薬併用で離脱。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('triazolam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="ゾルピデム マイスリー" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬 (Z-drug)</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">マイスリー</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ゾルピデム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">超短時間型 (Z-drug)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">2h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>5 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">1 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">10 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b45309; font-size:0.78rem;">中等度〜高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">ω1選択的。筋弛緩少ないが入眠直後の健忘・もうろう状態注意。半錠（2.5mg）またはクービビック置換。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('zolpidem')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="ゾピクロン アモバン" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬 (Z-drug)</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">アモバン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ゾピクロン）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">超短時間型 (Z-drug)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">4h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>7.5 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">0.67 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">10 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">中等度</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">翌朝の唾液分泌苦味。入眠効果強力。ルネスタやデエビゴへの切り替え推奨。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('zopiclone')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="エスゾピクロン ルネスタ" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬 (Z-drug)</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ルネスタ</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（エスゾピクロン）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">短時間型 (Z-drug)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">5h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>2 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">2.5 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">3 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">中等度</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">ゾピクロンのS体。苦味軽減、中途覚醒にも有効。処方日数制限なし。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('eszopiclone')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="ブロチゾラム レンドルミン" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">レンドルミン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ブロチゾラム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">短時間型 (チエノ)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">7h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>0.25 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">20 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">0.5 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b45309; font-size:0.78rem;">高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">日本最多処方の睡眠薬。入眠・中途覚醒カバー。半錠割（0.125mg）や隔日投与で段階的漸減。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('brotizolam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="リルマザホン リスミー" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">リスミー</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（リルマザホン）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">短時間型 (開環BZD)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">10h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>2 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">2.5 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">2 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">低〜中等度</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">開環プロドラッグ。自然な眠気で高齢者にも比較的使いやすい。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('rilmazafone')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="エスタゾラム ユーロジン" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ユーロジン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（エスタゾラム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">中間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">24h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>2 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">2.5 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">4 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b45309; font-size:0.78rem;">高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">中途覚醒・早朝覚醒に有効。翌朝の持ち越し眠気・高齢者ふらつき注意。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('estazolam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="ニトラゼパム ベンザリン / ネルボン" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ベンザリン / ネルボン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ニトラゼパム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">中間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">28h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>5 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">1 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">10 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b45309; font-size:0.78rem;">高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">催眠・抗てんかん作用。持ち越しと筋弛緩が強く高齢者の転倒骨折注意。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('nitrazepam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="フルニトラゼパム サイレース / ロヒプノール" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">サイレース / ロヒプノール</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（フルニトラゼパム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">中間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">24h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>1 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">5 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">2 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b91c1c; font-size:0.78rem;">最凶・極高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">最強睡眠薬。頑固な不眠に著効するが依存・持ち越し極大。青色着色錠。減薬は超長期間かけメイラックス/セルシンへ置換。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('flunitrazepam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="ロルメタゼパム ロラメット / エバミール" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ロラメット / エバミール</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ロルメタゼパム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">短〜中間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">10h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>1 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">5 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">2 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#475569; font-size:0.78rem;">中等度</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">グルクロン酸抱合で排泄（CYP非関与）。肝障害や高齢者に有利。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('lormetazepam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="フルラゼパム ダルメート" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ダルメート</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（フルラゼパム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">長時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">65h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>15 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">0.33 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">30 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b45309; font-size:0.78rem;">高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">長時間作用。連用で体内蓄積リスクあり。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('flurazepam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="クアゼパム ドラール" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ドラール</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（クアゼパム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">長時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">36h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>15 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">0.33 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">30 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b45309; font-size:0.78rem;">中等度〜高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">ω1選択性高く筋弛緩少ない。早朝覚醒・熟眠障害に有効だが蓄積注意。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('quazepam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp" data-name="ハロキサゾラム ソメリン" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; font-weight:700; margin-bottom:2px;">睡眠薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ソメリン</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ハロキサゾラム）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">長時間型</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">68h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><strong>5 mg</strong></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">1 倍</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">15 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#b45309; font-size:0.78rem;">高</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">催眠・筋弛緩が強く持続時間が長い。翌朝倦怠感。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('haloxazolam')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp_nonbzd" data-name="レンボレキサント デエビゴ" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#dcfce7; color:#15803d; font-weight:700; margin-bottom:2px;">オレキシン拮抗薬 (DORA)</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">デエビゴ</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（レンボレキサント）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">長時間 (DORA)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">47h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><span style="color:#64748b; font-size:0.75rem;">非BZD (対象外)</span></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">-</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">10 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#15803d; font-size:0.78rem;">なし (0)</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">【オレキシン拮抗薬】BZD離脱の最有力切り札。依存・反跳性不眠なし。悪夢・金縛りの初期説明必須。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('lemborexant')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp_nonbzd" data-name="ダリドレキサント クービビック" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#dcfce7; color:#15803d; font-weight:700; margin-bottom:2px;">オレキシン拮抗薬 (DORA)</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">クービビック</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ダリドレキサント）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">短〜中間 (DORA)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">8h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><span style="color:#64748b; font-size:0.75rem;">非BZD (対象外)</span></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">-</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">50 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#15803d; font-size:0.78rem;">なし (0)</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">【最新オレキシン拮抗薬】半減期約8hで翌朝の持ち越し眠気・ふらつき最小。活動性維持。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('daridorexant')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp_nonbzd" data-name="スボレキサント ベルソムラ" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#dcfce7; color:#15803d; font-weight:700; margin-bottom:2px;">オレキシン拮抗薬 (DORA)</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ベルソムラ</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（スボレキサント）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">中間 (DORA)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">12h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><span style="color:#64748b; font-size:0.75rem;">非BZD (対象外)</span></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">-</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">20 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#15803d; font-size:0.78rem;">なし (0)</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">【オレキシン拮抗薬】CYP3A4阻害薬（クラリス等）併用禁忌。睡眠構造を壊さない。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('suvorexant')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+            <tr class="bzd-master-row" data-type="hyp_nonbzd" data-name="ラメルテオン ロゼレム" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 10px;">
+                <span style="display:inline-block; font-size:0.68rem; padding:1px 6px; border-radius:4px; background:#dcfce7; color:#15803d; font-weight:700; margin-bottom:2px;">メラトニン作動薬</span><br>
+                <strong style="color:#0f172a; font-size:0.86rem;">ロゼレム</strong><br>
+                <span style="color:#64748b; font-size:0.75rem;">（ラメルテオン）</span>
+              </td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">超短時間 (メラトニン)</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#334155; font-size:0.8rem;">1h</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.85rem;"><span style="color:#64748b; font-size:0.75rem;">非BZD (対象外)</span></td>
+              <td style="padding:8px 10px; text-align:center; font-weight:700; color:#475569; font-size:0.78rem;">-</td>
+              <td style="padding:8px 10px; text-align:center; font-size:0.78rem;">8 mg</td>
+              <td style="padding:8px 10px; text-align:center; font-weight:800; color:#15803d; font-size:0.78rem;">なし (0)</td>
+              <td style="padding:8px 10px; font-size:0.75rem; color:#334155; line-height:1.4;">【メラトニン受容体作動薬】体内時計同調。依存ゼロ。フルボキサミン併用禁忌。</td>
+              <td style="padding:8px 10px; text-align:center;">
+                <button type="button" class="btn" onclick="addBzdFromTable('ramelteon')" title="計算機に入力行を追加" style="padding:3px 7px; font-size:0.72rem; background:#6366f1; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:700;">
+                  ＋追加
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
   
     <!-- ==========================================================================
