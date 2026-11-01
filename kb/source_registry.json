@@ -1,0 +1,173 @@
+{
+  "kbVersion": "2026.11.1",
+  "lastUpdated": "2026-11-02",
+  "defaultReviewCycleMonths": 12,
+  "sources": {
+    "JCS_HF_2025": {
+      "id": "JCS_HF_2025",
+      "category": "guideline",
+      "society": "日本循環器学会 / 日本心不全学会",
+      "title": "心不全診療ガイドライン",
+      "edition": "2025年改訂版（2021年フォーカスアップデート継承）",
+      "year": 2025,
+      "latestKnownEdition": "2025年改訂版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "HFrEFに対するGDMT 4本柱（ARNI/ACEi、β遮断薬、MRA、SGLT2阻害薬）およびHFmrEF/HFpEFへのSGLT2阻害薬推奨"
+    },
+    "JSH_HTN_2019": {
+      "id": "JSH_HTN_2019",
+      "category": "guideline",
+      "society": "日本高血圧学会",
+      "title": "高血圧治療ガイドライン（JSH）",
+      "edition": "2019年版（および次回改訂モニタリング対象）",
+      "year": 2019,
+      "latestKnownEdition": "2019年版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "第一選択薬（Ca拮抗薬、ARB/ACEi、利尿薬）と治療抵抗性高血圧へのMRA追加、原発性アルドステロン症スクリーニング"
+    },
+    "JCS_ARR_2020": {
+      "id": "JCS_ARR_2020",
+      "category": "guideline",
+      "society": "日本循環器学会 / 日本不整脈心電学会",
+      "title": "不整脈薬物治療ガイドライン",
+      "edition": "2020年改訂版（2024年JCS/JHRSフォーカスアップデート含む）",
+      "year": 2024,
+      "latestKnownEdition": "2024年フォーカスアップデート版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "心房細動の抗凝固療法（DOAC減量基準・CHADS2スコア）、レートコントロール（β遮断薬・ジゴキシン）、リズムコントロール（Ic群・アミオダロン）"
+    },
+    "JCS_CAD_2022": {
+      "id": "JCS_CAD_2022",
+      "category": "guideline",
+      "society": "日本循環器学会",
+      "title": "慢性冠動脈疾患診断ガイドライン / 冠攣縮性狭心症と冠微小循環障害の診断と治療",
+      "edition": "2023年JCS/CVIT/JCCガイドライン",
+      "year": 2023,
+      "latestKnownEdition": "2023年改訂版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "労作性狭心症（β遮断薬・硝酸薬）、冠攣縮性狭心症（Ca拮抗薬・ニコランジル）、PCI後のDAPT期間と抗凝固併用"
+    },
+    "JAS_DYSLIP_2022": {
+      "id": "JAS_DYSLIP_2022",
+      "category": "guideline",
+      "society": "日本動脈硬化学会",
+      "title": "動脈硬化性疾患予防ガイドライン",
+      "edition": "2022年版",
+      "year": 2022,
+      "latestKnownEdition": "2022年版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "一次予防・二次予防のLDL-C管理目標値、スタチン最大耐用量＋エゼチミブ＋PCSK9阻害薬、重症高TG血症（膵炎予防）へのフィブラート"
+    },
+    "JES_PA_2021": {
+      "id": "JES_PA_2021",
+      "category": "guideline",
+      "society": "日本内分泌学会",
+      "title": "原発性アルドステロン症診療ガイドライン",
+      "edition": "2021年版",
+      "year": 2021,
+      "latestKnownEdition": "2021年版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "ARRスクリーニング、MRA（スピロノラクトン・エプレレノン・エサキセレノン）による内科的治療"
+    },
+    "JTA_THYROID_2023": {
+      "id": "JTA_THYROID_2023",
+      "category": "guideline",
+      "society": "日本甲状腺学会 / 日本内分泌外科学会",
+      "title": "甲状腺疾患診断ガイドライン / 甲状腺腫瘍診療ガイドライン",
+      "edition": "2023-2024年版",
+      "year": 2024,
+      "latestKnownEdition": "2024年版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "原発性・中枢性・潜在性甲状腺機能低下症、分化型甲状腺癌術後のTSH抑制療法、ICI関連甲状腺機能異常"
+    },
+    "JSN_CKD_2023": {
+      "id": "JSN_CKD_2023",
+      "category": "guideline",
+      "society": "日本腎臓学会",
+      "title": "エビデンスに基づくCKD診療ガイドライン",
+      "edition": "2023年版",
+      "year": 2023,
+      "latestKnownEdition": "2023年版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "蛋白尿陽性CKDへのRAS阻害薬＋SGLT2阻害薬＋非ステロイド型MRA、腎性貧血管理"
+    },
+    "JDS_DM_2024": {
+      "id": "JDS_DM_2024",
+      "category": "guideline",
+      "society": "日本糖尿病学会",
+      "title": "糖尿病診療ガイドライン",
+      "edition": "2024年版",
+      "year": 2024,
+      "latestKnownEdition": "2024年版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "2型糖尿病の薬物療法アルゴリズム（肥満・非肥満、心腎合併症優先選択）"
+    },
+    "JSH_PBC_2023": {
+      "id": "JSH_PBC_2023",
+      "category": "guideline",
+      "society": "日本肝臓学会 / 厚生労働省難治性疾患政策研究事業",
+      "title": "原発性胆汁性胆管炎（PBC）診療ガイドライン",
+      "edition": "2023年改訂版",
+      "year": 2023,
+      "latestKnownEdition": "2023年改訂版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "UDCA効果不十分例へのベザフィブラート併用（適応外・強い推奨）"
+    },
+    "JDA_ACNE_2023": {
+      "id": "JDA_ACNE_2023",
+      "category": "guideline",
+      "society": "日本皮膚科学会",
+      "title": "尋常性ざ瘡・酒皶治療ガイドライン",
+      "edition": "2023年版",
+      "year": 2023,
+      "latestKnownEdition": "2023年版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "成人女性の難治性ざ瘡に対するスピロノラクトン内服の位置づけ（適応外・限定状況での選択肢）"
+    },
+    "PMDA_PACKAGE_INSERT": {
+      "id": "PMDA_PACKAGE_INSERT",
+      "category": "regulatory",
+      "society": "PMDA（独立行政法人 医薬品医療機器総合機構）",
+      "title": "医療用医薬品 添付文書（電子化された添付文書）",
+      "edition": "2026年11月時点現行版",
+      "year": 2026,
+      "latestKnownEdition": "2026年11月時点現行版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "効能・効果、用法・用量、警告・禁忌、併用禁忌・併用注意の法定基準"
+    },
+    "SHIHARAI_KIKIN_55": {
+      "id": "SHIHARAI_KIKIN_55",
+      "category": "reimbursement",
+      "society": "社会保険診療報酬支払基金 / 国民健康保険中央会",
+      "title": "審査情報提供事例（55年通知に基づく適応外使用の保険審査容認事例）",
+      "edition": "2026年時点公開版",
+      "year": 2026,
+      "latestKnownEdition": "2026年時点公開版",
+      "needsRevalidation": false,
+      "lastChecked": "2026-11-02",
+      "notes": "保険審査上、適応外処方であっても原則として査定されない薬理作用ベースの容認事例"
+    }
+  },
+  "events": [
+    {
+      "eventId": "EVT-2026-11-01",
+      "date": "2026-11-02",
+      "type": "system_initialization",
+      "description": "疾患特定システム v4 知識ベース初期構築・循環器第1弾レビュー対象登録",
+      "affectedSourceIds": ["JCS_HF_2025", "JSH_HTN_2019", "JCS_ARR_2020", "JCS_CAD_2022", "JAS_DYSLIP_2022"],
+      "status": "open"
+    }
+  ]
+}

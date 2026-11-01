@@ -198,23 +198,30 @@
           </div>
         </div>
 
-        <!-- 📋 処方箋テキスト一括貼り付け（複数薬剤ペーストで一発解析） -->
+        <!-- 📋 NSIPSテストデータ / JAHIS QR / 処方箋テキスト一括貼り付け（自動絞り込み連携） -->
         <div class="wizard-paste-box">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
             <span style="font-size:0.86rem; font-weight:800; color:#1e293b; display:flex; align-items:center; gap:6px;">
               <span>📋</span>
-              <span>処方箋テキスト一括貼り付け（レセコン・薬歴からコピー＆ペーストで即判定）：</span>
+              <span>NSIPS出力データ・JAHIS QR・処方箋テキスト一括貼り付け（🤖自動回答で質問数を大幅短縮）：</span>
             </span>
-            <span style="font-size:0.75rem; color:#64748b; background:#ffffff; padding:2px 8px; border-radius:10px; border:1px solid #cbd5e1;">
-              💡 複数剤をまとめて解析
+            <span style="font-size:0.75rem; color:#047857; background:#ecfdf5; padding:2px 8px; border-radius:10px; border:1px solid #a7f3d0; font-weight:700;">
+              🔒 完全ローカル解析（外部送信ゼロ）
             </span>
           </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; align-items:center;">
+            <span style="font-size:0.75rem; font-weight:700; color:#475569;">🧪 実データ形式サンプルを試す：</span>
+            <button type="button" onclick="loadWizardSampleNsips('cardio_hfref')" style="font-size:0.74rem; padding:3px 9px; border-radius:6px; border:1px solid #93c5fd; background:#eff6ff; color:#1d4ed8; cursor:pointer; font-weight:700;">🫀 NSIPS例1：循環器HFrEF（4剤併用）</button>
+            <button type="button" onclick="loadWizardSampleNsips('derm_spiro_acne')" style="font-size:0.74rem; padding:3px 9px; border-radius:6px; border:1px solid #fdba74; background:#fff7ed; color:#c2410c; cursor:pointer; font-weight:700;">🟠 NSIPS例2：皮膚科スピロノラクトン100mg（適応外ざ瘡）</button>
+            <button type="button" onclick="loadWizardSampleNsips('gi_pbc_fibrate')" style="font-size:0.74rem; padding:3px 9px; border-radius:6px; border:1px solid #d8b4fe; background:#faf5ff; color:#7e22ce; cursor:pointer; font-weight:700;">🟢 NSIPS例3：消化器ウルソ＋ベザトール（PBC）</button>
+          </div>
           <textarea id="wizardPasteTextarea" class="wizard-paste-textarea" 
-                    placeholder="処方箋のテキストをそのまま貼り付けてください（例：&#10;1. フォシーガ錠10mg 1錠&#10;2. エンレスト錠50mg 2錠&#10;3. スピロノラクトン錠25mg 1錠&#10;循環器内科 / 70歳 男性）"></textarea>
+                    placeholder="レセコンから出力したNSIPS（CSV形式）・JAHIS QRテキスト・処方箋テキストをそのまま貼り付けてください（仕様書不要で薬品名・規格・1日量・日数・診療科・年齢性別を自動認識し、質問を自動回答します）"></textarea>
+          <div id="wizardNsipsDiagnosticsBox" style="display:none; margin-top:8px; padding:8px 12px; border-radius:8px; background:#f8fafc; border:1px solid #cbd5e1; font-size:0.78rem; color:#334155;"></div>
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; flex-wrap:wrap; gap:8px;">
-            <span style="font-size:0.76rem; color:#64748b;">薬品名・規格・受診科・年齢などを自動認識して一括解析します</span>
+            <span style="font-size:0.76rem; color:#64748b;">薬品名・1日mg量・処方日数・受診科・年齢性別を自動認識し、残りの確認質問だけを1問ずつ提示します</span>
             <button type="button" class="wizard-action-btn-primary" onclick="handlePrescriptionPaste()" style="padding:7px 18px; font-size:0.84rem;">
-              🚀 処方箋テキストを一括解析して病態特定 ➔
+              🚀 NSIPS / 処方テキストを解析して推論開始 ➔
             </button>
           </div>
         </div>
