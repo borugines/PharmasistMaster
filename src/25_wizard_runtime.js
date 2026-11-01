@@ -882,9 +882,349 @@ calculateWizardDiagnosis = function(isForced = false) {
   resultsContainer.innerHTML = bayesianAuditHtml + resultsContainer.innerHTML;
 };
 
+// ============================================================================
+// 🔍 スマートサジェスト補助エンジン（入力起点駆動・疾患名/適応外/Wave1逆引き対応）
+// ============================================================================
+
+let activeSuggestIndex = -1;
+let currentSuggestions = [];
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function escapeJsString(str) {
+  if (!str) return '';
+  return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+}
+
+function highlightMatchText(text, query) {
+  if (!text) return '';
+  const q = (query || '').trim();
+  if (!q) return escapeHtml(text);
+
+  const escapedText = escapeHtml(text);
+  const toKatakana = s => s.replace(/[\u3041-\u3096]/g, ch => String.fromCharCode(ch.charCodeAt(0) + 0x60));
+  const toHiragana = s => s.replace(/[\u30a1-\u30f6]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+  const qK = toKatakana(q);
+  const qH = toHiragana(q);
+  const safePats = Array.from(new Set([q, qK, qH])).map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).filter(Boolean);
+  if (safePats.length === 0) return escapedText;
+
+  const regex = new RegExp(`(${safePats.join('|')})`, 'gi');
+  return escapedText.replace(regex, '<span style="color:#059669; font-weight:800; background:#ecfdf5; padding:0 2px; border-radius:3px;">$1</span>');
+}
+
+function searchWizardDrugSuggestions(rawQuery) {
+  const q = (rawQuery || '').trim().toLowerCase();
+  if (!q) return [];
+
+  const toKatakana = str => str.replace(/[\u3041-\u3096]/g, ch => String.fromCharCode(ch.charCodeAt(0) + 0x60));
+  const toHiragana = str => str.replace(/[\u30a1-\u30f6]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+
+  const qKata = toKatakana(q);
+  const qHira = toHiragana(q);
+
+  const testMatch = (target) => {
+    if (!target) return false;
+    const t = String(target).toLowerCase();
+    return t.includes(q) || t.includes(qKata) || t.includes(qHira);
+  };
+
+  const testExactOrPrefix = (target) => {
+    if (!target) return false;
+    const t = String(target).toLowerCase();
+    return t === q || t === qKata || t === qHira || t.startsWith(q) || t.startsWith(qKata) || t.startsWith(qHira);
+  };
+
+  const results = [];
+  const seenNames = new Set();
+
+  // 1. 構造化KB（全108薬剤・361疾患仮説）から検索
+  const kb = typeof buildStructuredWizardKB === 'function' ? buildStructuredWizardKB() : null;
+  if (kb && kb.drugs) {
+    for (const [drugKey, drug] of Object.entries(kb.drugs)) {
+      if (seenNames.has(drug.name)) continue;
+
+      let score = 0;
+      let hitDisease = '';
+      const isWave1 = drug.specialtyWave === 'wave1_cardiology' || (drug.hypotheses && drug.hypotheses.some(h => h.specialtyWave === 'wave1_cardiology'));
+
+      // ① 薬剤名・エイリアス一致
+      const aliases = Array.isArray(drug.aliases) ? drug.aliases : [];
+      const allNames = [drug.name, drugKey, ...aliases];
+
+      if (allNames.some(testExactOrPrefix)) {
+        score = 100;
+      } else if (allNames.some(testMatch)) {
+        score = 80;
+      }
+
+      // ② 鑑別対象の疾患名・病態名一致（逆引き検索）
+      const hypotheses = Array.isArray(drug.hypotheses) ? drug.hypotheses : [];
+      for (const hyp of hypotheses) {
+        if (testExactOrPrefix(hyp.name)) {
+          score = Math.max(score, 75);
+          if (!hitDisease) hitDisease = hyp.name;
+        } else if (testMatch(hyp.name)) {
+          score = Math.max(score, 65);
+          if (!hitDisease) hitDisease = hyp.name;
+        } else if (testMatch(hyp.desc) || testMatch(hyp.criteria) || testMatch(hyp.reason)) {
+          score = Math.max(score, 50);
+          if (!hitDisease) hitDisease = hyp.name;
+        }
+      }
+
+      if (score > 0) {
+        // 主な鑑別疾患プレビュー（最大3件）
+        const previews = hypotheses.slice(0, 3).map(h => {
+          const short = h.name.replace(/（[^）]+）/g, '').replace(/【[^】]+】/g, '').trim();
+          return h.type === 'offlabel' ? `${short}［適応外］` : short;
+        });
+
+        results.push({
+          key: drugKey,
+          name: drug.name,
+          category: drug.category || '処方推論データベース',
+          score: score + (isWave1 ? 8 : 0),
+          isWave1,
+          hitDisease,
+          previews
+        });
+        seenNames.add(drug.name);
+      }
+    }
+  }
+
+  // 2. CLINICAL_WIZARD_DATA からの補完
+  if (typeof CLINICAL_WIZARD_DATA !== 'undefined') {
+    for (const [key, item] of Object.entries(CLINICAL_WIZARD_DATA)) {
+      if (seenNames.has(item.name)) continue;
+      const aliases = item.aliases || [];
+      const allNames = [item.name, key, ...aliases];
+      if (allNames.some(testMatch)) {
+        results.push({
+          key,
+          name: item.name,
+          category: item.category || '処方鑑別データベース',
+          score: allNames.some(testExactOrPrefix) ? 75 : 60,
+          isWave1: false,
+          hitDisease: '',
+          previews: []
+        });
+        seenNames.add(item.name);
+      }
+    }
+  }
+
+  // 3. 全150疾患 臨床事典（DRUG_DB）からも件数が少ない場合に補完
+  if (typeof DRUG_DB !== 'undefined' && results.length < 8) {
+    DRUG_DB.forEach(dbItem => {
+      if (results.length >= 10) return;
+      const matchName = testMatch(dbItem.name);
+      const matchGen = testMatch(dbItem.gen);
+      if (matchName || matchGen) {
+        const shortName = (dbItem.name || '').split('/')[0].trim();
+        if (!seenNames.has(shortName) && !seenNames.has(dbItem.name)) {
+          results.push({
+            key: dbItem.id || shortName,
+            name: shortName,
+            category: dbItem.cat || '全150疾患 臨床事典',
+            score: (testExactOrPrefix(dbItem.name) || testExactOrPrefix(dbItem.gen)) ? 50 : 35,
+            isWave1: false,
+            hitDisease: '',
+            previews: []
+          });
+          seenNames.add(shortName);
+        }
+      }
+    });
+  }
+
+  results.sort((a, b) => b.score - a.score);
+  return results.slice(0, 8);
+}
+
+function renderWizardSuggestions(suggestions, query) {
+  const dropdown = document.getElementById('wizardSuggestDropdown');
+  if (!dropdown) return;
+
+  currentSuggestions = suggestions || [];
+  activeSuggestIndex = -1;
+
+  if (currentSuggestions.length === 0) {
+    if (query && query.trim().length > 0) {
+      dropdown.style.display = 'block';
+      dropdown.innerHTML = `
+        <div style="padding:14px 16px; text-align:center; color:#64748b; font-size:0.85rem;">
+          <div>🔍 「<strong>${escapeHtml(query)}</strong>」に一致する登録薬剤は見つかりませんでした</div>
+          <div style="font-size:0.76rem; color:#94a3b8; margin-top:4px;">
+            Enterキーを押すと入力された名称で鑑別推論を開始します
+          </div>
+        </div>
+      `;
+    } else {
+      dropdown.style.display = 'none';
+      dropdown.innerHTML = '';
+    }
+    return;
+  }
+
+  dropdown.style.display = 'block';
+  dropdown.innerHTML = currentSuggestions.map((item, idx) => {
+    const waveBadge = item.isWave1 ? `<span class="wizard-suggest-wave-badge">🫀 Wave 1 重点</span>` : '';
+    const hitBadge = item.hitDisease ? `<span class="wizard-suggest-hit-disease">🎯 該当病態: ${escapeHtml(item.hitDisease)}</span>` : '';
+    const previewsHtml = Array.isArray(item.previews) && item.previews.length > 0
+      ? `<div class="wizard-suggest-previews"><span style="color:#94a3b8;">主な鑑別:</span> ${escapeHtml(item.previews.join(' · '))}</div>`
+      : '';
+
+    return `
+      <div class="wizard-suggest-item" id="wizardSuggestItem_${idx}" data-index="${idx}" 
+           onmouseenter="highlightWizardSuggestItem(${idx})" 
+           onclick="selectWizardPrimaryDrug('${escapeJsString(item.name)}')">
+        <div class="wizard-suggest-item-main">
+          <div class="wizard-suggest-item-title">
+            <span style="font-size:1rem;">💊</span>
+            <strong style="color:#0f172a; font-size:0.92rem;">${highlightMatchText(item.name, query)}</strong>
+            ${waveBadge}
+          </div>
+          <div class="wizard-suggest-item-sub">
+            <span class="wizard-suggest-cat">${escapeHtml(item.category)}</span>
+            ${hitBadge}
+          </div>
+          ${previewsHtml}
+        </div>
+        <div class="wizard-suggest-arrow">➔</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function updateActiveSuggestItem() {
+  const items = document.querySelectorAll('.wizard-suggest-item');
+  items.forEach((el, idx) => {
+    if (idx === activeSuggestIndex) {
+      el.classList.add('active');
+      el.scrollIntoView({ block: 'nearest' });
+    } else {
+      el.classList.remove('active');
+    }
+  });
+}
+
+function highlightWizardSuggestItem(idx) {
+  activeSuggestIndex = idx;
+  const items = document.querySelectorAll('.wizard-suggest-item');
+  items.forEach((el, i) => {
+    if (i === idx) {
+      el.classList.add('active');
+    } else {
+      el.classList.remove('active');
+    }
+  });
+}
+
+handleWizardDrugInput = function(query) {
+  const q = (query || '').trim();
+  const clearBtn = document.getElementById('wizardClearInputBtn');
+  if (clearBtn) clearBtn.style.display = q ? 'flex' : 'none';
+
+  const dropdown = document.getElementById('wizardSuggestDropdown');
+  if (!dropdown) return;
+
+  if (!q) {
+    dropdown.style.display = 'none';
+    dropdown.innerHTML = '';
+    currentSuggestions = [];
+    activeSuggestIndex = -1;
+    return;
+  }
+
+  const suggestions = searchWizardDrugSuggestions(q);
+  renderWizardSuggestions(suggestions, q);
+};
+
+handleWizardDrugKeydown = function(event) {
+  const dropdown = document.getElementById('wizardSuggestDropdown');
+  const isDropdownVisible = dropdown && dropdown.style.display !== 'none' && currentSuggestions.length > 0;
+
+  if (event.key === 'ArrowDown') {
+    if (isDropdownVisible) {
+      event.preventDefault();
+      activeSuggestIndex = (activeSuggestIndex + 1) % currentSuggestions.length;
+      updateActiveSuggestItem();
+    }
+  } else if (event.key === 'ArrowUp') {
+    if (isDropdownVisible) {
+      event.preventDefault();
+      activeSuggestIndex = (activeSuggestIndex - 1 + currentSuggestions.length) % currentSuggestions.length;
+      updateActiveSuggestItem();
+    }
+  } else if (event.key === 'Enter') {
+    event.preventDefault();
+    if (isDropdownVisible && activeSuggestIndex >= 0 && currentSuggestions[activeSuggestIndex]) {
+      selectWizardPrimaryDrug(currentSuggestions[activeSuggestIndex].name);
+    } else if (isDropdownVisible && currentSuggestions.length > 0) {
+      selectWizardPrimaryDrug(currentSuggestions[0].name);
+    } else {
+      const input = document.getElementById('wizardDrugInput');
+      if (input && input.value.trim()) {
+        selectWizardPrimaryDrug(input.value.trim());
+      }
+    }
+  } else if (event.key === 'Escape') {
+    if (dropdown) dropdown.style.display = 'none';
+    activeSuggestIndex = -1;
+  }
+};
+
+clearWizardDrugInput = function() {
+  const input = document.getElementById('wizardDrugInput');
+  if (input) {
+    input.value = '';
+    handleWizardDrugInput('');
+    input.focus();
+  }
+};
+
+function toggleWizardPasteBox() {
+  const box = document.getElementById('wizardPasteAccordion');
+  const icon = document.getElementById('wizardPasteToggleIcon');
+  if (!box) return;
+  const isHidden = box.style.display === 'none' || !box.style.display;
+  box.style.display = isHidden ? 'block' : 'none';
+  if (icon) {
+    icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+  }
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('click', function(e) {
+    const input = document.getElementById('wizardDrugInput');
+    const dropdown = document.getElementById('wizardSuggestDropdown');
+    const clearBtn = document.getElementById('wizardClearInputBtn');
+    if (dropdown && input && !input.contains(e.target) && !dropdown.contains(e.target) && (!clearBtn || !clearBtn.contains(e.target))) {
+      dropdown.style.display = 'none';
+      activeSuggestIndex = -1;
+    }
+  });
+}
+
 if (typeof window !== 'undefined') {
   window.renderHypothesisEvidenceBadges = renderHypothesisEvidenceBadges;
   window.setWizardAnswerConfidenceMode = setWizardAnswerConfidenceMode;
   window.loadWizardSampleNsips = loadWizardSampleNsips;
   window.getCurrentBayesianEvaluation = getCurrentBayesianEvaluation;
+  window.handleWizardDrugInput = handleWizardDrugInput;
+  window.handleWizardDrugKeydown = handleWizardDrugKeydown;
+  window.clearWizardDrugInput = clearWizardDrugInput;
+  window.toggleWizardPasteBox = toggleWizardPasteBox;
+  window.searchWizardDrugSuggestions = searchWizardDrugSuggestions;
+  window.highlightWizardSuggestItem = highlightWizardSuggestItem;
 }

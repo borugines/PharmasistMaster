@@ -31,175 +31,39 @@
     <!-- メインウィザードカード -->
     <div class="wizard-main-card">
 
-      <!-- STEP 1: 始点となる薬品の選択 / 入力 -->
+      <!-- STEP 1: 始点となる薬品の選択 / 入力（サジェスト駆動） -->
       <div id="wizardStep1" class="wizard-step-section">
         <div class="wizard-step-badge">
           <span class="step-num">STEP 1</span>
-          <span class="step-title">鑑別の起点となる薬剤を入力、またはクイック選択してください</span>
+          <span class="step-title">鑑別の起点となる薬剤を入力してください（薬品名または疑う疾患名）</span>
         </div>
 
         <div class="wizard-input-wrapper">
           <div style="position:relative; width:100%;">
             <input type="text" id="wizardDrugInput" class="wizard-search-input" 
-                   placeholder="薬品名を入力（例：チラージンS、スピロノラクトン、フォシーガ、プレドニン、タケキャブ...）" 
+                   placeholder="薬品名・一般名、または疑う疾患名を入力（例：スピロノラクトン、フォシーガ、心不全、ニキビ...）" 
                    autocomplete="off" oninput="handleWizardDrugInput(this.value)" onkeydown="handleWizardDrugKeydown(event)" />
             <span class="wizard-input-icon">🔍</span>
-            <button id="wizardClearInputBtn" class="wizard-input-clear" onclick="clearWizardDrugInput()" style="display:none;">✕</button>
+            <button id="wizardClearInputBtn" class="wizard-input-clear" onclick="clearWizardDrugInput()" style="display:none;" title="入力をクリア">✕</button>
+
+            <!-- 入力候補サジェストドロップダウン -->
+            <div id="wizardSuggestDropdown" class="wizard-suggest-dropdown" style="display:none;"></div>
           </div>
         </div>
 
-        <!-- 入力候補サジェストドロップダウン -->
-        <div id="wizardSuggestDropdown" class="wizard-suggest-dropdown" style="display:none;"></div>
-
-        <!-- クイック候補タグ群 -->
-        <div style="margin-top:14px;">
-          <div style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
-            <span>⚡ よく鑑別される代表的処方起点（ワンタップで開始）：</span>
+        <!-- 入力ガイドバー ＆ NSIPS展開トグル -->
+        <div class="wizard-input-guide-bar">
+          <div class="wizard-input-hint-text">
+            <span>💡 <strong>1〜2文字入力すると候補がサジェストされます</strong>（↑↓キーまたはタップで選択）</span>
           </div>
-          <div class="wizard-quick-tags">
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('チラージン')" style="border-color:#0284c7; background:#f0f9ff; color:#0369a1; font-weight:800;">🦋 チラージンS / チラーヂンS (甲状腺機能低下/早朝空腹時/鉄剤Ca剤4時間分離)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('スピロノラクトン')">🫀 スピロノラクトン (MRA)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('フォシーガ')">🍬 フォシーガ (SGLT2阻害)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メインテート')">💓 メインテート (β遮断)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('プレドニン')">🧪 プレドニン (ステロイド)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('タケキャブ')">🍽️ タケキャブ (P-CAB)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アムロジピン')">🩸 アムロジピン (CCB)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コルヒチン')">🦶 コルヒチン</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ダイフェン')">💊 ダイフェン (ST合剤)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('サインバルタ')">⚡ サインバルタ (SNRI)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('サムスカ')">💧 サムスカ (V2拮抗)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アルマール')">🤝 アルマール (本態性振戦)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('エリキュース')">🛡️ エリキュース (DOAC)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('リクシアナ')">👴 リクシアナ (DOAC)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アジルバ')">⏰ アジルバ (最強ARB)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('シルニジピン')">⚡ シルニジピン (N型CCB)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ロサルタン')">🦶 ロサルタン (URAT1)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アゾセミド')">⏳ アゾセミド (長時間ループ)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('トラゼンタ')">💩 トラゼンタ (胆汁排泄)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ミルタザピン')">💤 ミルタザピン (NaSSA)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('レルベア')">🫁 レルベア (吸入合剤)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('イリボー')">🚽 イリボー (5-HT3拮抗)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('フェノフィブラート')">🟡 フェノフィブラート (発疹性黄色腫)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ベザフィブラート')">🟣 ベザフィブラート (胆汁うっ滞性そう痒)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('プロマック')">👅 プロマック (味覚障害・亜鉛欠乏)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('プロパフェノン')">🫀 プロパフェノン (発作性Af/Ic)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ケタス')">🧠 ケタス (脳梗塞めまい/喘息)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('チョコラA')">🧴 チョコラA (角化症/夜盲症)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コララン')">💓 コララン (If遮断/低血圧心不全)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ハイドレア')">🩸 ハイドレア (血小板増多/ET/PV)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('クリアナール')">🫁 クリアナール (COPD増悪予防/MUC5AC)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ストラテラ')">🧠 ストラテラ (ADHD不注意/24H)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('インチュニブ')">🟢 インチュニブ (ADHD衝動性/α2A)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('モサプリド')">💩 モサプリド (便秘プロキネティクス/PD安全)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コムレクス')">👂 コムレクス (難治性中耳炎/1.5%点耳)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('タリムス')">👁️ タリムス (春季カタル/緑内障回避)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アレジオン眼瞼クリーム')">👁️ アレジオン眼瞼クリーム (まぶた塗布/点眼拒絶)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('エフメノ')">🌸 エフメノ (更年期HRT/天然型プロゲステロン)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('エストラーナ')">🩹 エストラーナ (経皮HRT/低血栓リスク)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メノエイド')">🔄 メノエイド (配合パッチ/週2回)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('キャブピリン')">💊 キャブピリン (LDA+P-CAB合剤/有核二層錠)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('タケルダ')">💊 タケルダ (LDA+PPI合剤/粉砕不可)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('サラジェン')">💧 サラジェン (放射線後/SjS口渇/多汗)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('エボザック')">💧 エボザック (SjS専用/M1M3選択的)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('プリモボラン')">🩸 プリモボラン (再生不良性貧血/蛋白同化)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ヴォトリエント')">🧬 ヴォトリエント (軟部肉腫/腎癌/空腹時)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アダプチノール')">👁️ アダプチノール (網膜色素変性/暗順応/遮光)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('イフェクサー')">🧠 イフェクサー (SNRI/用量依存/離脱注意)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アグリリン')">🩸 アグリリン (本態性血小板血症/巨核球阻害/心毒性注意)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コランチル')">💧 コランチル (制酸鎮痙配合/キレート/緑内障禁忌)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('グリチロン')">🌿 グリチロン (肝機能改善/円形脱毛症/甘草低K注意)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('フィコンパ')">🧠 フィコンパ (AMPA阻害てんかん/攻撃性注意/就寝前)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ヘキザック')">🧪 ヘキザック (消毒薬/濃度別0.02%〜1%/内耳脳神経禁忌)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ネオステリングリーン')">🦷 ネオステリングリーン (歯科うがい/抜歯後ドライソケット注意/歯磨き粉失活)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ベリチーム')">🍽️ ベリチーム (4大消化酵素/豚肉アレルギー禁忌/熱湯失活)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ポリフル')">💧 ポリフル (IBS便通改善/下痢便秘両用/コップ1杯水必須)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ベムリディ')">🧬 ベムリディ (B型肝炎新世代TAF/食後服用/劇症リバウンド警戒)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('グラアルファ')">👁️ グラアルファ (ROCK+α2緑内障配合点眼/直後充血予告必須/1日2回)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ロゼックス')">🧴 ロゼックス (酒さ赤ら顔第一選択/がん性潰瘍悪臭消去/遮光)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ル・エストロジェル')">🌸 ル・エストロジェル (経皮更年期HRT/乳房塗布厳禁/黄体ホルモン併用)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ノイロトロピン')">🦴 ノイロトロピン (下行性疼痛抑制/胃腎障害ふらつきなし/2〜4週継続)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('グラケー')">🦴 グラケー (骨質改善K2/ワーファリン絶対禁忌/食後服用厳守)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドボベット')">🧴 ドボベット (乾癬第一選択配合外用/週90g上限/高Ca注意/フォーム振盪)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('デエビゴ')">🌙 デエビゴ (不眠症・中途覚醒/オレキシン拮抗/悪夢注意/CYP3A4減量)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アリセプト')">🧠 アリセプト (認知症/AChE阻害/徐脈注意/段階的増量)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メマリー')">🧠 メマリー (認知症BPSD/NMDA拮抗/腎機能減量/めまい転倒防止)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ジクアス')">👁️ ジクアスLX (ドライアイ/P2Y2作動1日3回/ムチン分泌/目やに予告)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ゾフルーザ')">🦠 ゾフルーザ (インフル1回完結/エンドヌクレアーゼ阻害/キレート注意)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('レルパックス')">⚡ レルパックス (片頭痛トリプタン/発作極初期/心血管禁忌/MOH防止)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('レイボー')">🛡️ レイボー (片頭痛5-HT1F/血管収縮ゼロ心臓安心/運転終日禁止)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('PL配合顆粒')">💊 PL配合顆粒 (風邪総合/緑内障前立腺禁忌/眠気/カロナール重複注意)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ユリーフ')">🌊 ユリーフ (前立腺肥大α1A/排尿改善/逆行性射精告知/立ちくらみ)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アボルブ')">📉 アボルブ (前立腺体積縮小5ARI/PSA実測値2倍/妊婦接触厳禁)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コレクチム')">🌿 コレクチム (アトピー非ステロイドJAK外用/皮膚萎縮ゼロ/長期維持)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('デュピクセント')">💉 デュピクセント (重症アトピーIL-4/13抗体バイオ/止痒/結膜炎注意)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('コレバイン')">🧪 コレバイン (非吸収性胆汁酸吸着/他剤1時間あける/便秘注意/多めの水)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アンテベート')">🧴 アンテベート (湿疹ステロイド/強さ5ランク/顔面陰部弱め/FTU)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('レルベア')">🫁 レルベア (喘息咳喘息ICS/LABA/1日1回24h持続/吸入後うがい)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('クレナフィン')">💅 クレナフィン (爪水虫外用/爪ケラチン浸透/生え際先端裏側/1年継続)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ラミシール')">🦶 ラミシール (足水虫外用/両足裏全体塗布/かゆみ消えても2ヶ月継続)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('レクサプロ')">🧠 レクサプロ (うつ病不安SSRI/純粋SERT遮断/離脱防止/初期悪心)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('サインバルタ')">⚡ サインバルタ (うつ病慢性痛SNRI/下行性疼痛抑制/朝服用)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ベオーバ')">🌊 ベオーバ (過活動膀胱β3作動/口渇便秘認知低下ゼロ/高齢者安心)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('モーラステープ')">☀️ モーラステープ (膝痛腰痛/剥がした後も4週絶対遮光/光線過敏症防止)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('セレコックス')">💊 セレコックス (変形性関節症/COX-2選択的胃保護/浮腫血圧注意)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('モビコール')">💧 モビコール (慢性便秘/水溶解内服/PEG等張便軟化/電解質安心)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ゾコーバ')">🦠 ゾコーバ (COVID-19/発症72h以内/3CL阻害/妊婦禁忌/併用禁忌36成分)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ベピオ')">💥 ベピオ (ニキビ外用/BPO酸化殺菌/耐性菌ゼロ/衣類漂白注意/保湿後塗布)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('アメナリーフ')">🛡️ アメナリーフ (帯状疱疹/1日1回食後厳守/ヘリカーゼ阻害/腎減量不要)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ビオフェルミンR')">🦠 ビオフェルミンR (感染性腸炎/耐性生菌/ORS少量頻回水分補給/止瀉禁忌)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ヤーズフレックス')">🌸 ヤーズフレックス (月経困難症LEP/連続120日/排卵抑制/血栓ACHES事前指導)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('フェロミア')">🩸 フェロミア (鉄欠乏性貧血/胃粘膜保護/便黒色化予告/お茶制限不要/貯蔵鉄)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('サワシリン')">🦷 サワシリン (抜歯後感染予防/歯科第一選択ペニシリン/飲み切り/うがい厳禁)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('クラリス')">👃 クラリス (副鼻腔炎ちくのう/マクロライド少量長期200mg/抗炎症粘膜修復)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('チラージン')">🦋 チラージンS / チラーヂンS (甲状腺機能低下/早朝空腹時/鉄剤Ca剤4時間分離)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('強力ポステリザン')">🩹 強力ポステリザン (痔核裂肛/死菌体肉芽形成/注入塗布使い分け/軟便温熱)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ケフラール')">💧 ケフラール (急性膀胱炎/第一選択セフェム/3〜5日飲み切り/水分排尿洗浄)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('エビリファイ')">🧠 エビリファイ (統合失調症/D2部分作動/覚醒維持/アカシジア鑑別問診)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('リーマス')">⚖️ リーマス (双極性障害/TDM血中濃度0.4-1.2/NSAIDs併用禁忌/中毒警戒)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ニゾラール')">🍄 ニゾラール (脂漏性皮膚炎/マラセチア真菌除菌/ステロイド離脱維持安全)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ファムビル')">⚡ ファムビル (単純ヘルペスPIT/予兆6h以内1回1000mg/1日完結自己早期治療)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ガナトン')">🍽️ ガナトン (イトプリド/食後もたれFD/食前厳守/D2遮断+AChE阻害/FMO代謝安心)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('クラビット点眼')">👁️ クラビット点眼 (ものもらい麦粒腫/キノロン点眼+眼軟膏/先端不接触)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ニュープロパッチ')">🦶 ニュープロパッチ (むずむず脚RLS/24h持続貼付/運転禁止/部位回転)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('テグレトール')">⚡ テグレトール (三叉神経痛特効/顔面電撃痛/GFJ絶対禁止/TDM4-12)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('プレタール')">🚶 プレタール (閉塞性動脈硬化症ASO/間歇性跛行改善/頭痛動悸予告/心不全禁忌)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('プロレナール')">🚶‍♂️ プロレナール (脊柱管狭窄症/馬尾血流PGE1/間歇跛行改善/前屈み楽)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ワイドシリン')">👶 ワイドシリン (小児中耳炎高用量/チョコアイス推奨/ヨーグルト激苦禁止)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドボベット')">🦎 ドボベット (尋常性乾癬/VD3+ステロイド/週90g上限/顔面陰部禁止/振盪)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ミニリンメルト')">🌙 ミニリンメルト (夜間多尿頻尿/就寝前厳格飲水制限/低Na水中毒監視)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('イリボー')">🚻 イリボー (下痢型IBS/男5μg女2.5μg用量厳守/便秘虚血大腸炎監視)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ウルソ')">🐻 ウルソ (胆石溶解300mg vs PBC高用量600mg鑑査/親水性胆汁酸)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('イソバイド')">👂 イソバイド (メニエール内リンパ水腫/冷服炭酸水希釈味マスキング)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('リウマトレックス')">⚠️ リウマトレックス (関節リウマチ/週1〜2日投与厳守!毎日禁止/葉酸レスキュー)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('エリキュース')">🩸 エリキュース (DVT/PE初期倍量・DOAC減量基準)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('イクスタンジ')">🎗️ イクスタンジ (前立腺がん/去勢抵抗性ARSI/痙攣運転注意)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('エピペン')">💉 エピペン (小児アナフィラキシー/0.15vs0.3mg/5秒保持穿刺)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ネオドパストン')">🧠 ネオドパストン (パーキンソン病/ウェアリングオフ/コムタン同時)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ノルバデックス')">🎀 ノルバデックス (乳がん/閉経前SERM/ベージニオ下痢)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('フィアスプ')">💉 フィアスプ (1型糖尿病/超速効インスリン/バクスミー点鼻救急)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ワーファリン')">❤️ ワーファリン (心臓機械弁/DOAC絶対禁忌/納豆禁止)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('リファジン')">🫁 リファジン (肺MAC症3剤併用/エブトール視神経炎/尿赤色)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('プログラフ')">🛡️ プログラフ (腎移植/タクロリムスTDM/GFJ禁止)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ペンタサ')">🌱 ペンタサ (クローン病/小腸全域徐放/エレンタール下痢防止)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('プラケニル')">🦋 プラケニル (SLE/ヒドロキシクロロキン理想体重/網膜症)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('リフキシマ')">💩 リフキシマ (肝性脳症/難吸収性アンモニア除菌/モニラック軟便)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ウテメリン')">🤰 ウテメリン (切迫早産/β2子宮弛緩/動悸振戦予告)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('リパクレオン')">🍽️ リパクレオン (慢性膵炎/膵酵素/噛まず食直後/豚禁忌)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('エベレンゾ')">🩸 エベレンゾ (腎性貧血/経口HIF-PH/週3回/血栓シャント監視)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('レグテクト')">🍺 レグテクト (アルコール依存症/飲酒欲求抑制/断酒維持)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メスチノン')">👁️ メスチノン (重症筋無力症/AChE阻害/クリーゼ鑑別)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('フロリードゲル')">👄 フロリードゲル (口腔カンジダ/ワーファリン絶対禁忌/保持)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ストロメクトール')">🪲 ストロメクトール (疥癬/イベルメクチン空腹時/スミスリン全身)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ステルイズ')">💉 ステルイズ (梅毒/ベンジルペニシリン単回筋注/静注絶対禁忌)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ドパコール')">🧠 ドパコール (レボドパ)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('メスチノン')">👁️ メスチノン (MG)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('オフェブ')">🫁 オフェブ (IPF)</button>
-            <button class="wizard-quick-btn" onclick="selectWizardPrimaryDrug('ワーファリン')">🩸 ワーファリン (VKA)</button>
-          </div>
+          <button type="button" class="wizard-paste-toggle-btn" onclick="toggleWizardPasteBox()" id="wizardPasteToggleBtn">
+            <span>📋 NSIPS / JAHIS QR / 処方テキスト貼付で自動回答</span>
+            <span id="wizardPasteToggleIcon" style="font-size:0.75rem; transition:transform 0.2s;">▼</span>
+          </button>
         </div>
 
-        <!-- 📋 NSIPSテストデータ / JAHIS QR / 処方箋テキスト一括貼り付け（自動絞り込み連携） -->
-        <div class="wizard-paste-box">
+        <!-- 📋 NSIPSテストデータ / JAHIS QR / 処方箋テキスト一括貼り付け（初期折りたたみ） -->
+        <div id="wizardPasteAccordion" class="wizard-paste-box" style="display:none; margin-top:14px;">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
             <span style="font-size:0.86rem; font-weight:800; color:#1e293b; display:flex; align-items:center; gap:6px;">
               <span>📋</span>
