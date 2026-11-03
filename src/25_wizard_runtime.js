@@ -283,46 +283,115 @@ selectWizardPrimaryDrug = function(drugName, preserveAutoContext = false) {
         qLower.includes((d.name || '').toLowerCase())
       );
       if (drugDbItem) {
-        fallbackKey = 'drugdb_' + qLower;
-        const primaryName = drugDbItem.name.split('/')[0].trim();
-        let cNum = 1;
-        if (drugDbItem.gId) {
-          const numPart = parseInt(drugDbItem.gId.replace('c', ''), 10);
-          if (!isNaN(numPart) && numPart <= 46) cNum = numPart;
+        const cleanCat = (drugDbItem.cat || '').replace(/^\d+\.\s*/, '').split('（')[0].trim();
+        const catResolved = cleanCat ? resolveDrugEntryFromKB(cleanCat) : null;
+        if (catResolved && catResolved.entry) {
+          resolved = catResolved;
+        } else {
+          fallbackKey = 'drugdb_' + qLower;
+          const primaryName = drugDbItem.name.split('/')[0].trim();
+          let cNum = 1;
+          if (drugDbItem.gId) {
+            const numPart = parseInt(drugDbItem.gId.replace('c', ''), 10);
+            if (!isNaN(numPart) && numPart <= 46) cNum = numPart;
+          }
+          const baseCatName = (drugDbItem.cat || primaryName).replace(/^\d+\.\s*/, '');
+          fallbackRaw = {
+            name: `${drugDbItem.name}（${drugDbItem.gen}）`,
+            aliases: [primaryName, drugDbItem.gen].filter(Boolean),
+            category: drugDbItem.cat || '全150疾患 臨床事典マスター連携',
+            questions: [
+              {
+                id: 'ddb_q1',
+                title: `Q1. 処方箋情報：【${primaryName}】の処方フェーズ・用法の特徴はどれですか？`,
+                subtitle: '導入期・維持期・安全管理の観点からサブタイプを絞り込みます',
+                options: [
+                  {
+                    id: 'ddb_opt1_standard',
+                    label: `標準導入・急性期/初期治療レジメン（${drugDbItem.char}）`,
+                    badge: '標準導入・主適応',
+                    desc: drugDbItem.desc,
+                    weights: { ddb_dis_standard: 95, ddb_dis_maintenance: -20, ddb_dis_safety: -20 }
+                  },
+                  {
+                    id: 'ddb_opt1_maint',
+                    label: `長期維持・再発予防・併用強化レジメン（${baseCatName}の継続コントロール）`,
+                    badge: '長期維持・再発予防',
+                    desc: `${primaryName}の継続投与による症状安定化と合併症・再燃防止`,
+                    weights: { ddb_dis_standard: -20, ddb_dis_maintenance: 95, ddb_dis_safety: -20 }
+                  },
+                  {
+                    id: 'ddb_opt1_safety',
+                    label: `ハイリスク背景・相互作用・臓器機能（腎・肝・高齢・妊産婦）配慮レジメン`,
+                    badge: '🚨安全性・減量/相互作用監査',
+                    desc: `副作用モニタリング・併用禁忌/注意・用量調整を要するケース`,
+                    weights: { ddb_dis_standard: -20, ddb_dis_maintenance: -20, ddb_dis_safety: 95 }
+                  }
+                ]
+              },
+              {
+                id: 'ddb_q2',
+                title: `Q2. 🗣️【患者確認・臨床背景】現在の症状や服薬指導上の重要確認事項はどれですか？`,
+                subtitle: '患者背景から最終サブタイプを確定します',
+                options: [
+                  {
+                    id: 'ddb_opt2_standard',
+                    label: `主訴・標的症状の改善を目的として標準用量で開始・使用している`,
+                    badge: '主適応・症状改善',
+                    desc: drugDbItem.char,
+                    weights: { ddb_dis_standard: 98, ddb_dis_maintenance: -20, ddb_dis_safety: -20 }
+                  },
+                  {
+                    id: 'ddb_opt2_maint',
+                    label: `症状は安定しており、自己中断防止と定期検査フォローを行いながら継続している`,
+                    badge: '維持療法・アドヒアランス',
+                    desc: `${baseCatName}の長期マネジメント`,
+                    weights: { ddb_dis_standard: -20, ddb_dis_maintenance: 98, ddb_dis_safety: -20 }
+                  },
+                  {
+                    id: 'ddb_opt2_safety',
+                    label: `特有の副作用初期症状の確認や併用薬・生活上の注意点（眠気・腎機能等）の指導が重点である`,
+                    badge: '🚨副作用・相互作用管理',
+                    desc: drugDbItem.desc,
+                    weights: { ddb_dis_standard: -20, ddb_dis_maintenance: -20, ddb_dis_safety: 98 }
+                  }
+                ]
+              }
+            ],
+            diseases: [
+              {
+                id: 'ddb_dis_standard',
+                cardNum: cNum,
+                name: `${baseCatName}（標準導入・主適応レジメン）`,
+                subType: `🎯 ${drugDbItem.char}`,
+                baseProb: 45,
+                criteria: `【処方薬】${drugDbItem.name}（${drugDbItem.gen}）標準導入`,
+                reason: drugDbItem.desc,
+                keyPoint: drugDbItem.char
+              },
+              {
+                id: 'ddb_dis_maintenance',
+                cardNum: cNum,
+                name: `${baseCatName}（長期維持・再発予防・併用レジメン）`,
+                subType: `🔄 継続維持療法・アドヒアランス管理`,
+                baseProb: 35,
+                criteria: `【処方薬】${drugDbItem.name}（${drugDbItem.gen}）継続処方`,
+                reason: `${drugDbItem.desc}（長期維持による再燃・合併症抑制）`,
+                keyPoint: `自己判断での中断を防ぎ、定期的な効果判定と併用薬バランスを確認する。`
+              },
+              {
+                id: 'ddb_dis_safety',
+                cardNum: cNum,
+                name: `${baseCatName}（ハイリスク患者・副作用/相互作用重点管理）`,
+                subType: `🚨 臓器機能・相互作用・有害事象モニタリング`,
+                baseProb: 20,
+                criteria: `【処方薬】${drugDbItem.name}（${drugDbItem.gen}）安全性重点監査`,
+                reason: `${drugDbItem.desc}における特有の有害事象・相互作用リスク管理。`,
+                keyPoint: `${drugDbItem.char}（体調変化時の早期受診・併用薬チェックを徹底）`
+              }
+            ]
+          };
         }
-        fallbackRaw = {
-          name: `${drugDbItem.name}（${drugDbItem.gen}）`,
-          aliases: [primaryName, drugDbItem.gen].filter(Boolean),
-          category: drugDbItem.cat || '全150疾患 臨床事典マスター連携',
-          questions: [
-            {
-              id: 'ddb_q1',
-              title: `Q1. 処方箋情報：【${primaryName}】の用法・処方特徴はどれですか？`,
-              subtitle: '標準的な処方パターンを確認します',
-              options: [
-                {
-                  id: 'ddb_opt1',
-                  label: `標準的な用法・用量（${drugDbItem.char}）`,
-                  badge: '適応病態',
-                  desc: drugDbItem.desc,
-                  weights: { ddb_dis: 80 }
-                }
-              ]
-            }
-          ],
-          diseases: [
-            {
-              id: 'ddb_dis',
-              cardNum: cNum,
-              name: drugDbItem.cat.replace(/^\d+\.\s*/, ''),
-              subType: `🎯 ${drugDbItem.char}`,
-              baseProb: 80,
-              criteria: `【処方薬】${drugDbItem.name}（${drugDbItem.gen}）`,
-              reason: drugDbItem.desc,
-              keyPoint: drugDbItem.char
-            }
-          ]
-        };
       }
     }
 

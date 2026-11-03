@@ -60,15 +60,27 @@ for (const [drugKey, entry] of Object.entries(structuredKB.drugs)) {
         break;
       }
       const q = state.nextQuestion;
-      // 目標仮説 targetHyp にとって最も尤度 P(opt | targetHyp) が高い選択肢を患者が回答するとシミュレート
+      // 目標仮説 targetHyp にとって最も尤度比 P(opt | targetHyp) / P(opt | others) が高い特徴的選択肢を回答するとシミュレート
       let bestOpt = null;
-      let bestL = -1;
+      let bestScore = -1;
       for (const opt of (q.options || [])) {
         const l = q.isShared
           ? engine.getSharedQuestionLikelihood(q, opt, targetHyp.id, entry)
           : engine.getOptionLikelihood(q, opt, targetHyp.id, entry);
-        if (l > bestL) {
-          bestL = l;
+        let otherSum = 0;
+        let otherCount = 0;
+        for (const h of hyps) {
+          if (h.id === targetHyp.id) continue;
+          const ol = q.isShared
+            ? engine.getSharedQuestionLikelihood(q, opt, h.id, entry)
+            : engine.getOptionLikelihood(q, opt, h.id, entry);
+          otherSum += ol;
+          otherCount++;
+        }
+        const meanOther = otherCount > 0 ? (otherSum / otherCount) : 0.25;
+        const score = (l * 10) + (l / Math.max(0.05, meanOther));
+        if (score > bestScore) {
+          bestScore = score;
           bestOpt = opt;
         }
       }

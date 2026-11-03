@@ -78,7 +78,8 @@ class WizardBayesianEngine {
 
     if (hasExplicitWeight) {
       const w = Number(weights[hypothesisId]);
-      if (w >= 92) return 0.96;
+      if (w >= 98) return 0.98;
+      if (w >= 92) return 0.95;
       if (w >= 82) return 0.88;
       if (w >= 70) return 0.80;
       if (w >= 50) return 0.66;
@@ -551,10 +552,13 @@ class WizardBayesianEngine {
     }
 
     // 1. 高確信度確定（最低2問以上回答して残存IGが小さい、または3問以上回答して P1 >= 0.85 & P1/P2 >= 4.0、または P1 >= 0.96）
+    // また、薬剤固有質問をすべて回答済み（次の質問が共通質問 isShared のみ）で P1 >= 0.58 & P1/P2 >= 2.2 の場合も確定とする
     const remainingIG = (nextQInfo && typeof nextQInfo.expectedIG === 'number') ? nextQInfo.expectedIG : 0;
+    const onlySharedRemaining = Boolean(nextQInfo && nextQInfo.question && nextQInfo.question.isShared);
     if (
       (answeredCount >= 3 && p1 >= this.CONFIRMED_PROB && ratio >= this.CONFIRMED_RATIO) ||
       (answeredCount >= 2 && p1 >= this.CONFIRMED_PROB && ratio >= this.CONFIRMED_RATIO && remainingIG < 0.15) ||
+      (answeredCount >= 2 && onlySharedRemaining && p1 >= 0.58 && ratio >= 2.2) ||
       (answeredCount >= 2 && p1 >= 0.95)
     ) {
       return {
